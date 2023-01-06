@@ -584,6 +584,7 @@ public:
               { return e1 < e2; })
     {
         // for simplicity, bubble sort is usually enough
+
         bool swapped;
         for (int i = 0; i < size_ - 1; i++)
         {
@@ -660,16 +661,27 @@ public:
     /**
      * @brief Slice of the list from start to stop with certain step.
      *
-     * @param start start index (included, >=0)
-     * @param stop stop index (excluded, >=0)
+     * Index and step length can be negative, like Python's list: list[-1:-99:-2] is OK.
+     *
+     * @param start start index (included)
+     * @param stop stop index (excluded)
      * @param step step length (default 1)
      * @return the slice of the list
      */
     List slice(int start, int stop, int step = 1) const
     {
-        List list;
+        if (step == 0)
+        {
+            throw std::runtime_error("ERROR: Slice step cannot be zero.");
+        }
+
+        start = start > size_ ? size_ : start;
+        start = start < -size_ ? -size_ : start;
         stop = stop > size_ ? size_ : stop;
-        for (int i = start; i < stop; i += step)
+        stop = stop < -size_ - 1 ? -size_ - 1 : stop;
+
+        List list;
+        for (int i = start; (step > 0) ? (i < stop) : (i > stop); i += step)
         {
             list += (*this)[i];
         }
