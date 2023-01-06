@@ -331,6 +331,28 @@ TEST(List, uniquify)
     ASSERT_EQ(same, List<int>({0}));
 }
 
+// for TEST(List, sort)
+struct Person
+{
+    std::string name;
+    int age;
+
+    bool operator==(const Person& that)
+    {
+        return age == that.age && name == that.name;
+    }
+
+    bool operator!=(const Person& that)
+    {
+        return !(*this == that);
+    }
+};
+
+std::ostream& operator<<(std::ostream& os, const Person& person)
+{
+    return os << "(" << person.name << ", " << person.age << ")";
+}
+
 // sort()
 TEST(List, sort)
 {
@@ -344,6 +366,36 @@ TEST(List, sort)
     list.sort([](const int& e1, const int& e2)
               { return e1 > e2; });
     ASSERT_EQ(list, List<int>({9, 8, 7, 6, 5, 4, 3, 2, 1, 0}));
+
+    List<Person> persons = {
+        {"Alice", 18},
+        {"Sakura", 19},
+        {"Homura", 20},
+        {"Mei", 17},
+        {"Yuzu", 18},
+    };
+
+    // sort by age
+    persons.sort([](const Person& e1, const Person& e2)
+                 { return e1.age < e2.age; });
+    ASSERT_EQ(persons, List<Person>({
+                           {"Mei", 17},
+                           {"Alice", 18},
+                           {"Yuzu", 18},
+                           {"Sakura", 19},
+                           {"Homura", 20},
+                       }));
+
+    // sort by name
+    persons.sort([](const Person& e1, const Person& e2)
+                 { return e1.name < e2.name; });
+    ASSERT_EQ(persons, List<Person>({
+                           {"Alice", 18},
+                           {"Homura", 20},
+                           {"Mei", 17},
+                           {"Sakura", 19},
+                           {"Yuzu", 18},
+                       }));
 }
 
 // operator=()

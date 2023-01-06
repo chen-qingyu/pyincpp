@@ -577,56 +577,32 @@ public:
      * @brief Sort the list according to the order induced by the specified comparator.
      *
      * The sort is stable: the method must not reorder equal elements.
-     * All elements in the list must be mutually comparable using the specified comparator.
-     *
-     * Implemented by merge sort.
      *
      * @param comparator a function that performs compare
      */
     void sort(bool (*comparator)(const T& e1, const T& e2) = [](const T& e1, const T& e2)
               { return e1 < e2; })
     {
-        T* data = data_;
-        T* space = new T[size_];
-
-        for (int seg = 1; seg < size_; seg <<= 1)
+        // for simplicity, bubble sort is usually enough
+        bool swapped;
+        for (int i = 0; i < size_ - 1; i++)
         {
-            for (int start = 0; start < size_; start += seg + seg)
+            swapped = false;
+            for (int j = 0; j < size_ - i - 1; j++)
             {
-                int low = start;
-                int mid = std::min(start + seg, size_);
-                int high = std::min(start + seg + seg, size_);
-                int k = low;
-                int start1 = low, end1 = mid;
-                int start2 = mid, end2 = high;
-                while (start1 < end1 && start2 < end2)
+                if (comparator(data_[j + 1], data_[j]))
                 {
-                    space[k++] = comparator(data[start1], data[start2]) ? data[start1++] : data[start2++];
-                }
-                while (start1 < end1)
-                {
-                    space[k++] = data[start1++];
-                }
-                while (start2 < end2)
-                {
-                    space[k++] = data[start2++];
+                    auto tmp = data_[j];
+                    data_[j] = data_[j + 1];
+                    data_[j + 1] = tmp;
+                    swapped = true;
                 }
             }
-            T* tmp = data;
-            data = space;
-            space = tmp;
-        }
-
-        if (data != data_)
-        {
-            for (int i = 0; i < size_; i++)
+            if (swapped == false)
             {
-                space[i] = data[i];
+                break;
             }
-            space = data;
         }
-
-        delete[] space;
     }
 
     /**
