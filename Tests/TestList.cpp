@@ -1,14 +1,13 @@
 #include "pch.h"
 
-#include <string>
+#include <sstream> // std::ostringstream
+#include <string>  // std::string std::to_string
 
 #include "../Sources/List.hpp"
 
-using std::string;
-
 using mdspp::List;
 
-// constructor, destructor, size(), is_empty()
+// constructor destructor size() is_empty()
 TEST(List, basics)
 {
     // List()
@@ -67,7 +66,7 @@ TEST(List, access)
     }
 }
 
-// begin(), end()
+// begin() end()
 TEST(List, iterator)
 {
     // empty
@@ -93,7 +92,7 @@ TEST(List, iterator)
     }
 }
 
-// index_of(), find(), contains(), operator==(), operator!=()
+// index_of() find() contains() operator==() operator!=() min() max() count()
 TEST(List, examination)
 {
     List<int> list = {1, 2, 3, 4, 5};
@@ -102,6 +101,9 @@ TEST(List, examination)
     ASSERT_EQ(list.index_of(1), 0);
     ASSERT_EQ(list.index_of(5), 4);
     ASSERT_EQ(list.index_of(0), -1);
+    ASSERT_EQ(list.index_of(1, 2, 99), -1);
+    ASSERT_EQ(list.index_of(5, 2, 99), 4);
+    ASSERT_EQ(list.index_of(0, 2, 99), -1);
 
     // find
     ASSERT_EQ(list.find(1), list.begin());
@@ -120,6 +122,16 @@ TEST(List, examination)
     // operator!=
     List<int> ne_list = {1, 3, 5};
     ASSERT_TRUE(list != ne_list);
+
+    // min
+    ASSERT_EQ(list.min(), 1);
+
+    // max
+    ASSERT_EQ(list.max(), 5);
+
+    // count
+    ASSERT_EQ(list.count(0), 0);
+    ASSERT_EQ(list.count(1), 1);
 }
 
 // insert()
@@ -146,7 +158,7 @@ TEST(List, insert)
     ASSERT_EQ(list, List<int>({1, 233, 999}));
     list.insert(1, 5);
     ASSERT_EQ(list, List<int>({1, 5, 233, 999}));
-    list.insert(-1, -1);
+    list.insert(-1, -1); // expand capacity
     ASSERT_EQ(list, List<int>({1, 5, 233, -1, 999}));
 
     // check full
@@ -167,8 +179,8 @@ TEST(List, insert)
     // }
 
     // modify after inserted
-    List<string> str_list;
-    string str = "test string";
+    List<std::string> str_list;
+    std::string str = "test string";
     str_list.insert(0, str);
     str.append(" changed");
     ASSERT_EQ(str, "test string changed"); // string == char*, use eq
@@ -206,4 +218,206 @@ TEST(List, remove)
     {
         ASSERT_STREQ(e.what(), "ERROR: The container is empty.");
     }
+}
+
+// operator+=()
+TEST(List, append)
+{
+    List<int> list;
+
+    // append element
+    ASSERT_EQ(list += 2, List<int>({2}));
+    ASSERT_EQ(list += 3, List<int>({2, 3}));
+    ASSERT_EQ(list += 3, List<int>({2, 3, 3}));
+    ASSERT_EQ(list += 3, List<int>({2, 3, 3, 3}));
+    ASSERT_EQ(list += 3, List<int>({2, 3, 3, 3, 3})); // expand capacity
+
+    // append list
+    ASSERT_EQ(list += list, List<int>({2, 3, 3, 3, 3, 2, 3, 3, 3, 3}));
+    ASSERT_EQ(list += list, List<int>({2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3}));
+    ASSERT_EQ(list += List<int>({0, 0}), List<int>({2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 0, 0}));
+}
+
+// operator-=()
+TEST(List, remove_element)
+{
+    List<int> list = {1, 2, 3, 4, 5};
+
+    ASSERT_EQ(list -= 1, List<int>({2, 3, 4, 5}));
+    ASSERT_EQ(list -= 2, List<int>({3, 4, 5}));
+    ASSERT_EQ(list -= 3, List<int>({4, 5}));
+    ASSERT_EQ(list -= 4, List<int>({5}));
+    ASSERT_EQ(list -= 5, List<int>({}));
+
+    // if the list does not contain the element, it is unchanged.
+    ASSERT_EQ(list -= 6, List<int>({}));
+}
+
+// operator*=()
+TEST(List, repeat)
+{
+    List<int> list = {1, 2};
+
+    try
+    {
+        list *= -1;
+    }
+    catch (const std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: Times to repeat cannot be less than zero.");
+    }
+
+    ASSERT_EQ(list *= 1, List<int>({1, 2}));
+    ASSERT_EQ(list *= 2, List<int>({1, 2, 1, 2}));
+    ASSERT_EQ(list *= 0, List<int>({}));
+}
+
+// clear()
+TEST(List, clear)
+{
+    List<int> list = {1, 2, 3, 4, 5};
+
+    list.clear();
+    ASSERT_EQ(list, List<int>());
+
+    list.clear(); // double clear
+    ASSERT_EQ(list, List<int>());
+}
+
+// traverse()
+TEST(List, traverse)
+{
+    List<int> list = {1, 2, 3, 4, 5};
+
+    list.traverse([](int& x)
+                  { x *= 2; });
+    ASSERT_EQ(list, List<int>({2, 4, 6, 8, 10}));
+
+    list.traverse([](int& x)
+                  { x = 1; });
+    ASSERT_EQ(list, List<int>({1, 1, 1, 1, 1}));
+
+    std::string str;
+    list.traverse([&](int& x)
+                  { str += std::to_string(x) + " "; });
+    ASSERT_EQ(str, "1 1 1 1 1 ");
+}
+
+// reverse()
+TEST(List, reverse)
+{
+    List<int> empty;
+
+    empty.reverse();
+    ASSERT_EQ(empty, List<int>());
+
+    List<int> list = {1, 2, 3, 4, 5};
+
+    list.reverse();
+    ASSERT_EQ(list, List<int>({5, 4, 3, 2, 1}));
+}
+
+// uniquify()
+TEST(List, uniquify)
+{
+    List<int> list = {1, 2, 2, 3, 3, 3};
+
+    list.uniquify();
+    ASSERT_EQ(list, List<int>({1, 2, 3}));
+
+    List<int> same = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+    same.uniquify();
+    ASSERT_EQ(same, List<int>({0}));
+}
+
+// sort()
+TEST(List, sort)
+{
+    List<int> list = {1, 3, 5, 7, 9, 8, 6, 4, 2, 0};
+
+    // from small to large
+    list.sort();
+    ASSERT_EQ(list, List<int>({0, 1, 2, 3, 4, 5, 6, 7, 8, 9}));
+
+    // from large to small
+    list.sort([](const int& e1, const int& e2)
+              { return e1 > e2; });
+    ASSERT_EQ(list, List<int>({9, 8, 7, 6, 5, 4, 3, 2, 1, 0}));
+}
+
+// operator=()
+TEST(List, copy_assignment)
+{
+    List<int> list1 = {1, 2, 3, 4, 5};
+    List<int> list2 = {6, 7, 8, 9};
+
+    list1 = list2;
+    list2 += 10;
+    ASSERT_EQ(list1, List<int>({6, 7, 8, 9}));
+    ASSERT_EQ(list2, List<int>({6, 7, 8, 9, 10}));
+}
+
+// operator=()
+TEST(List, move_assignment)
+{
+    List<int> list1 = {1, 2, 3, 4, 5};
+    List<int> list2 = {6, 7, 8, 9};
+
+    list1 = std::move(list2);
+    ASSERT_EQ(list1, List<int>({6, 7, 8, 9}));
+    ASSERT_EQ(list2, List<int>());
+}
+
+// operator<<()
+TEST(List, print)
+{
+    std::ostringstream oss;
+
+    List<int> empty;
+
+    oss << empty;
+    ASSERT_EQ(oss.str(), "[]"); // string == char*, use eq
+    oss.str("");
+
+    List<int> one = {1};
+
+    oss << one;
+    ASSERT_EQ(oss.str(), "[1]");
+    oss.str("");
+
+    List<int> many = {1, 2, 3, 4, 5};
+
+    oss << many;
+    ASSERT_EQ(oss.str(), "[1, 2, 3, 4, 5]");
+    oss.str("");
+}
+
+// slice() operator+() operator-() operator*()
+TEST(List, generate)
+{
+    List<int> list = {1, 2, 3, 4, 5};
+
+    // slice
+    ASSERT_EQ(list.slice(1, 3), List<int>({2, 3}));
+    ASSERT_EQ(list.slice(0, 5), List<int>({1, 2, 3, 4, 5}));
+    ASSERT_EQ(list.slice(0, 99), List<int>({1, 2, 3, 4, 5}));
+    ASSERT_EQ(list.slice(0, 5, 2), List<int>({1, 3, 5}));
+    ASSERT_EQ(list.slice(0, 99, 2), List<int>({1, 3, 5}));
+
+    // operator+
+    ASSERT_EQ(list + 6, List<int>({1, 2, 3, 4, 5, 6}));
+    ASSERT_EQ(list + List<int>({6, 7}), List<int>({1, 2, 3, 4, 5, 6, 7}));
+
+    // operator-
+    ASSERT_EQ(list - 5, List<int>({1, 2, 3, 4}));
+    ASSERT_EQ(list - 6, List<int>({1, 2, 3, 4, 5}));
+
+    // operator*
+    ASSERT_EQ(list * 0, List<int>({}));
+    ASSERT_EQ(list * 1, List<int>({1, 2, 3, 4, 5}));
+    ASSERT_EQ(list * 2, List<int>({1, 2, 3, 4, 5, 1, 2, 3, 4, 5}));
+    ASSERT_EQ(0 * list, List<int>({}));
+    ASSERT_EQ(1 * list, List<int>({1, 2, 3, 4, 5}));
+    ASSERT_EQ(2 * list, List<int>({1, 2, 3, 4, 5, 1, 2, 3, 4, 5}));
 }

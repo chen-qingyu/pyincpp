@@ -25,33 +25,38 @@
 namespace mdspp
 {
 
+/**
+ * @brief List template class, implemented by array list.
+ *
+ * @tparam T the type of elements in the list
+ */
 template <typename T>
 class List
 {
 private:
     // Number of elements.
-    int count;
+    int size_;
 
     // Available capacity.
-    int capacity;
+    int capacity_;
 
     // Pointer to the data.
-    T* data;
+    T* data_;
 
-    // The default initial capacity.
-    static const int DEFAULT_CAPACITY = 8;
+    // Default initial capacity.
+    static const int DEFAULT_CAPACITY = 4;
 
     // Expand capacity safely.
     void expand_capacity()
     {
-        capacity = (capacity < INT_MAX / 2) ? capacity * 2 : INT_MAX; // double the capacity until INT_MAX
-        T* tmp = new T[capacity];
-        for (int i = 0; i < count; ++i)
+        capacity_ = (capacity_ < INT_MAX / 2) ? capacity_ * 2 : INT_MAX; // double the capacity until INT_MAX
+        T* tmp = new T[capacity_];
+        for (int i = 0; i < size_; ++i)
         {
-            tmp[i] = data[i];
+            tmp[i] = data_[i];
         }
-        delete[] data;
-        data = tmp;
+        delete[] data_;
+        data_ = tmp;
     }
 
 public:
@@ -63,9 +68,9 @@ public:
      * @brief Construct a new list object.
      */
     List()
-        : count(0)
-        , capacity(DEFAULT_CAPACITY)
-        , data(new T[capacity])
+        : size_(0)
+        , capacity_(DEFAULT_CAPACITY)
+        , data_(new T[capacity_])
     {
     }
 
@@ -75,13 +80,13 @@ public:
      * @param il initializer list
      */
     List(const std::initializer_list<T>& il)
-        : count((int)il.size())
-        , capacity(count)
-        , data(new T[capacity]) // capacity may be 0, but OK
+        : size_((int)il.size())
+        , capacity_(size_ >= DEFAULT_CAPACITY ? size_ : DEFAULT_CAPACITY)
+        , data_(new T[capacity_])
     {
-        for (int i = 0; i < count; ++i)
+        for (int i = 0; i < size_; ++i)
         {
-            data[i] = *(il.begin() + i);
+            data_[i] = *(il.begin() + i);
         }
     }
 
@@ -91,13 +96,13 @@ public:
      * @param that another list
      */
     List(const List<T>& that)
-        : count(that.count)
-        , capacity(that.capacity)
-        , data(new T[capacity])
+        : size_(that.size_)
+        , capacity_(that.capacity_)
+        , data_(new T[capacity_])
     {
-        for (int i = 0; i < count; ++i)
+        for (int i = 0; i < size_; ++i)
         {
-            data[i] = that.data[i];
+            data_[i] = that.data_[i];
         }
     }
 
@@ -107,13 +112,13 @@ public:
      * @param that another list
      */
     List(List<T>&& that)
-        : count(that.count)
-        , capacity(that.capacity)
-        , data(that.data)
+        : size_(that.size_)
+        , capacity_(that.capacity_)
+        , data_(that.data_)
     {
-        that.count = 0;
-        that.capacity = DEFAULT_CAPACITY;
-        that.data = new T[that.capacity];
+        that.size_ = 0;
+        that.capacity_ = DEFAULT_CAPACITY;
+        that.data_ = new T[that.capacity_];
     }
 
     /**
@@ -121,7 +126,7 @@ public:
      */
     ~List()
     {
-        delete[] data; // the data pointer is guaranteed to be valid
+        delete[] data_; // the data pointer is guaranteed to be valid
     }
 
     /**
@@ -135,7 +140,7 @@ public:
      */
     int size() const
     {
-        return count;
+        return size_;
     }
 
     /**
@@ -145,7 +150,7 @@ public:
      */
     bool is_empty() const
     {
-        return count == 0;
+        return size_ == 0;
     }
 
     /**
@@ -162,9 +167,9 @@ public:
      */
     T& operator[](int index)
     {
-        common::check_bounds(index, -count, count);
+        common::check_bounds(index, -size_, size_);
 
-        return index >= 0 ? data[index] : data[count + index];
+        return index >= 0 ? data_[index] : data_[size_ + index];
     }
 
     /**
@@ -177,9 +182,9 @@ public:
      */
     const T& operator[](int index) const
     {
-        common::check_bounds(index, -count, count);
+        common::check_bounds(index, -size_, size_);
 
-        return index >= 0 ? data[index] : data[count + index];
+        return index >= 0 ? data_[index] : data_[size_ + index];
     }
 
     /**
@@ -195,7 +200,7 @@ public:
      */
     ListIterator<T> begin() const
     {
-        return ListIterator<T>(data);
+        return ListIterator<T>(data_);
     }
 
     /**
@@ -207,7 +212,7 @@ public:
      */
     ListIterator<T> end() const
     {
-        return ListIterator<T>(data + count); // not nullptr, because count <= capacity
+        return ListIterator<T>(data_ + size_); // not nullptr, because size_ <= capacity_
     }
 
     /**
@@ -215,16 +220,21 @@ public:
      */
 
     /**
-     * @brief Return the index of the first occurrence of the specified element in the list, or -1 if the list does not contain the element.
+     * @brief Return the index of the first occurrence of the specified element in the list (at or after index start and before index stop).
+     *
+     * Or -1 if the list does not contain the element (in the specified range).
      *
      * @param element element to search for
+     * @param start at or after index start (default 0)
+     * @param stop before index stop (default size())
      * @return the index of the first occurrence of the specified element in the list, or -1 if the list does not contain the element
      */
-    int index_of(const T& element) const
+    int index_of(const T& element, int start = 0, int stop = INT_MAX) const
     {
-        for (int i = 0; i < count; ++i)
+        stop = stop > size_ ? size_ : stop;
+        for (int i = start; i < stop; ++i)
         {
-            if (data[i] == element)
+            if (data_[i] == element)
             {
                 return i;
             }
@@ -241,11 +251,11 @@ public:
      */
     ListIterator<T> find(const T& element) const
     {
-        for (int i = 0; i < count; ++i)
+        for (int i = 0; i < size_; ++i)
         {
-            if (data[i] == element)
+            if (data_[i] == element)
             {
-                return ListIterator<T>(data + i);
+                return ListIterator<T>(data_ + i);
             }
         }
 
@@ -260,9 +270,9 @@ public:
      */
     bool contains(const T& element) const
     {
-        for (int i = 0; i < count; ++i)
+        for (int i = 0; i < size_; ++i)
         {
-            if (data[i] == element)
+            if (data_[i] == element)
             {
                 return true;
             }
@@ -279,14 +289,14 @@ public:
      */
     bool operator==(const List<T>& that) const
     {
-        if (count != that.count)
+        if (size_ != that.size_)
         {
             return false;
         }
 
-        for (int i = 0; i < count; ++i)
+        for (int i = 0; i < size_; ++i)
         {
-            if (data[i] != that.data[i])
+            if (data_[i] != that.data_[i])
             {
                 return false;
             }
@@ -307,40 +317,101 @@ public:
     }
 
     /**
+     * @brief Get the smallest item of the list.
+     *
+     * @return the smallest item
+     */
+    T min() const
+    {
+        common::check_empty(size_);
+
+        T smallest = data_[0];
+        for (int i = 0; i < size_; i++)
+        {
+            if (smallest > data_[i])
+            {
+                smallest = data_[i];
+            }
+        }
+
+        return smallest;
+    }
+
+    /**
+     * @brief Get the largest item of the list.
+     *
+     * @return the largest item
+     */
+    T max() const
+    {
+        common::check_empty(size_);
+
+        T largest = data_[0];
+        for (int i = 0; i < size_; i++)
+        {
+            if (largest < data_[i])
+            {
+                largest = data_[i];
+            }
+        }
+
+        return largest;
+    }
+
+    /**
+     * @brief Count the total number of occurrences of the specified element in the list.
+     *
+     * @param element the specified element
+     * @return the total number of occurrences of the specified element in the list
+     */
+    int count(const T& element)
+    {
+        int counter = 0;
+        for (int i = 0; i < size_; i++)
+        {
+            if (data_[i] == element)
+            {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    /**
      * Manipulation (will change itself)
      */
 
     /**
      * @brief Insert the specified element at the specified position in the list.
      *
-     * @param index index at which the specified element is to be inserted (-size() <= index < size())
+     * @param index index at which the specified element is to be inserted (-size() <= index <= size())
      * @param element element to be inserted
      */
     void insert(int index, const T& element)
     {
         // check
-        common::check_full(count, INT_MAX);
+        common::check_full(size_, INT_MAX);
 
-        common::check_bounds(index, -count, count + 1);
+        common::check_bounds(index, -size_, size_ + 1);
 
         // expand capacity
-        if (count == capacity)
+        if (size_ == capacity_)
         {
             expand_capacity();
         }
 
         // index
-        index = index >= 0 ? index : index + count;
-        for (int i = count; i > index; --i)
+        index = index >= 0 ? index : index + size_;
+        for (int i = size_; i > index; --i)
         {
-            data[i] = data[i - 1];
+            data_[i] = data_[i - 1];
         }
 
         // insert
-        data[index] = element; // copy assignment on T
+        data_[index] = element; // copy assignment on T
 
         // resize
-        ++count;
+        ++size_;
     }
 
     /**
@@ -352,22 +423,22 @@ public:
     T remove(int index)
     {
         // check
-        common::check_empty(count);
+        common::check_empty(size_);
 
-        common::check_bounds(index, -count, count);
+        common::check_bounds(index, -size_, size_);
 
         // get element
-        index = index >= 0 ? index : index + count;
-        T element = data[index];
+        index = index >= 0 ? index : index + size_;
+        T element = data_[index];
 
         // index and remove
-        for (int i = index + 1; i < count; ++i)
+        for (int i = index + 1; i < size_; ++i)
         {
-            data[i - 1] = data[i];
+            data_[i - 1] = data_[i];
         }
 
         // resize
-        --count;
+        --size_;
 
         // return element
         return element;
@@ -381,7 +452,7 @@ public:
      */
     List& operator+=(const T& element)
     {
-        insert(count, element);
+        insert(size_, element);
 
         return *this;
     }
@@ -394,9 +465,11 @@ public:
      */
     List& operator+=(const List& list)
     {
-        for (int i = 0; i < list.count; i++)
+        int list_size = list.size_; // save list.size_, because may &list == this
+        for (int i = 0; i < list_size; i++)
         {
-            *this += list[i];
+            auto e = list.data_[i]; // save element, for valid addr when expand capacity when &list == this
+            *this += e;             // this is a very subtle problem
         }
 
         return *this;
@@ -422,16 +495,39 @@ public:
     }
 
     /**
+     * @brief Add the list to itself a certain number of times.
+     *
+     * @param times times to repeat
+     * @return self reference
+     */
+    List& operator*=(int times)
+    {
+        if (times < 0)
+        {
+            throw std::runtime_error("ERROR: Times to repeat cannot be less than zero.");
+        }
+
+        List list;
+        for (int i = 0; i < times; i++)
+        {
+            list += *this;
+        }
+        *this = list;
+
+        return *this;
+    }
+
+    /**
      * @brief Remove all of the elements from the list.
      */
     void clear()
     {
-        if (count != 0)
+        if (size_ != 0)
         {
-            count = 0;
-            capacity = DEFAULT_CAPACITY;
-            delete[] data;
-            data = new T[capacity];
+            size_ = 0;
+            capacity_ = DEFAULT_CAPACITY;
+            delete[] data_;
+            data_ = new T[capacity_];
         }
     }
 
@@ -444,9 +540,36 @@ public:
     template <typename F>
     void traverse(F action)
     {
-        for (int i = 0; i < count; ++i)
+        for (int i = 0; i < size_; ++i)
         {
-            action(data[i]);
+            action(data_[i]);
+        }
+    }
+
+    /**
+     * @brief Reverse the list in place.
+     */
+    void reverse()
+    {
+        for (int i = 0, j = size_ - 1; i < j; ++i, --j)
+        {
+            auto tmp = data_[i];
+            data_[i] = data_[j];
+            data_[j] = tmp;
+        }
+    }
+
+    /**
+     * @brief Eliminate duplicate elements of the list.
+     */
+    void uniquify()
+    {
+        for (int i = 0; i < size_; i++)
+        {
+            while (count(data_[i]) > 1)
+            {
+                *this -= data_[i];
+            }
         }
     }
 
@@ -456,55 +579,54 @@ public:
      * The sort is stable: the method must not reorder equal elements.
      * All elements in the list must be mutually comparable using the specified comparator.
      *
+     * Implemented by merge sort.
+     *
      * @param comparator a function that performs compare
      */
-    // TODO
-    // void sort(bool (*comparator)(const T& e1, const T& e2) = [](const T& e1, const T& e2)
-    //           { return e1 < e2; })
-    // {
-    // }
-
-    /**
-     * @brief Reverse the list in place.
-     */
-    void reverse()
+    void sort(bool (*comparator)(const T& e1, const T& e2) = [](const T& e1, const T& e2)
+              { return e1 < e2; })
     {
-        for (int i = 0, j = count - 1; i < j; ++i, --j)
+        T* data = data_;
+        T* space = new T[size_];
+
+        for (int seg = 1; seg < size_; seg <<= 1)
         {
-            auto tmp = data[i];
-            data[i] = data[j];
-            data[j] = tmp;
-        }
-    }
-
-    /**
-     * @brief Eliminate duplicate elements of the list.
-     */
-    void uniquify()
-    {
-        // TODO
-    }
-
-    /**
-     * @brief Slice of the list from start to stop with certain step.
-     *
-     * @param start start index (included)
-     * @param stop stop index (excluded)
-     * @param step step length
-     * @return the slice of the list
-     */
-    List slice(int start, int stop, int step = 1)
-    {
-        // TODO 负数情况
-
-        List list;
-
-        for (int i = start; i < stop; i += step)
-        {
-            list += (*this)[i];
+            for (int start = 0; start < size_; start += seg + seg)
+            {
+                int low = start;
+                int mid = std::min(start + seg, size_);
+                int high = std::min(start + seg + seg, size_);
+                int k = low;
+                int start1 = low, end1 = mid;
+                int start2 = mid, end2 = high;
+                while (start1 < end1 && start2 < end2)
+                {
+                    space[k++] = comparator(data[start1], data[start2]) ? data[start1++] : data[start2++];
+                }
+                while (start1 < end1)
+                {
+                    space[k++] = data[start1++];
+                }
+                while (start2 < end2)
+                {
+                    space[k++] = data[start2++];
+                }
+            }
+            T* tmp = data;
+            data = space;
+            space = tmp;
         }
 
-        return list;
+        if (data != data_)
+        {
+            for (int i = 0; i < size_; i++)
+            {
+                space[i] = data[i];
+            }
+            space = data;
+        }
+
+        delete[] space;
     }
 
     /**
@@ -517,14 +639,14 @@ public:
     {
         if (this != &that)
         {
-            count = that.count;
-            capacity = that.capacity;
+            size_ = that.size_;
+            capacity_ = that.capacity_;
 
-            delete[] data;
-            data = new T[capacity];
-            for (int i = 0; i < count; ++i)
+            delete[] data_;
+            data_ = new T[capacity_];
+            for (int i = 0; i < size_; ++i)
             {
-                data[i] = that.data[i];
+                data_[i] = that.data_[i];
             }
         }
 
@@ -541,18 +663,90 @@ public:
     {
         if (this != &that)
         {
-            delete[] data;
+            delete[] data_;
 
-            count = that.count;
-            capacity = that.capacity;
-            data = that.data;
+            size_ = that.size_;
+            capacity_ = that.capacity_;
+            data_ = that.data_;
 
-            that.count = 0;
-            that.capacity = DEFAULT_CAPACITY;
-            that.data = new T[that.capacity];
+            that.size_ = 0;
+            that.capacity_ = DEFAULT_CAPACITY;
+            that.data_ = new T[that.capacity_];
         }
 
         return *this;
+    }
+
+    /**
+     * Generate
+     */
+
+    /**
+     * @brief Slice of the list from start to stop with certain step.
+     *
+     * @param start start index (included, >=0)
+     * @param stop stop index (excluded, >=0)
+     * @param step step length (default 1)
+     * @return the slice of the list
+     */
+    List slice(int start, int stop, int step = 1) const
+    {
+        List list;
+        stop = stop > size_ ? size_ : stop;
+        for (int i = start; i < stop; i += step)
+        {
+            list += (*this)[i];
+        }
+
+        return list;
+    }
+
+    /**
+     * @brief Generate a new list and append the specified element to the end of the list.
+     *
+     * @param element element to be appended to the list
+     * @return the generated list
+     */
+    List operator+(const T& element) const
+    {
+        List new_list = *this;
+        return new_list += element;
+    }
+
+    /**
+     * @brief Generate a new list and append the specified list to the end of the list.
+     *
+     * @param list list to be appended to the list
+     * @return the generated list
+     */
+    List operator+(const List& list) const
+    {
+        List new_list = *this;
+        return new_list += list;
+    }
+
+    /**
+     * @brief Generate a new list and remove the first occurrence of the specified element from the list, if it is present.
+     *
+     * @param element element to be removed
+     * @return the generated list
+     */
+    List operator-(const T& element) const
+    {
+        List new_list = *this;
+        return new_list -= element;
+    }
+
+    /**
+     * @brief Generate a new list and add the list to itself a certain number of times.
+     *
+     * @param times times to repeat
+     * @return the generated list
+     */
+    List operator*(int times) const
+    {
+        List new_list = *this;
+        return new_list *= times;
     }
 };
 
@@ -563,7 +757,7 @@ public:
 /**
  * @brief Output list data to the specified output stream.
  *
- * @tparam T the type of elements in the list, must be printable.
+ * @tparam T the type of elements in the list, must be printable
  * @param os an output stream
  * @param list the list to be printed to the output stream
  * @return self reference of the output stream
@@ -587,6 +781,20 @@ std::ostream& operator<<(std::ostream& os, const List<T>& list)
         }
         os << ", ";
     }
+}
+
+/**
+ * @brief Generate a new list and add the list to itself a certain number of times.
+ *
+ * @tparam T the type of elements in the list
+ * @param times times to repeat
+ * @param list the list
+ * @return the generated list
+ */
+template <typename T>
+List<T> operator*(int times, const List<T> list)
+{
+    return list * times;
 }
 
 } // namespace mdspp

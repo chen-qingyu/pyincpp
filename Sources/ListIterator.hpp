@@ -25,11 +25,11 @@ class ListIterator
 
 private:
     // Current data pointer.
-    T* current;
+    T* current_;
 
     // Create an iterator that point to the current data of list.
     ListIterator(T* current)
-        : current(current)
+        : current_(current)
     {
     }
 
@@ -43,7 +43,7 @@ public:
      */
     T& operator*() const
     {
-        return *current;
+        return *current_;
     }
 
     /**
@@ -53,7 +53,7 @@ public:
      */
     T* operator->() const
     {
-        return current;
+        return current_;
     }
 
     /**
@@ -64,7 +64,7 @@ public:
      */
     bool operator==(const ListIterator& that) const
     {
-        return current == that.current;
+        return current_ == that.current_;
     }
 
     /**
@@ -75,7 +75,7 @@ public:
      */
     bool operator!=(const ListIterator& that) const
     {
-        return !(current == that.current);
+        return !(current_ == that.current_);
     }
 
     /**
@@ -85,7 +85,7 @@ public:
      */
     ListIterator& operator++()
     {
-        ++current;
+        ++current_;
         return *this;
     }
 
@@ -97,7 +97,7 @@ public:
     ListIterator operator++(int)
     {
         ListIterator tmp = *this;
-        ++current;
+        ++current_;
         return tmp;
     }
 
@@ -108,7 +108,7 @@ public:
      */
     ListIterator& operator--()
     {
-        --current;
+        --current_;
         return *this;
     }
 
@@ -120,7 +120,7 @@ public:
     ListIterator operator--(int)
     {
         ListIterator tmp = *this;
-        --current;
+        --current_;
         return tmp;
     }
 };
