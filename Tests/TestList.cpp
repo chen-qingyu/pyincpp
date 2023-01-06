@@ -458,6 +458,8 @@ TEST(List, generate)
     ASSERT_EQ(list.slice(0, 99, 2), List<int>({1, 3, 5}));
     ASSERT_EQ(list.slice(77, 99), List<int>({}));
     ASSERT_EQ(list.slice(99, 77), List<int>({}));
+    ASSERT_EQ(list.slice(0, 0), List<int>({}));
+    ASSERT_EQ(list.slice(0, 1), List<int>({1}));
 
     ASSERT_EQ(list.slice(-1, -5), List<int>({}));
     ASSERT_EQ(list.slice(-1, -5, -1), List<int>({5, 4, 3, 2}));
@@ -473,6 +475,11 @@ TEST(List, generate)
     ASSERT_EQ(list.slice(-99, -1, 2), List<int>({1, 3}));
     ASSERT_EQ(list.slice(-77, -99), List<int>({}));
     ASSERT_EQ(list.slice(-99, -77), List<int>({}));
+
+    ASSERT_EQ(list.slice(-1, -1), List<int>({}));
+    ASSERT_EQ(list.slice(-1, -1, -1), List<int>({}));
+    ASSERT_EQ(list.slice(-1, -2), List<int>({}));
+    ASSERT_EQ(list.slice(-1, -2, -1), List<int>({5}));
 
     // operator+
     ASSERT_EQ(list + 6, List<int>({1, 2, 3, 4, 5, 6}));
