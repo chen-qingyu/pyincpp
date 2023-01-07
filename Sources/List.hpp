@@ -679,21 +679,27 @@ public:
      */
     List slice(int start, int stop, int step = 1) const
     {
-        // although I have implemented the Python-like slice function (index can exceed the size, see the previous commit),
-        // I finally decided to check the index for the simplicity of the source code and the security of use, and consistent with the operator[]
+        // although I have implemented the Python-like slice function (index can exceed the size),
+        // I finally decided to check the index for the simplicity of source code and the security of use, and consistent with the operator[]
 
+        // check
         if (step == 0)
         {
             throw std::runtime_error("ERROR: Slice step cannot be zero.");
         }
 
+        common::check_bounds(start, -size_, size_);
+        common::check_bounds(stop, -size_ - 1, size_ + 1);
+
+        // convert
         start = start < 0 ? start + size_ : start;
         stop = stop < 0 ? stop + size_ : stop;
 
+        // copy
         List list;
         for (int i = start; (step > 0) ? (i < stop) : (i > stop); i += step)
         {
-            list += (*this)[i];
+            list += data_[i];
         }
 
         return list;

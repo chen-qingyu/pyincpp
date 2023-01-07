@@ -56,6 +56,7 @@ TEST(List, access)
     ASSERT_EQ(list[-1], 999);
 
     // check bounds
+    ASSERT_THROW(list[5], std::runtime_error);
     try
     {
         list[5];
@@ -140,6 +141,7 @@ TEST(List, insert)
     List<int> list;
 
     // check bounds
+    ASSERT_THROW(list.insert(999, 0), std::runtime_error);
     try
     {
         list.insert(999, 0);
@@ -169,6 +171,7 @@ TEST(List, insert)
     //     big_list.insert(big_list.size(), true);
     // }
     // ASSERT_EQ(big_list.size(), INT_MAX);
+    // ASSERT_THROW(big_list.insert(big_list.size(), true), std::runtime_error);
     // try
     // {
     //     big_list.insert(big_list.size(), true);
@@ -193,6 +196,7 @@ TEST(List, remove)
     List<int> list = {1, 5, 233, -1, 999};
 
     // check bounds
+    ASSERT_THROW(list.remove(999), std::runtime_error);
     try
     {
         list.remove(999);
@@ -210,6 +214,7 @@ TEST(List, remove)
     ASSERT_EQ(list.remove(0), 999);
 
     // check empty
+    ASSERT_THROW(list.remove(0), std::runtime_error);
     try
     {
         list.remove(0);
@@ -258,6 +263,7 @@ TEST(List, repeat)
 {
     List<int> list = {1, 2};
 
+    ASSERT_THROW(list *= -1, std::runtime_error);
     try
     {
         list *= -1;
@@ -461,16 +467,17 @@ TEST(List, generate)
     ASSERT_EQ(list.slice(0, 5, -1), List<int>({}));
     ASSERT_EQ(list.slice(0, 5, -2), List<int>({}));
 
-    ASSERT_EQ(list.slice(4, -6), List<int>({}));
-    ASSERT_EQ(list.slice(4, -6, 2), List<int>({}));
-    ASSERT_EQ(list.slice(4, -6, -1), List<int>({5, 4, 3, 2, 1}));
-    ASSERT_EQ(list.slice(4, -6, -2), List<int>({5, 3, 1}));
+    ASSERT_EQ(list.slice(-1, -6), List<int>({}));
+    ASSERT_EQ(list.slice(-1, -6, 2), List<int>({}));
+    ASSERT_EQ(list.slice(-1, -6, -1), List<int>({5, 4, 3, 2, 1}));
+    ASSERT_EQ(list.slice(-1, -6, -2), List<int>({5, 3, 1}));
 
     ASSERT_EQ(list.slice(0, 0), List<int>({}));
     ASSERT_EQ(list.slice(1, 1), List<int>({}));
     ASSERT_EQ(list.slice(-1, -1), List<int>({}));
     ASSERT_EQ(list.slice(-1, -1, -1), List<int>({}));
 
+    ASSERT_THROW(list.slice(1, 2, 0), std::runtime_error);
     try
     {
         list.slice(1, 2, 0);
@@ -480,9 +487,10 @@ TEST(List, generate)
         ASSERT_STREQ(e.what(), "ERROR: Slice step cannot be zero.");
     }
 
+    ASSERT_THROW(list.slice(-7, -6), std::runtime_error);
     try
     {
-        list.slice(-99, 99);
+        list.slice(-7, -6);
     }
     catch (std::runtime_error& e)
     {
