@@ -675,15 +675,59 @@ public:
             throw std::runtime_error("ERROR: Slice step cannot be zero.");
         }
 
-        start = start > size_ ? size_ : start;
-        start = start < -size_ ? -size_ : start;
-        stop = stop > size_ ? size_ : stop;
-        stop = stop < -size_ - 1 ? -size_ - 1 : stop;
-
-        List list;
-        for (int i = start; (step > 0) ? (i < stop) : (i > stop); i += step)
+        // if start is less than zero, plus size turns into a positive number
+        if (start < 0)
         {
-            list += (*this)[i];
+            start += size_;
+        }
+        // if it is still less than zero, that is, -start exceeds the size,
+        // then start is set to begin (0) or last element (-1) of the list, depending on the sign of step
+        if (start < 0)
+        {
+            start = step > 0 ? 0 : -1;
+        }
+        // if start exceeds size, start will be set to size or size - 1 (last element)
+        // according to the sign of step
+        if (start >= size_)
+        {
+            start = step > 0 ? size_ : size_ - 1;
+        }
+
+        // same as start
+        if (stop < 0)
+        {
+            stop += size_;
+        }
+        if (stop < 0)
+        {
+            stop = step > 0 ? 0 : -1;
+        }
+        if (stop >= size_)
+        {
+            stop = step > 0 ? size_ : size_ - 1;
+        }
+
+        // length of result of slice
+        int length;
+        if ((step < 0 && start <= stop) || (step > 0 && start >= stop))
+        {
+            length = 0;
+        }
+        else if (step < 0)
+        {
+            length = (stop - start + 1) / (step) + 1;
+        }
+        else
+        {
+            length = (stop - start - 1) / (step) + 1;
+        }
+
+        // copy
+        List list;
+        for (int i = 0; i < length; i++)
+        {
+            list += data_[start];
+            start += step;
         }
 
         return list;

@@ -451,35 +451,62 @@ TEST(List, generate)
     List<int> list = {1, 2, 3, 4, 5};
 
     // slice
-    ASSERT_EQ(list.slice(1, 3), List<int>({2, 3}));
-    ASSERT_EQ(list.slice(0, 5), List<int>({1, 2, 3, 4, 5}));
-    ASSERT_EQ(list.slice(0, 99), List<int>({1, 2, 3, 4, 5}));
-    ASSERT_EQ(list.slice(0, 5, 2), List<int>({1, 3, 5}));
-    ASSERT_EQ(list.slice(0, 99, 2), List<int>({1, 3, 5}));
-    ASSERT_EQ(list.slice(77, 99), List<int>({}));
-    ASSERT_EQ(list.slice(99, 77), List<int>({}));
-    ASSERT_EQ(list.slice(0, 0), List<int>({}));
-    ASSERT_EQ(list.slice(0, 1), List<int>({1}));
-
-    ASSERT_EQ(list.slice(-1, -5), List<int>({}));
-    ASSERT_EQ(list.slice(-1, -5, -1), List<int>({5, 4, 3, 2}));
-    ASSERT_EQ(list.slice(-1, -99, -1), List<int>({5, 4, 3, 2, 1}));
-    ASSERT_EQ(list.slice(-1, -99, -2), List<int>({5, 3, 1}));
-
-    ASSERT_EQ(list.slice(-5, -1), List<int>({1, 2, 3, 4}));
-    ASSERT_EQ(list.slice(-5, -1, -1), List<int>({}));
-    ASSERT_EQ(list.slice(-99, -1, -1), List<int>({}));
-    ASSERT_EQ(list.slice(-99, -1, -2), List<int>({}));
-
-    ASSERT_EQ(list.slice(-99, -1), List<int>({1, 2, 3, 4}));
-    ASSERT_EQ(list.slice(-99, -1, 2), List<int>({1, 3}));
-    ASSERT_EQ(list.slice(-77, -99), List<int>({}));
     ASSERT_EQ(list.slice(-99, -77), List<int>({}));
+    ASSERT_EQ(list.slice(-77, -1), List<int>({1, 2, 3, 4}));
+    ASSERT_EQ(list.slice(-1, 1), List<int>({}));
+    ASSERT_EQ(list.slice(1, 77), List<int>({2, 3, 4, 5}));
+    ASSERT_EQ(list.slice(77, 99), List<int>({}));
 
+    ASSERT_EQ(list.slice(-99, -77, -1), List<int>({}));
+    ASSERT_EQ(list.slice(-77, -1, -1), List<int>({}));
+    ASSERT_EQ(list.slice(-1, 1, -1), List<int>({5, 4, 3}));
+    ASSERT_EQ(list.slice(1, 77, -1), List<int>({}));
+    ASSERT_EQ(list.slice(77, 99, -1), List<int>({}));
+
+    ASSERT_EQ(list.slice(-77, -99), List<int>({}));
+    ASSERT_EQ(list.slice(-1, -77), List<int>({}));
+    ASSERT_EQ(list.slice(1, -1), List<int>({2, 3, 4}));
+    ASSERT_EQ(list.slice(-77, -1), List<int>({1, 2, 3, 4}));
+    ASSERT_EQ(list.slice(99, 77), List<int>({}));
+
+    ASSERT_EQ(list.slice(-77, -99, -1), List<int>({}));
+    ASSERT_EQ(list.slice(-1, -77, -1), List<int>({5, 4, 3, 2, 1}));
+    ASSERT_EQ(list.slice(1, -1, -1), List<int>({}));
+    ASSERT_EQ(list.slice(-77, -1, -1), List<int>({}));
+    ASSERT_EQ(list.slice(99, 77, -1), List<int>({}));
+
+    ASSERT_EQ(list.slice(-99, 99), List<int>({1, 2, 3, 4, 5}));
+    ASSERT_EQ(list.slice(-99, 99, 2), List<int>({1, 3, 5}));
+    ASSERT_EQ(list.slice(-99, 99, -1), List<int>({}));
+    ASSERT_EQ(list.slice(-99, 99, -2), List<int>({}));
+
+    ASSERT_EQ(list.slice(99, -99), List<int>({}));
+    ASSERT_EQ(list.slice(99, -99, 2), List<int>({}));
+    ASSERT_EQ(list.slice(99, -99, -1), List<int>({5, 4, 3, 2, 1}));
+    ASSERT_EQ(list.slice(99, -99, -2), List<int>({5, 3, 1}));
+
+    ASSERT_EQ(list.slice(0, 5), List<int>({1, 2, 3, 4, 5}));
+    ASSERT_EQ(list.slice(0, 5, 2), List<int>({1, 3, 5}));
+    ASSERT_EQ(list.slice(0, 5, -1), List<int>({}));
+    ASSERT_EQ(list.slice(0, 5, -2), List<int>({}));
+
+    ASSERT_EQ(list.slice(5, 0), List<int>({}));
+    ASSERT_EQ(list.slice(5, 0, 2), List<int>({}));
+    ASSERT_EQ(list.slice(5, 0, -1), List<int>({5, 4, 3, 2}));
+    ASSERT_EQ(list.slice(5, 0, -2), List<int>({5, 3}));
+
+    ASSERT_EQ(list.slice(0, 0), List<int>({}));
+    ASSERT_EQ(list.slice(1, 1), List<int>({}));
     ASSERT_EQ(list.slice(-1, -1), List<int>({}));
-    ASSERT_EQ(list.slice(-1, -1, -1), List<int>({}));
-    ASSERT_EQ(list.slice(-1, -2), List<int>({}));
-    ASSERT_EQ(list.slice(-1, -2, -1), List<int>({5}));
+
+    try
+    {
+        list.slice(1, 2, 0);
+    }
+    catch (const std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: Slice step cannot be zero.");
+    }
 
     // operator+
     ASSERT_EQ(list + 6, List<int>({1, 2, 3, 4, 5, 6}));
