@@ -465,11 +465,20 @@ public:
      */
     List& operator+=(const List& list)
     {
-        int list_size = list.size_; // save list.size_, because may &list == this
-        for (int i = 0; i < list_size; i++)
+        if (this == &list)
         {
-            auto e = list.data_[i]; // save element, for valid addr when expand capacity when &list == this
-            *this += e;             // this is a very subtle problem
+            List saved_list = list; // save list, for valid addr when expand capacity when this == &list
+            for (int i = 0; i < saved_list.size_; i++)
+            {
+                *this += saved_list.data_[i];
+            }
+        }
+        else
+        {
+            for (int i = 0; i < list.size_; i++)
+            {
+                *this += list.data_[i];
+            }
         }
 
         return *this;
@@ -661,7 +670,7 @@ public:
     /**
      * @brief Slice of the list from start to stop with certain step.
      *
-     * Index and step length can be negative, like Python's list: list[-1:-99:-2] is OK.
+     * Index and step length can be negative.
      *
      * @param start start index (included)
      * @param stop stop index (excluded)
@@ -670,64 +679,21 @@ public:
      */
     List slice(int start, int stop, int step = 1) const
     {
+        // although I have implemented the Python-like slice function (index can exceed the size, see the previous commit),
+        // I finally decided to check the index for the simplicity of the source code and the security of use, and consistent with the operator[]
+
         if (step == 0)
         {
             throw std::runtime_error("ERROR: Slice step cannot be zero.");
         }
 
-        // if start is less than zero, plus size turns into a positive number
-        if (start < 0)
-        {
-            start += size_;
-        }
-        // if it is still less than zero, that is, -start exceeds the size,
-        // then start is set to begin (0) or last element (-1) of the list, depending on the sign of step
-        if (start < 0)
-        {
-            start = step > 0 ? 0 : -1;
-        }
-        // if start exceeds size, start will be set to size or size - 1 (last element)
-        // according to the sign of step
-        if (start >= size_)
-        {
-            start = step > 0 ? size_ : size_ - 1;
-        }
+        start = start < 0 ? start + size_ : start;
+        stop = stop < 0 ? stop + size_ : stop;
 
-        // same as start
-        if (stop < 0)
-        {
-            stop += size_;
-        }
-        if (stop < 0)
-        {
-            stop = step > 0 ? 0 : -1;
-        }
-        if (stop >= size_)
-        {
-            stop = step > 0 ? size_ : size_ - 1;
-        }
-
-        // length of result of slice
-        int length;
-        if ((step < 0 && start <= stop) || (step > 0 && start >= stop))
-        {
-            length = 0;
-        }
-        else if (step < 0)
-        {
-            length = (stop - start + 1) / (step) + 1;
-        }
-        else
-        {
-            length = (stop - start - 1) / (step) + 1;
-        }
-
-        // copy
         List list;
-        for (int i = 0; i < length; i++)
+        for (int i = start; (step > 0) ? (i < stop) : (i > stop); i += step)
         {
-            list += data_[start];
-            start += step;
+            list += (*this)[i];
         }
 
         return list;
