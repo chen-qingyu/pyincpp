@@ -102,19 +102,25 @@ TEST(List, examination)
     ASSERT_EQ(list.index_of(1), 0);
     ASSERT_EQ(list.index_of(5), 4);
     ASSERT_EQ(list.index_of(0), -1);
-    ASSERT_EQ(list.index_of(1, 2, 99), -1);
-    ASSERT_EQ(list.index_of(5, 2, 99), 4);
-    ASSERT_EQ(list.index_of(0, 2, 99), -1);
+    ASSERT_EQ(list.index_of(1, 1, 99), -1);
+    ASSERT_EQ(list.index_of(5, 1, 99), 4);
+    ASSERT_EQ(list.index_of(0, 1, 99), -1);
 
     // find
     ASSERT_EQ(list.find(1), list.begin());
     ASSERT_EQ(list.find(5), --list.end());
     ASSERT_EQ(list.find(0), list.end());
+    ASSERT_EQ(list.find(1, 1, 99), list.end());
+    ASSERT_EQ(list.find(5, 1, 99), --list.end());
+    ASSERT_EQ(list.find(0, 1, 99), list.end());
 
     // contains
     ASSERT_EQ(list.contains(1), true);
     ASSERT_EQ(list.contains(5), true);
     ASSERT_EQ(list.contains(0), false);
+    ASSERT_EQ(list.contains(1, 1, 99), false);
+    ASSERT_EQ(list.contains(5, 1, 99), true);
+    ASSERT_EQ(list.contains(0, 1, 99), false);
 
     // operator==
     List<int> eq_list = {1, 2, 3, 4, 5};

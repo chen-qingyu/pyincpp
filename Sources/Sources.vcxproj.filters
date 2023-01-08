@@ -17,5 +17,6 @@
     </ClInclude>
     <ClInclude Include="List.hpp" />
     <ClInclude Include="ListIterator.hpp" />
+    <ClInclude Include="String.hpp" />
   </ItemGroup>
 </Project>

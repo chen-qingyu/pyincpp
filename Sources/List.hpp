@@ -33,6 +33,8 @@ namespace mdspp
 template <typename T>
 class List
 {
+    friend class String;
+
 private:
     // Number of elements.
     int size_;
@@ -49,7 +51,10 @@ private:
     // Expand capacity safely.
     void expand_capacity()
     {
-        capacity_ = (capacity_ < INT_MAX / 2) ? capacity_ * 2 : INT_MAX; // double the capacity until INT_MAX
+        // double capacity until INT_MAX - 1 (- 1 for find())
+        capacity_ = (capacity_ < INT_MAX / 2) ? capacity_ * 2 : INT_MAX - 1;
+
+        // move data
         T* tmp = new T[capacity_];
         for (int i = 0; i < size_; ++i)
         {
@@ -130,30 +135,6 @@ public:
     }
 
     /**
-     * Capacity
-     */
-
-    /**
-     * @brief Return the number of elements in the list.
-     *
-     * @return the number of elements in the list
-     */
-    int size() const
-    {
-        return size_;
-    }
-
-    /**
-     * @brief Return true if the list contains no elements.
-     *
-     * @return true if the list contains no elements
-     */
-    bool is_empty() const
-    {
-        return size_ == 0;
-    }
-
-    /**
      * Element access
      */
 
@@ -220,6 +201,26 @@ public:
      */
 
     /**
+     * @brief Return the number of elements in the list.
+     *
+     * @return the number of elements in the list
+     */
+    int size() const
+    {
+        return size_;
+    }
+
+    /**
+     * @brief Return true if the list contains no elements.
+     *
+     * @return true if the list contains no elements
+     */
+    bool is_empty() const
+    {
+        return size_ == 0;
+    }
+
+    /**
      * @brief Return the index of the first occurrence of the specified element in the list (at or after index start and before index stop).
      *
      * Or -1 if the list does not contain the element (in the specified range).
@@ -247,11 +248,14 @@ public:
      * @brief Find the first occurrence of the specified element in the list.
      *
      * @param element element to search for
+     * @param start at or after index start (default 0)
+     * @param stop before index stop (default size())
      * @return the iterator to the first occurrence of the specified element in the list, or end() if the list does not contain the element
      */
-    ListIterator<T> find(const T& element) const
+    ListIterator<T> find(const T& element, int start = 0, int stop = INT_MAX) const
     {
-        for (int i = 0; i < size_; ++i)
+        stop = stop > size_ ? size_ : stop;
+        for (int i = start; i < stop; ++i)
         {
             if (data_[i] == element)
             {
@@ -266,11 +270,14 @@ public:
      * @brief Return true if the list contains the specified element.
      *
      * @param element element whose presence in the list is to be tested
+     * @param start at or after index start (default 0)
+     * @param stop before index stop (default size())
      * @return true if the list contains the specified element
      */
-    bool contains(const T& element) const
+    bool contains(const T& element, int start = 0, int stop = INT_MAX) const
     {
-        for (int i = 0; i < size_; ++i)
+        stop = stop > size_ ? size_ : stop;
+        for (int i = start; i < stop; ++i)
         {
             if (data_[i] == element)
             {
@@ -364,7 +371,7 @@ public:
      * @param element the specified element
      * @return the total number of occurrences of the specified element in the list
      */
-    int count(const T& element)
+    int count(const T& element) const
     {
         int counter = 0;
         for (int i = 0; i < size_; i++)
@@ -796,7 +803,7 @@ std::ostream& operator<<(std::ostream& os, const List<T>& list)
  * @return the generated list
  */
 template <typename T>
-List<T> operator*(int times, const List<T> list)
+List<T> operator*(int times, const List<T>& list)
 {
     return list * times;
 }
