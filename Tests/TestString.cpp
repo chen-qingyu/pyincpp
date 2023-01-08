@@ -29,6 +29,8 @@ TEST(String, basics)
     String str4(std::move(str3));
     ASSERT_EQ(str4.size(), 5);
     ASSERT_FALSE(str4.is_empty());
+    ASSERT_EQ(str3.size(), 0);
+    ASSERT_TRUE(str3.is_empty());
 }
 
 // operator[]()

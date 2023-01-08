@@ -150,7 +150,7 @@ public:
      * @param that another string
      */
     String(String&& that)
-        : list_(that.list_)
+        : list_(std::move(that.list_))
     {
     }
 

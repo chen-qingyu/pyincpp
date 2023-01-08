@@ -29,6 +29,8 @@ TEST(List, basics)
     List<int> list4(std::move(list3));
     ASSERT_EQ(list4.size(), 5);
     ASSERT_FALSE(list4.is_empty());
+    ASSERT_EQ(list3.size(), 0);
+    ASSERT_TRUE(list3.is_empty());
 }
 
 // operator[]()
