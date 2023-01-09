@@ -14,6 +14,8 @@
 
 #include "List.hpp"
 
+#include <cmath> // std::pow INFINITY NAN
+
 namespace mdspp
 {
 
@@ -22,6 +24,33 @@ class String
 private:
     // List of characters.
     List<char> list_;
+
+    // Used for FSM.
+    enum state
+    {
+        S_BEGIN_BLANK = 1 << 0,        // begin blank character
+        S_SIGN = 1 << 1,               // positive or negative sign
+        S_INT_PART = 1 << 2,           // integer part
+        S_DEC_POINT_HAS_LEFT = 1 << 3, // decimal point has left digit
+        S_DEC_POINT_NOT_LEFT = 1 << 4, // decimal point doesn't have left digit
+        S_DEC_PART = 1 << 5,           // decimal part
+        S_EXP = 1 << 6,                // scientific notation identifier
+        S_EXP_SIGN = 1 << 7,           // positive or negative sign of exponent part
+        S_EXP_PART = 1 << 8,           // exponent part
+        S_END_BLANK = 1 << 9,          // end blank character
+        S_OTHER = 1 << 10,             // other
+    };
+
+    // Used for FSM.
+    enum event
+    {
+        E_BLANK = 1 << 11,     // blank character: '\n', '\r', '\t', ' '
+        E_SIGN = 1 << 12,      // positive or negative sign: '+', '-'
+        E_NUMBER = 1 << 13,    // number: '[0-9a-zA-Z]'
+        E_DEC_POINT = 1 << 14, // decimal point: '.'
+        E_EXP = 1 << 15,       // scientific notation identifier: 'e', 'E'
+        E_OTHER = 1 << 16,     // other
+    };
 
     // Compare two strings lexicographically.
     int compare(const String& that) const
@@ -58,7 +87,7 @@ private:
     }
 
     // Use the KMP algorithm to find the position of the pattern.
-    int kmp(const char* this_str, const char* patt_str, int n, int m) const
+    static int kmp(const char* this_str, const char* patt_str, int n, int m)
     {
         if (n < m)
         {
@@ -105,6 +134,47 @@ private:
         delete[] match;
 
         return (p == m) ? (s - m) : -1;
+    }
+
+    // Try to transform a character to an event.
+    static event get_event(const char ch, const int base)
+    {
+        if (ch == ' ' || ch == '\n' || ch == '\r' || ch == '\t')
+        {
+            return E_BLANK;
+        }
+        else if (char_to_integer(ch, base) != -1)
+        {
+            return E_NUMBER;
+        }
+        else if (ch == '-' || ch == '+')
+        {
+            return E_SIGN;
+        }
+        else if (ch == '.')
+        {
+            return E_DEC_POINT;
+        }
+        else if (ch == 'e' || ch == 'E')
+        {
+            return E_EXP;
+        }
+        return E_OTHER;
+    }
+
+    // Try to transform a character to an integer based on 2-36 base.
+    static int char_to_integer(char digit, int base) // 2 <= base <= 36
+    {
+        static const char* upper_digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        static const char* lower_digits = "0123456789abcdefghijklmnopqrstuvwxyz";
+        for (int i = 0; i < base; ++i)
+        {
+            if (digit == upper_digits[i] || digit == lower_digits[i])
+            {
+                return i;
+            }
+        }
+        return -1; // not an integer
     }
 
 public:
@@ -318,21 +388,6 @@ public:
     }
 
     /**
-     * @brief Return the index of the first occurrence of the specified element in the string (at or after index start and before index stop).
-     *
-     * Or -1 if the string does not contain the element (in the specified range).
-     *
-     * @param element element to search for
-     * @param start at or after index start (default 0)
-     * @param stop before index stop (default size())
-     * @return the index of the first occurrence of the specified element in the string, or -1 if the string does not contain the element
-     */
-    int index_of(const char& element, int start = 0, int stop = INT_MAX) const
-    {
-        return list_.index_of(element, start, stop);
-    }
-
-    /**
      * @brief Return true if the string contains the specified element.
      *
      * @param element element whose presence in the string is to be tested
@@ -386,7 +441,7 @@ public:
      * @param pattern the pattern string
      * @param start at or after index start (default 0)
      * @param stop before index stop (default size())
-     * @return the index of the first occurrence of the specified pattern in the list, or -1 if the list does not contain the pattern
+     * @return the index of the first occurrence of the specified pattern in the string, or -1 if the string does not contain the pattern
      */
     int find(const String& pattern, int start = 0, int stop = INT_MAX) const
     {
@@ -400,6 +455,209 @@ public:
         int pos = kmp(this_str, patt_str, n, m);
 
         return pos == -1 ? -1 : pos + start;
+    }
+
+    /**
+     * @brief Convert the string to a double-precision floating-point decimal number.
+     *
+     * If the string is too big to be representable will return `HUGE_VAL`.
+     * If the string represents nan ("[+-]?(nan, NaN, NAN)") will return `NAN`.
+     * If the string represents infinity ("[+-]?(inf, Inf, INF, infinity, Infinity, INFINITY)") will return `[+-]?INFINITY`.
+     *
+     * Example: String("233.33").to_decimal(); // => 233.33
+     *
+     *          String("123.456e-3").to_decimal(); // => 0.123456
+     *
+     *          String("1e+600").to_decimal(); // => HUGE_VAL
+     *
+     *          String("nan").to_decimal(); // => NAN
+     *
+     *          String("inf").to_decimal(); // => INFINITY
+     *
+     * @return a number that can represent the string or HUGE_VAL or NAN or [+-]?INFINITY
+     */
+    double to_decimal() const
+    {
+        // check infinity or nan
+        static const char* pos_infs[12] = {"inf", "INF", "Inf", "+inf", "+INF", "+Inf", "infinity", "INFINITY", "Infinity", "+infinity", "+INFINITY", "+Infinity"};
+        static const char* neg_infs[6] = {"-inf", "-INF", "-Inf", "-infinity", "-INFINITY", "-Infinity"};
+        static const char* nans[9] = {"nan", "NaN", "NAN", "+nan", "+NaN", "+NAN", "-nan", "-NaN", "-NAN"};
+
+        for (int i = 0; i < 12; ++i)
+        {
+            if (*this == pos_infs[i])
+            {
+                return INFINITY;
+            }
+        }
+        for (int i = 0; i < 6; ++i)
+        {
+            if (*this == neg_infs[i])
+            {
+                return -INFINITY;
+            }
+        }
+        for (int i = 0; i < 9; ++i)
+        {
+            if (*this == nans[i])
+            {
+                return NAN;
+            }
+        }
+
+        // not infinity or nan
+
+        double sign = 1; // default '+'
+        double decimal_part = 0;
+        int decimal_cnt = 0;
+        double exp_sign = 1; // default '+'
+        int exp_part = 0;
+
+        // FSM
+        state st = S_BEGIN_BLANK;
+        for (int i = 0; i < list_.size_; ++i)
+        {
+            event ev = get_event(list_.data_[i], 10);
+            switch (st | ev)
+            {
+                case S_BEGIN_BLANK | E_BLANK:
+                    st = S_BEGIN_BLANK;
+                    break;
+
+                case S_BEGIN_BLANK | E_SIGN:
+                    sign = (list_.data_[i] == '+') ? 1 : -1;
+                    st = S_SIGN;
+                    break;
+
+                case S_BEGIN_BLANK | E_DEC_POINT:
+                case S_SIGN | E_DEC_POINT:
+                    st = S_DEC_POINT_NOT_LEFT;
+                    break;
+
+                case S_BEGIN_BLANK | E_NUMBER:
+                case S_SIGN | E_NUMBER:
+                case S_INT_PART | E_NUMBER:
+                    decimal_part = decimal_part * 10 + char_to_integer(list_.data_[i], 10);
+                    st = S_INT_PART;
+                    break;
+
+                case S_INT_PART | E_DEC_POINT:
+                    st = S_DEC_POINT_HAS_LEFT;
+                    break;
+
+                case S_DEC_POINT_NOT_LEFT | E_NUMBER:
+                case S_DEC_PART | E_NUMBER:
+                case S_DEC_POINT_HAS_LEFT | E_NUMBER:
+                    decimal_part = decimal_part * 10 + char_to_integer(list_.data_[i], 10);
+                    decimal_cnt++;
+                    st = S_DEC_PART;
+                    break;
+
+                case S_INT_PART | E_EXP:
+                case S_DEC_POINT_HAS_LEFT | E_EXP:
+                case S_DEC_PART | E_EXP:
+                    st = S_EXP;
+                    break;
+
+                case S_EXP | E_SIGN:
+                    exp_sign = (list_.data_[i] == '+') ? 1 : -1;
+                    st = S_EXP_SIGN;
+                    break;
+
+                case S_EXP | E_NUMBER:
+                case S_EXP_SIGN | E_NUMBER:
+                case S_EXP_PART | E_NUMBER:
+                    exp_part = exp_part * 10 + char_to_integer(list_.data_[i], 10);
+                    st = S_EXP_PART;
+                    break;
+
+                case S_INT_PART | E_BLANK:
+                case S_DEC_POINT_HAS_LEFT | E_BLANK:
+                case S_DEC_PART | E_BLANK:
+                case S_EXP_PART | E_BLANK:
+                case S_END_BLANK | E_BLANK:
+                    st = S_END_BLANK;
+                    break;
+
+                default:
+                    st = S_OTHER;
+                    i = list_.size_; // exit for loop
+                    break;
+            }
+        }
+        if (st != S_INT_PART && st != S_DEC_POINT_HAS_LEFT && st != S_DEC_PART && st != S_EXP_PART && st != S_END_BLANK)
+        {
+            throw std::runtime_error("ERROR: Invalid literal for str_to_decimal().");
+        }
+
+        return sign * ((decimal_part / std::pow(10, decimal_cnt)) * std::pow(10, exp_sign * exp_part));
+    }
+
+    /**
+     * @brief Convert the string to an integer number based on 2-36 base.
+     *
+     * Numeric character in 36 base: 0, 1, ..., 9, A(10), ..., F(15), G(16), ..., Y(34), Z(35).
+     *
+     * Example: String("233").to_integer(); // => 233
+     *
+     *          String("cafebabe").to_integer(16); // => 3405691582
+     *
+     *          String("z").to_integer(36); // => 35
+     *
+     * @param base the base of an integer (2 <= base <= 36, default 10)
+     * @return an integer number that can represent the string
+     */
+    long long to_integer(int base = 10) const
+    {
+        // check base
+        if (base < 2 || base > 36)
+        {
+            throw std::runtime_error("ERROR: Invalid base for to_integer().");
+        }
+
+        long long sign = 1; // default '+'
+        long long integer_part = 0;
+
+        // FSM
+        state st = S_BEGIN_BLANK;
+        for (int i = 0; i < list_.size_; ++i)
+        {
+            event ev = get_event(list_.data_[i], base);
+            switch (st | ev)
+            {
+                case S_BEGIN_BLANK | E_BLANK:
+                    st = S_BEGIN_BLANK;
+                    break;
+
+                case S_BEGIN_BLANK | E_SIGN:
+                    sign = (list_.data_[i] == '+') ? 1 : -1;
+                    st = S_SIGN;
+                    break;
+
+                case S_BEGIN_BLANK | E_NUMBER:
+                case S_SIGN | E_NUMBER:
+                case S_INT_PART | E_NUMBER:
+                    integer_part = integer_part * base + char_to_integer(list_.data_[i], base);
+                    st = S_INT_PART;
+                    break;
+
+                case S_INT_PART | E_BLANK:
+                case S_END_BLANK | E_BLANK:
+                    st = S_END_BLANK;
+                    break;
+
+                default:
+                    st = S_OTHER;
+                    i = list_.size_; // exit for loop
+                    break;
+            }
+        }
+        if (st != S_INT_PART && st != S_END_BLANK)
+        {
+            throw std::runtime_error("ERROR: Invalid literal for to_integer().");
+        }
+
+        return sign * integer_part;
     }
 
     /**
@@ -532,6 +790,117 @@ public:
     }
 
     /**
+     * @brief Convert the string to lowercase.
+     */
+    void lower()
+    {
+        for (int i = 0; i < list_.size_; ++i)
+        {
+            list_.data_[i] = (list_.data_[i] >= 'A' && list_.data_[i] <= 'Z' ? list_.data_[i] + ('a' - 'A') : list_.data_[i]);
+        }
+    }
+
+    /**
+     * @brief Convert the string to uppercase.
+     */
+    void upper()
+    {
+        for (int i = 0; i < list_.size_; ++i)
+        {
+            list_.data_[i] = (list_.data_[i] >= 'a' && list_.data_[i] <= 'z' ? list_.data_[i] - ('a' - 'A') : list_.data_[i]);
+        }
+    }
+
+    /**
+     * @brief Erase the contents of a range of string.
+     *
+     * @param start start range subscript (included)
+     * @param stop stop range subscript (excluded)
+     * @return self reference
+     */
+    String& erase(int start, int stop)
+    {
+        common::check_bounds(start, 0, size());
+        common::check_bounds(stop, 0, size() + 1);
+
+        for (int i = stop; i < list_.size_; i++)
+        {
+            list_.data_[i - (stop - start)] = list_.data_[i];
+        }
+        list_.size_ -= (stop - start);
+
+        return *this;
+    }
+
+    /**
+     * @brief Replace the string.
+     *
+     * @param old_str Old substring.
+     * @param new_str New substring.
+     * @return self reference
+     */
+    String& replace(const String& old_str, const String& new_str)
+    {
+        String buffer;
+
+        int this_start = 0;
+        for (int patt_start = 0; (patt_start = find(old_str, this_start)) != -1; this_start = patt_start + old_str.size())
+        {
+            buffer += slice(this_start, patt_start);
+            buffer += new_str;
+        }
+        if (this_start != size())
+        {
+            buffer += slice(this_start, size());
+        }
+
+        return *this = std::move(buffer);
+    }
+
+    /**
+     * @brief Remove leading and trailing blank characters of the string.
+     *
+     * @return self reference
+     */
+    String& strip()
+    {
+        int i = 0;
+        while (i < list_.size_ && list_.data_[i] <= 0x20)
+        {
+            ++i;
+        }
+        erase(0, i);
+        i = list_.size_ - 1;
+        while (i >= 0 && list_.data_[i] <= 0x20)
+        {
+            --i;
+        }
+        erase(i + 1, list_.size_);
+
+        return *this;
+    }
+
+    /**
+     * @brief Swap the contents of two strings.
+     *
+     * @param that second string
+     */
+    void swap(String& that)
+    {
+        int tmp_size = list_.size_;
+        list_.size_ = that.list_.size_;
+        that.list_.size_ = tmp_size;
+
+        int tmp_capa = list_.capacity_;
+        list_.capacity_ = that.list_.capacity_;
+        that.list_.capacity_ = tmp_capa;
+
+        char* tmp_data = list_.data_;
+        list_.data_ = that.list_.data_;
+        that.list_.data_ = tmp_data;
+    }
+
+    /**
      * @brief Copy assignment operator.
      *
      * @param that another string
@@ -562,7 +931,7 @@ public:
      */
 
     /**
-     * @brief Slice of the string from start to stop with certain step.
+     * @brief Return slice of the string from start to stop with certain step.
      *
      * Index and step length can be negative.
      *
@@ -624,6 +993,62 @@ public:
     {
         String new_string = *this;
         return new_string *= times;
+    }
+
+    /**
+     * @brief Split string with separator.
+     *
+     * Example: String("one, two, three").split(", "); // => ["one", "two", "three"]
+     *
+     * @param sep separator string
+     * @return a list of split strings
+     */
+    List<String> split(const String& sep) const
+    {
+        if (sep.size() == 0)
+        {
+            throw std::runtime_error("ERROR: Empty separator.");
+        }
+
+        List<String> str_list;
+        int this_start = 0;
+        for (int patt_start = 0; (patt_start = find(sep, this_start)) != -1; this_start = patt_start + sep.size())
+        {
+            str_list += slice(this_start, patt_start);
+        }
+        if (this_start != size())
+        {
+            str_list += slice(this_start, size());
+        }
+
+        return str_list;
+    }
+
+    /**
+     * @brief Return a string which is the concatenation of the strings in str_list.
+     *
+     * @param str_list a list of strings
+     * @return a string which is the concatenation of the strings in str_list
+     */
+    String join(const List<String>& str_list) const
+    {
+        if (str_list.size_ == 0)
+        {
+            return String();
+        }
+        if (str_list.size_ == 1)
+        {
+            return str_list.data_[0];
+        }
+
+        String str;
+        for (int i = 0; i < str_list.size_ - 1; i++)
+        {
+            str += str_list.data_[i];
+            str += *this;
+        }
+        str += str_list.data_[str_list.size_ - 1];
+        return str;
     }
 };
 

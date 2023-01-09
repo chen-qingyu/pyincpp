@@ -675,7 +675,7 @@ public:
      */
 
     /**
-     * @brief Slice of the list from start to stop with certain step.
+     * @brief Return slice of the list from start to stop with certain step.
      *
      * Index and step length can be negative.
      *
