@@ -22,6 +22,7 @@
     <ClInclude Include="common\check_bounds.hpp" />
     <ClInclude Include="common\check_empty.hpp" />
     <ClInclude Include="common\check_full.hpp" />
+    <ClInclude Include="Deque.hpp" />
     <ClInclude Include="List.hpp" />
     <ClInclude Include="ListIterator.hpp" />
     <ClInclude Include="String.hpp" />
