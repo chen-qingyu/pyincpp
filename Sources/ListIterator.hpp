@@ -18,6 +18,11 @@ namespace mdspp
 template <typename T>
 class List;
 
+/**
+ * @brief List (implemented by array list) iterator template class.
+ *
+ * @tparam T the type of elements in the list
+ */
 template <typename T>
 class ListIterator
 {
@@ -33,9 +38,10 @@ private:
     {
     }
 
-public:
+    // Calling the default constructor is not allowed.
     ListIterator() = delete;
 
+public:
     /**
      * @brief Dereference.
      *
