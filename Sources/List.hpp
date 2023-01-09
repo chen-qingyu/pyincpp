@@ -135,7 +135,7 @@ public:
     }
 
     /**
-     * Element access
+     * Access
      */
 
     /**
@@ -169,7 +169,7 @@ public:
     }
 
     /**
-     * Iterators
+     * Iterator
      */
 
     /**
@@ -197,7 +197,59 @@ public:
     }
 
     /**
-     * Examination (will not change itself)
+     * Assignment
+     */
+
+    /**
+     * @brief Copy assignment operator.
+     *
+     * @param that another list
+     * @return self reference
+     */
+    List& operator=(const List<T>& that)
+    {
+        if (this != &that)
+        {
+            size_ = that.size_;
+            capacity_ = that.capacity_;
+
+            delete[] data_;
+            data_ = new T[capacity_];
+            for (int i = 0; i < size_; ++i)
+            {
+                data_[i] = that.data_[i];
+            }
+        }
+
+        return *this;
+    }
+
+    /**
+     * @brief Move assignment operator.
+     *
+     * @param that another list
+     * @return self reference
+     */
+    List& operator=(List<T>&& that)
+    {
+        if (this != &that)
+        {
+            delete[] data_;
+
+            size_ = that.size_;
+            capacity_ = that.capacity_;
+            data_ = that.data_;
+
+            that.size_ = 0;
+            that.capacity_ = DEFAULT_CAPACITY;
+            that.data_ = new T[that.capacity_];
+        }
+
+        return *this;
+    }
+
+    /**
+     * Examination (will not change the object itself)
      */
 
     /**
@@ -218,6 +270,41 @@ public:
     bool is_empty() const
     {
         return size_ == 0;
+    }
+
+    /**
+     * @brief Check whether two lists are equal.
+     *
+     * @param that another list
+     * @return true if two lists are equal
+     */
+    bool operator==(const List<T>& that) const
+    {
+        if (size_ != that.size_)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < size_; ++i)
+        {
+            if (data_[i] != that.data_[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @brief Check whether two lists are not equal.
+     *
+     * @param that another list
+     * @return true if two lists are not equal
+     */
+    bool operator!=(const List<T>& that) const
+    {
+        return !(*this == that);
     }
 
     /**
@@ -289,41 +376,6 @@ public:
     }
 
     /**
-     * @brief Check whether two lists are equal.
-     *
-     * @param that another list
-     * @return true if two lists are equal
-     */
-    bool operator==(const List<T>& that) const
-    {
-        if (size_ != that.size_)
-        {
-            return false;
-        }
-
-        for (int i = 0; i < size_; ++i)
-        {
-            if (data_[i] != that.data_[i])
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * @brief Check whether two lists are not equal.
-     *
-     * @param that another list
-     * @return true if two lists are not equal
-     */
-    bool operator!=(const List<T>& that) const
-    {
-        return !(*this == that);
-    }
-
-    /**
      * @brief Get the smallest item of the list.
      *
      * @return the smallest item
@@ -385,7 +437,7 @@ public:
     }
 
     /**
-     * Manipulation (will change itself)
+     * Manipulation (will change the object itself)
      */
 
     /**
@@ -623,55 +675,27 @@ public:
     }
 
     /**
-     * @brief Copy assignment operator.
+     * @brief Swap the contents of two lists.
      *
-     * @param that another list
-     * @return self reference
+     * @param that second list
      */
-    List& operator=(const List<T>& that)
+    void swap(List& that)
     {
-        if (this != &that)
-        {
-            size_ = that.size_;
-            capacity_ = that.capacity_;
+        int tmp_size = size_;
+        size_ = that.size_;
+        that.size_ = tmp_size;
 
-            delete[] data_;
-            data_ = new T[capacity_];
-            for (int i = 0; i < size_; ++i)
-            {
-                data_[i] = that.data_[i];
-            }
-        }
+        int tmp_capa = capacity_;
+        capacity_ = that.capacity_;
+        that.capacity_ = tmp_capa;
 
-        return *this;
+        T* tmp_data = data_;
+        data_ = that.data_;
+        that.data_ = tmp_data;
     }
 
     /**
-     * @brief Move assignment operator.
-     *
-     * @param that another list
-     * @return self reference
-     */
-    List& operator=(List<T>&& that)
-    {
-        if (this != &that)
-        {
-            delete[] data_;
-
-            size_ = that.size_;
-            capacity_ = that.capacity_;
-            data_ = that.data_;
-
-            that.size_ = 0;
-            that.capacity_ = DEFAULT_CAPACITY;
-            that.data_ = new T[that.capacity_];
-        }
-
-        return *this;
-    }
-
-    /**
-     * Generate
+     * Production (will produce new object)
      */
 
     /**

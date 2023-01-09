@@ -70,6 +70,37 @@ TEST(String, access)
     }
 }
 
+// operator=()
+TEST(String, copy_assignment)
+{
+    String string1("12345");
+    String string2("6789");
+
+    string1 = string2;
+    string2 += '0';
+    ASSERT_EQ(string1, String("6789"));
+    ASSERT_EQ(string2, String("67890"));
+}
+
+// operator=()
+TEST(String, move_assignment)
+{
+    String string1("12345");
+    String string2("6789");
+
+    string1 = std::move(string2);
+    ASSERT_EQ(string1, String("6789"));
+    ASSERT_EQ(string2, String());
+}
+
+// get() set()
+TEST(String, get_set)
+{
+    String string;
+    string.set(String("hello").get());
+    ASSERT_EQ(string, String("hello"));
+}
+
 // operator==() operator!=() operator<() operator<=() operator>() operator>=()
 TEST(String, compare)
 {
@@ -146,6 +177,116 @@ TEST(String, find)
     ASSERT_EQ(s5.find(s3, 3, 99), 6);
     ASSERT_EQ(s5.find(s4, 3, 99), -1);
     ASSERT_EQ(s5.find(s5, 3, 99), -1);
+}
+
+// to_decimal()
+TEST(String, to_decimal)
+{
+    // example
+    ASSERT_DOUBLE_EQ(String("233.33").to_decimal(), 233.33);
+    ASSERT_DOUBLE_EQ(String("123.456e-3").to_decimal(), 0.123456);
+    ASSERT_DOUBLE_EQ(String("1e+600").to_decimal(), HUGE_VAL);
+    ASSERT_TRUE(std::isnan(String("nan").to_decimal()));
+    ASSERT_DOUBLE_EQ(String("inf").to_decimal(), INFINITY);
+
+    // 0
+    ASSERT_DOUBLE_EQ(String("0").to_decimal(), 0);
+    ASSERT_DOUBLE_EQ(String("-0").to_decimal(), 0);
+    ASSERT_DOUBLE_EQ(String("+0").to_decimal(), 0);
+    ASSERT_DOUBLE_EQ(String(".0").to_decimal(), 0);
+    ASSERT_DOUBLE_EQ(String("0.").to_decimal(), 0);
+
+    // 1
+    ASSERT_DOUBLE_EQ(String("1").to_decimal(), 1.0);
+    ASSERT_DOUBLE_EQ(String("-1").to_decimal(), -1.0);
+    ASSERT_DOUBLE_EQ(String("+1").to_decimal(), 1.0);
+    ASSERT_DOUBLE_EQ(String(".1").to_decimal(), 0.1);
+    ASSERT_DOUBLE_EQ(String("1.").to_decimal(), 1.0);
+
+    // e
+    ASSERT_DOUBLE_EQ(String("1e2").to_decimal(), 1e2);
+    ASSERT_DOUBLE_EQ(String("-1e2").to_decimal(), -1e2);
+    ASSERT_DOUBLE_EQ(String("+1e2").to_decimal(), 1e2);
+    ASSERT_DOUBLE_EQ(String(".1e2").to_decimal(), 0.1e2);
+    ASSERT_DOUBLE_EQ(String("1.e2").to_decimal(), 1.e2);
+
+    // e+
+    ASSERT_DOUBLE_EQ(String("1e+2").to_decimal(), 1e+2);
+    ASSERT_DOUBLE_EQ(String("-1e+2").to_decimal(), -1e+2);
+    ASSERT_DOUBLE_EQ(String("+1e+2").to_decimal(), 1e+2);
+    ASSERT_DOUBLE_EQ(String(".1e+2").to_decimal(), 0.1e+2);
+    ASSERT_DOUBLE_EQ(String("1.e+2").to_decimal(), 1.e+2);
+
+    // e-
+    ASSERT_DOUBLE_EQ(String("1e-2").to_decimal(), 1e-2);
+    ASSERT_DOUBLE_EQ(String("-1e-2").to_decimal(), -1e-2);
+    ASSERT_DOUBLE_EQ(String("+1e-2").to_decimal(), 1e-2);
+    ASSERT_DOUBLE_EQ(String(".1e-2").to_decimal(), 0.1e-2);
+    ASSERT_DOUBLE_EQ(String("1.e-2").to_decimal(), 1.e-2);
+
+    // error
+    ASSERT_THROW(String("hello").to_decimal(), std::runtime_error);
+    try
+    {
+        String("hello").to_decimal();
+    }
+    catch (const std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: Invalid literal for to_decimal().");
+    }
+}
+
+// to_integer()
+TEST(String, to_integer)
+{
+    // example
+    ASSERT_EQ(String("233").to_integer(), 233);
+    ASSERT_EQ(String("cafebabe").to_integer(16), 3405691582);
+    ASSERT_EQ(String("z").to_integer(36), 35);
+
+    // other
+    ASSERT_EQ(String("0001000").to_integer(), 1000);
+    ASSERT_EQ(String("1").to_integer(), 1);
+    ASSERT_EQ(String("0").to_integer(), 0);
+    ASSERT_EQ(String("f").to_integer(16), 15);
+    ASSERT_EQ(String("11").to_integer(2), 3);
+    ASSERT_EQ(String("zz").to_integer(36), 35 * 36 + 35);
+    ASSERT_EQ(String("-1").to_integer(), -1);
+    ASSERT_EQ(String("-0").to_integer(), 0);
+    ASSERT_EQ(String("-10").to_integer(), -10);
+    ASSERT_EQ(String("-10").to_integer(16), -16);
+    ASSERT_EQ(String("-z").to_integer(36), -35);
+    ASSERT_EQ(String("+1").to_integer(), 1);
+    ASSERT_EQ(String("+0").to_integer(), 0);
+    ASSERT_EQ(String("+10").to_integer(), 10);
+    ASSERT_EQ(String("+10").to_integer(16), 16);
+    ASSERT_EQ(String("+z").to_integer(36), 35);
+    ASSERT_EQ(String("-0101").to_integer(2), -5);
+    ASSERT_EQ(String("-1010").to_integer(2), -10);
+    ASSERT_EQ(String("+0101").to_integer(2), 5);
+    ASSERT_EQ(String("+1010").to_integer(2), 10);
+    ASSERT_EQ(String("\n\r\n\t  233  \t\r\n\r").to_integer(), 233);
+
+    // error
+    ASSERT_THROW(String("123").to_integer(99), std::runtime_error);
+    try
+    {
+        String("123").to_integer(99);
+    }
+    catch (const std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: Invalid base for to_integer().");
+    }
+
+    ASSERT_THROW(String("!!!").to_integer(), std::runtime_error);
+    try
+    {
+        String("!!!").to_integer();
+    }
+    catch (const std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: Invalid literal for to_integer().");
+    }
 }
 
 // insert()
@@ -334,59 +475,78 @@ TEST(String, sort)
     ASSERT_EQ(string, String("9876543210"));
 }
 
-// operator=()
-TEST(String, copy_assignment)
+// swap()
+TEST(String, swap)
 {
-    String string1("12345");
-    String string2("6789");
+    String s1("first");
+    String s2("second");
 
-    string1 = string2;
-    string2 += '0';
-    ASSERT_EQ(string1, String("6789"));
-    ASSERT_EQ(string2, String("67890"));
+    s1.swap(s2);
+
+    ASSERT_EQ(s1, String("second"));
+    ASSERT_EQ(s2, String("first"));
 }
 
-// operator=()
-TEST(String, move_assignment)
+// lower() upper()
+TEST(String, lower_upper)
 {
-    String string1("12345");
-    String string2("6789");
+    String s1("hahaha");
+    String s2("HAHAHA");
 
-    string1 = std::move(string2);
-    ASSERT_EQ(string1, String("6789"));
-    ASSERT_EQ(string2, String());
+    s2.lower();
+    ASSERT_EQ(s1, s2);
+    s1.upper();
+    ASSERT_NE(s1, s2);
+    s2.upper();
+    ASSERT_EQ(s1, s2);
 }
 
-// operator<<()
-TEST(String, print)
+// erase()
+TEST(String, erase)
 {
-    std::ostringstream oss;
+    ASSERT_EQ(String("abcdefg").erase(0, 1), String("bcdefg"));
+    ASSERT_EQ(String("abcdefg").erase(1, 2), String("acdefg"));
+    ASSERT_EQ(String("abcdefg").erase(1, 6), String("ag"));
+    ASSERT_EQ(String("abcdefg").erase(0, 7), String(""));
 
-    String empty;
-
-    oss << empty;
-    ASSERT_EQ(oss.str(), "\"\""); // string == char*, use eq
-    oss.str("");
-
-    String one("1");
-
-    oss << one;
-    ASSERT_EQ(oss.str(), "\"1\"");
-    oss.str("");
-
-    String many("12345");
-
-    oss << many;
-    ASSERT_EQ(oss.str(), "\"12345\"");
-    oss.str("");
+    ASSERT_THROW(String("abcdefg").erase(-1, 99), std::runtime_error);
+    try
+    {
+        String("abcdefg").erase(-1, 99);
+    }
+    catch (std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: Out of range.");
+    }
 }
 
-// slice() operator+() operator-() operator*()
-TEST(String, generate)
+// replace()
+TEST(String, replace)
+{
+    ASSERT_EQ(String("abcdefg").replace("a", "g"), String("gbcdefg"));
+    ASSERT_EQ(String("abcdefg").replace("g", "a"), String("abcdefa"));
+    ASSERT_EQ(String("abcdefg").replace("cde", "~~~"), String("ab~~~fg"));
+    ASSERT_EQ(String("abcdefg").replace("abcdefg", ""), String(""));
+    ASSERT_EQ(String("abcdefg").replace("abcdefg", ""), String(""));
+    ASSERT_EQ(String("").replace("abc", "~~~"), String(""));
+    ASSERT_EQ(String("hahaha").replace("h", "l"), String("lalala"));
+    ASSERT_EQ(String("hahaha").replace("a", "ooow~ "), String("hooow~ hooow~ hooow~ "));
+    ASSERT_EQ(String("hooow~ hooow~ hooow~ ").replace("ooo", "o"), String("how~ how~ how~ "));
+}
+
+// strip()
+TEST(String, strip)
+{
+    ASSERT_EQ(String("\t\nhello\t\n").strip(), String("hello"));
+    ASSERT_EQ(String("           hello           ").strip(), String("hello"));
+    ASSERT_EQ(String("\n\n\n\n \t\n\b\n   hello  \n\n\t\n \r\b\n\r").strip(), String("hello"));
+}
+
+// slice()
+TEST(String, slice)
 {
     String string("12345");
 
-    // slice
     ASSERT_EQ(string.slice(-1, 1), String());
     ASSERT_EQ(string.slice(-1, 1, -1), String("543"));
     ASSERT_EQ(string.slice(1, -1), String("234"));
@@ -426,6 +586,12 @@ TEST(String, generate)
     {
         ASSERT_STREQ(e.what(), "ERROR: Out of range.");
     }
+}
+
+// operator+() operator-() operator*()
+TEST(String, production)
+{
+    String string("12345");
 
     // operator+
     ASSERT_EQ(string + '6', String("123456"));
@@ -448,232 +614,43 @@ TEST(String, generate)
 TEST(String, split)
 {
     ASSERT_EQ(String("one, two, three").split(", "), List<String>({"one", "two", "three"}));
-
     ASSERT_EQ(String("this is my code!").split(" "), List<String>({"this", "is", "my", "code!"}));
-
     ASSERT_EQ(String("this is my code!").split("this is my code!"), List<String>({""}));
-
     ASSERT_EQ(String(" this is my code! ").split(" "), List<String>({"", "this", "is", "my", "code!"}));
-
     ASSERT_EQ(String("aaa").split("a"), List<String>({"", "", ""}));
-
     ASSERT_EQ(String("192.168.0.1").split("."), List<String>({"192", "168", "0", "1"}));
-}
-
-// to_decimal()
-TEST(String, to_decimal)
-{
-    // example
-    ASSERT_DOUBLE_EQ(String("233.33").to_decimal(), 233.33);
-
-    ASSERT_DOUBLE_EQ(String("123.456e-3").to_decimal(), 0.123456);
-
-    ASSERT_DOUBLE_EQ(String("1e+600").to_decimal(), HUGE_VAL);
-
-    ASSERT_TRUE(std::isnan(String("nan").to_decimal()));
-
-    ASSERT_DOUBLE_EQ(String("inf").to_decimal(), INFINITY);
-
-    // 0
-    ASSERT_DOUBLE_EQ(String("0").to_decimal(), 0);
-
-    ASSERT_DOUBLE_EQ(String("-0").to_decimal(), 0);
-
-    ASSERT_DOUBLE_EQ(String("+0").to_decimal(), 0);
-
-    ASSERT_DOUBLE_EQ(String(".0").to_decimal(), 0);
-
-    ASSERT_DOUBLE_EQ(String("0.").to_decimal(), 0);
-
-    // 1
-    ASSERT_DOUBLE_EQ(String("1").to_decimal(), 1.0);
-
-    ASSERT_DOUBLE_EQ(String("-1").to_decimal(), -1.0);
-
-    ASSERT_DOUBLE_EQ(String("+1").to_decimal(), 1.0);
-
-    ASSERT_DOUBLE_EQ(String(".1").to_decimal(), 0.1);
-
-    ASSERT_DOUBLE_EQ(String("1.").to_decimal(), 1.0);
-
-    // e
-    ASSERT_DOUBLE_EQ(String("1e2").to_decimal(), 1e2);
-
-    ASSERT_DOUBLE_EQ(String("-1e2").to_decimal(), -1e2);
-
-    ASSERT_DOUBLE_EQ(String("+1e2").to_decimal(), 1e2);
-
-    ASSERT_DOUBLE_EQ(String(".1e2").to_decimal(), 0.1e2);
-
-    ASSERT_DOUBLE_EQ(String("1.e2").to_decimal(), 1.e2);
-
-    // e+
-    ASSERT_DOUBLE_EQ(String("1e+2").to_decimal(), 1e+2);
-
-    ASSERT_DOUBLE_EQ(String("-1e+2").to_decimal(), -1e+2);
-
-    ASSERT_DOUBLE_EQ(String("+1e+2").to_decimal(), 1e+2);
-
-    ASSERT_DOUBLE_EQ(String(".1e+2").to_decimal(), 0.1e+2);
-
-    ASSERT_DOUBLE_EQ(String("1.e+2").to_decimal(), 1.e+2);
-
-    // e-
-    ASSERT_DOUBLE_EQ(String("1e-2").to_decimal(), 1e-2);
-
-    ASSERT_DOUBLE_EQ(String("-1e-2").to_decimal(), -1e-2);
-
-    ASSERT_DOUBLE_EQ(String("+1e-2").to_decimal(), 1e-2);
-
-    ASSERT_DOUBLE_EQ(String(".1e-2").to_decimal(), 0.1e-2);
-
-    ASSERT_DOUBLE_EQ(String("1.e-2").to_decimal(), 1.e-2);
-}
-
-// to_integer()
-TEST(String, to_integer)
-{
-    // example
-    ASSERT_EQ(String("233").to_integer(), 233);
-
-    ASSERT_EQ(String("cafebabe").to_integer(16), 3405691582);
-
-    ASSERT_EQ(String("z").to_integer(36), 35);
-
-    // other
-    ASSERT_EQ(String("0001000").to_integer(), 1000);
-
-    ASSERT_EQ(String("1").to_integer(), 1);
-
-    ASSERT_EQ(String("0").to_integer(), 0);
-
-    ASSERT_EQ(String("f").to_integer(16), 15);
-
-    ASSERT_EQ(String("11").to_integer(2), 3);
-
-    ASSERT_EQ(String("zz").to_integer(36), 35 * 36 + 35);
-
-    ASSERT_EQ(String("-1").to_integer(), -1);
-
-    ASSERT_EQ(String("-0").to_integer(), 0);
-
-    ASSERT_EQ(String("-10").to_integer(), -10);
-
-    ASSERT_EQ(String("-10").to_integer(16), -16);
-
-    ASSERT_EQ(String("-z").to_integer(36), -35);
-
-    ASSERT_EQ(String("+1").to_integer(), 1);
-
-    ASSERT_EQ(String("+0").to_integer(), 0);
-
-    ASSERT_EQ(String("+10").to_integer(), 10);
-
-    ASSERT_EQ(String("+10").to_integer(16), 16);
-
-    ASSERT_EQ(String("+z").to_integer(36), 35);
-
-    ASSERT_EQ(String("-0101").to_integer(2), -5);
-
-    ASSERT_EQ(String("-1010").to_integer(2), -10);
-
-    ASSERT_EQ(String("+0101").to_integer(2), 5);
-
-    ASSERT_EQ(String("+1010").to_integer(2), 10);
-
-    ASSERT_EQ(String("\n\r\n\t  233  \t\r\n\r").to_integer(), 233);
-}
-
-// lower() upper()
-TEST(String, lower_upper)
-{
-    String s1("hahaha");
-    String s2("HAHAHA");
-
-    s2.lower();
-    ASSERT_EQ(s1, s2);
-    s1.upper();
-    ASSERT_NE(s1, s2);
-    s2.upper();
-    ASSERT_EQ(s1, s2);
-}
-
-// erase()
-TEST(String, erase)
-{
-    ASSERT_EQ(String("abcdefg").erase(0, 1), String("bcdefg"));
-
-    ASSERT_EQ(String("abcdefg").erase(1, 2), String("acdefg"));
-
-    ASSERT_EQ(String("abcdefg").erase(1, 6), String("ag"));
-
-    ASSERT_EQ(String("abcdefg").erase(0, 7), String(""));
-
-    ASSERT_THROW(String("abcdefg").erase(-1, 99), std::runtime_error);
-    try
-    {
-        String("abcdefg").erase(-1, 99);
-    }
-    catch (std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: Out of range.");
-    }
-}
-
-// replace()
-TEST(String, replace)
-{
-    ASSERT_EQ(String("abcdefg").replace("a", "g"), String("gbcdefg"));
-
-    ASSERT_EQ(String("abcdefg").replace("g", "a"), String("abcdefa"));
-
-    ASSERT_EQ(String("abcdefg").replace("cde", "~~~"), String("ab~~~fg"));
-
-    ASSERT_EQ(String("abcdefg").replace("abcdefg", ""), String(""));
-
-    ASSERT_EQ(String("abcdefg").replace("abcdefg", ""), String(""));
-
-    ASSERT_EQ(String("").replace("abc", "~~~"), String(""));
-
-    ASSERT_EQ(String("hahaha").replace("h", "l"), String("lalala"));
-
-    ASSERT_EQ(String("hahaha").replace("a", "ooow~ "), String("hooow~ hooow~ hooow~ "));
-
-    ASSERT_EQ(String("hooow~ hooow~ hooow~ ").replace("ooo", "o"), String("how~ how~ how~ "));
-}
-
-// strip()
-TEST(String, strip)
-{
-    ASSERT_EQ(String("\t\nhello\t\n").strip(), String("hello"));
-
-    ASSERT_EQ(String("           hello           ").strip(), String("hello"));
-
-    ASSERT_EQ(String("\n\n\n\n \t\n\b\n   hello  \n\n\t\n \r\b\n\r").strip(), String("hello"));
-}
-
-// swap()
-TEST(String, swap)
-{
-    String s1("first");
-    String s2("second");
-
-    s1.swap(s2);
-
-    ASSERT_EQ(s1, String("second"));
-    ASSERT_EQ(s2, String("first"));
 }
 
 // join()
 TEST(String, join)
 {
     ASSERT_EQ(String(", ").join(List<String>()), String());
-
     ASSERT_EQ(String(", ").join(List<String>({"a"})), String("a"));
-
     ASSERT_EQ(String(", ").join(List<String>({"a", "b"})), String("a, b"));
-
     ASSERT_EQ(String(", ").join(List<String>({"a", "b", "c"})), String("a, b, c"));
-
     ASSERT_EQ(String(".").join(List<String>({"192", "168", "0", "1"})), String("192.168.0.1"));
+}
+
+// operator<<()
+TEST(String, print)
+{
+    std::ostringstream oss;
+
+    String empty;
+
+    oss << empty;
+    ASSERT_EQ(oss.str(), "\"\""); // string == char*, use eq
+    oss.str("");
+
+    String one("1");
+
+    oss << one;
+    ASSERT_EQ(oss.str(), "\"1\"");
+    oss.str("");
+
+    String many("12345");
+
+    oss << many;
+    ASSERT_EQ(oss.str(), "\"12345\"");
+    oss.str("");
 }

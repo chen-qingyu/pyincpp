@@ -95,7 +95,44 @@ TEST(List, iterator)
     }
 }
 
-// index_of() find() contains() operator==() operator!=() min() max() count()
+// operator=()
+TEST(List, copy_assignment)
+{
+    List<int> list1 = {1, 2, 3, 4, 5};
+    List<int> list2 = {6, 7, 8, 9};
+
+    list1 = list2;
+    list2 += 10;
+    ASSERT_EQ(list1, List<int>({6, 7, 8, 9}));
+    ASSERT_EQ(list2, List<int>({6, 7, 8, 9, 10}));
+}
+
+// operator=()
+TEST(List, move_assignment)
+{
+    List<int> list1 = {1, 2, 3, 4, 5};
+    List<int> list2 = {6, 7, 8, 9};
+
+    list1 = std::move(list2);
+    ASSERT_EQ(list1, List<int>({6, 7, 8, 9}));
+    ASSERT_EQ(list2, List<int>());
+}
+
+// operator==() operator!=()
+TEST(List, compare)
+{
+    List<int> list = {1, 2, 3, 4, 5};
+
+    // operator==
+    List<int> eq_list = {1, 2, 3, 4, 5};
+    ASSERT_TRUE(list == eq_list);
+
+    // operator!=
+    List<int> ne_list = {1, 3, 5};
+    ASSERT_TRUE(list != ne_list);
+}
+
+// index_of() find() contains() min() max() count()
 TEST(List, examination)
 {
     List<int> list = {1, 2, 3, 4, 5};
@@ -123,14 +160,6 @@ TEST(List, examination)
     ASSERT_EQ(list.contains(1, 1, 99), false);
     ASSERT_EQ(list.contains(5, 1, 99), true);
     ASSERT_EQ(list.contains(0, 1, 99), false);
-
-    // operator==
-    List<int> eq_list = {1, 2, 3, 4, 5};
-    ASSERT_TRUE(list == eq_list);
-
-    // operator!=
-    List<int> ne_list = {1, 3, 5};
-    ASSERT_TRUE(list != ne_list);
 
     // min
     ASSERT_EQ(list.min(), 1);
@@ -412,59 +441,23 @@ TEST(List, sort)
                        }));
 }
 
-// operator=()
-TEST(List, copy_assignment)
+// swap()
+TEST(List, swap)
 {
-    List<int> list1 = {1, 2, 3, 4, 5};
-    List<int> list2 = {6, 7, 8, 9};
+    List<int> list1({1, 2, 3});
+    List<int> list2({4, 5, 6});
 
-    list1 = list2;
-    list2 += 10;
-    ASSERT_EQ(list1, List<int>({6, 7, 8, 9}));
-    ASSERT_EQ(list2, List<int>({6, 7, 8, 9, 10}));
+    list1.swap(list2);
+
+    ASSERT_EQ(list1, List<int>({4, 5, 6}));
+    ASSERT_EQ(list2, List<int>({1, 2, 3}));
 }
 
-// operator=()
-TEST(List, move_assignment)
-{
-    List<int> list1 = {1, 2, 3, 4, 5};
-    List<int> list2 = {6, 7, 8, 9};
-
-    list1 = std::move(list2);
-    ASSERT_EQ(list1, List<int>({6, 7, 8, 9}));
-    ASSERT_EQ(list2, List<int>());
-}
-
-// operator<<()
-TEST(List, print)
-{
-    std::ostringstream oss;
-
-    List<int> empty;
-
-    oss << empty;
-    ASSERT_EQ(oss.str(), "[]"); // string == char*, use eq
-    oss.str("");
-
-    List<int> one = {1};
-
-    oss << one;
-    ASSERT_EQ(oss.str(), "[1]");
-    oss.str("");
-
-    List<int> many = {1, 2, 3, 4, 5};
-
-    oss << many;
-    ASSERT_EQ(oss.str(), "[1, 2, 3, 4, 5]");
-    oss.str("");
-}
-
-// slice() operator+() operator-() operator*()
-TEST(List, generate)
+// slice()
+TEST(List, slice)
 {
     List<int> list = {1, 2, 3, 4, 5};
 
-    // slice
     ASSERT_EQ(list.slice(-1, 1), List<int>({}));
     ASSERT_EQ(list.slice(-1, 1, -1), List<int>({5, 4, 3}));
     ASSERT_EQ(list.slice(1, -1), List<int>({2, 3, 4}));
@@ -504,6 +497,12 @@ TEST(List, generate)
     {
         ASSERT_STREQ(e.what(), "ERROR: Out of range.");
     }
+}
+
+// operator+() operator-() operator*()
+TEST(List, production)
+{
+    List<int> list = {1, 2, 3, 4, 5};
 
     // operator+
     ASSERT_EQ(list + 6, List<int>({1, 2, 3, 4, 5, 6}));
@@ -520,4 +519,28 @@ TEST(List, generate)
     ASSERT_EQ(0 * list, List<int>({}));
     ASSERT_EQ(1 * list, List<int>({1, 2, 3, 4, 5}));
     ASSERT_EQ(2 * list, List<int>({1, 2, 3, 4, 5, 1, 2, 3, 4, 5}));
+}
+
+// operator<<()
+TEST(List, print)
+{
+    std::ostringstream oss;
+
+    List<int> empty;
+
+    oss << empty;
+    ASSERT_EQ(oss.str(), "[]"); // string == char*, use eq
+    oss.str("");
+
+    List<int> one = {1};
+
+    oss << one;
+    ASSERT_EQ(oss.str(), "[1]");
+    oss.str("");
+
+    List<int> many = {1, 2, 3, 4, 5};
+
+    oss << many;
+    ASSERT_EQ(oss.str(), "[1, 2, 3, 4, 5]");
+    oss.str("");
 }

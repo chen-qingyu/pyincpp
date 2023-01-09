@@ -19,6 +19,9 @@
 namespace mdspp
 {
 
+/**
+ * @brief String class.
+ */
 class String
 {
 private:
@@ -232,7 +235,7 @@ public:
     }
 
     /**
-     * Element access
+     * Access
      */
 
     /**
@@ -259,6 +262,36 @@ public:
     const char& operator[](int index) const
     {
         return list_[index];
+    }
+
+    /**
+     * Assignment
+     */
+
+    /**
+     * @brief Copy assignment operator.
+     *
+     * @param that another string
+     * @return self reference
+     */
+    String& operator=(const String& that)
+    {
+        list_ = that.list_;
+
+        return *this;
+    }
+
+    /**
+     * @brief Move assignment operator.
+     *
+     * @param that another string
+     * @return self reference
+     */
+    String& operator=(String&& that)
+    {
+        list_ = std::move(that.list_);
+
+        return *this;
     }
 
     /**
@@ -298,7 +331,7 @@ public:
     }
 
     /**
-     * Examination (will not change itself)
+     * Examination (will not change the object itself)
      */
 
     /**
@@ -587,7 +620,7 @@ public:
         }
         if (st != S_INT_PART && st != S_DEC_POINT_HAS_LEFT && st != S_DEC_PART && st != S_EXP_PART && st != S_END_BLANK)
         {
-            throw std::runtime_error("ERROR: Invalid literal for str_to_decimal().");
+            throw std::runtime_error("ERROR: Invalid literal for to_decimal().");
         }
 
         return sign * ((decimal_part / std::pow(10, decimal_cnt)) * std::pow(10, exp_sign * exp_part));
@@ -661,7 +694,7 @@ public:
     }
 
     /**
-     * Manipulation (will change itself)
+     * Manipulation (will change the object itself)
      */
 
     /**
@@ -790,6 +823,16 @@ public:
     }
 
     /**
+     * @brief Swap the contents of two strings.
+     *
+     * @param that second string
+     */
+    void swap(String& that)
+    {
+        list_.swap(that.list_);
+    }
+
+    /**
      * @brief Convert the string to lowercase.
      */
     void lower()
@@ -881,53 +924,7 @@ public:
     }
 
     /**
-     * @brief Swap the contents of two strings.
-     *
-     * @param that second string
-     */
-    void swap(String& that)
-    {
-        int tmp_size = list_.size_;
-        list_.size_ = that.list_.size_;
-        that.list_.size_ = tmp_size;
-
-        int tmp_capa = list_.capacity_;
-        list_.capacity_ = that.list_.capacity_;
-        that.list_.capacity_ = tmp_capa;
-
-        char* tmp_data = list_.data_;
-        list_.data_ = that.list_.data_;
-        that.list_.data_ = tmp_data;
-    }
-
-    /**
-     * @brief Copy assignment operator.
-     *
-     * @param that another string
-     * @return self reference
-     */
-    String& operator=(const String& that)
-    {
-        list_ = that.list_;
-
-        return *this;
-    }
-
-    /**
-     * @brief Move assignment operator.
-     *
-     * @param that another string
-     * @return self reference
-     */
-    String& operator=(String&& that)
-    {
-        list_ = std::move(that.list_);
-
-        return *this;
-    }
-
-    /**
-     * Generate
+     * Production (will produce new object)
      */
 
     /**
