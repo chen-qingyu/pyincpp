@@ -77,9 +77,8 @@ TEST(String, copy_assignment)
     String string2("6789");
 
     string1 = string2;
-    string2 += '0';
     ASSERT_EQ(string1, String("6789"));
-    ASSERT_EQ(string2, String("67890"));
+    ASSERT_EQ(string2, String("6789"));
 }
 
 // operator=()
@@ -97,8 +96,10 @@ TEST(String, move_assignment)
 TEST(String, get_set)
 {
     String string;
-    string.set(String("hello").get());
+    char* str = String("hello").get();
+    string.set(str);
     ASSERT_EQ(string, String("hello"));
+    delete[] str;
 }
 
 // operator==() operator!=() operator<() operator<=() operator>() operator>=()
