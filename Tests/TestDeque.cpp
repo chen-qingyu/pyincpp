@@ -1,7 +1,8 @@
+// Test on Microsoft Visual Studio Community 2019: ALL PASSED
+
 #include "pch.h"
 
 #include <sstream> // std::ostringstream
-#include <string>  // std::string std::to_string
 
 #include "../Sources/Deque.hpp"
 
@@ -11,74 +12,125 @@ using mdspp::Deque;
 TEST(Deque, basics)
 {
     // Deque()
-    Deque<int> deque;
-    ASSERT_EQ(deque.size(), 0);
-    ASSERT_TRUE(deque.is_empty());
+    Deque<int> deque1;
+    ASSERT_EQ(deque1.size(), 0);
+    ASSERT_TRUE(deque1.is_empty());
+
+    // Deque(const std::initializer_list<T> &il)
+    Deque<int> deque2 = {1, 2, 3, 4, 5};
+    ASSERT_EQ(deque2.size(), 5);
+    ASSERT_FALSE(deque2.is_empty());
+
+    // Deque(const Deque<T> &that)
+    Deque<int> deque3(deque2);
+    ASSERT_EQ(deque3.size(), 5);
+    ASSERT_FALSE(deque3.is_empty());
+
+    // Deque(Deque<T> &&that)
+    Deque<int> deque4(std::move(deque3));
+    ASSERT_EQ(deque4.size(), 5);
+    ASSERT_FALSE(deque4.is_empty());
+    ASSERT_EQ(deque3.size(), 0);
+    ASSERT_TRUE(deque3.is_empty());
+
+    // ~Deque()
 }
 
 // operator=()
 TEST(Deque, copy_assignment)
 {
-    Deque<int> deque1;
-    Deque<int> deque2;
-
-    deque2.push_back(1);
-    deque2.push_back(2);
-    deque2.push_back(3);
+    Deque<int> deque1 = {1, 2, 3, 4, 5};
+    Deque<int> deque2 = {6, 7, 8, 9};
 
     deque1 = deque2;
-    ASSERT_EQ(deque1, Deque<int>().push_back(1).push_back(2).push_back(3));
-    ASSERT_EQ(deque2, Deque<int>().push_back(1).push_back(2).push_back(3));
+    deque2.push_back(10);
+    ASSERT_EQ(deque1, Deque<int>({6, 7, 8, 9}));
+    ASSERT_EQ(deque2, Deque<int>({6, 7, 8, 9, 10}));
 }
 
 // operator=()
 TEST(Deque, move_assignment)
 {
-    Deque<int> deque1;
-    Deque<int> deque2;
-
-    deque2.push_back(1);
-    deque2.push_back(2);
-    deque2.push_back(3);
+    Deque<int> deque1 = {1, 2, 3, 4, 5};
+    Deque<int> deque2 = {6, 7, 8, 9};
 
     deque1 = std::move(deque2);
-    ASSERT_EQ(deque1, Deque<int>().push_back(1).push_back(2).push_back(3));
+    ASSERT_EQ(deque1, Deque<int>({6, 7, 8, 9}));
     ASSERT_EQ(deque2, Deque<int>());
 }
 
 // operator==() operator!=()
 TEST(Deque, compare)
 {
-    Deque<int> deque;
-    deque.push_back(1).push_back(2).push_back(3);
+    Deque<int> deque = {1, 2, 3, 4, 5};
 
     // operator==
-    Deque<int> eq_deque;
-    eq_deque.push_back(1).push_back(2).push_back(3);
+    Deque<int> eq_deque = {1, 2, 3, 4, 5};
     ASSERT_TRUE(deque == eq_deque);
 
     // operator!=
-    Deque<int> ne_deque;
-    ne_deque.push_back(0);
+    Deque<int> ne_deque = {1, 3, 5};
     ASSERT_TRUE(deque != ne_deque);
 }
 
 // back() front()
 TEST(Deque, peek)
 {
-    Deque<int> deque;
-    deque.push_back(1).push_back(2).push_back(3);
+    Deque<int> empty;
 
-    ASSERT_EQ(deque.back(), 3);
+    ASSERT_THROW(empty.back(), std::runtime_error);
+    try
+    {
+        empty.back();
+    }
+    catch (std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: The container is empty.");
+    }
+
+    ASSERT_THROW(empty.front(), std::runtime_error);
+    try
+    {
+        empty.front();
+    }
+    catch (std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: The container is empty.");
+    }
+
+    Deque<int> deque = {1, 2, 3, 4, 5};
+
+    ASSERT_EQ(deque.back(), 5);
     ASSERT_EQ(deque.front(), 1);
 }
 
 // push_back() push_front() pop_back() pop_front()
 TEST(Deque, push_pop)
 {
-    int size = 20;
+    Deque<int> empty;
+
+    ASSERT_THROW(empty.pop_back(), std::runtime_error);
+    try
+    {
+        empty.pop_back();
+    }
+    catch (std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: The container is empty.");
+    }
+
+    ASSERT_THROW(empty.pop_front(), std::runtime_error);
+    try
+    {
+        empty.pop_front();
+    }
+    catch (std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: The container is empty.");
+    }
 
     Deque<int> deque;
+    const int size = 99;
 
     // push_back
     for (int i = 0; i <= size; ++i)
@@ -90,7 +142,7 @@ TEST(Deque, push_pop)
     // pop_back
     for (int i = 0; i <= size; ++i)
     {
-        ASSERT_EQ(deque.pop_back(), 20 - i);
+        ASSERT_EQ(deque.pop_back(), size - i);
     }
     ASSERT_EQ(deque.size(), 0);
 
@@ -104,7 +156,7 @@ TEST(Deque, push_pop)
     // pop_front
     for (int i = 0; i <= size; ++i)
     {
-        ASSERT_EQ(deque.pop_front(), 20 - i);
+        ASSERT_EQ(deque.pop_front(), size - i);
     }
     ASSERT_EQ(deque.size(), 0);
 }
@@ -112,8 +164,7 @@ TEST(Deque, push_pop)
 // clear()
 TEST(Deque, clear)
 {
-    Deque<int> deque;
-    deque.push_back(1).push_back(2).push_back(3);
+    Deque<int> deque = {1, 2, 3, 4, 5};
 
     deque.clear();
     ASSERT_EQ(deque, Deque<int>());
@@ -126,10 +177,50 @@ TEST(Deque, clear)
 TEST(Deque, rotate)
 {
     Deque<int> deque;
-    deque.push_back(1).push_back(2).push_back(3).push_back(4).push_back(5);
 
-    ASSERT_EQ(deque >>= 1, Deque<int>().push_back(5).push_back(1).push_back(2).push_back(3).push_back(4));
-    ASSERT_EQ(deque >>= 2, Deque<int>().push_back(3).push_back(4).push_back(5).push_back(1).push_back(2));
-    ASSERT_EQ(deque <<= 1, Deque<int>().push_back(4).push_back(5).push_back(1).push_back(2).push_back(3));
-    ASSERT_EQ(deque <<= 2, Deque<int>().push_back(1).push_back(2).push_back(3).push_back(4).push_back(5));
+    ASSERT_EQ(deque >>= 1, Deque<int>());
+    ASSERT_EQ(deque >>= 2, Deque<int>());
+    ASSERT_EQ(deque <<= 1, Deque<int>());
+    ASSERT_EQ(deque <<= 2, Deque<int>());
+
+    deque.push_back(1);
+
+    ASSERT_EQ(deque >>= 1, Deque<int>({1}));
+    ASSERT_EQ(deque >>= 2, Deque<int>({1}));
+    ASSERT_EQ(deque <<= 1, Deque<int>({1}));
+    ASSERT_EQ(deque <<= 2, Deque<int>({1}));
+
+    deque.push_back(2).push_back(3).push_back(4).push_back(5);
+
+    ASSERT_EQ(deque >>= 1, Deque<int>({5, 1, 2, 3, 4}));
+    ASSERT_EQ(deque >>= 2, Deque<int>({3, 4, 5, 1, 2}));
+    ASSERT_EQ(deque <<= 1, Deque<int>({4, 5, 1, 2, 3}));
+    ASSERT_EQ(deque <<= 2, Deque<int>({1, 2, 3, 4, 5}));
+
+    ASSERT_EQ(deque >>= 233, Deque<int>({3, 4, 5, 1, 2}));
+    ASSERT_EQ(deque >>= -233, Deque<int>({1, 2, 3, 4, 5}));
+
+    ASSERT_EQ(deque <<= 233, Deque<int>({4, 5, 1, 2, 3}));
+    ASSERT_EQ(deque <<= -233, Deque<int>({1, 2, 3, 4, 5}));
+}
+
+// operator<<()
+TEST(Deque, print)
+{
+    std::ostringstream oss;
+
+    Deque<int> empty;
+    oss << empty;
+    ASSERT_EQ(oss.str(), "<>"); // string == char*, use eq
+    oss.str("");
+
+    Deque<int> one = {1};
+    oss << one;
+    ASSERT_EQ(oss.str(), "<1>");
+    oss.str("");
+
+    Deque<int> many = {1, 2, 3, 4, 5};
+    oss << many;
+    ASSERT_EQ(oss.str(), "<1, 2, 3, 4, 5>");
+    oss.str("");
 }

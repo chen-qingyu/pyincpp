@@ -1,7 +1,8 @@
+// Test on Microsoft Visual Studio Community 2019: ALL PASSED
+
 #include "pch.h"
 
 #include <sstream> // std::ostringstream
-#include <string>  // std::string
 
 #include "../Sources/String.hpp"
 
@@ -32,6 +33,8 @@ TEST(String, basics)
     ASSERT_FALSE(str4.is_empty());
     ASSERT_EQ(str3.size(), 0);
     ASSERT_TRUE(str3.is_empty());
+
+    // ~String()
 }
 
 // operator[]()
@@ -77,8 +80,9 @@ TEST(String, copy_assignment)
     String string2("6789");
 
     string1 = string2;
+    string2 += "10";
     ASSERT_EQ(string1, String("6789"));
-    ASSERT_EQ(string2, String("6789"));
+    ASSERT_EQ(string2, String("678910"));
 }
 
 // operator=()
@@ -132,30 +136,6 @@ TEST(String, compare)
     ASSERT_TRUE(gt_string >= string);
 }
 
-// contains() min() max() count()
-TEST(String, examination)
-{
-    String string("12345");
-
-    // contains
-    ASSERT_EQ(string.contains('1'), true);
-    ASSERT_EQ(string.contains('5'), true);
-    ASSERT_EQ(string.contains('0'), false);
-    ASSERT_EQ(string.contains('1', 1, 99), false);
-    ASSERT_EQ(string.contains('5', 1, 99), true);
-    ASSERT_EQ(string.contains('0', 1, 99), false);
-
-    // min
-    ASSERT_EQ(string.min(), '1');
-
-    // max
-    ASSERT_EQ(string.max(), '5');
-
-    // count
-    ASSERT_EQ(string.count('0'), 0);
-    ASSERT_EQ(string.count('1'), 1);
-}
-
 // find()
 TEST(String, find)
 {
@@ -178,6 +158,30 @@ TEST(String, find)
     ASSERT_EQ(s5.find(s3, 3, 99), 6);
     ASSERT_EQ(s5.find(s4, 3, 99), -1);
     ASSERT_EQ(s5.find(s5, 3, 99), -1);
+}
+
+// contains() min() max() count()
+TEST(String, examination)
+{
+    String string("12345");
+
+    // contains
+    ASSERT_EQ(string.contains("1"), true);
+    ASSERT_EQ(string.contains("5"), true);
+    ASSERT_EQ(string.contains("0"), false);
+    ASSERT_EQ(string.contains("1", 1, 99), false);
+    ASSERT_EQ(string.contains("5", 1, 99), true);
+    ASSERT_EQ(string.contains("0", 1, 99), false);
+
+    // min
+    ASSERT_EQ(string.min(), '1');
+
+    // max
+    ASSERT_EQ(string.max(), '5');
+
+    // count
+    ASSERT_EQ(string.count('0'), 0);
+    ASSERT_EQ(string.count('1'), 1);
 }
 
 // to_decimal()
@@ -638,20 +642,17 @@ TEST(String, print)
     std::ostringstream oss;
 
     String empty;
-
     oss << empty;
     ASSERT_EQ(oss.str(), "\"\""); // string == char*, use eq
     oss.str("");
 
     String one("1");
-
     oss << one;
     ASSERT_EQ(oss.str(), "\"1\"");
     oss.str("");
 
-    String many("12345");
-
+    String many("hello world");
     oss << many;
-    ASSERT_EQ(oss.str(), "\"12345\"");
+    ASSERT_EQ(oss.str(), "\"hello world\"");
     oss.str("");
 }

@@ -317,7 +317,7 @@ public:
      * @param stop before index stop (default size())
      * @return the index of the first occurrence of the specified element in the list, or -1 if the list does not contain the element
      */
-    int index_of(const T& element, int start = 0, int stop = INT_MAX) const
+    int find(const T& element, int start = 0, int stop = INT_MAX) const
     {
         stop = stop > size_ ? size_ : stop;
         for (int i = start; i < stop; ++i)
@@ -332,28 +332,6 @@ public:
     }
 
     /**
-     * @brief Find the first occurrence of the specified element in the list.
-     *
-     * @param element element to search for
-     * @param start at or after index start (default 0)
-     * @param stop before index stop (default size())
-     * @return the iterator to the first occurrence of the specified element in the list, or end() if the list does not contain the element
-     */
-    ListIterator<T> find(const T& element, int start = 0, int stop = INT_MAX) const
-    {
-        stop = stop > size_ ? size_ : stop;
-        for (int i = start; i < stop; ++i)
-        {
-            if (data_[i] == element)
-            {
-                return ListIterator<T>(data_ + i);
-            }
-        }
-
-        return end();
-    }
-
-    /**
      * @brief Return true if the list contains the specified element.
      *
      * @param element element whose presence in the list is to be tested
@@ -363,16 +341,7 @@ public:
      */
     bool contains(const T& element, int start = 0, int stop = INT_MAX) const
     {
-        stop = stop > size_ ? size_ : stop;
-        for (int i = start; i < stop; ++i)
-        {
-            if (data_[i] == element)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return find(element, start, stop) != -1;
     }
 
     /**
@@ -553,7 +522,7 @@ public:
      */
     List& operator-=(const T& element)
     {
-        int index = index_of(element);
+        int index = find(element);
         if (index != -1)
         {
             remove(index);

@@ -421,16 +421,40 @@ public:
     }
 
     /**
-     * @brief Return true if the string contains the specified element.
+     * @brief Return the index of the first occurrence of the specified pattern in the string (at or after index start and before index stop).
      *
-     * @param element element whose presence in the string is to be tested
+     * Or -1 if the string does not contain the pattern (in the specified range).
+     *
+     * @param pattern the pattern string
      * @param start at or after index start (default 0)
      * @param stop before index stop (default size())
-     * @return true if the string contains the specified element
+     * @return the index of the first occurrence of the specified pattern in the string, or -1 if the string does not contain the pattern
      */
-    bool contains(const char& element, int start = 0, int stop = INT_MAX) const
+    int find(const String& pattern, int start = 0, int stop = INT_MAX) const
     {
-        return list_.contains(element, start, stop);
+        stop = stop > list_.size_ ? list_.size_ : stop;
+
+        char* this_str = list_.data_ + start;
+        char* patt_str = pattern.list_.data_;
+        int n = stop - start;
+        int m = pattern.list_.size_;
+
+        int pos = kmp(this_str, patt_str, n, m);
+
+        return pos == -1 ? -1 : pos + start;
+    }
+
+    /**
+     * @brief Return true if the string contains the specified pattern.
+     *
+     * @param pattern pattern whose presence in the string is to be tested
+     * @param start at or after index start (default 0)
+     * @param stop before index stop (default size())
+     * @return true if the string contains the specified pattern
+     */
+    bool contains(const String& pattern, int start = 0, int stop = INT_MAX) const
+    {
+        return find(pattern, start, stop) != -1;
     }
 
     /**
@@ -462,32 +486,6 @@ public:
     int count(const char& element) const
     {
         return list_.count(element);
-    }
-
-    /**
-     * @brief Return the index of the first occurrence of the specified pattern in the string (at or after index start and before index stop).
-     *
-     * Or -1 if the string does not contain the pattern (in the specified range).
-     *
-     * Implemented by the KMP algorithm.
-     *
-     * @param pattern the pattern string
-     * @param start at or after index start (default 0)
-     * @param stop before index stop (default size())
-     * @return the index of the first occurrence of the specified pattern in the string, or -1 if the string does not contain the pattern
-     */
-    int find(const String& pattern, int start = 0, int stop = INT_MAX) const
-    {
-        stop = stop > list_.size_ ? list_.size_ : stop;
-
-        char* this_str = list_.data_ + start;
-        char* patt_str = pattern.list_.data_;
-        int n = stop - start;
-        int m = pattern.list_.size_;
-
-        int pos = kmp(this_str, patt_str, n, m);
-
-        return pos == -1 ? -1 : pos + start;
     }
 
     /**

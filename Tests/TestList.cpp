@@ -1,3 +1,5 @@
+// Test on Microsoft Visual Studio Community 2019: ALL PASSED
+
 #include "pch.h"
 
 #include <sstream> // std::ostringstream
@@ -31,6 +33,8 @@ TEST(List, basics)
     ASSERT_FALSE(list4.is_empty());
     ASSERT_EQ(list3.size(), 0);
     ASSERT_TRUE(list3.is_empty());
+
+    // ~List()
 }
 
 // operator[]()
@@ -132,26 +136,18 @@ TEST(List, compare)
     ASSERT_TRUE(list != ne_list);
 }
 
-// index_of() find() contains() min() max() count()
+// find() contains() min() max() count()
 TEST(List, examination)
 {
     List<int> list = {1, 2, 3, 4, 5};
 
-    // index_of
-    ASSERT_EQ(list.index_of(1), 0);
-    ASSERT_EQ(list.index_of(5), 4);
-    ASSERT_EQ(list.index_of(0), -1);
-    ASSERT_EQ(list.index_of(1, 1, 99), -1);
-    ASSERT_EQ(list.index_of(5, 1, 99), 4);
-    ASSERT_EQ(list.index_of(0, 1, 99), -1);
-
     // find
-    ASSERT_EQ(list.find(1), list.begin());
-    ASSERT_EQ(list.find(5), --list.end());
-    ASSERT_EQ(list.find(0), list.end());
-    ASSERT_EQ(list.find(1, 1, 99), list.end());
-    ASSERT_EQ(list.find(5, 1, 99), --list.end());
-    ASSERT_EQ(list.find(0, 1, 99), list.end());
+    ASSERT_EQ(list.find(1), 0);
+    ASSERT_EQ(list.find(5), 4);
+    ASSERT_EQ(list.find(0), -1);
+    ASSERT_EQ(list.find(1, 1, 99), -1);
+    ASSERT_EQ(list.find(5, 1, 99), 4);
+    ASSERT_EQ(list.find(0, 1, 99), -1);
 
     // contains
     ASSERT_EQ(list.contains(1), true);
@@ -527,19 +523,16 @@ TEST(List, print)
     std::ostringstream oss;
 
     List<int> empty;
-
     oss << empty;
     ASSERT_EQ(oss.str(), "[]"); // string == char*, use eq
     oss.str("");
 
     List<int> one = {1};
-
     oss << one;
     ASSERT_EQ(oss.str(), "[1]");
     oss.str("");
 
     List<int> many = {1, 2, 3, 4, 5};
-
     oss << many;
     ASSERT_EQ(oss.str(), "[1, 2, 3, 4, 5]");
     oss.str("");

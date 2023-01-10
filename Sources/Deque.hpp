@@ -12,7 +12,9 @@
 #ifndef DEQUE_H
 #define DEQUE_H
 
-#include <climits> // INT_MAX
+#include <climits>          // INT_MAX
+#include <initializer_list> // std::initializer_list
+#include <ostream>          // std::ostream
 
 #include "common/check_empty.hpp"
 #include "common/check_full.hpp"
@@ -28,11 +30,17 @@ namespace mdspp
 template <typename T>
 class Deque
 {
+    template <typename T>
+    friend std::ostream& operator<<(std::ostream& os, const Deque<T>& deque);
+
 private:
     // Node of linked list.
     class Node
     {
         friend class Deque<T>;
+
+        template <typename T>
+        friend std::ostream& operator<<(std::ostream& os, const Deque<T>& deque);
 
     private:
         // Data stored in the node.
@@ -63,11 +71,11 @@ private:
     Node* trailer_;
 
     // Insert the given element at the given position.
-    void insert(Node* pos, const T& e)
+    void insert(Node* pos, const T& element)
     {
         common::check_full(size_, INT_MAX);
 
-        auto node = new Node(e, pos->pred_, pos);
+        auto node = new Node(element, pos->pred_, pos);
         pos->pred_->succ_ = node;
         pos->pred_ = node;
 
@@ -79,14 +87,15 @@ private:
     {
         common::check_empty(size_);
 
-        T data = pos->data_;
+        T element = pos->data_;
 
         pos->pred_->succ_ = pos->succ_;
         pos->succ_->pred_ = pos->pred_;
         delete pos;
 
         --size_;
-        return data;
+
+        return element;
     }
 
     // Clear the stored node of data.
@@ -108,11 +117,56 @@ public:
      */
     Deque()
         : size_(0)
-        , header_(new Node(T(), nullptr, nullptr))
-        , trailer_(new Node(T(), nullptr, nullptr))
+        , header_(new Node(T()))
+        , trailer_(new Node(T()))
     {
         header_->succ_ = trailer_;
         trailer_->pred_ = header_;
+    }
+
+    /**
+     * @brief Create a deque based on the given initializer list.
+     *
+     * @param il initializer list
+     */
+    Deque(const std::initializer_list<T>& il)
+        : Deque()
+    {
+        for (auto it = il.begin(); it != il.end(); ++it)
+        {
+            push_back(*it);
+        }
+    }
+
+    /**
+     * @brief Copy constructor.
+     *
+     * @param that another deque
+     */
+    Deque(const Deque<T>& that)
+        : Deque()
+    {
+        for (Node* it = that.header_->succ_; it != that.trailer_; it = it->succ_)
+        {
+            push_back(it->data_);
+        }
+    }
+
+    /**
+     * @brief Move constructor.
+     *
+     * @param that another deque
+     */
+    Deque(Deque<T>&& that)
+        : size_(that.size_)
+        , header_(that.header_)
+        , trailer_(that.trailer_)
+    {
+        that.size_ = 0;
+        that.header_ = new Node(T());
+        that.trailer_ = new Node(T());
+        that.header_->succ_ = that.trailer_;
+        that.trailer_->pred_ = that.header_;
     }
 
     /**
@@ -143,9 +197,9 @@ public:
         {
             clear_data();
 
-            for (Node* cur = that.header_->succ_; cur != that.trailer_; cur = cur->succ_)
+            for (Node* it = that.header_->succ_; it != that.trailer_; it = it->succ_)
             {
-                push_back(cur->data_);
+                push_back(it->data_);
             }
         }
 
@@ -215,9 +269,9 @@ public:
             return false;
         }
 
-        for (Node *this_cur = header_->succ_, *that_cur = that.header_->succ_; this_cur != trailer_; this_cur = this_cur->succ_, that_cur = that_cur->succ_)
+        for (Node *this_it = header_->succ_, *that_it = that.header_->succ_; this_it != trailer_; this_it = this_it->succ_, that_it = that_it->succ_)
         {
-            if (this_cur->data_ != that_cur->data_)
+            if (this_it->data_ != that_it->data_)
             {
                 return false;
             }
@@ -325,6 +379,12 @@ public:
      */
     Deque& operator>>=(int n)
     {
+        if (size_ <= 1)
+        {
+            return *this;
+        }
+
+        n %= size_;
         if (n > 0)
         {
             while (n--)
@@ -351,6 +411,12 @@ public:
      */
     Deque& operator<<=(int n)
     {
+        if (size_ <= 1)
+        {
+            return *this;
+        }
+
+        n %= size_;
         if (n > 0)
         {
             while (n--)
@@ -369,6 +435,40 @@ public:
         return *this;
     }
 };
+
+/**
+ * Non-member functions
+ */
+
+/**
+ * @brief Output deque data to the specified output stream.
+ *
+ * @tparam T the type of elements in the deque, must be printable
+ * @param os an output stream
+ * @param deque the deque to be printed to the output stream
+ * @return self reference of the output stream
+ */
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const Deque<T>& deque)
+{
+    if (deque.is_empty())
+    {
+        return os << "<>";
+    }
+
+    auto it = deque.header_->succ_;
+    os << "<";
+    while (true)
+    {
+        os << it->data_;
+        it = it->succ_;
+        if (it == deque.trailer_)
+        {
+            return os << ">";
+        }
+        os << ", ";
+    }
+}
 
 } // namespace mdspp
 
