@@ -1,12 +1,10 @@
 # MineDataStructure++
 
-*名字灵感来源于我喜欢的游戏——Minecraft和本项目的编程语言——C++*
-
-*缩写为MDSPP*
-
+*——像Python一样好用的C++容器库*
 
 ### 1. 基本属性
 
+- 名称：MineDataStructure++，缩写为MDSPP，灵感来源于我喜欢的游戏——Minecraft以及本项目的编程语言——C++。
 - 语言：采用标准C++语言编写，最低兼容版本： ISO C++14 。
 - 目的：提供一个简洁、好用、安全的C++数据结构库。
 - 目标：像Python的内置类型一样好用又优雅。
