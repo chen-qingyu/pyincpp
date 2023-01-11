@@ -1,6 +1,7 @@
-# MineDataStructure++ (MDSPP)
+# MineDataStructure++
 
 *名字灵感来源于我喜欢的游戏——Minecraft和本项目的编程语言——C++*
+*缩写为MDSPP*
 
 
 ### 1. 基本属性
@@ -14,7 +15,7 @@
 - 安全：安全的扩容机制，防止溢出。对容器的增删改查都有相应的检查。这么多检查，肯定会对性能有一定影响，但是这个库追求的并不是性能，而是简洁，好用和安全。
 - 优雅：经过我的精心设计，用起来可以像Python的内置类型一样方便。
 - 风格：大部分遵循 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) ，小部分基于项目规模和源码简洁性的考虑采用自己的风格。
-- 测试：每次提交之前使用 [GoogleTest](https://github.com/google/googletest) 进行测试，保证测试通过。
+- 测试：每次提交之前使用 [GoogleTest](https://github.com/google/googletest) 进行测试，确保测试通过。
 
 ### 2. 模块说明
 
