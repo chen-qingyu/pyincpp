@@ -1,6 +1,7 @@
 # MineDataStructure++
 
 *名字灵感来源于我喜欢的游戏——Minecraft和本项目的编程语言——C++*
+
 *缩写为MDSPP*
 
 
