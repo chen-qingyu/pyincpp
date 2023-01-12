@@ -102,6 +102,11 @@ TEST(Deque, peek)
 
     ASSERT_EQ(deque.back(), 5);
     ASSERT_EQ(deque.front(), 1);
+
+    ++deque.back();
+    ASSERT_EQ(deque.back(), 6);
+    --deque.front();
+    ASSERT_EQ(deque.front(), 0);
 }
 
 // push_back() push_front() pop_back() pop_front()

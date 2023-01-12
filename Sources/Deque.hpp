@@ -30,8 +30,8 @@ namespace mdspp
 template <typename T>
 class Deque
 {
-    template <typename T>
-    friend std::ostream& operator<<(std::ostream& os, const Deque<T>& deque);
+    template <typename X>
+    friend std::ostream& operator<<(std::ostream& os, const Deque<X>& deque);
 
 private:
     // Node of linked list.
@@ -39,8 +39,8 @@ private:
     {
         friend class Deque<T>;
 
-        template <typename T>
-        friend std::ostream& operator<<(std::ostream& os, const Deque<T>& deque);
+        template <typename X>
+        friend std::ostream& operator<<(std::ostream& os, const Deque<X>& deque);
 
     private:
         // Data stored in the node.
@@ -233,6 +233,58 @@ public:
     }
 
     /**
+     * Access
+     */
+
+    /**
+     * @brief Peek the back element.
+     *
+     * @return the back element
+     */
+    const T& back() const
+    {
+        common::check_empty(size_);
+
+        return trailer_->pred_->data_;
+    }
+
+    /**
+     * @brief Peek the front element.
+     *
+     * @return the front element
+     */
+    const T& front() const
+    {
+        common::check_empty(size_);
+
+        return header_->succ_->data_;
+    }
+
+    /**
+     * @brief Get the back element.
+     *
+     * @return the back element
+     */
+    T& back()
+    {
+        common::check_empty(size_);
+
+        return trailer_->pred_->data_;
+    }
+
+    /**
+     * @brief Get the front element.
+     *
+     * @return the front element
+     */
+    T& front()
+    {
+        common::check_empty(size_);
+
+        return header_->succ_->data_;
+    }
+
+    /**
      * Examination (will not change the object itself)
      */
 
@@ -289,30 +341,6 @@ public:
     bool operator!=(const Deque<T>& that) const
     {
         return !(*this == that);
-    }
-
-    /**
-     * @brief Peek the back element.
-     *
-     * @return the back element
-     */
-    const T& back() const
-    {
-        common::check_empty(size_);
-
-        return trailer_->pred_->data_;
-    }
-
-    /**
-     * @brief Peek the front element.
-     *
-     * @return the front element
-     */
-    const T& front() const
-    {
-        common::check_empty(size_);
-
-        return header_->succ_->data_;
     }
 
     /**
