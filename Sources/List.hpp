@@ -21,6 +21,7 @@
 #include "common/check_bounds.hpp"
 #include "common/check_empty.hpp"
 #include "common/check_full.hpp"
+#include "common/swap.hpp"
 
 namespace mdspp
 {
@@ -593,9 +594,7 @@ public:
     {
         for (int i = 0, j = size_ - 1; i < j; ++i, --j)
         {
-            auto tmp = data_[i];
-            data_[i] = data_[j];
-            data_[j] = tmp;
+            common::swap(data_[i], data_[j]);
         }
     }
 
@@ -633,9 +632,7 @@ public:
             {
                 if (comparator(data_[j + 1], data_[j]))
                 {
-                    auto tmp = data_[j];
-                    data_[j] = data_[j + 1];
-                    data_[j + 1] = tmp;
+                    common::swap(data_[j], data_[j + 1]);
                     swapped = true;
                 }
             }
@@ -653,17 +650,9 @@ public:
      */
     void swap(List& that)
     {
-        int tmp_size = size_;
-        size_ = that.size_;
-        that.size_ = tmp_size;
-
-        int tmp_capa = capacity_;
-        capacity_ = that.capacity_;
-        that.capacity_ = tmp_capa;
-
-        T* tmp_data = data_;
-        data_ = that.data_;
-        that.data_ = tmp_data;
+        common::swap(size_, that.size_);
+        common::swap(capacity_, that.capacity_);
+        common::swap(data_, that.data_);
     }
 
     /*
