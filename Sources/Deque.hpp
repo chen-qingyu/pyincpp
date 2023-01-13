@@ -108,7 +108,7 @@ private:
     }
 
 public:
-    /**
+    /*
      * Constructor / Destructor
      */
 
@@ -181,7 +181,7 @@ public:
         delete trailer_;
     }
 
-    /**
+    /*
      * Assignment
      */
 
@@ -232,7 +232,7 @@ public:
         return *this;
     }
 
-    /**
+    /*
      * Access
      */
 
@@ -284,7 +284,7 @@ public:
         return header_->succ_->data_;
     }
 
-    /**
+    /*
      * Examination (will not change the object itself)
      */
 
@@ -343,7 +343,7 @@ public:
         return !(*this == that);
     }
 
-    /**
+    /*
      * Manipulation (will change the object itself)
      */
 
@@ -464,7 +464,7 @@ public:
     }
 };
 
-/**
+/*
  * Non-member functions
  */
 

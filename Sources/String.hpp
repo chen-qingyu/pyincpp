@@ -181,7 +181,7 @@ private:
     }
 
 public:
-    /**
+    /*
      * Constructor / Destructor
      */
 
@@ -234,7 +234,7 @@ public:
     {
     }
 
-    /**
+    /*
      * Access
      */
 
@@ -264,7 +264,7 @@ public:
         return list_[index];
     }
 
-    /**
+    /*
      * Assignment
      */
 
@@ -294,7 +294,7 @@ public:
         return *this;
     }
 
-    /**
+    /*
      * Getter / Setter
      */
 
@@ -330,7 +330,7 @@ public:
         }
     }
 
-    /**
+    /*
      * Examination (will not change the object itself)
      */
 
@@ -691,7 +691,7 @@ public:
         return sign * integer_part;
     }
 
-    /**
+    /*
      * Manipulation (will change the object itself)
      */
 
@@ -921,7 +921,7 @@ public:
         return *this;
     }
 
-    /**
+    /*
      * Production (will produce new object)
      */
 
@@ -1047,7 +1047,7 @@ public:
     }
 };
 
-/**
+/*
  * Non-member functions
  */
 

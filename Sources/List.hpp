@@ -65,7 +65,7 @@ private:
     }
 
 public:
-    /**
+    /*
      * Constructor / Destructor
      */
 
@@ -134,7 +134,7 @@ public:
         delete[] data_; // the data pointer is guaranteed to be valid
     }
 
-    /**
+    /*
      * Access
      */
 
@@ -168,7 +168,7 @@ public:
         return index >= 0 ? data_[index] : data_[size_ + index];
     }
 
-    /**
+    /*
      * Iterator
      */
 
@@ -196,7 +196,7 @@ public:
         return ListIterator<T>(data_ + size_); // not nullptr, because size_ <= capacity_
     }
 
-    /**
+    /*
      * Assignment
      */
 
@@ -248,7 +248,7 @@ public:
         return *this;
     }
 
-    /**
+    /*
      * Examination (will not change the object itself)
      */
 
@@ -405,7 +405,7 @@ public:
         return counter;
     }
 
-    /**
+    /*
      * Manipulation (will change the object itself)
      */
 
@@ -663,7 +663,7 @@ public:
         that.data_ = tmp_data;
     }
 
-    /**
+    /*
      * Production (will produce new object)
      */
 
@@ -754,7 +754,7 @@ public:
     }
 };
 
-/**
+/*
  * Non-member functions
  */
 
