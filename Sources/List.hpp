@@ -45,14 +45,17 @@ private:
     // Pointer to the data.
     T* data_;
 
-    // Default initial capacity.
-    static const int DEFAULT_CAPACITY = 4;
+    // Initial capacity.
+    static const int INIT_CAPACITY = 4; // for easily test expand capacity
+
+    // Maximum capacity.
+    static const int MAX_CAPACITY = INT_MAX - 1; // - 1 to prevent boundary subscript overflow
 
     // Expand capacity safely.
     void expand_capacity()
     {
-        // double capacity until INT_MAX - 1 (- 1 for find())
-        capacity_ = (capacity_ < INT_MAX / 2) ? capacity_ * 2 : INT_MAX - 1;
+        // double capacity until MAX_CAPACITY
+        capacity_ = (capacity_ < MAX_CAPACITY / 2) ? capacity_ * 2 : MAX_CAPACITY;
 
         // move data
         T* tmp = new T[capacity_];
@@ -74,7 +77,7 @@ public:
      */
     List()
         : size_(0)
-        , capacity_(DEFAULT_CAPACITY)
+        , capacity_(INIT_CAPACITY)
         , data_(new T[capacity_])
     {
     }
@@ -86,7 +89,7 @@ public:
      */
     List(const std::initializer_list<T>& il)
         : size_((int)il.size())
-        , capacity_(size_ >= DEFAULT_CAPACITY ? size_ : DEFAULT_CAPACITY)
+        , capacity_(size_ >= INIT_CAPACITY ? size_ : INIT_CAPACITY)
         , data_(new T[capacity_])
     {
         for (int i = 0; i < size_; ++i)
@@ -122,7 +125,7 @@ public:
         , data_(that.data_)
     {
         that.size_ = 0;
-        that.capacity_ = DEFAULT_CAPACITY;
+        that.capacity_ = INIT_CAPACITY;
         that.data_ = new T[that.capacity_];
     }
 
@@ -241,7 +244,7 @@ public:
             data_ = that.data_;
 
             that.size_ = 0;
-            that.capacity_ = DEFAULT_CAPACITY;
+            that.capacity_ = INIT_CAPACITY;
             that.data_ = new T[that.capacity_];
         }
 
@@ -317,7 +320,7 @@ public:
      * @param stop before index stop (default size())
      * @return the index of the first occurrence of the specified element in the list, or -1 if the list does not contain the element
      */
-    int find(const T& element, int start = 0, int stop = INT_MAX) const
+    int find(const T& element, int start = 0, int stop = MAX_CAPACITY + 1) const
     {
         stop = stop > size_ ? size_ : stop;
         for (int i = start; i < stop; ++i)
@@ -339,7 +342,7 @@ public:
      * @param stop before index stop (default size())
      * @return true if the list contains the specified element
      */
-    bool contains(const T& element, int start = 0, int stop = INT_MAX) const
+    bool contains(const T& element, int start = 0, int stop = MAX_CAPACITY + 1) const
     {
         return find(element, start, stop) != -1;
     }
@@ -418,7 +421,7 @@ public:
     void insert(int index, const T& element)
     {
         // check
-        common::check_full(size_, INT_MAX);
+        common::check_full(size_, MAX_CAPACITY);
 
         common::check_bounds(index, -size_, size_ + 1);
 
@@ -562,7 +565,7 @@ public:
         if (size_ != 0)
         {
             size_ = 0;
-            capacity_ = DEFAULT_CAPACITY;
+            capacity_ = INIT_CAPACITY;
             delete[] data_;
             data_ = new T[capacity_];
         }
