@@ -169,11 +169,10 @@ TEST(Deque, clear)
 {
     Deque<int> deque = {1, 2, 3, 4, 5};
 
-    deque.clear();
-    ASSERT_EQ(deque, Deque<int>());
+    ASSERT_EQ(deque.clear(), Deque<int>());
 
-    deque.clear(); // double clear
-    ASSERT_EQ(deque, Deque<int>());
+    // double clear
+    ASSERT_EQ(deque.clear(), Deque<int>());
 }
 
 // operator>>=() operator<<=()
@@ -193,7 +192,10 @@ TEST(Deque, rotate)
     ASSERT_EQ(deque <<= 1, Deque<int>({1}));
     ASSERT_EQ(deque <<= 2, Deque<int>({1}));
 
-    deque.push_back(2).push_back(3).push_back(4).push_back(5);
+    deque.push_back(2);
+    deque.push_back(3);
+    deque.push_back(4);
+    deque.push_back(5);
 
     ASSERT_EQ(deque >>= 1, Deque<int>({5, 1, 2, 3, 4}));
     ASSERT_EQ(deque >>= 2, Deque<int>({3, 4, 5, 1, 2}));

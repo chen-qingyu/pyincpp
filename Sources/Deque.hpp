@@ -351,24 +351,20 @@ public:
      * @brief Push an element to the end of the deque.
      *
      * @param element element to be pushed
-     * @return self reference
      */
-    Deque& push_back(const T& element)
+    void push_back(const T& element)
     {
         insert(trailer_, element);
-        return *this;
     }
 
     /**
      * @brief Push an element to the front of the deque.
      *
      * @param element element to be pushed
-     * @return self reference
      */
-    Deque& push_front(const T& element)
+    void push_front(const T& element)
     {
         insert(header_->succ_, element);
-        return *this;
     }
 
     /**
@@ -393,10 +389,14 @@ public:
 
     /**
      * @brief Clear data.
+     *
+     * @return self reference
      */
-    void clear()
+    Deque& clear()
     {
         clear_data();
+
+        return *this;
     }
 
     /**
