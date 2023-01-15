@@ -773,10 +773,14 @@ public:
 
     /**
      * @brief Remove all of the elements from the string.
+     *
+     * @return self reference
      */
-    void clear()
+    String& clear()
     {
         list_.clear();
+
+        return *this;
     }
 
     /**
@@ -784,27 +788,40 @@ public:
      *
      * @tparam F function
      * @param action a function that to be performed for each element
+     * @return self reference
      */
     template <typename F>
-    void traverse(F action)
+    String& traverse(F action)
     {
         list_.traverse(action);
+
+        return *this;
     }
 
     /**
      * @brief Reverse the string in place.
+     *
+     * @return self reference
      */
-    void reverse()
+    String& reverse()
     {
         list_.reverse();
+
+        return *this;
     }
 
     /**
      * @brief Eliminate duplicate elements of the string.
+     *
+     * Will not change the original relative order of elements.
+     *
+     * @return self reference
      */
-    void uniquify()
+    String& uniquify()
     {
         list_.uniquify();
+
+        return *this;
     }
 
     /**
@@ -813,11 +830,14 @@ public:
      * The sort is stable: the method must not reorder equal elements.
      *
      * @param comparator a function that performs compare
+     * @return self reference
      */
-    void sort(bool (*comparator)(const char& e1, const char& e2) = [](const char& e1, const char& e2)
-              { return e1 < e2; })
+    String& sort(bool (*comparator)(const char& e1, const char& e2) = [](const char& e1, const char& e2)
+                 { return e1 < e2; })
     {
         list_.sort(comparator);
+
+        return *this;
     }
 
     /**
@@ -832,24 +852,32 @@ public:
 
     /**
      * @brief Convert the string to lowercase.
+     *
+     * @return self reference
      */
-    void lower()
+    String& lower()
     {
         for (int i = 0; i < list_.size_; ++i)
         {
             list_.data_[i] = (list_.data_[i] >= 'A' && list_.data_[i] <= 'Z' ? list_.data_[i] + ('a' - 'A') : list_.data_[i]);
         }
+
+        return *this;
     }
 
     /**
      * @brief Convert the string to uppercase.
+     *
+     * @return self reference
      */
-    void upper()
+    String& upper()
     {
         for (int i = 0; i < list_.size_; ++i)
         {
             list_.data_[i] = (list_.data_[i] >= 'a' && list_.data_[i] <= 'z' ? list_.data_[i] - ('a' - 'A') : list_.data_[i]);
         }
+
+        return *this;
     }
 
     /**
@@ -938,7 +966,7 @@ public:
     String slice(int start, int stop, int step = 1) const
     {
         String string;
-        string.list_ = this->list_.slice(start, stop, step);
+        string.list_ = list_.slice(start, stop, step);
         return string;
     }
 
@@ -1031,6 +1059,7 @@ public:
         {
             return String();
         }
+
         if (str_list.size_ == 1)
         {
             return str_list.data_[0];

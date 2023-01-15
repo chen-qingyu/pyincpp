@@ -316,11 +316,10 @@ TEST(List, clear)
 {
     List<int> list = {1, 2, 3, 4, 5};
 
-    list.clear();
-    ASSERT_EQ(list, List<int>());
+    ASSERT_EQ(list.clear(), List<int>());
 
-    list.clear(); // double clear
-    ASSERT_EQ(list, List<int>());
+    // double clear
+    ASSERT_EQ(list.clear(), List<int>());
 }
 
 // traverse()
@@ -345,29 +344,26 @@ TEST(List, traverse)
 // reverse()
 TEST(List, reverse)
 {
-    List<int> empty;
+    ASSERT_EQ(List<int>().reverse(), List<int>());
 
-    empty.reverse();
-    ASSERT_EQ(empty, List<int>());
-
-    List<int> list = {1, 2, 3, 4, 5};
-
-    list.reverse();
-    ASSERT_EQ(list, List<int>({5, 4, 3, 2, 1}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}).reverse(), List<int>({5, 4, 3, 2, 1}));
 }
 
 // uniquify()
 TEST(List, uniquify)
 {
-    List<int> list = {1, 2, 2, 3, 3, 3};
+    ASSERT_EQ(List<int>({1, 2, 2, 3, 3, 3}).uniquify(), List<int>({1, 2, 3}));
 
-    list.uniquify();
-    ASSERT_EQ(list, List<int>({1, 2, 3}));
+    ASSERT_EQ(List<int>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}).uniquify(), List<int>({0}));
 
-    List<int> same = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    ASSERT_EQ(List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify(), List<int>({1, 2, 3}));
 
-    same.uniquify();
-    ASSERT_EQ(same, List<int>({0}));
+    List<int> many;
+    for (int i = 0; i < 10000; i++)
+    {
+        many += 0;
+    }
+    ASSERT_EQ(many.uniquify(), List<int>({0}));
 }
 
 // for TEST(List, sort)

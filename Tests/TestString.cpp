@@ -416,11 +416,10 @@ TEST(String, clear)
 {
     String string("12345");
 
-    string.clear();
-    ASSERT_EQ(string, String());
+    ASSERT_EQ(string.clear(), String());
 
-    string.clear(); // double clear
-    ASSERT_EQ(string, String());
+    // double clear
+    ASSERT_EQ(string.clear(), String());
 }
 
 // traverse()
@@ -440,29 +439,26 @@ TEST(String, traverse)
 // reverse()
 TEST(String, reverse)
 {
-    String empty;
+    ASSERT_EQ(String().reverse(), String());
 
-    empty.reverse();
-    ASSERT_EQ(empty, String());
-
-    String string("12345");
-
-    string.reverse();
-    ASSERT_EQ(string, String("54321"));
+    ASSERT_EQ(String("12345").reverse(), String("54321"));
 }
 
 // uniquify()
 TEST(String, uniquify)
 {
-    String string("122333");
+    ASSERT_EQ(String("122333").uniquify(), String("123"));
 
-    string.uniquify();
-    ASSERT_EQ(string, String("123"));
+    ASSERT_EQ(String("00000000000000").uniquify(), String("0"));
 
-    String same("00000000000000");
+    ASSERT_EQ(String("123123123").uniquify(), String("123"));
 
-    same.uniquify();
-    ASSERT_EQ(same, String("0"));
+    String many;
+    for (int i = 0; i < 10000; i++)
+    {
+        many += 'A';
+    }
+    ASSERT_EQ(many.uniquify(), String({"A"}));
 }
 
 // sort()
@@ -495,15 +491,9 @@ TEST(String, swap)
 // lower() upper()
 TEST(String, lower_upper)
 {
-    String s1("hahaha");
-    String s2("HAHAHA");
+    ASSERT_EQ(String("hahaha").upper(), String("HAHAHA"));
 
-    s2.lower();
-    ASSERT_EQ(s1, s2);
-    s1.upper();
-    ASSERT_NE(s1, s2);
-    s2.upper();
-    ASSERT_EQ(s1, s2);
+    ASSERT_EQ(String("HAHAHA").lower(), String("hahaha"));
 }
 
 // erase()

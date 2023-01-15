@@ -12,9 +12,9 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
-#include <climits>          // INT_MAX
-#include <initializer_list> // std::initializer_list
-#include <ostream>          // std::ostream
+#include <climits> // INT_MAX
+#include <ostream> // std::ostream
+#include <utility> // std::initializer_list std::move
 
 #include "ListIterator.hpp"
 
@@ -548,20 +548,22 @@ public:
             throw std::runtime_error("ERROR: Times to repeat cannot be less than zero.");
         }
 
-        List list;
+        List buffer;
         for (int i = 0; i < times; i++)
         {
-            list += *this;
+            buffer += *this;
         }
-        *this = list;
+        *this = std::move(buffer);
 
         return *this;
     }
 
     /**
      * @brief Remove all of the elements from the list.
+     *
+     * @return self reference
      */
-    void clear()
+    List& clear()
     {
         if (size_ != 0)
         {
@@ -570,6 +572,8 @@ public:
             delete[] data_;
             data_ = new T[capacity_];
         }
+
+        return *this;
     }
 
     /**
@@ -577,57 +581,71 @@ public:
      *
      * @tparam F function
      * @param action a function that to be performed for each element
+     * @return self reference
      */
     template <typename F>
-    void traverse(F action)
+    List& traverse(F action)
     {
         for (int i = 0; i < size_; ++i)
         {
             action(data_[i]);
         }
+
+        return *this;
     }
 
     /**
      * @brief Reverse the list in place.
+     *
+     * @return self reference
      */
-    void reverse()
+    List& reverse()
     {
         for (int i = 0, j = size_ - 1; i < j; ++i, --j)
         {
             common::swap(data_[i], data_[j]);
         }
+
+        return *this;
     }
 
     /**
      * @brief Eliminate duplicate elements of the list.
+     *
+     * Will not change the original relative order of elements.
+     *
+     * @return self reference
      */
-    void uniquify()
+    List& uniquify()
     {
+        List buffer;
         for (int i = 0; i < size_; i++)
         {
-            while (count(data_[i]) > 1)
+            if (!buffer.contains(data_[i]))
             {
-                *this -= data_[i];
+                buffer += data_[i];
             }
         }
+
+        return *this = std::move(buffer);
     }
 
     /**
      * @brief Sort the list according to the order induced by the specified comparator.
      *
-     * The sort is stable: the method must not reorder equal elements.
+     * The sort is stable: the method will not reorder equal elements.
      *
      * @param comparator a function that performs compare
+     * @return self reference
      */
-    void sort(bool (*comparator)(const T& e1, const T& e2) = [](const T& e1, const T& e2)
-              { return e1 < e2; })
+    List& sort(bool (*comparator)(const T& e1, const T& e2) = [](const T& e1, const T& e2)
+               { return e1 < e2; })
     {
         // for simplicity, bubble sort is usually enough
 
-        bool swapped;
         for (int i = 0; i < size_ - 1; i++)
         {
-            swapped = false;
+            bool swapped = false;
             for (int j = 0; j < size_ - i - 1; j++)
             {
                 if (comparator(data_[j + 1], data_[j]))
@@ -641,6 +659,8 @@ public:
                 break;
             }
         }
+
+        return *this;
     }
 
     /**
