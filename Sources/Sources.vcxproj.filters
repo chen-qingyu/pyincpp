@@ -19,5 +19,6 @@
     <ClInclude Include="ListIterator.hpp" />
     <ClInclude Include="String.hpp" />
     <ClInclude Include="Deque.hpp" />
+    <ClInclude Include="Set.hpp" />
   </ItemGroup>
 </Project>
