@@ -69,7 +69,7 @@ TEST(List, access)
     }
     catch (std::runtime_error& e)
     {
-        ASSERT_STREQ(e.what(), "ERROR: Out of range.");
+        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
     }
 }
 
@@ -181,7 +181,7 @@ TEST(List, insert)
     }
     catch (const std::runtime_error& e)
     {
-        ASSERT_STREQ(e.what(), "ERROR: Out of range.");
+        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
     }
 
     // insert
@@ -236,7 +236,7 @@ TEST(List, remove)
     }
     catch (const std::runtime_error& e)
     {
-        ASSERT_STREQ(e.what(), "ERROR: Out of range.");
+        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
     }
 
     // remove
@@ -303,7 +303,7 @@ TEST(List, repeat)
     }
     catch (const std::runtime_error& e)
     {
-        ASSERT_STREQ(e.what(), "ERROR: Times to repeat cannot be less than zero.");
+        ASSERT_STREQ(e.what(), "ERROR: Times to repeat can not be less than zero.");
     }
 
     ASSERT_EQ(list *= 1, List<int>({1, 2}));
@@ -445,6 +445,53 @@ TEST(List, swap)
     ASSERT_EQ(list2, List<int>({1, 2, 3}));
 }
 
+// adjust_capacity()
+TEST(List, adjust_capacity)
+{
+    List<int> list;
+
+    ASSERT_EQ(list.capacity(), List<int>::INIT_CAPACITY);
+    ASSERT_EQ(list.adjust_capacity().capacity(), 8);
+    ASSERT_EQ(list.adjust_capacity().capacity(), 16);
+    ASSERT_EQ(list.adjust_capacity(1).capacity(), 1);
+    ASSERT_EQ(list.adjust_capacity().capacity(), 2);
+    ASSERT_EQ(list.adjust_capacity().capacity(), 4);
+
+    list += List<int>({1, 2, 3, 4, 5});
+    ASSERT_EQ(list.capacity(), 8);
+    ASSERT_EQ(list.adjust_capacity(5).capacity(), 5);
+
+    ASSERT_THROW(list.adjust_capacity(0), std::runtime_error);
+    try
+    {
+        list.adjust_capacity(0);
+    }
+    catch (const std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: Capacity can not be zero.");
+    }
+
+    ASSERT_THROW(list.adjust_capacity(2), std::runtime_error);
+    try
+    {
+        list.adjust_capacity(2);
+    }
+    catch (const std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: Capacity can not be smaller than the size.");
+    }
+
+    ASSERT_THROW(list.adjust_capacity(INT_MAX), std::runtime_error);
+    try
+    {
+        list.adjust_capacity(INT_MAX);
+    }
+    catch (const std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: Capacity can not be larger than the maximum capacity.");
+    }
+}
+
 // slice()
 TEST(List, slice)
 {
@@ -477,7 +524,7 @@ TEST(List, slice)
     }
     catch (const std::runtime_error& e)
     {
-        ASSERT_STREQ(e.what(), "ERROR: Slice step cannot be zero.");
+        ASSERT_STREQ(e.what(), "ERROR: Slice step can not be zero.");
     }
 
     ASSERT_THROW(list.slice(-7, -6), std::runtime_error);
@@ -487,7 +534,7 @@ TEST(List, slice)
     }
     catch (std::runtime_error& e)
     {
-        ASSERT_STREQ(e.what(), "ERROR: Out of range.");
+        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
     }
 }
 

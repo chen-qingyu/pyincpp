@@ -46,29 +46,17 @@ private:
     // Pointer to the data.
     T* data_;
 
-    // Initial capacity.
-    static const int INIT_CAPACITY = 4; // for easily test expand capacity
+public:
+    /**
+     * @brief Initial capacity.
+     */
+    static const int INIT_CAPACITY = 4;
 
-    // Maximum capacity.
+    /**
+     * @brief Maximum capacity.
+     */
     static const int MAX_CAPACITY = INT_MAX - 1; // - 1 to prevent boundary subscript overflow
 
-    // Expand capacity safely.
-    void expand_capacity()
-    {
-        // double capacity until MAX_CAPACITY
-        capacity_ = (capacity_ < MAX_CAPACITY / 2) ? capacity_ * 2 : MAX_CAPACITY;
-
-        // move data
-        T* tmp = new T[capacity_];
-        for (int i = 0; i < size_; ++i)
-        {
-            tmp[i] = data_[i];
-        }
-        delete[] data_;
-        data_ = tmp;
-    }
-
-public:
     /*
      * Constructor / Destructor
      */
@@ -277,6 +265,16 @@ public:
     }
 
     /**
+     * @brief Return the available capacity in the list.
+     *
+     * @return the available capacity in the list.
+     */
+    int capacity() const
+    {
+        return capacity_;
+    }
+
+    /**
      * @brief Check whether two lists are equal.
      *
      * @param that another list
@@ -426,10 +424,10 @@ public:
 
         common::check_bounds(index, -size_, size_ + 1);
 
-        // expand capacity
+        // adjust capacity
         if (size_ == capacity_)
         {
-            expand_capacity();
+            adjust_capacity();
         }
 
         // index
@@ -499,7 +497,7 @@ public:
     {
         if (this == &list)
         {
-            List saved_list = list; // save list, for valid addr when expand capacity when this == &list
+            List saved_list = list; // save list, for valid addr when adjust capacity when this == &list
             for (int i = 0; i < saved_list.size_; i++)
             {
                 *this += saved_list.data_[i];
@@ -545,7 +543,7 @@ public:
     {
         if (times < 0)
         {
-            throw std::runtime_error("ERROR: Times to repeat cannot be less than zero.");
+            throw std::runtime_error("ERROR: Times to repeat can not be less than zero.");
         }
 
         List buffer;
@@ -675,6 +673,51 @@ public:
         common::swap(data_, that.data_);
     }
 
+    /**
+     * @brief Adjust capacity safely.
+     *
+     * @param new_capacity new capacity, default -1 means double capacity
+     * @return self reference
+     */
+    List& adjust_capacity(int new_capacity = -1)
+    {
+        if (new_capacity == -1) // default
+        {
+            // double capacity until MAX_CAPACITY
+            capacity_ = (capacity_ < MAX_CAPACITY / 2) ? capacity_ * 2 : MAX_CAPACITY;
+        }
+        else // specified capacity
+        {
+            if (new_capacity == 0)
+            {
+                throw std::runtime_error("ERROR: Capacity can not be zero.");
+            }
+
+            if (new_capacity < size_)
+            {
+                throw std::runtime_error("ERROR: Capacity can not be smaller than the size.");
+            }
+
+            if (new_capacity > MAX_CAPACITY)
+            {
+                throw std::runtime_error("ERROR: Capacity can not be larger than the maximum capacity.");
+            }
+
+            capacity_ = new_capacity;
+        }
+
+        // move data
+        T* tmp = new T[capacity_];
+        for (int i = 0; i < size_; ++i)
+        {
+            tmp[i] = data_[i];
+        }
+        delete[] data_;
+        data_ = tmp;
+
+        return *this;
+    }
+
     /*
      * Production (will produce new object)
      */
@@ -697,7 +740,7 @@ public:
         // check
         if (step == 0)
         {
-            throw std::runtime_error("ERROR: Slice step cannot be zero.");
+            throw std::runtime_error("ERROR: Slice step can not be zero.");
         }
 
         common::check_bounds(start, -size_, size_);

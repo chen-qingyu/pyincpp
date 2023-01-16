@@ -14,7 +14,7 @@ static inline void check_bounds(int pos, int begin, int end)
 {
     if (pos < begin || pos >= end)
     {
-        throw std::runtime_error("ERROR: Out of range.");
+        throw std::runtime_error("ERROR: Index out of range.");
     }
 }
 

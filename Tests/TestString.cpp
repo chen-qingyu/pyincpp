@@ -69,7 +69,7 @@ TEST(String, access)
     }
     catch (std::runtime_error& e)
     {
-        ASSERT_STREQ(e.what(), "ERROR: Out of range.");
+        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
     }
 }
 
@@ -307,7 +307,7 @@ TEST(String, insert)
     }
     catch (const std::runtime_error& e)
     {
-        ASSERT_STREQ(e.what(), "ERROR: Out of range.");
+        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
     }
 
     // insert
@@ -336,7 +336,7 @@ TEST(String, remove)
     }
     catch (const std::runtime_error& e)
     {
-        ASSERT_STREQ(e.what(), "ERROR: Out of range.");
+        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
     }
 
     // remove
@@ -403,7 +403,7 @@ TEST(String, repeat)
     }
     catch (const std::runtime_error& e)
     {
-        ASSERT_STREQ(e.what(), "ERROR: Times to repeat cannot be less than zero.");
+        ASSERT_STREQ(e.what(), "ERROR: Times to repeat can not be less than zero.");
     }
 
     ASSERT_EQ(string *= 1, String("12"));
@@ -511,7 +511,7 @@ TEST(String, erase)
     }
     catch (std::runtime_error& e)
     {
-        ASSERT_STREQ(e.what(), "ERROR: Out of range.");
+        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
     }
 }
 
@@ -569,7 +569,7 @@ TEST(String, slice)
     }
     catch (const std::runtime_error& e)
     {
-        ASSERT_STREQ(e.what(), "ERROR: Slice step cannot be zero.");
+        ASSERT_STREQ(e.what(), "ERROR: Slice step can not be zero.");
     }
 
     ASSERT_THROW(string.slice(-7, -6), std::runtime_error);
@@ -579,7 +579,7 @@ TEST(String, slice)
     }
     catch (std::runtime_error& e)
     {
-        ASSERT_STREQ(e.what(), "ERROR: Out of range.");
+        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
     }
 }
 
