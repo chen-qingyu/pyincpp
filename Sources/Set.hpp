@@ -27,10 +27,6 @@ class Set
     template <typename K, typename V>
     friend class Map;
 
-    template <typename K, typename V>
-    friend std::ostream& operator<<(std::ostream& os, const Map<K, V>& map);
-
-private:
     // Tree node class.
     class Node
     {
@@ -38,9 +34,6 @@ private:
 
         template <typename K, typename V>
         friend class Map;
-
-        template <typename K, typename V>
-        friend std::ostream& operator<<(std::ostream& os, const Map<K, V>& map);
 
     private:
         // Data stored in the node.
@@ -85,155 +78,6 @@ private:
         }
     };
 
-    // Number of elements.
-    int size_;
-
-    // Pointer to the root.
-    Node* root_;
-
-    // For --end(), end node is the imaginary maximum node.
-    Node* end_;
-
-    // For begin() and min() time complexity O(1).
-    Node* min_;
-
-    // For max() time complexity O(1).
-    Node* max_;
-
-    // Find subtree minimum node.
-    Node* find_min(Node* pos) const
-    {
-        if (pos)
-        {
-            while (pos->left_)
-            {
-                pos = pos->left_;
-            }
-        }
-
-        return pos != nullptr ? pos : end_;
-    }
-
-    // Find subtree maximum node.
-    Node* find_max(Node* pos) const
-    {
-        if (pos)
-        {
-            while (pos->right_)
-            {
-                pos = pos->right_;
-            }
-        }
-
-        return pos != nullptr ? pos : end_;
-    }
-
-    // Insert node.
-    Node* insert(Node* pos, const T& element)
-    {
-        // TODO: AVL
-        if (pos == nullptr)
-        {
-            pos = new Node(element);
-            size_++;
-        }
-        else
-        {
-            if (element < pos->data_)
-            {
-                pos->link_left(insert(pos->left_, element));
-            }
-            else if (pos->data_ < element)
-            {
-                pos->link_right(insert(pos->right_, element));
-            }
-        }
-
-        return pos;
-    }
-
-    // Remove node.
-    Node* remove(Node* pos, const T& element)
-    {
-        // TODO: AVL
-        if (pos)
-        {
-            if (element < pos->data_)
-            {
-                pos->link_left(remove(pos->left_, element));
-            }
-            else if (pos->data_ < element)
-            {
-                pos->link_right(remove(pos->right_, element));
-            }
-            else // element == pos->data_
-            {
-                if (pos->left_ && pos->right_) // certainly not the min or max pos
-                {
-                    Node* tmp = find_min(pos->right_);
-                    pos->data_ = tmp->data_;
-                    pos->link_right(remove(pos->right_, tmp->data_));
-                }
-                else // may be the min or max pos
-                {
-                    // if it is the min or max pos, mark it
-                    if (pos == min_)
-                    {
-                        min_ = end_;
-                    }
-                    if (pos == max_) // must `if`, not `else if` cuz pos may be root
-                    {
-                        max_ = end_;
-                    }
-
-                    Node* tmp = pos;
-                    pos = pos->left_ ? pos->left_ : pos->right_;
-                    delete tmp;
-                    size_--;
-                }
-            }
-        }
-
-        return pos;
-    }
-
-    // Destroy the subtree rooted at the specified node.
-    void destroy(Node* node)
-    {
-        if (node)
-        {
-            destroy(node->left_);
-            destroy(node->right_);
-            delete node;
-        }
-    }
-
-    // Traverse the subtree rooted at the specified node.
-    template <typename F>
-    void level_action(Node* node, F action) const
-    {
-        // level order
-        if (node != nullptr)
-        {
-            Deque<Node*> queue;
-            queue.push_back(node);
-            while (!queue.is_empty())
-            {
-                node = queue.pop_front();
-                action(node->data_);
-                if (node->left_)
-                {
-                    queue.push_back(node->left_);
-                }
-                if (node->right_)
-                {
-                    queue.push_back(node->right_);
-                }
-            }
-        }
-    }
-
-public:
     /**
      * @brief Set iterator class.
      *
@@ -391,6 +235,156 @@ public:
         }
     };
 
+private:
+    // Number of elements.
+    int size_;
+
+    // Pointer to the root.
+    Node* root_;
+
+    // For --end(), end node is the imaginary maximum node.
+    Node* end_;
+
+    // For begin() and min() time complexity O(1).
+    Node* min_;
+
+    // For max() time complexity O(1).
+    Node* max_;
+
+    // Find subtree minimum node.
+    Node* find_min(Node* pos) const
+    {
+        if (pos)
+        {
+            while (pos->left_)
+            {
+                pos = pos->left_;
+            }
+        }
+
+        return pos != nullptr ? pos : end_;
+    }
+
+    // Find subtree maximum node.
+    Node* find_max(Node* pos) const
+    {
+        if (pos)
+        {
+            while (pos->right_)
+            {
+                pos = pos->right_;
+            }
+        }
+
+        return pos != nullptr ? pos : end_;
+    }
+
+    // Insert node.
+    Node* insert(Node* pos, const T& element)
+    {
+        // TODO: AVL
+        if (pos == nullptr)
+        {
+            pos = new Node(element);
+            size_++;
+        }
+        else
+        {
+            if (element < pos->data_)
+            {
+                pos->link_left(insert(pos->left_, element));
+            }
+            else if (pos->data_ < element)
+            {
+                pos->link_right(insert(pos->right_, element));
+            }
+        }
+
+        return pos;
+    }
+
+    // Remove node.
+    Node* remove(Node* pos, const T& element)
+    {
+        // TODO: AVL
+        if (pos)
+        {
+            if (element < pos->data_)
+            {
+                pos->link_left(remove(pos->left_, element));
+            }
+            else if (pos->data_ < element)
+            {
+                pos->link_right(remove(pos->right_, element));
+            }
+            else // element == pos->data_
+            {
+                if (pos->left_ && pos->right_) // certainly not the min or max pos
+                {
+                    Node* tmp = find_min(pos->right_);
+                    pos->data_ = tmp->data_;
+                    pos->link_right(remove(pos->right_, tmp->data_));
+                }
+                else // may be the min or max pos
+                {
+                    // if it is the min or max pos, mark it
+                    if (pos == min_)
+                    {
+                        min_ = end_;
+                    }
+                    if (pos == max_) // must `if`, not `else if` cuz pos may be root
+                    {
+                        max_ = end_;
+                    }
+
+                    Node* tmp = pos;
+                    pos = pos->left_ ? pos->left_ : pos->right_;
+                    delete tmp;
+                    size_--;
+                }
+            }
+        }
+
+        return pos;
+    }
+
+    // Destroy the subtree rooted at the specified node.
+    void destroy(Node* node)
+    {
+        if (node)
+        {
+            destroy(node->left_);
+            destroy(node->right_);
+            delete node;
+        }
+    }
+
+    // Traverse the subtree rooted at the specified node.
+    template <typename F>
+    void level_action(Node* node, F action) const
+    {
+        // level order
+        if (node != nullptr)
+        {
+            Deque<Node*> queue;
+            queue.push_back(node);
+            while (!queue.is_empty())
+            {
+                node = queue.pop_front();
+                action(node->data_);
+                if (node->left_)
+                {
+                    queue.push_back(node->left_);
+                }
+                if (node->right_)
+                {
+                    queue.push_back(node->right_);
+                }
+            }
+        }
+    }
+
+public:
     /*
      * Constructor / Destructor
      */

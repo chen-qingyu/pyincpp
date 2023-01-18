@@ -26,10 +26,6 @@ namespace mdspp
 template <typename K, typename V>
 class Map
 {
-    template <typename K_, typename V_>
-    friend std::ostream& operator<<(std::ostream& os, const Map<K_, V_>& map);
-
-public:
     /**
      * @brief Map key-value pair class.
      */
@@ -40,14 +36,11 @@ public:
         template <typename T>
         friend class Set;
 
-        template <typename K_, typename V_>
-        friend std::ostream& operator<<(std::ostream& os, const Map<K_, V_>& map);
-
     private:
-        // Pair key
+        // Pair key.
         K key_;
 
-        // Pair value
+        // Pair value.
         V value_;
 
         // Default constructor.
@@ -127,23 +120,6 @@ public:
         }
     };
 
-private:
-    // Set of pairs.
-    Set<Pair> set_;
-
-    // Access.
-    V& access(const K& key) const
-    {
-        auto it = set_.find(Pair(key, V()));
-        if (it == set_.end())
-        {
-            throw std::runtime_error("ERROR: Key is not found in the map.");
-        }
-
-        return it.current_->data_.value_;
-    }
-
-public:
     /**
      * @brief Map iterator class.
      *
@@ -256,6 +232,23 @@ public:
         }
     };
 
+private:
+    // Set of pairs.
+    Set<Pair> set_;
+
+    // Access.
+    V& access(const K& key) const
+    {
+        auto it = set_.find(Pair(key, V()));
+        if (it == set_.end())
+        {
+            throw std::runtime_error("ERROR: Key is not found in the map.");
+        }
+
+        return it.current_->data_.value_;
+    }
+
+public:
     /*
      * Constructor / Destructor
      */
@@ -564,13 +557,13 @@ std::ostream& operator<<(std::ostream& os, const Map<K, V>& map)
         return os << "{}";
     }
 
-    auto it = map.set_.begin();
+    auto it = map.begin();
     os << "{";
     while (true)
     {
-        os << (*it).key_ << ": " << (*it).value_;
+        os << it->key() << ": " << it->value();
         ++it;
-        if (it == map.set_.end())
+        if (it == map.end())
         {
             return os << "}";
         }
