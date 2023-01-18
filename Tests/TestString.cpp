@@ -6,7 +6,6 @@
 
 #include "../Sources/String.hpp"
 
-using mdspp::List;
 using mdspp::String;
 
 // constructor destructor size() is_empty()
@@ -35,6 +34,29 @@ TEST(String, basics)
     ASSERT_TRUE(str3.is_empty());
 
     // ~String()
+}
+
+// operator=()
+TEST(String, copy_assignment)
+{
+    String string1("12345");
+    String string2("6789");
+
+    string1 = string2;
+    string2 += "10";
+    ASSERT_EQ(string1, String("6789"));
+    ASSERT_EQ(string2, String("678910"));
+}
+
+// operator=()
+TEST(String, move_assignment)
+{
+    String string1("12345");
+    String string2("6789");
+
+    string1 = std::move(string2);
+    ASSERT_EQ(string1, String("6789"));
+    ASSERT_EQ(string2, String());
 }
 
 // operator[]()
@@ -71,29 +93,6 @@ TEST(String, access)
     {
         ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
     }
-}
-
-// operator=()
-TEST(String, copy_assignment)
-{
-    String string1("12345");
-    String string2("6789");
-
-    string1 = string2;
-    string2 += "10";
-    ASSERT_EQ(string1, String("6789"));
-    ASSERT_EQ(string2, String("678910"));
-}
-
-// operator=()
-TEST(String, move_assignment)
-{
-    String string1("12345");
-    String string2("6789");
-
-    string1 = std::move(string2);
-    ASSERT_EQ(string1, String("6789"));
-    ASSERT_EQ(string2, String());
 }
 
 // get() set()
@@ -608,22 +607,22 @@ TEST(String, production)
 // split()
 TEST(String, split)
 {
-    ASSERT_EQ(String("one, two, three").split(", "), List<String>({"one", "two", "three"}));
-    ASSERT_EQ(String("this is my code!").split(" "), List<String>({"this", "is", "my", "code!"}));
-    ASSERT_EQ(String("this is my code!").split("this is my code!"), List<String>({""}));
-    ASSERT_EQ(String(" this is my code! ").split(" "), List<String>({"", "this", "is", "my", "code!"}));
-    ASSERT_EQ(String("aaa").split("a"), List<String>({"", "", ""}));
-    ASSERT_EQ(String("192.168.0.1").split("."), List<String>({"192", "168", "0", "1"}));
+    ASSERT_EQ(String("one, two, three").split(", "), mdspp::List<String>({"one", "two", "three"}));
+    ASSERT_EQ(String("this is my code!").split(" "), mdspp::List<String>({"this", "is", "my", "code!"}));
+    ASSERT_EQ(String("this is my code!").split("this is my code!"), mdspp::List<String>({""}));
+    ASSERT_EQ(String(" this is my code! ").split(" "), mdspp::List<String>({"", "this", "is", "my", "code!"}));
+    ASSERT_EQ(String("aaa").split("a"), mdspp::List<String>({"", "", ""}));
+    ASSERT_EQ(String("192.168.0.1").split("."), mdspp::List<String>({"192", "168", "0", "1"}));
 }
 
 // join()
 TEST(String, join)
 {
-    ASSERT_EQ(String(", ").join(List<String>()), String());
-    ASSERT_EQ(String(", ").join(List<String>({"a"})), String("a"));
-    ASSERT_EQ(String(", ").join(List<String>({"a", "b"})), String("a, b"));
-    ASSERT_EQ(String(", ").join(List<String>({"a", "b", "c"})), String("a, b, c"));
-    ASSERT_EQ(String(".").join(List<String>({"192", "168", "0", "1"})), String("192.168.0.1"));
+    ASSERT_EQ(String(", ").join(mdspp::List<String>()), String());
+    ASSERT_EQ(String(", ").join(mdspp::List<String>({"a"})), String("a"));
+    ASSERT_EQ(String(", ").join(mdspp::List<String>({"a", "b"})), String("a, b"));
+    ASSERT_EQ(String(", ").join(mdspp::List<String>({"a", "b", "c"})), String("a, b, c"));
+    ASSERT_EQ(String(".").join(mdspp::List<String>({"192", "168", "0", "1"})), String("192.168.0.1"));
 }
 
 // operator<<()

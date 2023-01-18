@@ -44,6 +44,7 @@
     </ClCompile>
     <ClCompile Include="TestDeque.cpp" />
     <ClCompile Include="TestList.cpp" />
+    <ClCompile Include="TestMap.cpp" />
     <ClCompile Include="TestSet.cpp" />
     <ClCompile Include="TestString.cpp" />
   </ItemGroup>

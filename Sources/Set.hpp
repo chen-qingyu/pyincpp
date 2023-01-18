@@ -2,7 +2,7 @@
  * @file Set.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
  * @brief Set template class, implemented by AVL tree.
- * @version 0.2
+ * @version 0.3
  * @date 2023.01.15
  *
  * @copyright Copyright (c) 2023
@@ -19,16 +19,22 @@ namespace mdspp
 /**
  * @brief Set template class, implemented by AVL tree.
  *
- * @tparam T the type of elements in the set, require support operator<.
+ * @tparam T the type of elements in the set, require support operator<
  */
 template <typename T>
 class Set
 {
+    template <typename K, typename V>
+    friend class Map;
+
 private:
     // Tree node class.
     class Node
     {
         friend class Set<T>;
+
+        template <typename K, typename V>
+        friend class Map;
 
     private:
         // Data stored in the node.
@@ -196,6 +202,31 @@ private:
         }
     }
 
+    // Traverse the subtree rooted at the specified node.
+    template <typename F>
+    void level_action(Node* node, F action) const
+    {
+        // level order
+        if (node != nullptr)
+        {
+            Deque<Node*> queue;
+            queue.push_back(node);
+            while (!queue.is_empty())
+            {
+                node = queue.pop_front();
+                action(node->data_);
+                if (node->left_)
+                {
+                    queue.push_back(node->left_);
+                }
+                if (node->right_)
+                {
+                    queue.push_back(node->right_);
+                }
+            }
+        }
+    }
+
 public:
     /**
      * @brief Set iterator class.
@@ -208,6 +239,9 @@ public:
     class Iterator
     {
         friend class Set<T>;
+
+        template <typename K, typename V>
+        friend class Map;
 
     private:
         // Current node pointer.
@@ -391,21 +425,8 @@ public:
         : Set()
     {
         // level copy
-        Deque<Node*> queue;
-        queue.push_back(that.root_);
-        while (!queue.is_empty())
-        {
-            Node* node = queue.pop_front();
-            *this += node->data_;
-            if (node->left_)
-            {
-                queue.push_back(node->left_);
-            }
-            if (node->right_)
-            {
-                queue.push_back(node->right_);
-            }
-        }
+        level_action(that.root_, [&](const T& e)
+                     { *this += e; });
     }
 
     /**
@@ -454,21 +475,8 @@ public:
             max_ = end_;
 
             // level copy
-            Deque<Node*> queue;
-            queue.push_back(that.root_);
-            while (!queue.is_empty())
-            {
-                Node* node = queue.pop_front();
-                *this += node->data_;
-                if (node->left_)
-                {
-                    queue.push_back(node->left_);
-                }
-                if (node->right_)
-                {
-                    queue.push_back(node->right_);
-                }
-            }
+            level_action(that.root_, [&](const T& e)
+                         { *this += e; });
         }
 
         return *this;
@@ -814,10 +822,9 @@ public:
      */
     Set& operator|=(const Set& that)
     {
-        for (auto it = that.begin(); it != that.end(); ++it)
-        {
-            *this += *it;
-        }
+        level_action(that.root_, [&](const T& e)
+                     { *this += e; });
+
         return *this;
     }
 
@@ -860,13 +867,9 @@ public:
     Set operator&(const Set& that) const
     {
         Set new_set;
-        for (auto it = begin(); it != end(); ++it)
-        {
-            if (that.contains(*it))
-            {
-                new_set += *it;
-            }
-        }
+        level_action(root_, [&](const T& e)
+                     { if (that.contains(e)) { new_set += e; } });
+
         return new_set;
     }
 
@@ -891,13 +894,9 @@ public:
     Set operator-(const Set& that) const
     {
         Set new_set;
-        for (auto it = begin(); it != end(); ++it)
-        {
-            if (!that.contains(*it))
-            {
-                new_set += *it;
-            }
-        }
+        level_action(root_, [&](const T& e)
+                     { if (!that.contains(e)) { new_set += e; } });
+
         return new_set;
     }
 

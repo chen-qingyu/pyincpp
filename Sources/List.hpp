@@ -231,6 +231,58 @@ public:
     }
 
     /*
+     * Assignment
+     */
+
+    /**
+     * @brief Copy assignment operator.
+     *
+     * @param that another list
+     * @return self reference
+     */
+    List& operator=(const List<T>& that)
+    {
+        if (this != &that)
+        {
+            size_ = that.size_;
+            capacity_ = that.capacity_;
+
+            delete[] data_;
+            data_ = new T[capacity_];
+            for (int i = 0; i < size_; ++i)
+            {
+                data_[i] = that.data_[i];
+            }
+        }
+
+        return *this;
+    }
+
+    /**
+     * @brief Move assignment operator.
+     *
+     * @param that another list
+     * @return self reference
+     */
+    List& operator=(List<T>&& that)
+    {
+        if (this != &that)
+        {
+            delete[] data_;
+
+            size_ = that.size_;
+            capacity_ = that.capacity_;
+            data_ = that.data_;
+
+            that.size_ = 0;
+            that.capacity_ = INIT_CAPACITY;
+            that.data_ = new T[that.capacity_];
+        }
+
+        return *this;
+    }
+
+    /*
      * Access
      */
 
@@ -290,58 +342,6 @@ public:
     Iterator end() const
     {
         return Iterator(data_ + size_); // not nullptr, because size_ <= capacity_
-    }
-
-    /*
-     * Assignment
-     */
-
-    /**
-     * @brief Copy assignment operator.
-     *
-     * @param that another list
-     * @return self reference
-     */
-    List& operator=(const List<T>& that)
-    {
-        if (this != &that)
-        {
-            size_ = that.size_;
-            capacity_ = that.capacity_;
-
-            delete[] data_;
-            data_ = new T[capacity_];
-            for (int i = 0; i < size_; ++i)
-            {
-                data_[i] = that.data_[i];
-            }
-        }
-
-        return *this;
-    }
-
-    /**
-     * @brief Move assignment operator.
-     *
-     * @param that another list
-     * @return self reference
-     */
-    List& operator=(List<T>&& that)
-    {
-        if (this != &that)
-        {
-            delete[] data_;
-
-            size_ = that.size_;
-            capacity_ = that.capacity_;
-            data_ = that.data_;
-
-            that.size_ = 0;
-            that.capacity_ = INIT_CAPACITY;
-            that.data_ = new T[that.capacity_];
-        }
-
-        return *this;
     }
 
     /*

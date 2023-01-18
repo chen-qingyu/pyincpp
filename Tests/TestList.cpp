@@ -37,6 +37,29 @@ TEST(List, basics)
     // ~List()
 }
 
+// operator=()
+TEST(List, copy_assignment)
+{
+    List<int> list1 = {1, 2, 3, 4, 5};
+    List<int> list2 = {6, 7, 8, 9};
+
+    list1 = list2;
+    list2 += 10;
+    ASSERT_EQ(list1, List<int>({6, 7, 8, 9}));
+    ASSERT_EQ(list2, List<int>({6, 7, 8, 9, 10}));
+}
+
+// operator=()
+TEST(List, move_assignment)
+{
+    List<int> list1 = {1, 2, 3, 4, 5};
+    List<int> list2 = {6, 7, 8, 9};
+
+    list1 = std::move(list2);
+    ASSERT_EQ(list1, List<int>({6, 7, 8, 9}));
+    ASSERT_EQ(list2, List<int>());
+}
+
 // operator[]()
 TEST(List, access)
 {
@@ -97,29 +120,6 @@ TEST(List, iterator)
         ASSERT_EQ(e, i);
         ++i;
     }
-}
-
-// operator=()
-TEST(List, copy_assignment)
-{
-    List<int> list1 = {1, 2, 3, 4, 5};
-    List<int> list2 = {6, 7, 8, 9};
-
-    list1 = list2;
-    list2 += 10;
-    ASSERT_EQ(list1, List<int>({6, 7, 8, 9}));
-    ASSERT_EQ(list2, List<int>({6, 7, 8, 9, 10}));
-}
-
-// operator=()
-TEST(List, move_assignment)
-{
-    List<int> list1 = {1, 2, 3, 4, 5};
-    List<int> list2 = {6, 7, 8, 9};
-
-    list1 = std::move(list2);
-    ASSERT_EQ(list1, List<int>({6, 7, 8, 9}));
-    ASSERT_EQ(list2, List<int>());
 }
 
 // operator==() operator!=()

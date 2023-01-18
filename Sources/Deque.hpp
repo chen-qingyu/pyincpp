@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2023
  */
 
-#ifndef DEQUE_H
-#define DEQUE_H
+#ifndef DEQUE_HPP
+#define DEQUE_HPP
 
 #include <climits>          // INT_MAX
 #include <initializer_list> // std::initializer_list
@@ -499,4 +499,4 @@ std::ostream& operator<<(std::ostream& os, const Deque<T>& deque)
 
 } // namespace mdspp
 
-#endif // DEQUE_H
+#endif // DEQUE_HPP

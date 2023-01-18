@@ -234,36 +234,6 @@ public:
     }
 
     /*
-     * Access
-     */
-
-    /**
-     * @brief Return the reference to the element at the specified position in the string.
-     *
-     * Index can be negative, like Python's string: string[-1] gets the last element.
-     *
-     * @param index index of the element to return (-size() <= index < size())
-     * @return reference to the element at the specified position in the string
-     */
-    char& operator[](int index)
-    {
-        return list_[index];
-    }
-
-    /**
-     * @brief Return the const reference to element at the specified position in the string.
-     *
-     * Index can be negative, like Python's string: string[-1] gets the last element.
-     *
-     * @param index index of the element to return (-size() <= index < size())
-     * @return const reference to the element at the specified position in the string
-     */
-    const char& operator[](int index) const
-    {
-        return list_[index];
-    }
-
-    /*
      * Assignment
      */
 
@@ -291,6 +261,36 @@ public:
         list_ = std::move(that.list_);
 
         return *this;
+    }
+
+    /*
+     * Access
+     */
+
+    /**
+     * @brief Return the reference to the element at the specified position in the string.
+     *
+     * Index can be negative, like Python's string: string[-1] gets the last element.
+     *
+     * @param index index of the element to return (-size() <= index < size())
+     * @return reference to the element at the specified position in the string
+     */
+    char& operator[](int index)
+    {
+        return list_[index];
+    }
+
+    /**
+     * @brief Return the const reference to element at the specified position in the string.
+     *
+     * Index can be negative, like Python's string: string[-1] gets the last element.
+     *
+     * @param index index of the element to return (-size() <= index < size())
+     * @return const reference to the element at the specified position in the string
+     */
+    const char& operator[](int index) const
+    {
+        return list_[index];
     }
 
     /*
@@ -1086,7 +1086,7 @@ public:
  * @param string the string to be printed to the output stream
  * @return self reference of the output stream
  */
-std::ostream& operator<<(std::ostream& os, const String& string)
+inline std::ostream& operator<<(std::ostream& os, const String& string)
 {
     os << "\"";
     for (int i = 0; i < string.size(); i++)
@@ -1105,7 +1105,7 @@ std::ostream& operator<<(std::ostream& os, const String& string)
  * @param string the string
  * @return the generated string
  */
-String operator*(int times, const String& string)
+inline String operator*(int times, const String& string)
 {
     return string * times;
 }
