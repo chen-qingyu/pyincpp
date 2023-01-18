@@ -2,7 +2,7 @@
  * @file Set.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
  * @brief Set template class, implemented by AVL tree.
- * @version 0.3
+ * @version 1.0
  * @date 2023.01.15
  *
  * @copyright Copyright (c) 2023
@@ -727,6 +727,8 @@ public:
      */
     Set& operator+=(const T& element)
     {
+        common::check_full(size_, INT_MAX);
+
         root_ = insert(root_, element);
         end_->link_left(root_);
 

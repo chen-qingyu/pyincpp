@@ -2,11 +2,10 @@
  * @file Map.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
  * @brief Map template class, implemented by Set of Pair.
- * @version 0.1
+ * @version 1.0
  * @date 2023.01.18
  *
  * @copyright Copyright (c) 2023
- *
  */
 
 #ifndef MAP_HPP
