@@ -49,16 +49,14 @@ TEST(Set, iterator)
     int i = 1;
     for (auto it = set.begin(); it != set.end(); ++it)
     {
-        ASSERT_EQ(*it, i);
-        i++;
+        ASSERT_EQ(*it, i++);
     }
 
     // for in
     i = 1;
     for (const auto& e : set)
     {
-        ASSERT_EQ(e, i);
-        ++i;
+        ASSERT_EQ(e, i++);
     }
 }
 

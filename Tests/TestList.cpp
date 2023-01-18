@@ -109,16 +109,14 @@ TEST(List, iterator)
     int i = 1;
     for (auto it = list.begin(); it != list.end(); ++it)
     {
-        ASSERT_EQ(*it, i);
-        i++;
+        ASSERT_EQ(*it, i++);
     }
 
     // for in
     i = 1;
     for (const auto& e : list)
     {
-        ASSERT_EQ(e, i);
-        ++i;
+        ASSERT_EQ(e, i++);
     }
 }
 
@@ -128,12 +126,10 @@ TEST(List, compare)
     List<int> list = {1, 2, 3, 4, 5};
 
     // operator==
-    List<int> eq_list = {1, 2, 3, 4, 5};
-    ASSERT_TRUE(list == eq_list);
+    ASSERT_TRUE(list == List<int>({1, 2, 3, 4, 5}));
 
     // operator!=
-    List<int> ne_list = {1, 3, 5};
-    ASSERT_TRUE(list != ne_list);
+    ASSERT_TRUE(list != List<int>({1, 3, 5}));
 }
 
 // find() contains() min() max() count()

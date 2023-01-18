@@ -27,6 +27,9 @@ class Set
     template <typename K, typename V>
     friend class Map;
 
+    template <typename K, typename V>
+    friend std::ostream& operator<<(std::ostream& os, const Map<K, V>& map);
+
 private:
     // Tree node class.
     class Node
@@ -35,6 +38,9 @@ private:
 
         template <typename K, typename V>
         friend class Map;
+
+        template <typename K, typename V>
+        friend std::ostream& operator<<(std::ostream& os, const Map<K, V>& map);
 
     private:
         // Data stored in the node.

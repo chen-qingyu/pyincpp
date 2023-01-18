@@ -26,6 +26,9 @@ namespace mdspp
 template <typename K, typename V>
 class Map
 {
+    template <typename K_, typename V_>
+    friend std::ostream& operator<<(std::ostream& os, const Map<K_, V_>& map);
+
 public:
     /**
      * @brief Map key-value pair class.
@@ -36,6 +39,9 @@ public:
 
         template <typename T>
         friend class Set;
+
+        template <typename K_, typename V_>
+        friend std::ostream& operator<<(std::ostream& os, const Map<K_, V_>& map);
 
     private:
         // Pair key
@@ -57,7 +63,7 @@ public:
             return key_ == that.key_;
         }
 
-        // Operator equal.
+        // Operator not equal.
         bool operator!=(const Pair& that) const
         {
             return key_ != that.key_;
@@ -99,6 +105,26 @@ public:
             , value_(value)
         {
         }
+
+        /**
+         * @brief Get the key.
+         *
+         * @return key of the pair
+         */
+        K key() const
+        {
+            return key_;
+        }
+
+        /**
+         * @brief Get the value.
+         *
+         * @return value of the pair
+         */
+        V value() const
+        {
+            return value_;
+        }
     };
 
 private:
@@ -118,6 +144,118 @@ private:
     }
 
 public:
+    /**
+     * @brief Map iterator class.
+     *
+     * Walk the map in ascending order. This means that begin() is the smallest pair.
+     *
+     * Because the internal pairs of the map have a fixed order,
+     * thus the iterator of the map only supports access and does not support modification.
+     */
+    class Iterator
+    {
+        friend class Map<K, V>;
+
+    private:
+        // Current node pointer.
+        typename Set<Pair>::Iterator it_;
+
+        // Constructor.
+        Iterator(typename Set<Pair>::Node* current)
+            : it_(current)
+        {
+        }
+
+    public:
+        /**
+         * @brief Dereference.
+         *
+         * @return reference of the data
+         */
+        const Pair& operator*() const
+        {
+            return *it_;
+        }
+
+        /**
+         * @brief Get current pointer.
+         *
+         * @return current pointer
+         */
+        const Pair* operator->() const
+        {
+            return it_.operator->();
+        }
+
+        /**
+         * @brief Check if two iterators are same.
+         *
+         * @param that another iterator
+         * @return ture if two iterators are same, false otherwise.
+         */
+        bool operator==(const Iterator& that) const
+        {
+            return it_ == that.it_;
+        }
+
+        /**
+         * @brief Check if two iterators are different.
+         *
+         * @param that another iterator
+         * @return ture if two iterators are different, false otherwise.
+         */
+        bool operator!=(const Iterator& that) const
+        {
+            return !(*this == that);
+        }
+
+        /**
+         * @brief Increment the iterator: ++it.
+         *
+         * @return reference of this iterator that point to next data
+         */
+        Iterator& operator++()
+        {
+            ++it_;
+            return *this;
+        }
+
+        /**
+         * @brief Increment the iterator: it++.
+         *
+         * @return const reference of this iterator that point to current data
+         */
+        Iterator operator++(int)
+        {
+            auto tmp = *this;
+            ++it_;
+            return tmp;
+        }
+
+        /**
+         * @brief Decrement the iterator: --it.
+         *
+         * @return reference of this iterator that point to previous data
+         */
+        Iterator& operator--()
+        {
+            --it_;
+            return *this;
+        }
+
+        /**
+         * @brief Decrement the iterator: it--.
+         *
+         * @return const reference of this iterator that point to current data
+         */
+        Iterator operator--(int)
+        {
+            auto tmp = *this;
+            --it_;
+            return tmp;
+        }
+    };
+
     /*
      * Constructor / Destructor
      */
@@ -228,6 +366,34 @@ public:
     }
 
     /*
+     * Iterator
+     */
+
+    /**
+     * @brief Return an iterator to the first element of the map.
+     *
+     * If the map is empty, the returned iterator will be equal to end().
+     *
+     * @return iterator to the first element
+     */
+    Iterator begin() const
+    {
+        return Iterator(set_.min_);
+    }
+
+    /**
+     * @brief Return an iterator to the element following the last element of the map.
+     *
+     * This element acts as a placeholder, attempting to access it results in undefined behavior.
+     *
+     * @return iterator to the element following the last element
+     */
+    Iterator end() const
+    {
+        return Iterator(set_.end_);
+    }
+
+    /*
      * Examination (will not change the object itself)
      */
 
@@ -281,7 +447,55 @@ public:
      */
     bool contains(const K& key) const
     {
-        return set_.find(Pair(key, V())) != end();
+        return set_.find(Pair(key, V())) != set_.end();
+    }
+
+    /**
+     * @brief Get the smallest key of the map.
+     *
+     * @return the smallest key
+     */
+    K min() const
+    {
+        return set_.min().key_;
+    }
+
+    /**
+     * @brief Get the largest key of the map.
+     *
+     * @return the largest key
+     */
+    K max() const
+    {
+        return set_.max().key_;
+    }
+
+    /**
+     * @brief Return a new set of the map's keys.
+     *
+     * @return a new set of the map's keys
+     */
+    Set<K> keys() const
+    {
+        Set<K> keys;
+        set_.level_action(set_.root_, [&](const Pair& pair)
+                          { keys += pair.key_; });
+
+        return keys;
+    }
+
+    /**
+     * @brief Return a new set of the map's values.
+     *
+     * @return a new set of the map's values
+     */
+    Set<V> values() const
+    {
+        Set<V> values;
+        set_.level_action(set_.root_, [&](const Pair& pair)
+                          { values += pair.value_; });
+
+        return values;
     }
 
     /*
@@ -300,7 +514,69 @@ public:
 
         return *this;
     }
+
+    /**
+     * @brief Remove the specified key-value pair from the map, if it is present.
+     *
+     * If the map does not contain the key-value pair, it is unchanged.
+     *
+     * @param key key of the key-value pair to be removed
+     * @return self reference
+     */
+    Map& operator-=(const K& key)
+    {
+        set_ -= Pair(key, V());
+
+        return *this;
+    }
+
+    /**
+     * @brief Remove all of the elements from the map.
+     *
+     * @return self reference
+     */
+    Map& clear()
+    {
+        set_.clear();
+
+        return *this;
+    }
 };
+
+/*
+ * Non-member functions
+ */
+
+/**
+ * @brief Output map data to the specified output stream.
+ *
+ * @tparam K the key of pairs in the map, must be printable
+ * @tparam V the value of pairs in the map, must be printable
+ * @param os an output stream
+ * @param map the map to be printed to the output stream
+ * @return self reference of the output stream
+ */
+template <typename K, typename V>
+std::ostream& operator<<(std::ostream& os, const Map<K, V>& map)
+{
+    if (map.is_empty())
+    {
+        return os << "{}";
+    }
+
+    auto it = map.set_.begin();
+    os << "{";
+    while (true)
+    {
+        os << (*it).key_ << ": " << (*it).value_;
+        ++it;
+        if (it == map.set_.end())
+        {
+            return os << "}";
+        }
+        os << ", ";
+    }
+}
 
 } // namespace mdspp
 

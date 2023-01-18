@@ -65,12 +65,10 @@ TEST(Deque, compare)
     Deque<int> deque = {1, 2, 3, 4, 5};
 
     // operator==
-    Deque<int> eq_deque = {1, 2, 3, 4, 5};
-    ASSERT_TRUE(deque == eq_deque);
+    ASSERT_TRUE(deque == Deque<int>({1, 2, 3, 4, 5}));
 
     // operator!=
-    Deque<int> ne_deque = {1, 3, 5};
-    ASSERT_TRUE(deque != ne_deque);
+    ASSERT_TRUE(deque != Deque<int>({1, 3, 5}));
 }
 
 // back() front()

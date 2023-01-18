@@ -87,6 +87,35 @@ TEST(Map, access)
     }
 }
 
+// begin() end()
+TEST(Map, iterator)
+{
+    // empty
+    Map<int, String> empty;
+    ASSERT_EQ(empty.begin(), empty.end());
+
+    // key, value=key^2
+    Map<int, int> map({{1, 1}, {2, 4}, {3, 9}, {4, 16}, {5, 25}});
+
+    // for
+    int k = 1;
+    for (auto it = map.begin(); it != map.end(); ++it)
+    {
+        ASSERT_EQ(it->key(), k);
+        ASSERT_EQ(it->value(), k * k);
+        ++k;
+    }
+
+    // for in
+    k = 1;
+    for (const auto& e : map)
+    {
+        ASSERT_EQ(e.key(), k);
+        ASSERT_EQ(e.value(), k * k);
+        ++k;
+    }
+}
+
 // operator==() operator!=()
 TEST(Map, compare)
 {
@@ -97,4 +126,98 @@ TEST(Map, compare)
 
     // operator!=
     ASSERT_TRUE(map != (Map<String, int>({{"one", 1}, {"two", 2}, {"six", 6}})));
+}
+
+// contains() min() max()
+TEST(Map, examination)
+{
+    Map<int, String> map({{1, "one"}, {2, "two"}, {3, "three"}});
+
+    // contains
+    ASSERT_EQ(map.contains(1), true);
+    ASSERT_EQ(map.contains(3), true);
+    ASSERT_EQ(map.contains(0), false);
+
+    // min
+    ASSERT_EQ(map.min(), 1);
+
+    // max
+    ASSERT_EQ(map.max(), 3);
+}
+
+// keys() values()
+TEST(Map, keys_values)
+{
+    Map<int, String> map({{1, "one"}, {2, "two"}, {3, "three"}});
+
+    ASSERT_EQ(map.keys(), mdspp::Set<int>({1, 2, 3}));
+    ASSERT_EQ(map.values(), mdspp::Set<String>({"one", "two", "three"}));
+}
+
+// operator+=()
+TEST(Map, insert)
+{
+    Map<int, String> map;
+
+    map += {3, "three"};
+    map += {1, "one"};
+    map += {2, "two"};
+
+    ASSERT_EQ(map, (Map<int, String>({{1, "one"}, {2, "two"}, {3, "three"}})));
+
+    map += {3, "three"};
+    map += {1, "one"};
+    map += {2, "two"};
+
+    ASSERT_EQ(map, (Map<int, String>({{1, "one"}, {2, "two"}, {3, "three"}})));
+}
+
+// operator-=()
+TEST(Map, remove)
+{
+    Map<int, String> map = {{1, "one"}, {2, "two"}, {3, "three"}};
+
+    map -= 3;
+    map -= 1;
+    map -= 2;
+
+    ASSERT_EQ(map, (Map<int, String>()));
+
+    map -= 2;
+    map -= 1;
+    map -= 3;
+
+    ASSERT_EQ(map, (Map<int, String>()));
+}
+
+// clear()
+TEST(Map, clear)
+{
+    Map<int, String> map = {{1, "one"}, {2, "two"}, {3, "three"}};
+
+    ASSERT_EQ(map.clear(), (Map<int, String>()));
+
+    // double clear
+    ASSERT_EQ(map.clear(), (Map<int, String>()));
+}
+
+// operator<<()
+TEST(Map, print)
+{
+    std::ostringstream oss;
+
+    Map<int, String> empty;
+    oss << empty;
+    ASSERT_EQ(oss.str(), "{}"); // string == char*, use eq
+    oss.str("");
+
+    Map<int, String> one = {{1, "one"}};
+    oss << one;
+    ASSERT_EQ(oss.str(), "{1: \"one\"}");
+    oss.str("");
+
+    Map<int, String> many = {{1, "one"}, {2, "two"}, {3, "three"}};
+    oss << many;
+    ASSERT_EQ(oss.str(), "{1: \"one\", 2: \"two\", 3: \"three\"}");
+    oss.str("");
 }
