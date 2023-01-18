@@ -6,7 +6,6 @@
  * @date 2023.01.05
  *
  * @copyright Copyright (c) 2023
- *
  */
 
 #ifndef LIST_HPP
@@ -15,8 +14,6 @@
 #include <climits> // INT_MAX
 #include <ostream> // std::ostream
 #include <utility> // std::initializer_list std::move
-
-#include "ListIterator.hpp"
 
 #include "common/check_bounds.hpp"
 #include "common/check_empty.hpp"
@@ -56,6 +53,113 @@ public:
      * @brief Maximum capacity.
      */
     static const int MAX_CAPACITY = INT_MAX - 1; // - 1 to prevent boundary subscript overflow
+
+    /**
+     * @brief List iterator class.
+     */
+    class Iterator
+    {
+        friend class List<T>;
+
+    private:
+        // Current data pointer.
+        T* current_;
+
+        // Create an iterator that point to the current data of list.
+        Iterator(T* current)
+            : current_(current)
+        {
+        }
+
+    public:
+        /**
+         * @brief Dereference.
+         *
+         * @return reference of the data
+         */
+        T& operator*() const
+        {
+            return *current_;
+        }
+
+        /**
+         * @brief Get current pointer.
+         *
+         * @return current pointer
+         */
+        T* operator->() const
+        {
+            return current_;
+        }
+
+        /**
+         * @brief Check if two iterators are same.
+         *
+         * @param that another iterator
+         * @return ture if two iterators are same, false otherwise
+         */
+        bool operator==(const Iterator& that) const
+        {
+            return current_ == that.current_;
+        }
+
+        /**
+         * @brief Check if two iterators are different.
+         *
+         * @param that another iterator
+         * @return ture if two iterators are different, false otherwise
+         */
+        bool operator!=(const Iterator& that) const
+        {
+            return !(current_ == that.current_);
+        }
+
+        /**
+         * @brief Increment the iterator: ++it.
+         *
+         * @return reference of this iterator that point to next data
+         */
+        Iterator& operator++()
+        {
+            ++current_;
+            return *this;
+        }
+
+        /**
+         * @brief Increment the iterator: it++.
+         *
+         * @return const reference of this iterator that point to current data
+         */
+        Iterator operator++(int)
+        {
+            Iterator tmp = *this;
+            ++current_;
+            return tmp;
+        }
+
+        /**
+         * @brief Decrement the iterator: --it.
+         *
+         * @return reference of this iterator that point to previous data
+         */
+        Iterator& operator--()
+        {
+            --current_;
+            return *this;
+        }
+
+        /**
+         * @brief Decrement the iterator: it--.
+         *
+         * @return const reference of this iterator that point to current data
+         */
+        Iterator operator--(int)
+        {
+            Iterator tmp = *this;
+            --current_;
+            return tmp;
+        }
+    };
 
     /*
      * Constructor / Destructor
@@ -171,9 +275,9 @@ public:
      *
      * @return iterator to the first element
      */
-    ListIterator<T> begin() const
+    Iterator begin() const
     {
-        return ListIterator<T>(data_);
+        return Iterator(data_);
     }
 
     /**
@@ -183,9 +287,9 @@ public:
      *
      * @return iterator to the element following the last element
      */
-    ListIterator<T> end() const
+    Iterator end() const
     {
-        return ListIterator<T>(data_ + size_); // not nullptr, because size_ <= capacity_
+        return Iterator(data_ + size_); // not nullptr, because size_ <= capacity_
     }
 
     /*

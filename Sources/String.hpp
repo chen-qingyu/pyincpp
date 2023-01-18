@@ -6,7 +6,6 @@
  * @date 2023.01.08
  *
  * @copyright Copyright (c) 2023
- *
  */
 
 #ifndef STRING_H

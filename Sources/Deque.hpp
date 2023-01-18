@@ -1,12 +1,11 @@
 /**
  * @file Deque.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief Deque template class, implemented by linked list.
+ * @brief Deque template class, implemented by doubly linked list.
  * @version 1.0
  * @date 2023.01.10
  *
  * @copyright Copyright (c) 2023
- *
  */
 
 #ifndef DEQUE_H
@@ -23,7 +22,7 @@ namespace mdspp
 {
 
 /**
- * @brief Deque template class, implemented by linked list.
+ * @brief Deque template class, implemented by doubly linked list.
  *
  * @tparam T the type of elements in the deque
  */
