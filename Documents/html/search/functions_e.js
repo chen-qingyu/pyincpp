@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['to_5fdecimal_0',['to_decimal',['../de/d45/classmdspp_1_1_string.html#a5fd36032fa5e8c85ad861e1722607217',1,'mdspp::String']]],
-  ['to_5finteger_1',['to_integer',['../de/d45/classmdspp_1_1_string.html#abd5fe1c77fb9a1fcd9d3e9e9bcb8ca29',1,'mdspp::String']]],
-  ['traverse_2',['traverse',['../d6/d9c/classmdspp_1_1_list.html#afe5ee3d4bf63921616c37ebe7e43e53b',1,'mdspp::List::traverse()'],['../de/d45/classmdspp_1_1_string.html#a0251922538e9a1ddc2f4be6982a1783c',1,'mdspp::String::traverse()']]]
+  ['remove_0',['remove',['../d6/d9c/classmdspp_1_1_list.html#ad21449a88971e818faa39795f8897eef',1,'mdspp::List::remove()'],['../de/d45/classmdspp_1_1_string.html#abd73da2b06e29a13fb5d5651cf7c8a4b',1,'mdspp::String::remove(int index)']]],
+  ['replace_1',['replace',['../de/d45/classmdspp_1_1_string.html#ab3832019f760bb2f3b676311750bacf5',1,'mdspp::String']]],
+  ['reverse_2',['reverse',['../d6/d9c/classmdspp_1_1_list.html#a0a9dd6d5c7f237be9705dda7ecf27a5e',1,'mdspp::List::reverse()'],['../de/d45/classmdspp_1_1_string.html#a302bc7fab1ff27e9d01584ab42710e50',1,'mdspp::String::reverse()']]]
 ];

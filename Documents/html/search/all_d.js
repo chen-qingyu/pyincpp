@@ -1,12 +1,8 @@
 var searchData=
 [
-  ['set_0',['set',['../de/d45/classmdspp_1_1_string.html#a8da8572f190d182910208d4e5cb9f43b',1,'mdspp::String']]],
-  ['size_1',['size',['../dc/d8d/classmdspp_1_1_deque.html#a0135c5670b98a8badc443ea7c639f56d',1,'mdspp::Deque::size()'],['../d6/d9c/classmdspp_1_1_list.html#a9e1add3a52d5fb3f37d9de78866e515b',1,'mdspp::List::size()'],['../de/d45/classmdspp_1_1_string.html#ab16d349c9e649d2c98cdf82a4cdea6a0',1,'mdspp::String::size()']]],
-  ['slice_2',['slice',['../d6/d9c/classmdspp_1_1_list.html#a4720f22b900d7d481af762652c5bf00f',1,'mdspp::List::slice()'],['../de/d45/classmdspp_1_1_string.html#a177ad67d238788601d5fc235ebf477ac',1,'mdspp::String::slice()']]],
-  ['sort_3',['sort',['../d6/d9c/classmdspp_1_1_list.html#afc98948975ecf61aa89c3bc8413265f3',1,'mdspp::List::sort()'],['../de/d45/classmdspp_1_1_string.html#a04b27dad5150e848ce555d2d1e675ff2',1,'mdspp::String::sort(bool(*comparator)(const char &amp;e1, const char &amp;e2)=[](const char &amp;e1, const char &amp;e2) { return e1&lt; e2;})']]],
-  ['split_4',['split',['../de/d45/classmdspp_1_1_string.html#abfaf71067ed09bf3f72ac4ea9ada2d42',1,'mdspp::String']]],
-  ['string_5',['String',['../de/d45/classmdspp_1_1_string.html',1,'mdspp::String'],['../de/d45/classmdspp_1_1_string.html#aa90c48f5bbac1c9ffe9e8b444025c60a',1,'mdspp::String::String()'],['../de/d45/classmdspp_1_1_string.html#a2fb15cc5473b2efb337ac3949cb1b8bf',1,'mdspp::String::String(const char *chars)'],['../de/d45/classmdspp_1_1_string.html#a5d540b5515ca4b7ca1d6cb2d95728d6e',1,'mdspp::String::String(const String &amp;that)'],['../de/d45/classmdspp_1_1_string.html#afe2e952c1660d01e1cca648e70b8719b',1,'mdspp::String::String(String &amp;&amp;that)']]],
-  ['string_2ehpp_6',['String.hpp',['../d9/dc5/_string_8hpp.html',1,'']]],
-  ['strip_7',['strip',['../de/d45/classmdspp_1_1_string.html#aeecabaf57105311c9b9e2fadfe472fd3',1,'mdspp::String']]],
-  ['swap_8',['swap',['../d6/d9c/classmdspp_1_1_list.html#a7f7945ec48bc28a3c758cf0a7eb1cd35',1,'mdspp::List::swap()'],['../de/d45/classmdspp_1_1_string.html#ae257ef28cff5148effe960602de57566',1,'mdspp::String::swap()']]]
+  ['pair_0',['Pair',['../d3/dd3/classmdspp_1_1_map_1_1_pair.html',1,'mdspp::Map&lt; K, V &gt;::Pair'],['../d3/dd3/classmdspp_1_1_map_1_1_pair.html#afb27c770d3331a2027321812aba5ffac',1,'mdspp::Map::Pair::Pair()']]],
+  ['pop_5fback_1',['pop_back',['../dc/d8d/classmdspp_1_1_deque.html#a2067ef569840a6a66bc3ee3a7c22afa8',1,'mdspp::Deque']]],
+  ['pop_5ffront_2',['pop_front',['../dc/d8d/classmdspp_1_1_deque.html#ad0038eecf03c6fa3f63c786c5a7518f3',1,'mdspp::Deque']]],
+  ['push_5fback_3',['push_back',['../dc/d8d/classmdspp_1_1_deque.html#afe519483a8e46232ce8be0a286516bda',1,'mdspp::Deque']]],
+  ['push_5ffront_4',['push_front',['../dc/d8d/classmdspp_1_1_deque.html#aa4277592dd6c7110e0323639cad1abef',1,'mdspp::Deque']]]
 ];

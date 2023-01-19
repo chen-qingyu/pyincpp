@@ -78,53 +78,54 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <a href="../../dc/d29/_deque_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#ifndef DEQUE_H</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#define DEQUE_H</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;climits&gt;</span>          <span class="comment">// INT_MAX</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;initializer_list&gt;</span> <span class="comment">// std::initializer_list</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;ostream&gt;</span>          <span class="comment">// std::ostream</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;common/check_empty.hpp&quot;</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;common/check_full.hpp&quot;</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">namespace </span>mdspp</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>{</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="../../dc/d8d/classmdspp_1_1_deque.html">   31</a></span><span class="keyword">class </span><a class="code hl_class" href="../../dc/d8d/classmdspp_1_1_deque.html">Deque</a></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>{</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">friend</span> std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code hl_class" href="../../dc/d8d/classmdspp_1_1_deque.html">Deque&lt;X&gt;</a>&amp; deque);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="comment">// Node of linked list.</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">class </span>Node</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    {</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="../../dc/d8d/classmdspp_1_1_deque.html">Deque</a>&lt;T&gt;;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keyword">friend</span> std::ostream&amp; <a class="code hl_function" href="../../dc/d29/_deque_8hpp.html#a18be2a399525a72d7a3b312da74e6c64">operator&lt;&lt;</a>(std::ostream&amp; os, <span class="keyword">const</span> <a class="code hl_class" href="../../dc/d8d/classmdspp_1_1_deque.html">Deque&lt;X&gt;</a>&amp; deque);</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="comment">// Data stored in the node.</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        T data_;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="comment">// Predecessor.</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        Node* pred_;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <span class="comment">// Successor.</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        Node* succ_;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="comment">// Create a node with given element.</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        Node(<span class="keyword">const</span> T&amp; data, Node* pred = <span class="keyword">nullptr</span>, Node* succ = <span class="keyword">nullptr</span>)</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            : data_(data)</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            , pred_(pred)</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            , succ_(succ)</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        {</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        }</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    };</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#ifndef DEQUE_HPP</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#define DEQUE_HPP</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;climits&gt;</span>          <span class="comment">// INT_MAX</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;initializer_list&gt;</span> <span class="comment">// std::initializer_list</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;ostream&gt;</span>          <span class="comment">// std::ostream</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;common/check_empty.hpp&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;common/check_full.hpp&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">namespace </span>mdspp</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>{</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="../../dc/d8d/classmdspp_1_1_deque.html">   30</a></span><span class="keyword">class </span><a class="code hl_class" href="../../dc/d8d/classmdspp_1_1_deque.html">Deque</a></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>{</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keyword">friend</span> std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code hl_class" href="../../dc/d8d/classmdspp_1_1_deque.html">Deque&lt;X&gt;</a>&amp; deque);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="comment">// Node of linked list.</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keyword">class </span>Node</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="../../dc/d8d/classmdspp_1_1_deque.html">Deque</a>&lt;T&gt;;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keyword">friend</span> std::ostream&amp; <a class="code hl_function" href="../../dc/d29/_deque_8hpp.html#a18be2a399525a72d7a3b312da74e6c64">operator&lt;&lt;</a>(std::ostream&amp; os, <span class="keyword">const</span> <a class="code hl_class" href="../../dc/d8d/classmdspp_1_1_deque.html">Deque&lt;X&gt;</a>&amp; deque);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="comment">// Data stored in the node.</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        T data_;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="comment">// Predecessor.</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        Node* pred_;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="comment">// Successor.</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        Node* succ_;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="comment">// Create a node with given element.</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        Node(<span class="keyword">const</span> T&amp; data, Node* pred = <span class="keyword">nullptr</span>, Node* succ = <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            : data_(data)</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            , pred_(pred)</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            , succ_(succ)</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    };</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">private</span>:</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">// Number of elements.</span></div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordtype">int</span> size_;</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
@@ -443,9 +444,9 @@ $(function() {
 <div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span> </div>
 <div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>} <span class="comment">// namespace mdspp</span></div>
 <div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span> </div>
-<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span><span class="preprocessor">#endif </span><span class="comment">// DEQUE_H</span></div>
+<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span><span class="preprocessor">#endif </span><span class="comment">// DEQUE_HPP</span></div>
 <div class="ttc" id="a_deque_8hpp_html_a18be2a399525a72d7a3b312da74e6c64"><div class="ttname"><a href="../../dc/d29/_deque_8hpp.html#a18be2a399525a72d7a3b312da74e6c64">mdspp::operator&lt;&lt;</a></div><div class="ttdeci">std::ostream &amp; operator&lt;&lt;(std::ostream &amp;os, const Deque&lt; T &gt; &amp;deque)</div><div class="ttdoc">Output deque data to the specified output stream.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d29/_deque_8hpp_source.html#l00480">Deque.hpp:480</a></div></div>
-<div class="ttc" id="aclassmdspp_1_1_deque_html"><div class="ttname"><a href="../../dc/d8d/classmdspp_1_1_deque.html">mdspp::Deque</a></div><div class="ttdoc">Deque template class, implemented by linked list.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d29/_deque_8hpp_source.html#l00031">Deque.hpp:32</a></div></div>
+<div class="ttc" id="aclassmdspp_1_1_deque_html"><div class="ttname"><a href="../../dc/d8d/classmdspp_1_1_deque.html">mdspp::Deque</a></div><div class="ttdoc">Deque template class, implemented by doubly linked list.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d29/_deque_8hpp_source.html#l00030">Deque.hpp:31</a></div></div>
 <div class="ttc" id="aclassmdspp_1_1_deque_html_a0135c5670b98a8badc443ea7c639f56d"><div class="ttname"><a href="../../dc/d8d/classmdspp_1_1_deque.html#a0135c5670b98a8badc443ea7c639f56d">mdspp::Deque::size</a></div><div class="ttdeci">int size() const</div><div class="ttdoc">Return the number of elements in the deque.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d29/_deque_8hpp_source.html#l00296">Deque.hpp:296</a></div></div>
 <div class="ttc" id="aclassmdspp_1_1_deque_html_a031553b6addfa1d490f9eab7328e34df"><div class="ttname"><a href="../../dc/d8d/classmdspp_1_1_deque.html#a031553b6addfa1d490f9eab7328e34df">mdspp::Deque::back</a></div><div class="ttdeci">const T &amp; back() const</div><div class="ttdoc">Peek the back element.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d29/_deque_8hpp_source.html#l00244">Deque.hpp:244</a></div></div>
 <div class="ttc" id="aclassmdspp_1_1_deque_html_a1ece6a9b006db4960d9cedaf85278afb"><div class="ttname"><a href="../../dc/d8d/classmdspp_1_1_deque.html#a1ece6a9b006db4960d9cedaf85278afb">mdspp::Deque::Deque</a></div><div class="ttdeci">Deque()</div><div class="ttdoc">Construct a new deque object.</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d29/_deque_8hpp_source.html#l00118">Deque.hpp:118</a></div></div>

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['max_0',['max',['../d6/d9c/classmdspp_1_1_list.html#a54330074c2ddff2b2b2ba228f4bc7d5f',1,'mdspp::List::max()'],['../de/d45/classmdspp_1_1_string.html#afae44023de53dce12b3cd3a0dd4db54b',1,'mdspp::String::max()']]],
-  ['min_1',['min',['../d6/d9c/classmdspp_1_1_list.html#ade0b74cbbcef5c148a5b8b93d621c252',1,'mdspp::List::min()'],['../de/d45/classmdspp_1_1_string.html#ab8c8c8d82ccb41bd6bfc6ca11179406c',1,'mdspp::String::min()']]]
+  ['key_0',['key',['../d3/dd3/classmdspp_1_1_map_1_1_pair.html#a2f2a8fd02c1b5161386e5aff6947693d',1,'mdspp::Map::Pair']]],
+  ['keys_1',['keys',['../d2/d60/classmdspp_1_1_map.html#af9ddb66742f3bb7d64e27aab3d46f783',1,'mdspp::Map']]]
 ];

@@ -128,10 +128,15 @@ TEST(Map, compare)
     ASSERT_TRUE(map != (Map<String, int>({{"one", 1}, {"two", 2}, {"six", 6}})));
 }
 
-// contains() min() max()
+// find() contains() min() max()
 TEST(Map, examination)
 {
     Map<int, String> map({{1, "one"}, {2, "two"}, {3, "three"}});
+
+    // find
+    ASSERT_EQ(map.find(1), map.begin());
+    ASSERT_EQ(map.find(3), --map.end());
+    ASSERT_EQ(map.find(0), map.end());
 
     // contains
     ASSERT_EQ(map.contains(1), true);

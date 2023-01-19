@@ -33,27 +33,7 @@ class List
 {
     friend class String;
 
-private:
-    // Number of elements.
-    int size_;
-
-    // Available capacity.
-    int capacity_;
-
-    // Pointer to the data.
-    T* data_;
-
 public:
-    /**
-     * @brief Initial capacity.
-     */
-    static const int INIT_CAPACITY = 4;
-
-    /**
-     * @brief Maximum capacity.
-     */
-    static const int MAX_CAPACITY = INT_MAX - 1; // - 1 to prevent boundary subscript overflow
-
     /**
      * @brief List iterator class.
      */
@@ -160,6 +140,27 @@ public:
             return tmp;
         }
     };
+
+private:
+    // Number of elements.
+    int size_;
+
+    // Available capacity.
+    int capacity_;
+
+    // Pointer to the data.
+    T* data_;
+
+public:
+    /**
+     * @brief Initial capacity.
+     */
+    static const int INIT_CAPACITY = 4;
+
+    /**
+     * @brief Maximum capacity.
+     */
+    static const int MAX_CAPACITY = INT_MAX - 1; // - 1 to prevent boundary subscript overflow
 
     /*
      * Constructor / Destructor

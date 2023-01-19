@@ -25,6 +25,7 @@ namespace mdspp
 template <typename K, typename V>
 class Map
 {
+public:
     /**
      * @brief Map key-value pair class.
      */
@@ -432,6 +433,21 @@ public:
     }
 
     /**
+     * @brief Return the iterator of the specified key in the map.
+     *
+     * Or end() if the map does not contain the key.
+     *
+     * @param key key to search for
+     * @return the iterator of the specified key in the map, or end() if the map does not contain the key
+     */
+    Iterator find(const K& key) const
+    {
+        auto it = set_.find(Pair(key, V()));
+
+        return it == set_.end() ? end() : Iterator(it.current_);
+    }
+
+    /**
      * @brief Return true if the map contains the specified key.
      *
      * @param key key whose presence in the map is to be tested
@@ -439,7 +455,7 @@ public:
      */
     bool contains(const K& key) const
     {
-        return set_.find(Pair(key, V())) != set_.end();
+        return set_.contains(Pair(key, V()));
     }
 
     /**

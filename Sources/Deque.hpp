@@ -32,6 +32,7 @@ class Deque
     template <typename X>
     friend std::ostream& operator<<(std::ostream& os, const Deque<X>& deque);
 
+private:
     // Node of linked list.
     class Node
     {

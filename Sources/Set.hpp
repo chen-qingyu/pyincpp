@@ -27,6 +27,7 @@ class Set
     template <typename K, typename V>
     friend class Map;
 
+private:
     // Tree node class.
     class Node
     {
@@ -78,6 +79,7 @@ class Set
         }
     };
 
+public:
     /**
      * @brief Set iterator class.
      *
@@ -349,7 +351,7 @@ private:
     }
 
     // Destroy the subtree rooted at the specified node.
-    void destroy(Node* node)
+    static void destroy(Node* node)
     {
         if (node)
         {
@@ -361,7 +363,7 @@ private:
 
     // Traverse the subtree rooted at the specified node.
     template <typename F>
-    void level_action(Node* node, F action) const
+    static void level_action(Node* node, F action)
     {
         // level order
         if (node != nullptr)

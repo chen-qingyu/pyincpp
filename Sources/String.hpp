@@ -1,7 +1,7 @@
 /**
  * @file String.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief My C++ string library. Because the <string> is too crude to use, so I wrote one myself.
+ * @brief My C++ string library.
  * @version 1.0
  * @date 2023.01.08
  *
