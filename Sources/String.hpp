@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2023
  */
 
-#ifndef STRING_H
-#define STRING_H
+#ifndef STRING_HPP
+#define STRING_HPP
 
 #include "List.hpp"
 
@@ -1112,4 +1112,4 @@ inline String operator*(int times, const String& string)
 
 } // namespace mdspp
 
-#endif // STRING_H
+#endif // STRING_HPP
