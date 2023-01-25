@@ -792,13 +792,16 @@ public:
      */
     Set& clear()
     {
-        destroy(root_);
+        if (size_ != 0)
+        {
+            destroy(root_);
 
-        size_ = 0;
-        root_ = nullptr;
-        end_->link_left(root_);
-        min_ = end_;
-        max_ = end_;
+            size_ = 0;
+            root_ = nullptr;
+            end_->link_left(root_);
+            min_ = end_;
+            max_ = end_;
+        }
 
         return *this;
     }

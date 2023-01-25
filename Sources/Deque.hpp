@@ -101,10 +101,16 @@ private:
     // Clear the stored node of data.
     void clear_data()
     {
-        while (size_ > 0)
+        while (header_->succ_ != trailer_)
         {
-            pop_back();
+            auto node = header_->succ_->succ_;
+            delete header_->succ_;
+            header_->succ_ = node;
         }
+
+        size_ = 0;
+        header_->succ_ = trailer_;
+        trailer_->pred_ = header_;
     }
 
 public:
@@ -394,7 +400,10 @@ public:
      */
     Deque& clear()
     {
-        clear_data();
+        if (size_ != 0)
+        {
+            clear_data();
+        }
 
         return *this;
     }

@@ -188,6 +188,10 @@ TEST(Set, clear)
 
     // double clear
     ASSERT_EQ(set.clear(), Set<int>());
+
+    // modify after clear
+    set += 233;
+    ASSERT_EQ(set, Set<int>({233}));
 }
 
 // operator&=() operator&()

@@ -171,6 +171,10 @@ TEST(Deque, clear)
 
     // double clear
     ASSERT_EQ(deque.clear(), Deque<int>());
+
+    // modify after clear
+    deque.push_back(233);
+    ASSERT_EQ(deque, Deque<int>({233}));
 }
 
 // operator>>=() operator<<=()

@@ -204,6 +204,10 @@ TEST(Map, clear)
 
     // double clear
     ASSERT_EQ(map.clear(), (Map<int, String>()));
+
+    // modify after clear
+    map += {1, "one"};
+    ASSERT_EQ(map, (Map<int, String>({{1, "one"}})));
 }
 
 // operator<<()

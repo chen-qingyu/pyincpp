@@ -316,6 +316,10 @@ TEST(List, clear)
 
     // double clear
     ASSERT_EQ(list.clear(), List<int>());
+
+    // modify after clear
+    list += 233;
+    ASSERT_EQ(list, List<int>({233}));
 }
 
 // traverse()

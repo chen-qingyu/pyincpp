@@ -419,6 +419,10 @@ TEST(String, clear)
 
     // double clear
     ASSERT_EQ(string.clear(), String());
+
+    // modify after clear
+    string += "233";
+    ASSERT_EQ(string, String("233"));
 }
 
 // traverse()
