@@ -451,11 +451,11 @@ TEST(List, adjust_capacity)
     List<int> list;
 
     ASSERT_EQ(list.capacity(), List<int>::INIT_CAPACITY);
-    ASSERT_EQ(list.adjust_capacity().capacity(), 8);
-    ASSERT_EQ(list.adjust_capacity().capacity(), 16);
+    ASSERT_EQ(list.adjust_capacity(list.capacity() * 2).capacity(), 8);
+    ASSERT_EQ(list.adjust_capacity(list.capacity() * 2).capacity(), 16);
     ASSERT_EQ(list.adjust_capacity(1).capacity(), 1);
-    ASSERT_EQ(list.adjust_capacity().capacity(), 2);
-    ASSERT_EQ(list.adjust_capacity().capacity(), 4);
+    ASSERT_EQ(list.adjust_capacity(list.capacity() * 2).capacity(), 2);
+    ASSERT_EQ(list.adjust_capacity(list.capacity() * 2).capacity(), 4);
 
     list += List<int>({1, 2, 3, 4, 5});
     ASSERT_EQ(list.capacity(), 8);

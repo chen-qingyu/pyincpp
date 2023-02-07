@@ -532,7 +532,8 @@ public:
         // adjust capacity
         if (size_ == capacity_)
         {
-            adjust_capacity();
+            // double capacity until MAX_CAPACITY
+            adjust_capacity((capacity_ < MAX_CAPACITY / 2) ? capacity_ * 2 : MAX_CAPACITY);
         }
 
         // index
@@ -781,35 +782,27 @@ public:
     /**
      * @brief Adjust capacity safely.
      *
-     * @param new_capacity new capacity, default -1 means double capacity
+     * @param new_capacity new capacity
      * @return self reference
      */
-    List& adjust_capacity(int new_capacity = -1)
+    List& adjust_capacity(int new_capacity)
     {
-        if (new_capacity == -1) // default
+        if (new_capacity == 0)
         {
-            // double capacity until MAX_CAPACITY
-            capacity_ = (capacity_ < MAX_CAPACITY / 2) ? capacity_ * 2 : MAX_CAPACITY;
+            throw std::runtime_error("ERROR: Capacity can not be zero.");
         }
-        else // specified capacity
+
+        if (new_capacity < size_)
         {
-            if (new_capacity == 0)
-            {
-                throw std::runtime_error("ERROR: Capacity can not be zero.");
-            }
-
-            if (new_capacity < size_)
-            {
-                throw std::runtime_error("ERROR: Capacity can not be smaller than the size.");
-            }
-
-            if (new_capacity > MAX_CAPACITY)
-            {
-                throw std::runtime_error("ERROR: Capacity can not be larger than the maximum capacity.");
-            }
-
-            capacity_ = new_capacity;
+            throw std::runtime_error("ERROR: Capacity can not be smaller than the size.");
         }
+
+        if (new_capacity > MAX_CAPACITY)
+        {
+            throw std::runtime_error("ERROR: Capacity can not be larger than the maximum capacity.");
+        }
+
+        capacity_ = new_capacity;
 
         // move data
         T* tmp = new T[capacity_];
