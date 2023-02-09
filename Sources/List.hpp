@@ -688,7 +688,7 @@ public:
      * @return self reference
      */
     template <typename F>
-    List& traverse(F action)
+    List& traverse(const F& action)
     {
         for (int i = 0; i < size_; ++i)
         {
