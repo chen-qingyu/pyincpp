@@ -6,9 +6,6 @@
 
 #include "../Sources/Set.hpp"
 
-#include "../Sources/Deque.hpp"
-#include "../Sources/List.hpp"
-
 using mdspp::Set;
 
 // constructor destructor size() is_empty()

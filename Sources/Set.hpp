@@ -12,6 +12,7 @@
 #define SET_HPP
 
 #include "Deque.hpp"
+#include "List.hpp"
 
 namespace mdspp
 {

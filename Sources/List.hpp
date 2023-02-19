@@ -20,6 +20,9 @@
 #include "common/check_full.hpp"
 #include "common/swap.hpp"
 
+#include "Deque.hpp"
+#include "Set.hpp"
+
 namespace mdspp
 {
 
