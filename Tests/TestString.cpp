@@ -6,7 +6,7 @@
 
 #include "../Sources/String.hpp"
 
-using mdspp::String;
+using namespace mdspp;
 
 // constructor destructor size() is_empty()
 TEST(String, basics)
@@ -44,8 +44,8 @@ TEST(String, copy_assignment)
 
     string1 = string2;
     string2 += "10";
-    ASSERT_EQ(string1, String("6789"));
-    ASSERT_EQ(string2, String("678910"));
+    ASSERT_EQ(string1, "6789");
+    ASSERT_EQ(string2, "678910");
 }
 
 // operator=()
@@ -55,8 +55,8 @@ TEST(String, move_assignment)
     String string2("6789");
 
     string1 = std::move(string2);
-    ASSERT_EQ(string1, String("6789"));
-    ASSERT_EQ(string2, String());
+    ASSERT_EQ(string1, "6789");
+    ASSERT_EQ(string2, "");
 }
 
 // operator[]()
@@ -101,7 +101,7 @@ TEST(String, get_set)
     String string;
     char* str = String("hello").get();
     string.set(str);
-    ASSERT_EQ(string, String("hello"));
+    ASSERT_EQ(string, "hello");
     delete[] str;
 }
 
@@ -311,15 +311,15 @@ TEST(String, insert)
 
     // insert
     string.insert(0, 'a');
-    ASSERT_EQ(string, String("a"));
+    ASSERT_EQ(string, "a");
     string.insert(0, 'b');
-    ASSERT_EQ(string, String("ba"));
+    ASSERT_EQ(string, "ba");
     string.insert(2, 'c');
-    ASSERT_EQ(string, String("bac"));
+    ASSERT_EQ(string, "bac");
     string.insert(1, 'd');
-    ASSERT_EQ(string, String("bdac"));
+    ASSERT_EQ(string, "bdac");
     string.insert(-1, 'z'); // expand capacity
-    ASSERT_EQ(string, String("bdazc"));
+    ASSERT_EQ(string, "bdazc");
 }
 
 // remove()
@@ -363,16 +363,16 @@ TEST(String, append)
     String string;
 
     // append element
-    ASSERT_EQ(string += '2', String("2"));
-    ASSERT_EQ(string += '3', String("23"));
-    ASSERT_EQ(string += '3', String("233"));
-    ASSERT_EQ(string += '3', String("2333"));
-    ASSERT_EQ(string += '3', String("23333")); // expand capacity
+    ASSERT_EQ(string += '2', "2");
+    ASSERT_EQ(string += '3', "23");
+    ASSERT_EQ(string += '3', "233");
+    ASSERT_EQ(string += '3', "2333");
+    ASSERT_EQ(string += '3', "23333"); // expand capacity
 
     // append string
-    ASSERT_EQ(string += string, String("2333323333"));
-    ASSERT_EQ(string += string, String("23333233332333323333"));
-    ASSERT_EQ(string += String("00"), String("2333323333233332333300"));
+    ASSERT_EQ(string += string, "2333323333");
+    ASSERT_EQ(string += string, "23333233332333323333");
+    ASSERT_EQ(string += "00", "2333323333233332333300");
 }
 
 // operator-=()
@@ -380,14 +380,14 @@ TEST(String, remove_element)
 {
     String string("12345");
 
-    ASSERT_EQ(string -= '1', String("2345"));
-    ASSERT_EQ(string -= '2', String("345"));
-    ASSERT_EQ(string -= '3', String("45"));
-    ASSERT_EQ(string -= '4', String("5"));
-    ASSERT_EQ(string -= '5', String(""));
+    ASSERT_EQ(string -= '1', "2345");
+    ASSERT_EQ(string -= '2', "345");
+    ASSERT_EQ(string -= '3', "45");
+    ASSERT_EQ(string -= '4', "5");
+    ASSERT_EQ(string -= '5', "");
 
     // if the string does not contain the element, it is unchanged.
-    ASSERT_EQ(string -= '6', String());
+    ASSERT_EQ(string -= '6', "");
 }
 
 // operator*=()
@@ -405,9 +405,9 @@ TEST(String, repeat)
         ASSERT_STREQ(e.what(), "ERROR: Times to repeat can not be less than zero.");
     }
 
-    ASSERT_EQ(string *= 1, String("12"));
-    ASSERT_EQ(string *= 2, String("1212"));
-    ASSERT_EQ(string *= 0, String());
+    ASSERT_EQ(string *= 1, "12");
+    ASSERT_EQ(string *= 2, "1212");
+    ASSERT_EQ(string *= 0, "");
 }
 
 // clear()
@@ -415,14 +415,14 @@ TEST(String, clear)
 {
     String string("12345");
 
-    ASSERT_EQ(string.clear(), String());
+    ASSERT_EQ(string.clear(), "");
 
     // double clear
-    ASSERT_EQ(string.clear(), String());
+    ASSERT_EQ(string.clear(), "");
 
     // modify after clear
     string += "233";
-    ASSERT_EQ(string, String("233"));
+    ASSERT_EQ(string, "233");
 }
 
 // traverse()
@@ -432,36 +432,36 @@ TEST(String, traverse)
 
     string.traverse([](char& x)
                     { x += 1; });
-    ASSERT_EQ(string, String("23456"));
+    ASSERT_EQ(string, "23456");
 
     string.traverse([](char& x)
                     { x = '1'; });
-    ASSERT_EQ(string, String("11111"));
+    ASSERT_EQ(string, "11111");
 }
 
 // reverse()
 TEST(String, reverse)
 {
-    ASSERT_EQ(String().reverse(), String());
+    ASSERT_EQ(String().reverse(), "");
 
-    ASSERT_EQ(String("12345").reverse(), String("54321"));
+    ASSERT_EQ(String("12345").reverse(), "54321");
 }
 
 // uniquify()
 TEST(String, uniquify)
 {
-    ASSERT_EQ(String("122333").uniquify(), String("123"));
+    ASSERT_EQ(String("122333").uniquify(), "123");
 
-    ASSERT_EQ(String("00000000000000").uniquify(), String("0"));
+    ASSERT_EQ(String("00000000000000").uniquify(), "0");
 
-    ASSERT_EQ(String("123123123").uniquify(), String("123"));
+    ASSERT_EQ(String("123123123").uniquify(), "123");
 
     String many;
     for (int i = 0; i < 10000; i++)
     {
         many += 'A';
     }
-    ASSERT_EQ(many.uniquify(), String({"A"}));
+    ASSERT_EQ(many.uniquify(), "A");
 }
 
 // sort()
@@ -471,12 +471,12 @@ TEST(String, sort)
 
     // from small to large
     string.sort();
-    ASSERT_EQ(string, String("0123456789"));
+    ASSERT_EQ(string, "0123456789");
 
     // from large to small
     string.sort([](const char& e1, const char& e2)
                 { return e1 > e2; });
-    ASSERT_EQ(string, String("9876543210"));
+    ASSERT_EQ(string, "9876543210");
 }
 
 // swap()
@@ -487,25 +487,25 @@ TEST(String, swap)
 
     s1.swap(s2);
 
-    ASSERT_EQ(s1, String("second"));
-    ASSERT_EQ(s2, String("first"));
+    ASSERT_EQ(s1, "second");
+    ASSERT_EQ(s2, "first");
 }
 
 // lower() upper()
 TEST(String, lower_upper)
 {
-    ASSERT_EQ(String("hahaha").upper(), String("HAHAHA"));
+    ASSERT_EQ(String("hahaha").upper(), "HAHAHA");
 
-    ASSERT_EQ(String("HAHAHA").lower(), String("hahaha"));
+    ASSERT_EQ(String("HAHAHA").lower(), "hahaha");
 }
 
 // erase()
 TEST(String, erase)
 {
-    ASSERT_EQ(String("abcdefg").erase(0, 1), String("bcdefg"));
-    ASSERT_EQ(String("abcdefg").erase(1, 2), String("acdefg"));
-    ASSERT_EQ(String("abcdefg").erase(1, 6), String("ag"));
-    ASSERT_EQ(String("abcdefg").erase(0, 7), String(""));
+    ASSERT_EQ(String("abcdefg").erase(0, 1), "bcdefg");
+    ASSERT_EQ(String("abcdefg").erase(1, 2), "acdefg");
+    ASSERT_EQ(String("abcdefg").erase(1, 6), "ag");
+    ASSERT_EQ(String("abcdefg").erase(0, 7), "");
 
     ASSERT_THROW(String("abcdefg").erase(-1, 99), std::runtime_error);
     try
@@ -521,23 +521,23 @@ TEST(String, erase)
 // replace()
 TEST(String, replace)
 {
-    ASSERT_EQ(String("abcdefg").replace("a", "g"), String("gbcdefg"));
-    ASSERT_EQ(String("abcdefg").replace("g", "a"), String("abcdefa"));
-    ASSERT_EQ(String("abcdefg").replace("cde", "~~~"), String("ab~~~fg"));
-    ASSERT_EQ(String("abcdefg").replace("abcdefg", ""), String(""));
-    ASSERT_EQ(String("abcdefg").replace("abcdefg", ""), String(""));
-    ASSERT_EQ(String("").replace("abc", "~~~"), String(""));
-    ASSERT_EQ(String("hahaha").replace("h", "l"), String("lalala"));
-    ASSERT_EQ(String("hahaha").replace("a", "ooow~ "), String("hooow~ hooow~ hooow~ "));
-    ASSERT_EQ(String("hooow~ hooow~ hooow~ ").replace("ooo", "o"), String("how~ how~ how~ "));
+    ASSERT_EQ(String("abcdefg").replace("a", "g"), "gbcdefg");
+    ASSERT_EQ(String("abcdefg").replace("g", "a"), "abcdefa");
+    ASSERT_EQ(String("abcdefg").replace("cde", "~~~"), "ab~~~fg");
+    ASSERT_EQ(String("abcdefg").replace("abcdefg", ""), "");
+    ASSERT_EQ(String("abcdefg").replace("abcdefg", ""), "");
+    ASSERT_EQ(String("").replace("abc", "~~~"), "");
+    ASSERT_EQ(String("hahaha").replace("h", "l"), "lalala");
+    ASSERT_EQ(String("hahaha").replace("a", "ooow~ "), "hooow~ hooow~ hooow~ ");
+    ASSERT_EQ(String("hooow~ hooow~ hooow~ ").replace("ooo", "o"), "how~ how~ how~ ");
 }
 
 // strip()
 TEST(String, strip)
 {
-    ASSERT_EQ(String("\t\nhello\t\n").strip(), String("hello"));
-    ASSERT_EQ(String("           hello           ").strip(), String("hello"));
-    ASSERT_EQ(String("\n\n\n\n \t\n\b\n   hello  \n\n\t\n \r\b\n\r").strip(), String("hello"));
+    ASSERT_EQ(String("\t\nhello\t\n").strip(), "hello");
+    ASSERT_EQ(String("           hello           ").strip(), "hello");
+    ASSERT_EQ(String("\n\n\n\n \t\n\b\n   hello  \n\n\t\n \r\b\n\r").strip(), "hello");
 }
 
 // slice()
@@ -545,25 +545,25 @@ TEST(String, slice)
 {
     String string("12345");
 
-    ASSERT_EQ(string.slice(-1, 1), String());
-    ASSERT_EQ(string.slice(-1, 1, -1), String("543"));
-    ASSERT_EQ(string.slice(1, -1), String("234"));
-    ASSERT_EQ(string.slice(1, -1, -1), String());
+    ASSERT_EQ(string.slice(-1, 1), "");
+    ASSERT_EQ(string.slice(-1, 1, -1), "543");
+    ASSERT_EQ(string.slice(1, -1), "234");
+    ASSERT_EQ(string.slice(1, -1, -1), "");
 
-    ASSERT_EQ(string.slice(0, 5), String("12345"));
-    ASSERT_EQ(string.slice(0, 5, 2), String("135"));
-    ASSERT_EQ(string.slice(0, 5, -1), String());
-    ASSERT_EQ(string.slice(0, 5, -2), String());
+    ASSERT_EQ(string.slice(0, 5), "12345");
+    ASSERT_EQ(string.slice(0, 5, 2), "135");
+    ASSERT_EQ(string.slice(0, 5, -1), "");
+    ASSERT_EQ(string.slice(0, 5, -2), "");
 
-    ASSERT_EQ(string.slice(-1, -6), String());
-    ASSERT_EQ(string.slice(-1, -6, 2), String());
-    ASSERT_EQ(string.slice(-1, -6, -1), String("54321"));
-    ASSERT_EQ(string.slice(-1, -6, -2), String("531"));
+    ASSERT_EQ(string.slice(-1, -6), "");
+    ASSERT_EQ(string.slice(-1, -6, 2), "");
+    ASSERT_EQ(string.slice(-1, -6, -1), "54321");
+    ASSERT_EQ(string.slice(-1, -6, -2), "531");
 
-    ASSERT_EQ(string.slice(0, 0), String());
-    ASSERT_EQ(string.slice(1, 1), String());
-    ASSERT_EQ(string.slice(-1, -1), String());
-    ASSERT_EQ(string.slice(-1, -1, -1), String());
+    ASSERT_EQ(string.slice(0, 0), "");
+    ASSERT_EQ(string.slice(1, 1), "");
+    ASSERT_EQ(string.slice(-1, -1), "");
+    ASSERT_EQ(string.slice(-1, -1, -1), "");
 
     ASSERT_THROW(string.slice(1, 2, 0), std::runtime_error);
     try
@@ -592,41 +592,43 @@ TEST(String, production)
     String string("12345");
 
     // operator+
-    ASSERT_EQ(string + '6', String("123456"));
-    ASSERT_EQ(string + String("67"), String("1234567"));
+    ASSERT_EQ(string + '6', "123456");
+    ASSERT_EQ(string + "67", "1234567");
+    ASSERT_EQ('0' + string, "012345");
+    ASSERT_EQ("000" + string, "00012345");
 
     // operator-
-    ASSERT_EQ(string - '5', String("1234"));
-    ASSERT_EQ(string - '6', String("12345"));
+    ASSERT_EQ(string - '5', "1234");
+    ASSERT_EQ(string - '6', "12345");
 
     // operator*
-    ASSERT_EQ(string * 0, String());
-    ASSERT_EQ(string * 1, String("12345"));
-    ASSERT_EQ(string * 2, String("1234512345"));
-    ASSERT_EQ(0 * string, String());
-    ASSERT_EQ(1 * string, String("12345"));
-    ASSERT_EQ(2 * string, String("1234512345"));
+    ASSERT_EQ(string * 0, "");
+    ASSERT_EQ(string * 1, "12345");
+    ASSERT_EQ(string * 2, "1234512345");
+    ASSERT_EQ(0 * string, "");
+    ASSERT_EQ(1 * string, "12345");
+    ASSERT_EQ(2 * string, "1234512345");
 }
 
 // split()
 TEST(String, split)
 {
-    ASSERT_EQ(String("one, two, three").split(", "), mdspp::List<String>({"one", "two", "three"}));
-    ASSERT_EQ(String("this is my code!").split(" "), mdspp::List<String>({"this", "is", "my", "code!"}));
-    ASSERT_EQ(String("this is my code!").split("this is my code!"), mdspp::List<String>({""}));
-    ASSERT_EQ(String(" this is my code! ").split(" "), mdspp::List<String>({"", "this", "is", "my", "code!"}));
-    ASSERT_EQ(String("aaa").split("a"), mdspp::List<String>({"", "", ""}));
-    ASSERT_EQ(String("192.168.0.1").split("."), mdspp::List<String>({"192", "168", "0", "1"}));
+    ASSERT_EQ(String("one, two, three").split(", "), List<String>({"one", "two", "three"}));
+    ASSERT_EQ(String("this is my code!").split(" "), List<String>({"this", "is", "my", "code!"}));
+    ASSERT_EQ(String("this is my code!").split("this is my code!"), List<String>({""}));
+    ASSERT_EQ(String(" this is my code! ").split(" "), List<String>({"", "this", "is", "my", "code!"}));
+    ASSERT_EQ(String("aaa").split("a"), List<String>({"", "", ""}));
+    ASSERT_EQ(String("192.168.0.1").split("."), List<String>({"192", "168", "0", "1"}));
 }
 
 // join()
 TEST(String, join)
 {
-    ASSERT_EQ(String(", ").join(mdspp::List<String>()), String());
-    ASSERT_EQ(String(", ").join(mdspp::List<String>({"a"})), String("a"));
-    ASSERT_EQ(String(", ").join(mdspp::List<String>({"a", "b"})), String("a, b"));
-    ASSERT_EQ(String(", ").join(mdspp::List<String>({"a", "b", "c"})), String("a, b, c"));
-    ASSERT_EQ(String(".").join(mdspp::List<String>({"192", "168", "0", "1"})), String("192.168.0.1"));
+    ASSERT_EQ(String(", ").join(List<String>()), "");
+    ASSERT_EQ(String(", ").join(List<String>({"a"})), "a");
+    ASSERT_EQ(String(", ").join(List<String>({"a", "b"})), "a, b");
+    ASSERT_EQ(String(", ").join(List<String>({"a", "b", "c"})), "a, b, c");
+    ASSERT_EQ(String(".").join(List<String>({"192", "168", "0", "1"})), "192.168.0.1");
 }
 
 // operator<<()

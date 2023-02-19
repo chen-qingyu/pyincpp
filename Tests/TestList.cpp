@@ -7,7 +7,7 @@
 
 #include "../Sources/List.hpp"
 
-using mdspp::List;
+using namespace mdspp;
 
 // constructor destructor size() is_empty()
 TEST(List, basics)
@@ -563,9 +563,9 @@ TEST(List, production)
 // to_deque() to_set()
 TEST(List, to_deque_set)
 {
-    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}).to_deque(), mdspp::Deque<int>({1, 2, 3, 4, 5}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}).to_deque(), Deque<int>({1, 2, 3, 4, 5}));
 
-    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}).to_set(), mdspp::Set<int>({1, 2, 3, 4, 5}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}).to_set(), Set<int>({1, 2, 3, 4, 5}));
 }
 
 // operator<<()

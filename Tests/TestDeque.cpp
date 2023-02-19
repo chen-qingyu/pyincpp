@@ -6,7 +6,7 @@
 
 #include "../Sources/Deque.hpp"
 
-using mdspp::Deque;
+using namespace mdspp;
 
 // constructor destructor size() is_empty()
 TEST(Deque, basics)
@@ -214,9 +214,9 @@ TEST(Deque, rotate)
 // to_list() to_set()
 TEST(Deque, to_list_set)
 {
-    ASSERT_EQ(Deque<int>({1, 2, 3, 4, 5}).to_list(), mdspp::List<int>({1, 2, 3, 4, 5}));
+    ASSERT_EQ(Deque<int>({1, 2, 3, 4, 5}).to_list(), List<int>({1, 2, 3, 4, 5}));
 
-    ASSERT_EQ(Deque<int>({1, 2, 3, 4, 5}).to_set(), mdspp::Set<int>({1, 2, 3, 4, 5}));
+    ASSERT_EQ(Deque<int>({1, 2, 3, 4, 5}).to_set(), Set<int>({1, 2, 3, 4, 5}));
 }
 
 // operator<<()

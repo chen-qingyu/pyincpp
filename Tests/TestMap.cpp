@@ -7,8 +7,7 @@
 #include "../Sources/Map.hpp"
 #include "../Sources/String.hpp"
 
-using mdspp::Map;
-using mdspp::String;
+using namespace mdspp;
 
 // constructor destructor size() is_empty()
 TEST(Map, basics)
@@ -155,8 +154,8 @@ TEST(Map, keys_values)
 {
     Map<int, String> map({{1, "one"}, {2, "two"}, {3, "three"}});
 
-    ASSERT_EQ(map.keys(), mdspp::Set<int>({1, 2, 3}));
-    ASSERT_EQ(map.values(), mdspp::Set<String>({"one", "two", "three"}));
+    ASSERT_EQ(map.keys(), Set<int>({1, 2, 3}));
+    ASSERT_EQ(map.values(), Set<String>({"one", "two", "three"}));
 }
 
 // operator+=()

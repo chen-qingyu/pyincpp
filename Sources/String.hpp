@@ -1099,6 +1099,33 @@ inline std::ostream& operator<<(std::ostream& os, const String& string)
 }
 
 /**
+ * @brief Concatenate character and string.
+ *
+ * @param element character
+ * @param string the string
+ * @return the generated string
+ */
+inline String operator+(const char& element, const String& string)
+{
+    String new_string = string;
+    new_string.insert(0, element);
+    return new_string;
+}
+
+/**
+ * @brief Concatenate string and string.
+ *
+ * @param chars a pointer to a null-terminated byte string
+ * @param string the string
+ * @return the generated string
+ */
+inline String operator+(const char* chars, const String& string)
+{
+    String new_string = chars;
+    return new_string += string;
+}
+
+/**
  * @brief Generate a new string and add the string to itself a certain number of times.
  *
  * @param times times to repeat
