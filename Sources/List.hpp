@@ -23,6 +23,12 @@
 namespace mdspp
 {
 
+template <typename T>
+class Deque;
+
+template <typename T>
+class Set;
+
 /**
  * @brief List template class, implemented by array list.
  *
@@ -904,6 +910,36 @@ public:
     {
         List new_list = *this;
         return new_list *= times;
+    }
+
+    /**
+     * @brief Generate a deque with the same elements.
+     *
+     * @return a deque with the same elements
+     */
+    Deque<T> to_deque() const
+    {
+        Deque<T> deque;
+        for (int i = 0; i < size_; i++)
+        {
+            deque.push_back(data_[i]);
+        }
+        return deque;
+    }
+
+    /**
+     * @brief Generate a set with the same elements.
+     *
+     * @return a set with the same elements
+     */
+    Set<T> to_set() const
+    {
+        Set<T> set;
+        for (int i = 0; i < size_; i++)
+        {
+            set += data_[i];
+        }
+        return set;
     }
 };
 

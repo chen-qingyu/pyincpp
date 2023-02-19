@@ -6,6 +6,9 @@
 
 #include "../Sources/Set.hpp"
 
+#include "../Sources/Deque.hpp"
+#include "../Sources/List.hpp"
+
 using mdspp::Set;
 
 // constructor destructor size() is_empty()
@@ -232,6 +235,14 @@ TEST(Set, symmetric_difference)
 
     ASSERT_EQ(set1 ^ set2, Set<int>({2, 4, 7, 9}));
     ASSERT_EQ(set1 ^= set2, Set<int>({2, 4, 7, 9}));
+}
+
+// to_list() to_deque()
+TEST(Set, to_list_deque)
+{
+    ASSERT_EQ(Set<int>({1, 2, 3, 4, 5}).to_list(), mdspp::List<int>({1, 2, 3, 4, 5}));
+
+    ASSERT_EQ(Set<int>({1, 2, 3, 4, 5}).to_deque(), mdspp::Deque<int>({1, 2, 3, 4, 5}));
 }
 
 // operator<<()

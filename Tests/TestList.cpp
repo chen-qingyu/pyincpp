@@ -7,6 +7,9 @@
 
 #include "../Sources/List.hpp"
 
+#include "../Sources/Deque.hpp"
+#include "../Sources/Set.hpp"
+
 using mdspp::List;
 
 // constructor destructor size() is_empty()
@@ -558,6 +561,14 @@ TEST(List, production)
     ASSERT_EQ(0 * list, List<int>({}));
     ASSERT_EQ(1 * list, List<int>({1, 2, 3, 4, 5}));
     ASSERT_EQ(2 * list, List<int>({1, 2, 3, 4, 5, 1, 2, 3, 4, 5}));
+}
+
+// to_deque() to_set()
+TEST(List, to_deque_set)
+{
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}).to_deque(), mdspp::Deque<int>({1, 2, 3, 4, 5}));
+
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}).to_set(), mdspp::Set<int>({1, 2, 3, 4, 5}));
 }
 
 // operator<<()
