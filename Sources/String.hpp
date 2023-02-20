@@ -888,7 +888,7 @@ public:
      */
     String& erase(int start, int stop)
     {
-        common::check_bounds(start, 0, size());
+        common::check_bounds(start, 0, size() + 1);
         common::check_bounds(stop, 0, size() + 1);
 
         for (int i = stop; i < list_.size_; i++)

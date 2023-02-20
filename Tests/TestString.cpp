@@ -535,6 +535,7 @@ TEST(String, replace)
 // strip()
 TEST(String, strip)
 {
+    ASSERT_EQ(String("hello").strip(), "hello");
     ASSERT_EQ(String("\t\nhello\t\n").strip(), "hello");
     ASSERT_EQ(String("           hello           ").strip(), "hello");
     ASSERT_EQ(String("\n\n\n\n \t\n\b\n   hello  \n\n\t\n \r\b\n\r").strip(), "hello");
