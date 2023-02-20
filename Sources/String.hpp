@@ -1107,9 +1107,9 @@ inline std::ostream& operator<<(std::ostream& os, const String& string)
  */
 inline String operator+(const char& element, const String& string)
 {
-    String new_string = string;
-    new_string.insert(0, element);
-    return new_string;
+    String new_string;
+    new_string += element;
+    return new_string += string;
 }
 
 /**
