@@ -21,5 +21,6 @@
     <ClInclude Include="Deque.hpp" />
     <ClInclude Include="Set.hpp" />
     <ClInclude Include="Map.hpp" />
+    <ClInclude Include="Integer.hpp" />
   </ItemGroup>
 </Project>

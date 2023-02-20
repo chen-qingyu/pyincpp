@@ -41,6 +41,7 @@ template <typename T>
 class List
 {
     friend class String;
+    friend class Integer;
 
 public:
     /**

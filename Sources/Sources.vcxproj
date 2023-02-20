@@ -23,6 +23,7 @@
     <ClInclude Include="common\check_empty.hpp" />
     <ClInclude Include="common\check_full.hpp" />
     <ClInclude Include="Deque.hpp" />
+    <ClInclude Include="Integer.hpp" />
     <ClInclude Include="List.hpp" />
     <ClInclude Include="ListIterator.hpp" />
     <ClInclude Include="Map.hpp" />
