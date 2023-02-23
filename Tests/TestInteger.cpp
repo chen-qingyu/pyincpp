@@ -41,9 +41,42 @@ TEST(Integer, basics)
     // ~Integer()
 }
 
+// operator==() operator!=() operator<() operator<=() operator>() operator>=()
+TEST(Integer, compare)
+{
+    Integer integer("12345");
+
+    // operator==
+    Integer eq_integer("12345");
+    ASSERT_TRUE(eq_integer == integer);
+
+    // operator!=
+    Integer ne_integer("54321");
+    ASSERT_TRUE(ne_integer != integer);
+
+    // operator<
+    Integer lt_integer("12344");
+    ASSERT_TRUE(lt_integer < integer);
+
+    // operator<=
+    ASSERT_TRUE(lt_integer <= integer);
+    ASSERT_TRUE(eq_integer <= integer);
+
+    // operator>
+    Integer gt_integer("12346");
+    ASSERT_TRUE(gt_integer > integer);
+
+    // operator>=
+    ASSERT_TRUE(eq_integer >= integer);
+    ASSERT_TRUE(gt_integer >= integer);
+}
+
 // operator+()
 TEST(Integer, plus)
 {
+    // +pos
+    ASSERT_EQ(+Integer("18446744073709551616"), Integer("18446744073709551616"));
+
     // pos + pos (2^64 + 2^64)
     ASSERT_EQ(Integer("18446744073709551616") + Integer("18446744073709551616"), Integer("36893488147419103232"));
 
@@ -51,8 +84,10 @@ TEST(Integer, plus)
     ASSERT_EQ(Integer("18446744073709551616") + Integer("0"), Integer("18446744073709551616"));
 
     // pos + neg
+    ASSERT_EQ(Integer("18446744073709551616") + Integer("-18446744073709551616"), Integer("0"));
 
     // neg + pos
+    ASSERT_EQ(Integer("-18446744073709551616") + Integer("18446744073709551616"), Integer("0"));
 
     // neg + zero
     ASSERT_EQ(Integer("-18446744073709551616") + Integer("0"), Integer("-18446744073709551616"));
@@ -71,6 +106,43 @@ TEST(Integer, plus)
 
     // one more test
     ASSERT_EQ(Integer("1") + Integer("18446744073709551616"), Integer("18446744073709551617"));
+}
+
+// operator-()
+TEST(Integer, minus)
+{
+    // -pos
+    ASSERT_EQ(-Integer("18446744073709551616"), Integer("-18446744073709551616"));
+
+    // pos - pos (2^64 - 2^64)
+    ASSERT_EQ(Integer("18446744073709551616") - Integer("18446744073709551616"), Integer("0"));
+
+    // pos - zero
+    ASSERT_EQ(Integer("18446744073709551616") - Integer("0"), Integer("18446744073709551616"));
+
+    // pos - neg
+    ASSERT_EQ(Integer("18446744073709551616") - Integer("-18446744073709551616"), Integer("36893488147419103232"));
+
+    // neg - pos
+    ASSERT_EQ(Integer("-18446744073709551616") - Integer("18446744073709551616"), Integer("-36893488147419103232"));
+
+    // neg - zero
+    ASSERT_EQ(Integer("-18446744073709551616") - Integer("0"), Integer("-18446744073709551616"));
+
+    // neg - neg
+    ASSERT_EQ(Integer("-18446744073709551616") - Integer("-18446744073709551616"), Integer("0"));
+
+    // zero - pos
+    ASSERT_EQ(Integer("0") - Integer("18446744073709551616"), Integer("-18446744073709551616"));
+
+    // zero - zero
+    ASSERT_EQ(Integer("0") - Integer("0"), Integer("0"));
+
+    // zero - neg
+    ASSERT_EQ(Integer("0") - Integer("-18446744073709551616"), Integer("18446744073709551616"));
+
+    // one more test
+    ASSERT_EQ(Integer("1") - Integer("18446744073709551616"), Integer("-18446744073709551615"));
 }
 
 // operator*()
