@@ -8,35 +8,29 @@
 
 using namespace mdspp;
 
-// constructor destructor digits() is_zero()
+// constructor destructor digits()
 TEST(Integer, basics)
 {
     // Integer()
     Integer int1;
     ASSERT_EQ(int1.digits(), 0);
-    ASSERT_TRUE(int1.is_zero());
 
     // Integer(const String& str)
     Integer int2 = "123456789000";
     ASSERT_EQ(int2.digits(), 12);
-    ASSERT_FALSE(int2.is_zero());
 
     // Integer(long long integer)
     Integer int3 = 123456789000LL;
     ASSERT_EQ(int3.digits(), 12);
-    ASSERT_FALSE(int3.is_zero());
 
     // Integer(const Integer &that)
     Integer int4(int3);
     ASSERT_EQ(int4.digits(), 12);
-    ASSERT_FALSE(int4.is_zero());
 
     // Integer(Integer &&that)
     Integer int5(std::move(int4));
     ASSERT_EQ(int5.digits(), 12);
-    ASSERT_FALSE(int5.is_zero());
     ASSERT_EQ(int4.digits(), 0);
-    ASSERT_TRUE(int4.is_zero());
 
     // ~Integer()
 }

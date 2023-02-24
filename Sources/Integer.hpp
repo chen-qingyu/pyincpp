@@ -76,9 +76,19 @@ private:
         return 0; // eq
     }
 
+    Integer& trim_leading_zeros()
+    {
+        while (digits_[-1] == 0 && digits_.size_ > 1)
+        {
+            digits_.remove(-1);
+        }
+
+        return *this;
+    }
+
 public:
     Integer()
-        : digits_()
+        : digits_({0})
         , sign_('0')
     {
     }
@@ -155,6 +165,7 @@ public:
         : digits_(std::move(that.digits_))
         , sign_(std::move(that.sign_))
     {
+        that.digits_ += 0;
         that.sign_ = '0';
     }
 
@@ -166,6 +177,7 @@ public:
     {
         digits_ = that.digits_;
         sign_ = that.sign_;
+
         return *this;
     }
 
@@ -173,18 +185,16 @@ public:
     {
         digits_ = std::move(that.digits_);
         sign_ = std::move(that.sign_);
+
+        that.digits_ += 0;
         that.sign_ = '0';
+
         return *this;
     }
 
     int digits() const
     {
-        return digits_.size_;
-    }
-
-    bool is_zero() const
-    {
-        return sign_ == '0';
+        return sign_ == '0' ? 0 : digits_.size_;
     }
 
     /**
@@ -325,13 +335,8 @@ public:
             result.digits_[i] %= 10;
         }
 
-        // eliminate leading zero
-        if (result.digits_[size - 1] == 0)
-        {
-            result.digits_.remove(size - 1);
-        }
-
-        return result;
+        // trim leading zeros and return
+        return result.trim_leading_zeros();
     }
 
     Integer operator-(const Integer& rhs) const
@@ -395,12 +400,8 @@ public:
             result.digits_[i] = a.digits_[i] - b.digits_[i];
         }
 
-        // eliminate leading zeros
-        while (result.digits_[size - 1] == 0 && size > 1)
-        {
-            result.digits_.remove(size - 1);
-            size--;
-        }
+        // trim leading zeros
+        result.trim_leading_zeros();
 
         // if result is zero, set sign_ to '0'
         result.sign_ = (result.digits_.size_ == 1 && result.digits_[0] == 0) ? '0' : result.sign_;
@@ -413,7 +414,7 @@ public:
         // if one of the operands is zero, just return zero
         if (sign_ == '0' || rhs.sign_ == '0')
         {
-            return Integer(0);
+            return Integer();
         }
 
         // the sign is depends on the sign of operands
@@ -438,13 +439,8 @@ public:
             }
         }
 
-        // eliminate leading zero
-        if (result.digits_[size - 1] == 0)
-        {
-            result.digits_.remove(size - 1);
-        }
-
-        return result;
+        // trim leading zeros and return
+        return result.trim_leading_zeros();
     }
 
     Integer operator/(const Integer& rhs) const
@@ -457,7 +453,7 @@ public:
 
     bool operator!() const
     {
-        return is_zero() ? true : false;
+        return sign_ == '0' ? true : false;
     }
 };
 
@@ -474,11 +470,6 @@ public:
  */
 inline std::ostream& operator<<(std::ostream& os, const Integer& integer)
 {
-    if (integer.sign_ == '0')
-    {
-        return os << '0';
-    }
-
     if (integer.sign_ == '-')
     {
         os << '-';
