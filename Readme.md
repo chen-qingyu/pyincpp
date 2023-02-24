@@ -20,15 +20,15 @@
 
 ### 2. 模块说明
 
-```
-Type        Implement               Python
-List<T>     array list              list
-String      List<char>              str
-Deque<T>    doubly linked list      collections.deque
-Set<T>      AVL tree or skip list   set
-Map<K, V>   Set<Pair<K, V>>         dict
-Integer     self                    int
-```
+| Type          | Implement                   | Python              |
+| ------------- | --------------------------- | ------------------- |
+| `List<T>`     | `dynamic array`             | `list`              |
+| `Set<T>`      | `AVL tree`                  | `set`               |
+| `Map<K, V>`   | `Set<Pair<K, V>>`           | `dict`              |
+| `Integer`     | `List<signed char>`         | `int`               |
+| `String`      | `List<char>`                | `str`               |
+| `Tuple<...T>` | `template meta-programming` | `tuple`             |
+| `Deque<T>`    | `doubly linked list`        | `collections.deque` |
 
 ### 3. 开发历史
 
