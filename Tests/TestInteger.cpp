@@ -98,8 +98,9 @@ TEST(Integer, plus)
     // zero + neg
     ASSERT_EQ(Integer("0") + Integer("-18446744073709551616"), Integer("-18446744073709551616"));
 
-    // one more test
+    // more tests
     ASSERT_EQ(Integer("1") + Integer("18446744073709551616"), Integer("18446744073709551617"));
+    ASSERT_EQ(Integer("99999999") + Integer("1"), Integer("100000000"));
 }
 
 // operator-()
@@ -135,8 +136,9 @@ TEST(Integer, minus)
     // zero - neg
     ASSERT_EQ(Integer("0") - Integer("-18446744073709551616"), Integer("18446744073709551616"));
 
-    // one more test
+    // more tests
     ASSERT_EQ(Integer("1") - Integer("18446744073709551616"), Integer("-18446744073709551615"));
+    ASSERT_EQ(Integer("100000000") - Integer("1"), Integer("99999999"));
 }
 
 // operator*()
@@ -169,8 +171,9 @@ TEST(Integer, times)
     // zero * neg
     ASSERT_EQ(Integer("0") * Integer("-18446744073709551616"), Integer("0"));
 
-    // one more test
+    // more tests
     ASSERT_EQ(Integer("1") * Integer("18446744073709551616"), Integer("18446744073709551616"));
+    ASSERT_EQ(Integer("10000") * Integer("10000"), Integer("100000000"));
 }
 
 // operator<<()

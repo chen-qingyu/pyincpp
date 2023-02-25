@@ -86,6 +86,24 @@ private:
         return *this;
     }
 
+    static bool is_integer(const String& str)
+    {
+        if (str.size() == 0 || (str.size() == 1 && (str[0] == '+' || str[0] == '-')))
+        {
+            return false;
+        }
+
+        for (int i = (str[0] == '+' || str[0] == '-'); i < str.size(); i++)
+        {
+            if (str[i] < '0' || str[i] > '9')
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 public:
     Integer()
         : digits_({0})
@@ -97,31 +115,33 @@ public:
         : digits_()
         , sign_()
     {
-        // TODO 去掉开头的零，验证合法性
-
-        String s = str;
-        s.strip();
-
-        if (s == "" || s == "0")
+        if (!is_integer(str))
         {
-            digits_ += 0;
-            sign_ = '0';
+            throw std::runtime_error("ERROR: Wrong integer literal.");
         }
-        else if (s[0] == '-' || s[0] == '+')
+
+        if (str[0] == '-' || str[0] == '+')
         {
-            sign_ = s[0];
-            for (int i = s.size() - 1; i >= 1; i--)
+            sign_ = str[0];
+            for (int i = str.size() - 1; i >= 1; i--)
             {
-                digits_ += s[i] - '0';
+                digits_ += str[i] - '0';
             }
         }
         else
         {
             sign_ = '+';
-            for (int i = s.size() - 1; i >= 0; i--)
+            for (int i = str.size() - 1; i >= 0; i--)
             {
-                digits_ += s[i] - '0';
+                digits_ += str[i] - '0';
             }
+        }
+
+        trim_leading_zeros();
+
+        if (digits_.size_ == 1 && digits_[0] == 0)
+        {
+            sign_ = '0';
         }
     }
 
