@@ -25,10 +25,10 @@ class Integer
     friend std::ostream& operator<<(std::ostream& os, const Integer& integer);
 
 private:
-    // List of digits.
-    List<signed char> digits_;
+    // List of digits, represent absolute value of the integer.
+    List<signed char> digits_; // base 10, little endian
 
-    // '+' for positive, '-' for negative, and '0' for zero.
+    // Sign of integer, '+' is positive, '-' is negative, and '0' is zero.
     char sign_;
 
     // Compare two integers.
@@ -36,15 +36,21 @@ private:
     {
         if (sign_ != that.sign_)
         {
-            if (sign_ == '+') // that is -
+            if (sign_ == '+') // this is +, that is - or 0
             {
                 return 1; // gt
             }
-            else // this is -, that is +
+            else if (sign_ == '-') // this is -, that is + or 0
             {
                 return -1; // lt
             }
+            else // this is 0, that is + or -
+            {
+                return that.sign_ == '+' ? -1 : 1;
+            }
         }
+
+        // the sign of two integers is the same
 
         if (digits_.size_ != that.digits_.size_)
         {
@@ -360,6 +366,31 @@ public:
         return result.remove_leading_zeros();
     }
 
+    Integer& operator+=(const Integer& rhs)
+    {
+        return *this = *this + rhs;
+    }
+
+    Integer& operator-=(const Integer& rhs)
+    {
+        return *this = *this - rhs;
+    }
+
+    Integer& operator*=(const Integer& rhs)
+    {
+        return *this = *this * rhs;
+    }
+
+    Integer& operator/=(const Integer& rhs)
+    {
+        return *this = *this / rhs;
+    }
+
+    Integer& operator%=(const Integer& rhs)
+    {
+        return *this = *this % rhs;
+    }
+
     Integer operator-(const Integer& rhs) const
     {
         // if one of the operands is zero
@@ -459,10 +490,60 @@ public:
 
     Integer operator/(const Integer& rhs) const
     {
+        // if rhs is zero, throw an exception
+        if (rhs.sign_ == '0')
+        {
+            throw std::runtime_error("ERROR: Divide by zero.");
+        }
+
+        // if this is zero, just return zero
+        if (sign_ == '0')
+        {
+            return Integer();
+        }
+
+        // the sign of two integers is not zero
+
+        // prepare variables
+        Integer num1 = (*this).abs();
+        Integer tmp;     // intermediate variable for rhs * 10^i
+        tmp.sign_ = '+'; // positive
+        Integer result;
+        result.sign_ = (sign_ == rhs.sign_ ? '+' : '-'); // the sign is depends on the sign of operands
+
+        // add leading zeros
+        int size = digits_.size_ - rhs.digits_.size_ + 1;
+        result.add_leading_zeros(size - 1); // result initially has a 0
+
+        // calculation
+        const auto& b = rhs.digits_;
+        auto& c = result.digits_;
+        for (int i = size - 1; i >= 0; i--)
+        {
+            tmp.digits_ = List<signed char>({0}) * i + b; // tmp = rhs * 10^i in O(N)
+
+            while (num1 >= tmp) // <= 9 loops
+            {
+                c[i]++;
+                num1 -= tmp;
+            }
+        }
+
+        // if result is zero, set sign to '0'
+        result.sign_ = (result.digits_.size_ == 1 && result.digits_[0] == 0) ? '0' : result.sign_;
+
+        // remove leading zeros and return
+        return result.remove_leading_zeros();
     }
 
     Integer operator%(const Integer& rhs) const
     {
+        return *this - (*this / rhs) * rhs;
+    }
+
+    Integer pow(const Integer& n, const Integer& mod = 0)
+    {
+        return 0;
     }
 
     bool operator!() const

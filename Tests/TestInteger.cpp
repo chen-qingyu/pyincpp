@@ -38,31 +38,47 @@ TEST(Integer, basics)
 // operator==() operator!=() operator<() operator<=() operator>() operator>=()
 TEST(Integer, compare)
 {
-    Integer integer("12345");
+    Integer pos_integer("12345");
+    Integer neg_integer("-12345");
+    Integer zero("0");
 
     // operator==
-    Integer eq_integer("12345");
-    ASSERT_TRUE(eq_integer == integer);
+    Integer eq_pos_integer("12345");
+    Integer eq_neg_integer("-12345");
+    ASSERT_TRUE(eq_pos_integer == pos_integer);
+    ASSERT_TRUE(eq_neg_integer == neg_integer);
 
     // operator!=
-    Integer ne_integer("54321");
-    ASSERT_TRUE(ne_integer != integer);
+    Integer ne_pos_integer("54321");
+    ASSERT_TRUE(ne_pos_integer != pos_integer);
+    ASSERT_TRUE(ne_pos_integer != zero);
+    ASSERT_TRUE(ne_pos_integer != neg_integer);
 
     // operator<
-    Integer lt_integer("12344");
-    ASSERT_TRUE(lt_integer < integer);
+    Integer lt_pos_integer("12344");
+    ASSERT_TRUE(lt_pos_integer < pos_integer);
+    ASSERT_TRUE(neg_integer < pos_integer);
+    ASSERT_TRUE(zero < pos_integer);
 
     // operator<=
-    ASSERT_TRUE(lt_integer <= integer);
-    ASSERT_TRUE(eq_integer <= integer);
+    ASSERT_TRUE(lt_pos_integer <= pos_integer);
+    ASSERT_TRUE(eq_pos_integer <= pos_integer);
+    ASSERT_TRUE(neg_integer <= pos_integer);
+    ASSERT_TRUE(zero <= pos_integer);
 
     // operator>
-    Integer gt_integer("12346");
-    ASSERT_TRUE(gt_integer > integer);
+    Integer gt_pos_integer("12346");
+    ASSERT_TRUE(gt_pos_integer > pos_integer);
+    ASSERT_TRUE(pos_integer > neg_integer);
+    ASSERT_TRUE(pos_integer > zero);
+
+    ASSERT_TRUE(zero > neg_integer);
 
     // operator>=
-    ASSERT_TRUE(eq_integer >= integer);
-    ASSERT_TRUE(gt_integer >= integer);
+    ASSERT_TRUE(eq_pos_integer >= pos_integer);
+    ASSERT_TRUE(gt_pos_integer >= pos_integer);
+    ASSERT_TRUE(pos_integer >= neg_integer);
+    ASSERT_TRUE(pos_integer >= zero);
 }
 
 // operator+()
@@ -176,6 +192,70 @@ TEST(Integer, times)
     // more tests
     ASSERT_EQ(Integer("1") * Integer("18446744073709551616"), Integer("18446744073709551616"));
     ASSERT_EQ(Integer("10000") * Integer("10000"), Integer("100000000"));
+}
+
+// operator/()
+TEST(Integer, divide)
+{
+    // pos / pos (2^64 / 2^64)
+    ASSERT_EQ(Integer("18446744073709551616") / Integer("18446744073709551616"), Integer("1"));
+    ASSERT_EQ(Integer("36893488147419103232") / Integer("2"), Integer("18446744073709551616"));
+
+    // pos / zero
+    ASSERT_THROW(Integer("18446744073709551616") / Integer("0"), std::runtime_error);
+    try
+    {
+        Integer("18446744073709551616") / Integer("0");
+    }
+    catch (std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: Divide by zero.");
+    }
+
+    // pos / neg
+    ASSERT_EQ(Integer("18446744073709551616") / Integer("-18446744073709551616"), Integer("-1"));
+    ASSERT_EQ(Integer("36893488147419103232") / Integer("-2"), Integer("-18446744073709551616"));
+
+    // neg / pos
+    ASSERT_EQ(Integer("-18446744073709551616") / Integer("18446744073709551616"), Integer("-1"));
+    ASSERT_EQ(Integer("-36893488147419103232") / Integer("2"), Integer("-18446744073709551616"));
+
+    // neg / zero
+    ASSERT_THROW(Integer("-18446744073709551616") / Integer("0"), std::runtime_error);
+    try
+    {
+        Integer("-18446744073709551616") / Integer("0");
+    }
+    catch (std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: Divide by zero.");
+    }
+
+    // neg / neg
+    ASSERT_EQ(Integer("-18446744073709551616") / Integer("-18446744073709551616"), Integer("1"));
+    ASSERT_EQ(Integer("-36893488147419103232") / Integer("-2"), Integer("18446744073709551616"));
+
+    // zero / pos
+    ASSERT_EQ(Integer("0") / Integer("18446744073709551616"), Integer("0"));
+
+    // zero / zero
+    ASSERT_THROW(Integer("0") / Integer("0"), std::runtime_error);
+    try
+    {
+        Integer("0") / Integer("0");
+    }
+    catch (std::runtime_error& e)
+    {
+        ASSERT_STREQ(e.what(), "ERROR: Divide by zero.");
+    }
+
+    // zero / neg
+    ASSERT_EQ(Integer("0") / Integer("-18446744073709551616"), Integer("0"));
+
+    // more tests
+    ASSERT_EQ(Integer("10000") / Integer("2000"), Integer("5"));
+    ASSERT_EQ(Integer("2000") / Integer("10000"), Integer("0"));
+    ASSERT_EQ(Integer("12345") / Integer("11"), Integer("1122"));
 }
 
 // operator<<()
