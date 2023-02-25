@@ -76,11 +76,21 @@ private:
         return 0; // eq
     }
 
-    Integer& trim_leading_zeros()
+    Integer& remove_leading_zeros()
     {
         while (digits_[-1] == 0 && digits_.size_ > 1)
         {
             digits_.remove(-1);
+        }
+
+        return *this;
+    }
+
+    Integer& add_leading_zeros(int n)
+    {
+        while (n-- > 0)
+        {
+            digits_ += 0;
         }
 
         return *this;
@@ -137,7 +147,7 @@ public:
             }
         }
 
-        trim_leading_zeros();
+        remove_leading_zeros();
 
         if (digits_.size_ == 1 && digits_[0] == 0)
         {
@@ -298,134 +308,116 @@ public:
         return num;
     }
 
+    Integer abs() const
+    {
+        return sign_ == '-' ? -*this : *this;
+    }
+
     Integer operator+(const Integer& rhs) const
     {
         // if one of the operands is zero, just return another one
-        if (sign_ == '0')
+        if (sign_ == '0' || rhs.sign_ == '0')
         {
-            return rhs;
-        }
-        else if (rhs.sign_ == '0')
-        {
-            return *this;
+            return sign_ == '0' ? rhs : *this;
         }
 
         // if the operands are of opposite signs, perform subtraction
         if (sign_ == '+' && rhs.sign_ == '-')
         {
-            Integer num = rhs;
-            num.sign_ = '+';
-            return *this - num;
+            return *this - (-rhs);
         }
         else if (sign_ == '-' && rhs.sign_ == '+')
         {
-            Integer num = *this;
-            num.sign_ = '+';
-            return rhs - num;
+            return rhs - (-*this);
         }
 
-        // the signs are same
+        // the sign of two integers is the same and not zero
+
+        // prepare variables
+        Integer num1 = *this;
+        Integer num2 = rhs;
         Integer result;
-        result.sign_ = sign_;
-
-        // reserve space
-        int size = std::max(digits_.size_, rhs.digits_.size_) + 1;
-        for (int i = 0; i < size; i++)
-        {
-            result.digits_ += 0;
-        }
+        result.sign_ = sign_; // the signs are same
 
         // add leading zeros
-        Integer a = *this;
-        Integer b = rhs;
-        while (a.digits_.size_ < size - 1)
-        {
-            a.digits_ += 0;
-        }
-        while (b.digits_.size_ < size - 1)
-        {
-            b.digits_ += 0;
-        }
+        int size = std::max(digits_.size_, rhs.digits_.size_) + 1;
+        num1.add_leading_zeros(size - 1 - num1.digits_.size_);
+        num2.add_leading_zeros(size - 1 - num2.digits_.size_);
+        result.add_leading_zeros(size - 1); // result initially has a 0
 
         // simulate the vertical calculation
+        auto& a = num1.digits_;
+        auto& b = num2.digits_;
+        auto& c = result.digits_;
         for (int i = 0; i < size - 1; i++)
         {
-            result.digits_[i] += a.digits_[i] + b.digits_[i];
-            result.digits_[i + 1] = result.digits_[i] / 10;
-            result.digits_[i] %= 10;
+            c[i] += a[i] + b[i];
+            c[i + 1] = c[i] / 10;
+            c[i] %= 10;
         }
 
-        // trim leading zeros and return
-        return result.trim_leading_zeros();
+        // remove leading zeros and return result
+        return result.remove_leading_zeros();
     }
 
     Integer operator-(const Integer& rhs) const
     {
         // if one of the operands is zero
-        if (sign_ == '0')
+        if (sign_ == '0' || rhs.sign_ == '0')
         {
-            return -rhs;
-        }
-        else if (rhs.sign_ == '0')
-        {
-            return *this;
+            return sign_ == '0' ? -rhs : *this;
         }
 
-        // if the operands are of opposite signs, perform add
+        // if the operands are of opposite signs, perform addition
         if (sign_ == '+' && rhs.sign_ == '-')
         {
-            Integer num = rhs;
-            num.sign_ = '+';
-            return *this + num;
+            return *this + (-rhs);
         }
         else if (sign_ == '-' && rhs.sign_ == '+')
         {
-            Integer num = rhs;
-            num.sign_ = '-';
-            return *this + num;
+            return *this + (-rhs);
         }
 
-        // the signs are same
+        // the sign of two integers is the same and not zero
+
+        // prepare variables
+        Integer num1 = *this;
+        Integer num2 = rhs;
         Integer result;
-        result.sign_ = sign_;
-
-        // reserve space
-        int size = std::max(digits_.size_, rhs.digits_.size_);
-        for (int i = 0; i < size; i++)
+        result.sign_ = sign_;                         // the signs are same
+        if (sign_ == '+' ? num1 < num2 : num1 > num2) // let num1.abs() >= num2.abs()
         {
-            result.digits_ += 0;
-        }
-
-        // add leading zeros, let a >= b
-        Integer a = *this;
-        Integer b = rhs;
-        if (a < b)
-        {
-            common::swap(a, b);
+            common::swap(num1, num2);
             result = -result;
         }
-        while (b.digits_.size_ < size)
-        {
-            b.digits_ += 0;
-        }
+
+        // add leading zeros
+        int size = std::max(digits_.size_, rhs.digits_.size_);
+        num1.add_leading_zeros(size - num1.digits_.size_);
+        num2.add_leading_zeros(size - num2.digits_.size_);
+        result.add_leading_zeros(size - 1); // result initially has a 0
 
         // simulate the vertical calculation, assert a >= b
+        auto& a = num1.digits_;
+        auto& b = num2.digits_;
+        auto& c = result.digits_;
         for (int i = 0; i < size; i++)
         {
-            if (a.digits_[i] < b.digits_[i]) // carry
+            if (a[i] < b[i]) // carry
             {
-                a.digits_[i + 1]--;
-                a.digits_[i] += 10;
+                a[i + 1]--;
+                a[i] += 10;
             }
-            result.digits_[i] = a.digits_[i] - b.digits_[i];
+            c[i] = a[i] - b[i];
         }
 
-        // trim leading zeros
-        result.trim_leading_zeros();
+        // remove leading zeros
+        result.remove_leading_zeros();
 
-        // if result is zero, set sign_ to '0'
+        // if result is zero, set sign to '0'
         result.sign_ = (result.digits_.size_ == 1 && result.digits_[0] == 0) ? '0' : result.sign_;
 
+        // return result
         return result;
     }
 
@@ -437,30 +429,32 @@ public:
             return Integer();
         }
 
-        // the sign is depends on the sign of operands
-        Integer result;
-        result.sign_ = (sign_ == rhs.sign_ ? '+' : '-');
+        // the sign of two integers is not zero
 
-        // reserve space
+        // prepare variables
+        Integer result;
+        result.sign_ = (sign_ == rhs.sign_ ? '+' : '-'); // the sign is depends on the sign of operands
+
+        // add leading zeros
         int size = digits_.size_ + rhs.digits_.size_;
-        for (int i = 0; i < size; i++)
-        {
-            result.digits_ += 0;
-        }
+        result.add_leading_zeros(size - 1); // result initially has a 0
 
         // simulate the vertical calculation
-        for (int i = 0; i < digits_.size_; i++)
+        const auto& a = digits_;
+        const auto& b = rhs.digits_;
+        auto& c = result.digits_;
+        for (int i = 0; i < a.size_; i++)
         {
-            for (int j = 0; j < rhs.digits_.size_; j++)
+            for (int j = 0; j < b.size_; j++)
             {
-                result.digits_[i + j] += digits_[i] * rhs.digits_[j];
-                result.digits_[i + j + 1] += result.digits_[i + j] / 10;
-                result.digits_[i + j] %= 10;
+                c[i + j] += a[i] * b[j];
+                c[i + j + 1] += c[i + j] / 10;
+                c[i + j] %= 10;
             }
         }
 
-        // trim leading zeros and return
-        return result.trim_leading_zeros();
+        // remove leading zeros and return
+        return result.remove_leading_zeros();
     }
 
     Integer operator/(const Integer& rhs) const

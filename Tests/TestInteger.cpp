@@ -126,6 +126,8 @@ TEST(Integer, minus)
 
     // neg - neg
     ASSERT_EQ(Integer("-18446744073709551616") - Integer("-18446744073709551616"), Integer("0"));
+    ASSERT_EQ(Integer("-2") - Integer("-1"), Integer("-1"));
+    ASSERT_EQ(Integer("-1") - Integer("-2"), Integer("1"));
 
     // zero - pos
     ASSERT_EQ(Integer("0") - Integer("18446744073709551616"), Integer("-18446744073709551616"));
