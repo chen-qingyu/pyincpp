@@ -258,6 +258,26 @@ TEST(Integer, divide)
     ASSERT_EQ(Integer("12345") / Integer("11"), Integer("1122"));
 }
 
+// operator%()
+TEST(Integer, mod)
+{
+    ASSERT_EQ(Integer("3") % Integer("2"), Integer("1"));
+    ASSERT_EQ(Integer("3") % Integer("1"), Integer("0"));
+    ASSERT_EQ(Integer("2") % Integer("3"), Integer("2"));
+    ASSERT_EQ(Integer("100") % Integer("3"), Integer("1"));
+}
+
+// pow()
+TEST(Integer, pow)
+{
+    ASSERT_EQ(Integer("3").pow(Integer("2")), Integer("9"));
+    ASSERT_EQ(Integer("3").pow(Integer("3")), Integer("27"));
+    ASSERT_EQ(Integer("2").pow(Integer("3")), Integer("8"));
+    ASSERT_EQ(Integer("1").pow(Integer("1")), Integer("1"));
+    ASSERT_EQ(Integer("1").pow(Integer("0")), Integer("1"));
+    ASSERT_EQ(Integer("0").pow(Integer("1")), Integer("0"));
+}
+
 // operator<<()
 TEST(Integer, print)
 {

@@ -541,9 +541,44 @@ public:
         return *this - (*this / rhs) * rhs;
     }
 
-    Integer pow(const Integer& n, const Integer& mod = 0)
+    Integer pow(const Integer& power, const Integer& mod = 0) const
     {
-        return 0;
+        if (mod.sign_ == '0')
+        {
+            if (power == 0)
+            {
+                return 1;
+            }
+            else if (power % 2 == 0) // power is even
+            {
+                Integer y = pow(power / 2);
+                return y * y;
+            }
+            else // power is odd
+            {
+                Integer y = pow(power / 2); // integer divide
+                return *this * y * y;
+            }
+        }
+        else // fast power algorithm
+        {
+            Integer num = *this;
+            Integer n = power;
+            Integer result = 1;
+
+            num %= mod;
+
+            while (n != 0)
+            {
+                if (n % 2 == 1)
+                {
+                    result = (result * num) % mod;
+                }
+                num = (num * num) % mod;
+                n /= 2;
+            }
+            return result;
+        }
     }
 
     bool operator!() const
