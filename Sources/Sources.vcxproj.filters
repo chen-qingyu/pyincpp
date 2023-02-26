@@ -16,11 +16,13 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="List.hpp" />
-    <ClInclude Include="ListIterator.hpp" />
     <ClInclude Include="String.hpp" />
     <ClInclude Include="Deque.hpp" />
     <ClInclude Include="Set.hpp" />
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="Integer.hpp" />
+    <ClInclude Include="common\swap.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
