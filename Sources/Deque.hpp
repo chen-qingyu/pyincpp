@@ -186,7 +186,6 @@ public:
 
     /**
      * @brief Destroy the deque object.
-     *
      */
     ~Deque()
     {

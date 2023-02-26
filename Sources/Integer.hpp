@@ -82,6 +82,7 @@ private:
         return 0; // eq
     }
 
+    // Remove leading zeros.
     Integer& remove_leading_zeros()
     {
         while (digits_[-1] == 0 && digits_.size_ > 1)
@@ -92,6 +93,7 @@ private:
         return *this;
     }
 
+    // Add leading zeros.
     Integer& add_leading_zeros(int n)
     {
         while (n-- > 0)
@@ -102,6 +104,7 @@ private:
         return *this;
     }
 
+    // Test whether a string represents an integer.
     static bool is_integer(const String& str)
     {
         if (str.size() == 0 || (str.size() == 1 && (str[0] == '+' || str[0] == '-')))
@@ -121,12 +124,24 @@ private:
     }
 
 public:
+    /*
+     * Constructor / Destructor
+     */
+
+    /**
+     * @brief Construct a new integer object.
+     */
     Integer()
         : digits_({0})
         , sign_('0')
     {
     }
 
+    /**
+     * @brief Construct a new integer object based on the given string.
+     *
+     * @param str string
+     */
     Integer(const String& str)
         : digits_()
         , sign_()
@@ -161,6 +176,11 @@ public:
         }
     }
 
+    /**
+     * @brief Construct a new integer object based on the given long long int.
+     *
+     * @param integer long long int
+     */
     Integer(long long integer)
         : digits_()
         , sign_()
@@ -191,12 +211,22 @@ public:
         }
     }
 
+    /**
+     * @brief Copy constructor.
+     *
+     * @param that another integer
+     */
     Integer(const Integer& that)
         : digits_(that.digits_)
         , sign_(that.sign_)
     {
     }
 
+    /**
+     * @brief Move constructor.
+     *
+     * @param that another integer
+     */
     Integer(Integer&& that)
         : digits_(std::move(that.digits_))
         , sign_(std::move(that.sign_))
@@ -205,10 +235,23 @@ public:
         that.sign_ = '0';
     }
 
+    /**
+     * @brief Destroy the integer object.
+     */
     ~Integer()
     {
     }
 
+    /*
+     * Assignment
+     */
+
+    /**
+     * @brief Copy assignment operator.
+     *
+     * @param that another integer
+     * @return self reference
+     */
     Integer& operator=(const Integer& that)
     {
         digits_ = that.digits_;
@@ -217,6 +260,12 @@ public:
         return *this;
     }
 
+    /**
+     * @brief Move assignment operator.
+     *
+     * @param that another integer
+     * @return self reference
+     */
     Integer& operator=(Integer&& that)
     {
         digits_ = std::move(that.digits_);
@@ -228,6 +277,15 @@ public:
         return *this;
     }
 
+    /*
+     * Examination (will not change the object itself)
+     */
+
+    /**
+     * @brief Count the number of digits in an integer (based 10).
+     *
+     * @return the number of digits
+     */
     int digits() const
     {
         return sign_ == '0' ? 0 : digits_.size_;
@@ -299,11 +357,84 @@ public:
         return compare(that) >= 0;
     }
 
+    /*
+     * Manipulation (will change the object itself)
+     */
+
+    /**
+     * @brief this += rhs
+     *
+     * @param rhs right-hand-side value
+     * @return self reference
+     */
+    Integer& operator+=(const Integer& rhs)
+    {
+        return *this = *this + rhs;
+    }
+
+    /**
+     * @brief this -= rhs
+     *
+     * @param rhs right-hand-side value
+     * @return self reference
+     */
+    Integer& operator-=(const Integer& rhs)
+    {
+        return *this = *this - rhs;
+    }
+
+    /**
+     * @brief this *= rhs
+     *
+     * @param rhs right-hand-side value
+     * @return self reference
+     */
+    Integer& operator*=(const Integer& rhs)
+    {
+        return *this = *this * rhs;
+    }
+
+    /**
+     * @brief this /= rhs
+     *
+     * @param rhs right-hand-side value
+     * @return self reference
+     */
+    Integer& operator/=(const Integer& rhs)
+    {
+        return *this = *this / rhs;
+    }
+
+    /**
+     * @brief this %= rhs
+     *
+     * @param rhs right-hand-side value
+     * @return self reference
+     */
+    Integer& operator%=(const Integer& rhs)
+    {
+        return *this = *this % rhs;
+    }
+
+    /*
+     * Production (will produce new object)
+     */
+
+    /**
+     * @brief Return the copy of this.
+     *
+     * @return the copy of this.
+     */
     Integer operator+() const
     {
         return *this;
     }
 
+    /**
+     * @brief Return the opposite value of the copy of this.
+     *
+     * @return the opposite value of the copy of this.
+     */
     Integer operator-() const
     {
         Integer num = *this;
@@ -314,11 +445,22 @@ public:
         return num;
     }
 
+    /**
+     * @brief Return the absolute value of the copy of this.
+     *
+     * @return the absolute value of the copy of this
+     */
     Integer abs() const
     {
         return sign_ == '-' ? -*this : *this;
     }
 
+    /**
+     * @brief Return this + rhs.
+     *
+     * @param rhs right-hand-side value
+     * @return this + rhs
+     */
     Integer operator+(const Integer& rhs) const
     {
         // if one of the operands is zero, just return another one
@@ -340,15 +482,16 @@ public:
         // the sign of two integers is the same and not zero
 
         // prepare variables
-        Integer num1 = *this;
-        Integer num2 = rhs;
-        Integer result;
-        result.sign_ = sign_; // the signs are same
-
-        // add leading zeros
         int size = std::max(digits_.size_, rhs.digits_.size_) + 1;
+
+        Integer num1 = *this;
         num1.add_leading_zeros(size - 1 - num1.digits_.size_);
+
+        Integer num2 = rhs;
         num2.add_leading_zeros(size - 1 - num2.digits_.size_);
+
+        Integer result;
+        result.sign_ = sign_;               // the signs are same
         result.add_leading_zeros(size - 1); // result initially has a 0
 
         // simulate the vertical calculation
@@ -366,31 +509,12 @@ public:
         return result.remove_leading_zeros();
     }
 
-    Integer& operator+=(const Integer& rhs)
-    {
-        return *this = *this + rhs;
-    }
-
-    Integer& operator-=(const Integer& rhs)
-    {
-        return *this = *this - rhs;
-    }
-
-    Integer& operator*=(const Integer& rhs)
-    {
-        return *this = *this * rhs;
-    }
-
-    Integer& operator/=(const Integer& rhs)
-    {
-        return *this = *this / rhs;
-    }
-
-    Integer& operator%=(const Integer& rhs)
-    {
-        return *this = *this % rhs;
-    }
-
+    /**
+     * @brief Return this - rhs.
+     *
+     * @param rhs right-hand-side value
+     * @return this - rhs
+     */
     Integer operator-(const Integer& rhs) const
     {
         // if one of the operands is zero
@@ -412,8 +536,14 @@ public:
         // the sign of two integers is the same and not zero
 
         // prepare variables
+        int size = std::max(digits_.size_, rhs.digits_.size_);
+
         Integer num1 = *this;
+        num1.add_leading_zeros(size - num1.digits_.size_);
+
         Integer num2 = rhs;
+        num2.add_leading_zeros(size - num2.digits_.size_);
+
         Integer result;
         result.sign_ = sign_;                         // the signs are same
         if (sign_ == '+' ? num1 < num2 : num1 > num2) // let num1.abs() >= num2.abs()
@@ -421,11 +551,6 @@ public:
             common::swap(num1, num2);
             result = -result;
         }
-
-        // add leading zeros
-        int size = std::max(digits_.size_, rhs.digits_.size_);
-        num1.add_leading_zeros(size - num1.digits_.size_);
-        num2.add_leading_zeros(size - num2.digits_.size_);
         result.add_leading_zeros(size - 1); // result initially has a 0
 
         // simulate the vertical calculation, assert a >= b
@@ -452,6 +577,12 @@ public:
         return result;
     }
 
+    /**
+     * @brief Return this * rhs.
+     *
+     * @param rhs right-hand-side value
+     * @return this * rhs
+     */
     Integer operator*(const Integer& rhs) const
     {
         // if one of the operands is zero, just return zero
@@ -463,12 +594,11 @@ public:
         // the sign of two integers is not zero
 
         // prepare variables
+        int size = digits_.size_ + rhs.digits_.size_;
+
         Integer result;
         result.sign_ = (sign_ == rhs.sign_ ? '+' : '-'); // the sign is depends on the sign of operands
-
-        // add leading zeros
-        int size = digits_.size_ + rhs.digits_.size_;
-        result.add_leading_zeros(size - 1); // result initially has a 0
+        result.add_leading_zeros(size - 1);              // result initially has a 0
 
         // simulate the vertical calculation
         const auto& a = digits_;
@@ -488,6 +618,12 @@ public:
         return result.remove_leading_zeros();
     }
 
+    /**
+     * @brief Return this / rhs.
+     *
+     * @param rhs right-hand-side value (not zero)
+     * @return this / rhs
+     */
     Integer operator/(const Integer& rhs) const
     {
         // if rhs is zero, throw an exception
@@ -505,15 +641,16 @@ public:
         // the sign of two integers is not zero
 
         // prepare variables
+        int size = digits_.size_ - rhs.digits_.size_ + 1;
+
         Integer num1 = (*this).abs();
+
         Integer tmp;     // intermediate variable for rhs * 10^i
         tmp.sign_ = '+'; // positive
+
         Integer result;
         result.sign_ = (sign_ == rhs.sign_ ? '+' : '-'); // the sign is depends on the sign of operands
-
-        // add leading zeros
-        int size = digits_.size_ - rhs.digits_.size_ + 1;
-        result.add_leading_zeros(size - 1); // result initially has a 0
+        result.add_leading_zeros(size - 1);              // result initially has a 0
 
         // calculation
         const auto& b = rhs.digits_;
@@ -536,51 +673,69 @@ public:
         return result.remove_leading_zeros();
     }
 
+    /**
+     * @brief Return this % rhs.
+     *
+     * @param rhs right-hand-side value (not zero)
+     * @return this % rhs
+     */
     Integer operator%(const Integer& rhs) const
     {
         return *this - (*this / rhs) * rhs;
     }
 
-    Integer pow(const Integer& power, const Integer& mod = 0) const
+    /**
+     * @brief Return (this**n) % mod.
+     *
+     * @param n the power of this
+     * @param mod module (default 0 means does not perform module)
+     * @return (this**n) % mod
+     */
+    Integer pow(const Integer& n, const Integer& mod = 0) const
     {
         if (mod.sign_ == '0')
         {
-            if (power == 0)
+            if (n == 0)
             {
                 return 1;
             }
-            else if (power % 2 == 0) // power is even
+            else if (n % 2 == 0) // n is even
             {
-                Integer y = pow(power / 2);
+                Integer y = pow(n / 2);
                 return y * y;
             }
-            else // power is odd
+            else // n is odd
             {
-                Integer y = pow(power / 2); // integer divide
+                Integer y = pow(n / 2); // integer divide
                 return *this * y * y;
             }
         }
-        else // fast power algorithm
+        else // fast n algorithm
         {
             Integer num = *this;
-            Integer n = power;
+            Integer exp = n;
             Integer result = 1;
 
             num %= mod;
 
-            while (n != 0)
+            while (exp != 0)
             {
-                if (n % 2 == 1)
+                if (exp % 2 == 1)
                 {
                     result = (result * num) % mod;
                 }
                 num = (num * num) % mod;
-                n /= 2;
+                exp /= 2;
             }
             return result;
         }
     }
 
+    /**
+     * @brief Return the logical not of this.
+     *
+     * @return true if this == 0, otherwise false
+     */
     bool operator!() const
     {
         return sign_ == '0' ? true : false;

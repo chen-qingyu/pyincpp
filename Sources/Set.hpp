@@ -457,6 +457,9 @@ public:
         that.max_ = that.end_;
     }
 
+    /**
+     * @brief Destroy the set object.
+     */
     ~Set()
     {
         destroy(end_);
