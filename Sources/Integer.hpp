@@ -2,7 +2,7 @@
  * @file Integer.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
  * @brief Big integer class.
- * @version 0.1
+ * @version 1.0
  * @date 2023.01.21
  *
  * @copyright Copyright (c) 2023
@@ -710,7 +710,7 @@ public:
                 return *this * y * y;
             }
         }
-        else // fast n algorithm
+        else // fast power algorithm
         {
             Integer num = *this;
             Integer exp = n;
@@ -739,6 +739,28 @@ public:
     bool operator!() const
     {
         return sign_ == '0' ? true : false;
+    }
+
+    /**
+     * @brief Calculate the factorial of this.
+     *
+     * @return the factorial of this
+     */
+    Integer factorial() const
+    {
+        if (sign_ == '-')
+        {
+            throw std::runtime_error("ERROR: Negative integer have no factorial.");
+        }
+
+        if (sign_ == '0') // 基例(0! == 1)
+        {
+            return 1;
+        }
+        else // 链条
+        {
+            return *this * (*this - 1).factorial();
+        }
     }
 };
 

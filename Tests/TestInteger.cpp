@@ -278,6 +278,15 @@ TEST(Integer, pow)
     ASSERT_EQ(Integer("0").pow(Integer("1")), Integer("0"));
 }
 
+// factorial()
+TEST(Integer, factorial)
+{
+    ASSERT_EQ(Integer("0").factorial(), Integer("1"));
+    ASSERT_EQ(Integer("1").factorial(), Integer("1"));
+    ASSERT_EQ(Integer("2").factorial(), Integer("2"));
+    ASSERT_EQ(Integer("3").factorial(), Integer("6"));
+}
+
 // operator<<()
 TEST(Integer, print)
 {

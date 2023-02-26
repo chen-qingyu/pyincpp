@@ -8,7 +8,7 @@
 - 语言：采用标准C++语言编写，最低兼容版本： ISO C++14 。
 - 目的：提供一个简洁、好用、健壮的C++容器库。
 - 目标：像Python的内置类型一样好用又优雅。
-- 模块：List, String, Deque, Set, Map, Integer.
+- 模块：List, Set, Map, Integer, String, Tuple, Deque.
 - 简洁：Stay simple, stay young. 在保证好用和健壮的前提下，尽量简洁，便于维护和阅读。
 - 好用：提供了许多方便的函数，比如String类提供了像Python的str那样的替换、分割、查找等操作，比如List类和String类都支持像Python那样的负数下标等等。
 - 健壮：安全的扩容机制，防止溢出。对容器的增删改查都有相应的检查。这么多检查，肯定会对性能有一定影响，但是这个库追求的并不是性能，而是简洁，好用和健壮。
