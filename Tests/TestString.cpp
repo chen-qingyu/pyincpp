@@ -2,7 +2,7 @@
 
 #include "pch.h"
 
-#include <sstream> // std::ostringstream
+#include <sstream> // std::ostringstream std::istringstream
 
 #include "../Sources/String.hpp"
 
@@ -651,4 +651,24 @@ TEST(String, print)
     oss << many;
     ASSERT_EQ(oss.str(), "\"hello world\"");
     oss.str("");
+}
+
+// operator>>()
+TEST(String, input)
+{
+    String empty;
+    std::istringstream("") >> empty;
+    ASSERT_EQ(empty, "");
+
+    String one;
+    std::istringstream("1") >> one;
+    ASSERT_EQ(one, "1");
+
+    String many;
+    std::istringstream("hello world") >> many;
+    ASSERT_EQ(many, "hello world");
+    std::istringstream("!") >> many; // append
+    ASSERT_EQ(many, "hello world!");
+    std::istringstream(" ~ ~ ~") >> many; // can read blank char
+    ASSERT_EQ(many, "hello world! ~ ~ ~");
 }

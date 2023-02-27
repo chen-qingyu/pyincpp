@@ -13,7 +13,8 @@
 
 #include "List.hpp"
 
-#include <cmath> // std::pow INFINITY NAN
+#include <cmath>   // std::pow INFINITY NAN
+#include <istream> // std::istream
 
 namespace mdspp
 {
@@ -1096,6 +1097,29 @@ inline std::ostream& operator<<(std::ostream& os, const String& string)
     os << "\"";
 
     return os;
+}
+
+/**
+ * @brief Read a line of string from the specified input stream.
+ *
+ * @param is an input stream
+ * @param string the string
+ * @return self reference of the input stream
+ */
+inline std::istream& operator>>(std::istream& is, String& string)
+{
+    char ch;
+    while (true)
+    {
+        is.get(ch); // "is >> ch" can't read blank char
+        if (ch == '\n' || ch == '\0' || !is)
+        {
+            break;
+        }
+        string += ch;
+    }
+
+    return is;
 }
 
 /**
