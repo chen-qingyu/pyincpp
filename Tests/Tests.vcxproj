@@ -33,6 +33,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClInclude Include="my_tools.hpp" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

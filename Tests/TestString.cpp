@@ -6,6 +6,8 @@
 
 #include "../Sources/String.hpp"
 
+#include "my_tools.hpp"
+
 using namespace mdspp;
 
 // constructor destructor size() is_empty()
@@ -84,15 +86,7 @@ TEST(String, access)
     ASSERT_EQ(string[-1], 'Z');
 
     // check bounds
-    ASSERT_THROW(string[5], std::runtime_error);
-    try
-    {
-        string[5];
-    }
-    catch (std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
-    }
+    MY_ASSERT_THROWS_MESSAGE(string[5], std::runtime_error, "ERROR: Index out of range.");
 }
 
 // get() set()
@@ -229,15 +223,7 @@ TEST(String, to_decimal)
     ASSERT_DOUBLE_EQ(String("1.e-2").to_decimal(), 1.e-2);
 
     // error
-    ASSERT_THROW(String("hello").to_decimal(), std::runtime_error);
-    try
-    {
-        String("hello").to_decimal();
-    }
-    catch (const std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: Invalid literal for to_decimal().");
-    }
+    MY_ASSERT_THROWS_MESSAGE(String("hello").to_decimal(), std::runtime_error, "ERROR: Invalid literal for to_decimal().");
 }
 
 // to_integer()
@@ -272,25 +258,9 @@ TEST(String, to_integer)
     ASSERT_EQ(String("\n\r\n\t  233  \t\r\n\r").to_integer(), 233);
 
     // error
-    ASSERT_THROW(String("123").to_integer(99), std::runtime_error);
-    try
-    {
-        String("123").to_integer(99);
-    }
-    catch (const std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: Invalid base for to_integer().");
-    }
+    MY_ASSERT_THROWS_MESSAGE(String("123").to_integer(99), std::runtime_error, "ERROR: Invalid base for to_integer().");
 
-    ASSERT_THROW(String("!!!").to_integer(), std::runtime_error);
-    try
-    {
-        String("!!!").to_integer();
-    }
-    catch (const std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: Invalid literal for to_integer().");
-    }
+    MY_ASSERT_THROWS_MESSAGE(String("!!!").to_integer(), std::runtime_error, "ERROR: Invalid literal for to_integer().");
 }
 
 // insert()
@@ -299,15 +269,7 @@ TEST(String, insert)
     String string;
 
     // check bounds
-    ASSERT_THROW(string.insert(999, '0'), std::runtime_error);
-    try
-    {
-        string.insert(999, '0');
-    }
-    catch (const std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
-    }
+    MY_ASSERT_THROWS_MESSAGE(string.insert(999, '0'), std::runtime_error, "ERROR: Index out of range.");
 
     // insert
     string.insert(0, 'a');
@@ -328,15 +290,7 @@ TEST(String, remove)
     String string("bdazc");
 
     // check bounds
-    ASSERT_THROW(string.remove(999), std::runtime_error);
-    try
-    {
-        string.remove(999);
-    }
-    catch (const std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
-    }
+    MY_ASSERT_THROWS_MESSAGE(string.remove(999), std::runtime_error, "ERROR: Index out of range.");
 
     // remove
     ASSERT_EQ(string.remove(-2), 'z');
@@ -346,15 +300,7 @@ TEST(String, remove)
     ASSERT_EQ(string.remove(0), 'c');
 
     // check empty
-    ASSERT_THROW(string.remove(0), std::runtime_error);
-    try
-    {
-        string.remove(0);
-    }
-    catch (const std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: The container is empty.");
-    }
+    MY_ASSERT_THROWS_MESSAGE(string.remove(0), std::runtime_error, "ERROR: The container is empty.");
 }
 
 // operator+=()
@@ -395,15 +341,7 @@ TEST(String, repeat)
 {
     String string("12");
 
-    ASSERT_THROW(string *= -1, std::runtime_error);
-    try
-    {
-        string *= -1;
-    }
-    catch (const std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: Times to repeat can not be less than zero.");
-    }
+    MY_ASSERT_THROWS_MESSAGE(string *= -1, std::runtime_error, "ERROR: Times to repeat can not be less than zero.");
 
     ASSERT_EQ(string *= 1, "12");
     ASSERT_EQ(string *= 2, "1212");
@@ -507,15 +445,7 @@ TEST(String, erase)
     ASSERT_EQ(String("abcdefg").erase(1, 6), "ag");
     ASSERT_EQ(String("abcdefg").erase(0, 7), "");
 
-    ASSERT_THROW(String("abcdefg").erase(-1, 99), std::runtime_error);
-    try
-    {
-        String("abcdefg").erase(-1, 99);
-    }
-    catch (std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
-    }
+    MY_ASSERT_THROWS_MESSAGE(String("abcdefg").erase(-1, 99), std::runtime_error, "ERROR: Index out of range.");
 }
 
 // replace()
@@ -566,25 +496,9 @@ TEST(String, slice)
     ASSERT_EQ(string.slice(-1, -1), "");
     ASSERT_EQ(string.slice(-1, -1, -1), "");
 
-    ASSERT_THROW(string.slice(1, 2, 0), std::runtime_error);
-    try
-    {
-        string.slice(1, 2, 0);
-    }
-    catch (const std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: Slice step can not be zero.");
-    }
+    MY_ASSERT_THROWS_MESSAGE(string.slice(1, 2, 0), std::runtime_error, "ERROR: Slice step can not be zero.");
 
-    ASSERT_THROW(string.slice(-7, -6), std::runtime_error);
-    try
-    {
-        string.slice(-7, -6);
-    }
-    catch (std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: Index out of range.");
-    }
+    MY_ASSERT_THROWS_MESSAGE(string.slice(-7, -6), std::runtime_error, "ERROR: Index out of range.");
 }
 
 // operator+() operator-() operator*()

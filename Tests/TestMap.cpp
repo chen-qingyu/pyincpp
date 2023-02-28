@@ -7,6 +7,8 @@
 #include "../Sources/Map.hpp"
 #include "../Sources/String.hpp"
 
+#include "my_tools.hpp"
+
 using namespace mdspp;
 
 // constructor destructor size() is_empty()
@@ -75,15 +77,7 @@ TEST(Map, access)
     ASSERT_EQ(map["one"], 1111);
 
     // check key
-    ASSERT_THROW(map["four"], std::runtime_error);
-    try
-    {
-        map["four"];
-    }
-    catch (std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: Key is not found in the map.");
-    }
+    MY_ASSERT_THROWS_MESSAGE(map["four"], std::runtime_error, "ERROR: Key is not found in the map.");
 }
 
 // begin() end()

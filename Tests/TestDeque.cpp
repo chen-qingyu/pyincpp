@@ -6,6 +6,8 @@
 
 #include "../Sources/Deque.hpp"
 
+#include "my_tools.hpp"
+
 using namespace mdspp;
 
 // constructor destructor size() is_empty()
@@ -76,25 +78,9 @@ TEST(Deque, peek)
 {
     Deque<int> empty;
 
-    ASSERT_THROW(empty.back(), std::runtime_error);
-    try
-    {
-        empty.back();
-    }
-    catch (std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: The container is empty.");
-    }
+    MY_ASSERT_THROWS_MESSAGE(empty.back(), std::runtime_error, "ERROR: The container is empty.");
 
-    ASSERT_THROW(empty.front(), std::runtime_error);
-    try
-    {
-        empty.front();
-    }
-    catch (std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: The container is empty.");
-    }
+    MY_ASSERT_THROWS_MESSAGE(empty.front(), std::runtime_error, "ERROR: The container is empty.");
 
     Deque<int> deque = {1, 2, 3, 4, 5};
 
@@ -110,25 +96,9 @@ TEST(Deque, push_pop)
 {
     Deque<int> empty;
 
-    ASSERT_THROW(empty.pop_back(), std::runtime_error);
-    try
-    {
-        empty.pop_back();
-    }
-    catch (std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: The container is empty.");
-    }
+    MY_ASSERT_THROWS_MESSAGE(empty.pop_back(), std::runtime_error, "ERROR: The container is empty.");
 
-    ASSERT_THROW(empty.pop_front(), std::runtime_error);
-    try
-    {
-        empty.pop_front();
-    }
-    catch (std::runtime_error& e)
-    {
-        ASSERT_STREQ(e.what(), "ERROR: The container is empty.");
-    }
+    MY_ASSERT_THROWS_MESSAGE(empty.pop_front(), std::runtime_error, "ERROR: The container is empty.");
 
     Deque<int> deque;
     const int size = 99;
