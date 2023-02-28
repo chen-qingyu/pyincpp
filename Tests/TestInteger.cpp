@@ -2,7 +2,7 @@
 
 #include "pch.h"
 
-#include <sstream> // std::ostringstream
+#include <sstream> // std::ostringstream std::istringstream
 
 #include "../Sources/Integer.hpp"
 
@@ -285,6 +285,7 @@ TEST(Integer, factorial)
     ASSERT_EQ(Integer("1").factorial(), Integer("1"));
     ASSERT_EQ(Integer("2").factorial(), Integer("2"));
     ASSERT_EQ(Integer("3").factorial(), Integer("6"));
+    ASSERT_EQ(Integer("100").factorial(), Integer("93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000"));
 }
 
 // operator<<()
@@ -306,4 +307,30 @@ TEST(Integer, print)
     oss << neg;
     ASSERT_EQ(oss.str(), "-987654321000");
     oss.str("");
+}
+
+// operator>>()
+TEST(Integer, input)
+{
+    Integer zero;
+    std::istringstream("0") >> zero;
+    ASSERT_EQ(zero, Integer("0"));
+
+    Integer one;
+    std::istringstream("1") >> one;
+    ASSERT_EQ(one, Integer("1"));
+
+    Integer pos;
+    std::istringstream("123456789000") >> pos;
+    ASSERT_EQ(pos, Integer("123456789000"));
+
+    Integer neg;
+    std::istringstream("-123456789000") >> neg;
+    ASSERT_EQ(neg, Integer("-123456789000"));
+
+    Integer int1, int2, int3;
+    std::istringstream("+123 -456\t789") >> int1 >> int2 >> int3;
+    ASSERT_EQ(int1, Integer("123"));
+    ASSERT_EQ(int2, Integer("-456"));
+    ASSERT_EQ(int3, Integer("789"));
 }

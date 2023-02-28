@@ -789,6 +789,26 @@ inline std::ostream& operator<<(std::ostream& os, const Integer& integer)
     return os;
 }
 
+/**
+ * @brief Get an integer from the specified input stream.
+ *
+ * @param is an input stream
+ * @param integer the integer
+ * @return self reference of the input stream
+ */
+inline std::istream& operator>>(std::istream& is, Integer& integer)
+{
+    String str;
+    char ch;
+    while (is.get(ch) && !isblank(ch)) // "is >> ch" can't read blank char
+    {
+        str += ch;
+    }
+    integer = str;
+
+    return is;
+}
+
 } // namespace mdspp
 
 #endif // INTEGER_HPP

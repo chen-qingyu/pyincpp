@@ -664,7 +664,9 @@ TEST(String, input)
     std::istringstream("1") >> one;
     ASSERT_EQ(one, "1");
 
-    String many;
-    std::istringstream("hello world") >> many; // can read blank char
-    ASSERT_EQ(many, "hello world");
+    String line1, line2, line3;
+    std::istringstream("this is line1\nthis is line2\nhello!") >> line1 >> line2 >> line3; // can read blank char
+    ASSERT_EQ(line1, "this is line1");
+    ASSERT_EQ(line2, "this is line2");
+    ASSERT_EQ(line3, "hello!");
 }
