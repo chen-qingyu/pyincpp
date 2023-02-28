@@ -800,7 +800,7 @@ inline std::istream& operator>>(std::istream& is, Integer& integer)
 {
     String str;
     char ch;
-    while (is.get(ch) && !isblank(ch)) // "is >> ch" can't read blank char
+    while (is.get(ch) && !isspace(ch)) // "is >> ch" can't read blank char
     {
         str += ch;
     }
