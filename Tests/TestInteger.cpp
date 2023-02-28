@@ -329,7 +329,7 @@ TEST(Integer, input)
     ASSERT_EQ(neg, Integer("-123456789000"));
 
     Integer int1, int2, int3;
-    std::istringstream("+123 -456\t789") >> int1 >> int2 >> int3;
+    std::istringstream("+123\n-456\t789") >> int1 >> int2 >> int3;
     ASSERT_EQ(int1, Integer("123"));
     ASSERT_EQ(int2, Integer("-456"));
     ASSERT_EQ(int3, Integer("789"));

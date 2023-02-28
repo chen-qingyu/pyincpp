@@ -1110,7 +1110,7 @@ inline std::istream& operator>>(std::istream& is, String& string)
 {
     string.clear();
     char ch;
-    while (is.get(ch) && ch != '\n') // "is >> ch" can't read blank char
+    while (is.get(ch) && ch != '\n') // "is >> ch" can't read '\n'
     {
         string += ch;
     }
