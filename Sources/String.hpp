@@ -1100,7 +1100,7 @@ inline std::ostream& operator<<(std::ostream& os, const String& string)
 }
 
 /**
- * @brief Read a line of string from the specified input stream.
+ * @brief Get a line of string from the specified input stream.
  *
  * @param is an input stream
  * @param string the string
@@ -1108,14 +1108,11 @@ inline std::ostream& operator<<(std::ostream& os, const String& string)
  */
 inline std::istream& operator>>(std::istream& is, String& string)
 {
+    string.clear();
+
     char ch;
-    while (true)
+    while (is.get(ch) && ch != '\n') // "is >> ch" can't read blank char
     {
-        is.get(ch); // "is >> ch" can't read blank char
-        if (ch == '\n' || ch == '\0' || !is)
-        {
-            break;
-        }
         string += ch;
     }
 

@@ -665,10 +665,6 @@ TEST(String, input)
     ASSERT_EQ(one, "1");
 
     String many;
-    std::istringstream("hello world") >> many;
+    std::istringstream("hello world") >> many; // can read blank char
     ASSERT_EQ(many, "hello world");
-    std::istringstream("!") >> many; // append
-    ASSERT_EQ(many, "hello world!");
-    std::istringstream(" ~ ~ ~") >> many; // can read blank char
-    ASSERT_EQ(many, "hello world! ~ ~ ~");
 }
