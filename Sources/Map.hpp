@@ -303,6 +303,32 @@ public:
     }
 
     /*
+     * Comparison
+     */
+
+    /**
+     * @brief Check whether two maps are equal.
+     *
+     * @param that another map
+     * @return true if two maps are equal
+     */
+    bool operator==(const Map& that) const
+    {
+        return set_ == that.set_;
+    }
+
+    /**
+     * @brief Check whether two maps are not equal.
+     *
+     * @param that another map
+     * @return true if two maps are not equal
+     */
+    bool operator!=(const Map& that) const
+    {
+        return set_ != that.set_;
+    }
+
+    /*
      * Assignment
      */
 
@@ -408,28 +434,6 @@ public:
     bool is_empty() const
     {
         return set_.size_ == 0;
-    }
-
-    /**
-     * @brief Check whether two maps are equal.
-     *
-     * @param that another map
-     * @return true if two maps are equal
-     */
-    bool operator==(const Map& that) const
-    {
-        return set_ == that.set_;
-    }
-
-    /**
-     * @brief Check whether two maps are not equal.
-     *
-     * @param that another map
-     * @return true if two maps are not equal
-     */
-    bool operator!=(const Map& that) const
-    {
-        return set_ != that.set_;
     }
 
     /**

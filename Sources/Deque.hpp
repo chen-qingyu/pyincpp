@@ -196,6 +196,45 @@ public:
     }
 
     /*
+     * Comparison
+     */
+
+    /**
+     * @brief Check whether two deques are equal.
+     *
+     * @param that another deque
+     * @return true if two deques are equal
+     */
+    bool operator==(const Deque<T>& that) const
+    {
+        if (size_ != that.size_)
+        {
+            return false;
+        }
+
+        for (Node *this_it = header_->succ_, *that_it = that.header_->succ_; this_it != trailer_; this_it = this_it->succ_, that_it = that_it->succ_)
+        {
+            if (this_it->data_ != that_it->data_)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @brief Check whether two deques are not equal.
+     *
+     * @param that another deque
+     * @return true if two deques are not equal
+     */
+    bool operator!=(const Deque<T>& that) const
+    {
+        return !(*this == that);
+    }
+
+    /*
      * Assignment
      */
 
@@ -320,41 +359,6 @@ public:
     bool is_empty() const
     {
         return size_ == 0;
-    }
-
-    /**
-     * @brief Check whether two deques are equal.
-     *
-     * @param that another deque
-     * @return true if two deques are equal
-     */
-    bool operator==(const Deque<T>& that) const
-    {
-        if (size_ != that.size_)
-        {
-            return false;
-        }
-
-        for (Node *this_it = header_->succ_, *that_it = that.header_->succ_; this_it != trailer_; this_it = this_it->succ_, that_it = that_it->succ_)
-        {
-            if (this_it->data_ != that_it->data_)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * @brief Check whether two deques are not equal.
-     *
-     * @param that another deque
-     * @return true if two deques are not equal
-     */
-    bool operator!=(const Deque<T>& that) const
-    {
-        return !(*this == that);
     }
 
     /*

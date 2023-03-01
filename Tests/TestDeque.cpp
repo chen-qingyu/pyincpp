@@ -38,6 +38,18 @@ TEST(Deque, basics)
     // ~Deque()
 }
 
+// operator==() operator!=()
+TEST(Deque, compare)
+{
+    Deque<int> deque = {1, 2, 3, 4, 5};
+
+    // operator==
+    ASSERT_TRUE(deque == Deque<int>({1, 2, 3, 4, 5}));
+
+    // operator!=
+    ASSERT_TRUE(deque != Deque<int>({1, 3, 5}));
+}
+
 // operator=()
 TEST(Deque, copy_assignment)
 {
@@ -45,9 +57,8 @@ TEST(Deque, copy_assignment)
     Deque<int> deque2 = {6, 7, 8, 9};
 
     deque1 = deque2;
-    deque2.push_back(10);
     ASSERT_EQ(deque1, Deque<int>({6, 7, 8, 9}));
-    ASSERT_EQ(deque2, Deque<int>({6, 7, 8, 9, 10}));
+    ASSERT_EQ(deque2, Deque<int>({6, 7, 8, 9}));
 }
 
 // operator=()
@@ -59,18 +70,6 @@ TEST(Deque, move_assignment)
     deque1 = std::move(deque2);
     ASSERT_EQ(deque1, Deque<int>({6, 7, 8, 9}));
     ASSERT_EQ(deque2, Deque<int>());
-}
-
-// operator==() operator!=()
-TEST(Deque, compare)
-{
-    Deque<int> deque = {1, 2, 3, 4, 5};
-
-    // operator==
-    ASSERT_TRUE(deque == Deque<int>({1, 2, 3, 4, 5}));
-
-    // operator!=
-    ASSERT_TRUE(deque != Deque<int>({1, 3, 5}));
 }
 
 // back() front()

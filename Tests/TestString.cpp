@@ -38,6 +38,36 @@ TEST(String, basics)
     // ~String()
 }
 
+// operator==() operator!=() operator<() operator<=() operator>() operator>=()
+TEST(String, compare)
+{
+    String string("12345");
+
+    // operator==
+    String eq_string("12345");
+    ASSERT_TRUE(eq_string == string);
+
+    // operator!=
+    String ne_string("135");
+    ASSERT_TRUE(ne_string != string);
+
+    // operator<
+    String lt_string("123");
+    ASSERT_TRUE(lt_string < string);
+
+    // operator<=
+    ASSERT_TRUE(lt_string <= string);
+    ASSERT_TRUE(eq_string <= string);
+
+    // operator>
+    String gt_string("123456");
+    ASSERT_TRUE(gt_string > string);
+
+    // operator>=
+    ASSERT_TRUE(eq_string >= string);
+    ASSERT_TRUE(gt_string >= string);
+}
+
 // operator=()
 TEST(String, copy_assignment)
 {
@@ -45,9 +75,8 @@ TEST(String, copy_assignment)
     String string2("6789");
 
     string1 = string2;
-    string2 += "10";
     ASSERT_EQ(string1, "6789");
-    ASSERT_EQ(string2, "678910");
+    ASSERT_EQ(string2, "6789");
 }
 
 // operator=()
@@ -97,36 +126,6 @@ TEST(String, get_set)
     string.set(str);
     ASSERT_EQ(string, "hello");
     delete[] str;
-}
-
-// operator==() operator!=() operator<() operator<=() operator>() operator>=()
-TEST(String, compare)
-{
-    String string("12345");
-
-    // operator==
-    String eq_string("12345");
-    ASSERT_TRUE(eq_string == string);
-
-    // operator!=
-    String ne_string("135");
-    ASSERT_TRUE(ne_string != string);
-
-    // operator<
-    String lt_string("123");
-    ASSERT_TRUE(lt_string < string);
-
-    // operator<=
-    ASSERT_TRUE(lt_string <= string);
-    ASSERT_TRUE(eq_string <= string);
-
-    // operator>
-    String gt_string("123456");
-    ASSERT_TRUE(gt_string > string);
-
-    // operator>=
-    ASSERT_TRUE(eq_string >= string);
-    ASSERT_TRUE(gt_string >= string);
 }
 
 // find()

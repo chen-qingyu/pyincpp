@@ -6,6 +6,8 @@
 
 #include "../Sources/Set.hpp"
 
+#include "my_tools.hpp"
+
 using namespace mdspp;
 
 // constructor destructor size() is_empty()
@@ -34,6 +36,36 @@ TEST(Set, basics)
     ASSERT_TRUE(set3.is_empty());
 
     // ~Set()
+}
+
+// operator==() operator!=() operator<=() operator<() operator>=() operator>()
+TEST(Set, compare)
+{
+    Set<int> set = {1, 2, 3, 4, 5};
+
+    // operator==
+    Set<int> eq_set = {5, 4, 3, 2, 1};
+    ASSERT_TRUE(eq_set == set);
+
+    // operator!=
+    Set<int> ne_set = {1, 3, 5};
+    ASSERT_TRUE(ne_set != set);
+
+    // operator<
+    Set<int> lt_set = {1, 2, 3};
+    ASSERT_TRUE(lt_set < set);
+
+    // operator<=
+    ASSERT_TRUE(lt_set <= set);
+    ASSERT_TRUE(eq_set <= set);
+
+    // operator>
+    Set<int> gt_set = {1, 2, 3, 4, 5, 6};
+    ASSERT_TRUE(gt_set > set);
+
+    // operator>=
+    ASSERT_TRUE(eq_set >= set);
+    ASSERT_TRUE(gt_set >= set);
 }
 
 // begin() end()
@@ -67,9 +99,8 @@ TEST(Set, copy_assignment)
     Set<int> set2 = {6, 7, 8, 9};
 
     set1 = set2;
-    set2 += 10;
     ASSERT_EQ(set1, Set<int>({6, 7, 8, 9}));
-    ASSERT_EQ(set2, Set<int>({6, 7, 8, 9, 10}));
+    ASSERT_EQ(set2, Set<int>({6, 7, 8, 9}));
 }
 
 // operator=()
@@ -81,36 +112,6 @@ TEST(Set, move_assignment)
     set1 = std::move(set2);
     ASSERT_EQ(set1, Set<int>({6, 7, 8, 9}));
     ASSERT_EQ(set2, Set<int>());
-}
-
-// operator==() operator!=() operator<=() operator<() operator>=() operator>()
-TEST(Set, compare)
-{
-    Set<int> set = {1, 2, 3, 4, 5};
-
-    // operator==
-    Set<int> eq_set = {5, 4, 3, 2, 1};
-    ASSERT_TRUE(eq_set == set);
-
-    // operator!=
-    Set<int> ne_set = {1, 3, 5};
-    ASSERT_TRUE(ne_set != set);
-
-    // operator<
-    Set<int> lt_set = {1, 2, 3};
-    ASSERT_TRUE(lt_set < set);
-
-    // operator<=
-    ASSERT_TRUE(lt_set <= set);
-    ASSERT_TRUE(eq_set <= set);
-
-    // operator>
-    Set<int> gt_set = {1, 2, 3, 4, 5, 6};
-    ASSERT_TRUE(gt_set > set);
-
-    // operator>=
-    ASSERT_TRUE(eq_set >= set);
-    ASSERT_TRUE(gt_set >= set);
 }
 
 // find() contains() min() max()

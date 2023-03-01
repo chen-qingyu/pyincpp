@@ -242,6 +242,45 @@ public:
     }
 
     /*
+     * Comparison
+     */
+
+    /**
+     * @brief Check whether two lists are equal.
+     *
+     * @param that another list
+     * @return true if two lists are equal
+     */
+    bool operator==(const List<T>& that) const
+    {
+        if (size_ != that.size_)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < size_; ++i)
+        {
+            if (data_[i] != that.data_[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @brief Check whether two lists are not equal.
+     *
+     * @param that another list
+     * @return true if two lists are not equal
+     */
+    bool operator!=(const List<T>& that) const
+    {
+        return !(*this == that);
+    }
+
+    /*
      * Assignment
      */
 
@@ -387,41 +426,6 @@ public:
     int capacity() const
     {
         return capacity_;
-    }
-
-    /**
-     * @brief Check whether two lists are equal.
-     *
-     * @param that another list
-     * @return true if two lists are equal
-     */
-    bool operator==(const List<T>& that) const
-    {
-        if (size_ != that.size_)
-        {
-            return false;
-        }
-
-        for (int i = 0; i < size_; ++i)
-        {
-            if (data_[i] != that.data_[i])
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * @brief Check whether two lists are not equal.
-     *
-     * @param that another list
-     * @return true if two lists are not equal
-     */
-    bool operator!=(const List<T>& that) const
-    {
-        return !(*this == that);
     }
 
     /**

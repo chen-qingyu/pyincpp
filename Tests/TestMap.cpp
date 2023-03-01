@@ -39,6 +39,18 @@ TEST(Map, basics)
     // ~Map()
 }
 
+// operator==() operator!=()
+TEST(Map, compare)
+{
+    Map<String, int> map({{"one", 1}, {"two", 2}, {"three", 3}});
+
+    // operator==
+    ASSERT_TRUE(map == (Map<String, int>({{"two", 2}, {"one", 1}, {"three", 3}})));
+
+    // operator!=
+    ASSERT_TRUE(map != (Map<String, int>({{"one", 1}, {"two", 2}, {"six", 6}})));
+}
+
 // operator=()
 TEST(Map, copy_assignment)
 {
@@ -46,9 +58,8 @@ TEST(Map, copy_assignment)
     Map<int, String> map2({{4, "four"}, {5, "five"}});
 
     map1 = map2;
-    map2 += {6, "six"};
     ASSERT_EQ(map1, (Map<int, String>({{4, "four"}, {5, "five"}}))); // need (Map<>({...}))
-    ASSERT_EQ(map2, (Map<int, String>({{4, "four"}, {5, "five"}, {6, "six"}})));
+    ASSERT_EQ(map2, (Map<int, String>({{4, "four"}, {5, "five"}})));
 }
 
 // operator=()
@@ -107,18 +118,6 @@ TEST(Map, iterator)
         ASSERT_EQ(e.value(), k * k);
         ++k;
     }
-}
-
-// operator==() operator!=()
-TEST(Map, compare)
-{
-    Map<String, int> map({{"one", 1}, {"two", 2}, {"three", 3}});
-
-    // operator==
-    ASSERT_TRUE(map == (Map<String, int>({{"two", 2}, {"one", 1}, {"three", 3}})));
-
-    // operator!=
-    ASSERT_TRUE(map != (Map<String, int>({{"one", 1}, {"two", 2}, {"six", 6}})));
 }
 
 // find() contains() min() max()

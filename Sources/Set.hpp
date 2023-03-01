@@ -370,7 +370,7 @@ private:
 
     // Traverse the subtree rooted at the specified node.
     template <typename F>
-    static void level_action(Node* node, F action)
+    static void level_action(Node* node, const F& action)
     {
         // level order
         if (node != nullptr)
@@ -463,6 +463,97 @@ public:
     ~Set()
     {
         destroy(end_);
+    }
+
+    /*
+     * Comparison
+     */
+
+    /**
+     * @brief Check whether two sets are equal.
+     *
+     * @param that another set
+     * @return true if two sets are equal
+     */
+    bool operator==(const Set<T>& that) const
+    {
+        if (size_ != that.size_)
+        {
+            return false;
+        }
+
+        for (auto this_it = begin(), that_it = that.begin(); this_it != end(); ++this_it, ++that_it)
+        {
+            if (*this_it != *that_it)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @brief Check whether two sets are not equal.
+     *
+     * @param that another set
+     * @return true if two sets are not equal
+     */
+    bool operator!=(const Set<T>& that) const
+    {
+        return !(*this == that);
+    }
+
+    /**
+     * @brief Test whether the set is a proper subset of another set.
+     *
+     * @param that another set
+     * @return true if the set is a proper subset of another set
+     */
+    bool operator<(const Set<T>& that) const
+    {
+        for (auto it = begin(); it != end(); ++it)
+        {
+            if (!that.contains(*it))
+            {
+                return false;
+            }
+        }
+
+        return size_ < that.size_;
+    }
+
+    /**
+     * @brief Test whether every element in the set is in another set.
+     *
+     * @param that another set
+     * @return true if every element in the set is in another set
+     */
+    bool operator<=(const Set<T>& that) const
+    {
+        return *this < that || *this == that;
+    }
+
+    /**
+     * @brief Test whether the set is a proper superset of another set.
+     *
+     * @param that another set
+     * @return true if the set is a proper superset of another set
+     */
+    bool operator>(const Set<T>& that) const
+    {
+        return that < *this;
+    }
+
+    /**
+     * @brief Test whether every element in another set is in the set.
+     *
+     * @param that another set
+     * @return true if every element in another set is in the set
+     */
+    bool operator>=(const Set<T>& that) const
+    {
+        return *this > that || *this == that;
     }
 
     /*
@@ -572,93 +663,6 @@ public:
     bool is_empty() const
     {
         return size_ == 0;
-    }
-
-    /**
-     * @brief Check whether two sets are equal.
-     *
-     * @param that another set
-     * @return true if two sets are equal
-     */
-    bool operator==(const Set<T>& that) const
-    {
-        if (size_ != that.size_)
-        {
-            return false;
-        }
-
-        for (auto this_it = begin(), that_it = that.begin(); this_it != end(); ++this_it, ++that_it)
-        {
-            if (*this_it != *that_it)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * @brief Check whether two sets are not equal.
-     *
-     * @param that another set
-     * @return true if two sets are not equal
-     */
-    bool operator!=(const Set<T>& that) const
-    {
-        return !(*this == that);
-    }
-
-    /**
-     * @brief Test whether the set is a proper subset of another set.
-     *
-     * @param that another set
-     * @return true if the set is a proper subset of another set
-     */
-    bool operator<(const Set<T>& that) const
-    {
-        for (auto it = begin(); it != end(); ++it)
-        {
-            if (!that.contains(*it))
-            {
-                return false;
-            }
-        }
-
-        return size_ < that.size_;
-    }
-
-    /**
-     * @brief Test whether every element in the set is in another set.
-     *
-     * @param that another set
-     * @return true if every element in the set is in another set
-     */
-    bool operator<=(const Set<T>& that) const
-    {
-        return *this < that || *this == that;
-    }
-
-    /**
-     * @brief Test whether the set is a proper superset of another set.
-     *
-     * @param that another set
-     * @return true if the set is a proper superset of another set
-     */
-    bool operator>(const Set<T>& that) const
-    {
-        return that < *this;
-    }
-
-    /**
-     * @brief Test whether every element in another set is in the set.
-     *
-     * @param that another set
-     * @return true if every element in another set is in the set
-     */
-    bool operator>=(const Set<T>& that) const
-    {
-        return *this > that || *this == that;
     }
 
     /**
@@ -925,7 +929,7 @@ public:
      */
     Set operator^(const Set& that) const
     {
-        return ((*this | that) - (*this & that));
+        return (*this | that) - (*this & that);
     }
 
     /**

@@ -235,6 +235,76 @@ public:
     }
 
     /*
+     * Comparison
+     */
+
+    /**
+     * @brief Check whether two strings are equal.
+     *
+     * @param that another string
+     * @return true if two strings are equal
+     */
+    bool operator==(const String& that) const
+    {
+        return compare(that) == 0;
+    }
+
+    /**
+     * @brief Check whether two strings are not equal.
+     *
+     * @param that another string
+     * @return true if two strings are not equal
+     */
+    bool operator!=(const String& that) const
+    {
+        return compare(that) != 0;
+    }
+
+    /**
+     * @brief Compare two strings lexicographically.
+     *
+     * @param that another string
+     * @return true if this < that
+     */
+    bool operator<(const String& that) const
+    {
+        return compare(that) < 0;
+    }
+
+    /**
+     * @brief Compare two strings lexicographically.
+     *
+     * @param that another string
+     * @return true if this <= that
+     */
+    bool operator<=(const String& that) const
+    {
+        return compare(that) <= 0;
+    }
+
+    /**
+     * @brief Compare two strings lexicographically.
+     *
+     * @param that another string
+     * @return true if this > that
+     */
+    bool operator>(const String& that) const
+    {
+        return compare(that) > 0;
+    }
+
+    /**
+     * @brief Compare two strings lexicographically.
+     *
+     * @param that another string
+     * @return true if this >= that
+     */
+    bool operator>=(const String& that) const
+    {
+        return compare(that) >= 0;
+    }
+
+    /*
      * Assignment
      */
 
@@ -352,72 +422,6 @@ public:
     bool is_empty() const
     {
         return list_.size_ == 0;
-    }
-
-    /**
-     * @brief Check whether two strings are equal.
-     *
-     * @param that another string
-     * @return true if two strings are equal
-     */
-    bool operator==(const String& that) const
-    {
-        return compare(that) == 0;
-    }
-
-    /**
-     * @brief Check whether two strings are not equal.
-     *
-     * @param that another string
-     * @return true if two strings are not equal
-     */
-    bool operator!=(const String& that) const
-    {
-        return compare(that) != 0;
-    }
-
-    /**
-     * @brief Compare two strings lexicographically.
-     *
-     * @param that another string
-     * @return true if this < that
-     */
-    bool operator<(const String& that) const
-    {
-        return compare(that) < 0;
-    }
-
-    /**
-     * @brief Compare two strings lexicographically.
-     *
-     * @param that another string
-     * @return true if this <= that
-     */
-    bool operator<=(const String& that) const
-    {
-        return compare(that) <= 0;
-    }
-
-    /**
-     * @brief Compare two strings lexicographically.
-     *
-     * @param that another string
-     * @return true if this > that
-     */
-    bool operator>(const String& that) const
-    {
-        return compare(that) > 0;
-    }
-
-    /**
-     * @brief Compare two strings lexicographically.
-     *
-     * @param that another string
-     * @return true if this >= that
-     */
-    bool operator>=(const String& that) const
-    {
-        return compare(that) >= 0;
     }
 
     /**

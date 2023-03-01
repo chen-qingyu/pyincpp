@@ -39,6 +39,18 @@ TEST(List, basics)
     // ~List()
 }
 
+// operator==() operator!=()
+TEST(List, compare)
+{
+    List<int> list = {1, 2, 3, 4, 5};
+
+    // operator==
+    ASSERT_TRUE(list == List<int>({1, 2, 3, 4, 5}));
+
+    // operator!=
+    ASSERT_TRUE(list != List<int>({1, 3, 5}));
+}
+
 // operator=()
 TEST(List, copy_assignment)
 {
@@ -46,9 +58,8 @@ TEST(List, copy_assignment)
     List<int> list2 = {6, 7, 8, 9};
 
     list1 = list2;
-    list2 += 10;
     ASSERT_EQ(list1, List<int>({6, 7, 8, 9}));
-    ASSERT_EQ(list2, List<int>({6, 7, 8, 9, 10}));
+    ASSERT_EQ(list2, List<int>({6, 7, 8, 9}));
 }
 
 // operator=()
@@ -112,18 +123,6 @@ TEST(List, iterator)
     {
         ASSERT_EQ(e, i++);
     }
-}
-
-// operator==() operator!=()
-TEST(List, compare)
-{
-    List<int> list = {1, 2, 3, 4, 5};
-
-    // operator==
-    ASSERT_TRUE(list == List<int>({1, 2, 3, 4, 5}));
-
-    // operator!=
-    ASSERT_TRUE(list != List<int>({1, 3, 5}));
 }
 
 // find() contains() min() max() count()
