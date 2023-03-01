@@ -243,53 +243,8 @@ public:
     }
 
     /*
-     * Assignment
+     * Comparison
      */
-
-    /**
-     * @brief Copy assignment operator.
-     *
-     * @param that another integer
-     * @return self reference
-     */
-    Integer& operator=(const Integer& that)
-    {
-        digits_ = that.digits_;
-        sign_ = that.sign_;
-
-        return *this;
-    }
-
-    /**
-     * @brief Move assignment operator.
-     *
-     * @param that another integer
-     * @return self reference
-     */
-    Integer& operator=(Integer&& that)
-    {
-        digits_ = std::move(that.digits_);
-        sign_ = std::move(that.sign_);
-
-        that.digits_ += 0;
-        that.sign_ = '0';
-
-        return *this;
-    }
-
-    /*
-     * Examination (will not change the object itself)
-     */
-
-    /**
-     * @brief Count the number of digits in an integer (based 10).
-     *
-     * @return the number of digits
-     */
-    int digits() const
-    {
-        return sign_ == '0' ? 0 : digits_.size_;
-    }
 
     /**
      * @brief Compare two integers.
@@ -355,6 +310,105 @@ public:
     bool operator>=(const Integer& that) const
     {
         return compare(that) >= 0;
+    }
+
+    /*
+     * Assignment
+     */
+
+    /**
+     * @brief Copy assignment operator.
+     *
+     * @param that another integer
+     * @return self reference
+     */
+    Integer& operator=(const Integer& that)
+    {
+        digits_ = that.digits_;
+        sign_ = that.sign_;
+
+        return *this;
+    }
+
+    /**
+     * @brief Move assignment operator.
+     *
+     * @param that another integer
+     * @return self reference
+     */
+    Integer& operator=(Integer&& that)
+    {
+        digits_ = std::move(that.digits_);
+        sign_ = std::move(that.sign_);
+
+        that.digits_ += 0;
+        that.sign_ = '0';
+
+        return *this;
+    }
+
+    /*
+     * Examination (will not change the object itself)
+     */
+
+    /**
+     * @brief Count the number of digits in an integer (based 10).
+     *
+     * @return the number of digits
+     */
+    int digits() const
+    {
+        return sign_ == '0' ? 0 : digits_.size_;
+    }
+
+    /**
+     * @brief Determine whether this integer is zero quickly.
+     *
+     * @return true if this == 0
+     */
+    bool is_zero() const
+    {
+        return sign_ == '0';
+    }
+
+    /**
+     * @brief Determine whether this integer is positive quickly.
+     *
+     * @return true if this > 0
+     */
+    bool is_positive() const
+    {
+        return sign_ == '+';
+    }
+
+    /**
+     * @brief Determine whether this integer is negative quickly.
+     *
+     * @return true if this < 0
+     */
+    bool is_negative() const
+    {
+        return sign_ == '-';
+    }
+
+    /**
+     * @brief Determine whether this integer is even quickly.
+     *
+     * @return true if this % 2 == 0
+     */
+    bool is_even() const
+    {
+        return digits_.data_[0] % 2 == 0;
+    }
+
+    /**
+     * @brief Determine whether this integer is odd quickly.
+     *
+     * @return true if this % 2 == 1
+     */
+    bool is_odd() const
+    {
+        return digits_.data_[0] % 2 == 1;
     }
 
     /*
@@ -635,7 +689,7 @@ public:
         // if this is zero, just return zero
         if (sign_ == '0')
         {
-            return Integer();
+            return 0;
         }
 
         // the sign of two integers is not zero
@@ -659,7 +713,7 @@ public:
         {
             tmp.digits_ = List<signed char>({0}) * i + b; // tmp = rhs * 10^i in O(N)
 
-            while (num1 >= tmp) // <= 9 loops
+            while (num1 >= tmp) // <= 9 loops, so O(1)
             {
                 c[i]++;
                 num1 -= tmp;
@@ -693,13 +747,18 @@ public:
      */
     Integer pow(const Integer& n, const Integer& mod = 0) const
     {
-        if (mod.sign_ == '0')
+        if (n.is_negative())
         {
-            if (n == 0)
+            return 0;
+        }
+
+        if (mod.is_zero())
+        {
+            if (n.is_zero())
             {
                 return 1;
             }
-            else if (n % 2 == 0) // n is even
+            else if (n.is_even())
             {
                 Integer y = pow(n / 2);
                 return y * y;
@@ -718,9 +777,9 @@ public:
 
             num %= mod;
 
-            while (exp != 0)
+            while (!exp.is_zero())
             {
-                if (exp % 2 == 1)
+                if (exp.is_odd())
                 {
                     result = (result * num) % mod;
                 }
@@ -729,16 +788,6 @@ public:
             }
             return result;
         }
-    }
-
-    /**
-     * @brief Return the logical not of this.
-     *
-     * @return true if this == 0, otherwise false
-     */
-    bool operator!() const
-    {
-        return sign_ == '0' ? true : false;
     }
 
     /**
@@ -753,11 +802,11 @@ public:
             throw std::runtime_error("ERROR: Negative integer have no factorial.");
         }
 
-        if (sign_ == '0') // 基例(0! == 1)
+        if (sign_ == '0') // base: 0! == 1
         {
             return 1;
         }
-        else // 链条
+        else // chain
         {
             return *this * (*this - 1).factorial();
         }

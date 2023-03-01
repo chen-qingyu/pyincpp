@@ -10,29 +10,23 @@
 
 using namespace mdspp;
 
-// constructor destructor digits()
+// constructor destructor
 TEST(Integer, basics)
 {
     // Integer()
     Integer int1;
-    ASSERT_EQ(int1.digits(), 0);
 
     // Integer(const String& str)
     Integer int2 = "123456789000";
-    ASSERT_EQ(int2.digits(), 12);
 
     // Integer(long long integer)
     Integer int3 = 123456789000LL;
-    ASSERT_EQ(int3.digits(), 12);
 
     // Integer(const Integer &that)
     Integer int4(int3);
-    ASSERT_EQ(int4.digits(), 12);
 
     // Integer(Integer &&that)
     Integer int5(std::move(int4));
-    ASSERT_EQ(int5.digits(), 12);
-    ASSERT_EQ(int4.digits(), 0);
 
     // ~Integer()
 }
@@ -83,29 +77,102 @@ TEST(Integer, compare)
     ASSERT_TRUE(pos_integer >= zero);
 }
 
+// operator=()
+TEST(Integer, copy_assignment)
+{
+    Integer integer1 = "12345";
+    Integer integer2 = "54321";
+
+    integer1 = integer2;
+    ASSERT_EQ(integer1, Integer("54321"));
+    ASSERT_EQ(integer2, Integer("54321"));
+}
+
+// operator=()
+TEST(Integer, move_assignment)
+{
+    Integer integer1 = "12345";
+    Integer integer2 = "54321";
+
+    integer1 = std::move(integer2);
+    ASSERT_EQ(integer1, Integer("54321"));
+    ASSERT_EQ(integer2, Integer());
+}
+
+// digits() is_zero() is_positive() is_negative() is_even() is_odd()
+TEST(Integer, examination)
+{
+    // digits()
+    ASSERT_EQ(Integer("0").digits(), 0);
+    ASSERT_EQ(Integer("1").digits(), 1);
+    ASSERT_EQ(Integer("-1").digits(), 1);
+    ASSERT_EQ(Integer("123456789").digits(), 9);
+    ASSERT_EQ(Integer("-123456789").digits(), 9);
+
+    // is_zero()
+    ASSERT_TRUE(Integer("0").is_zero());
+    ASSERT_FALSE(Integer("1").is_zero());
+    ASSERT_FALSE(Integer("-1").is_zero());
+    ASSERT_FALSE(Integer("123456789").is_zero());
+    ASSERT_FALSE(Integer("-123456789").is_zero());
+
+    // is_positive()
+    ASSERT_FALSE(Integer("0").is_positive());
+    ASSERT_TRUE(Integer("1").is_positive());
+    ASSERT_FALSE(Integer("-1").is_positive());
+    ASSERT_TRUE(Integer("123456789").is_positive());
+    ASSERT_FALSE(Integer("-123456789").is_positive());
+
+    // is_negative()
+    ASSERT_FALSE(Integer("0").is_negative());
+    ASSERT_FALSE(Integer("1").is_negative());
+    ASSERT_TRUE(Integer("-1").is_negative());
+    ASSERT_FALSE(Integer("123456789").is_negative());
+    ASSERT_TRUE(Integer("-123456789").is_negative());
+
+    // is_even()
+    ASSERT_TRUE(Integer("0").is_even());
+    ASSERT_FALSE(Integer("1").is_even());
+    ASSERT_FALSE(Integer("-1").is_even());
+    ASSERT_FALSE(Integer("123456789").is_even());
+    ASSERT_FALSE(Integer("-123456789").is_even());
+
+    // is_odd()
+    ASSERT_FALSE(Integer("0").is_odd());
+    ASSERT_TRUE(Integer("1").is_odd());
+    ASSERT_TRUE(Integer("-1").is_odd());
+    ASSERT_TRUE(Integer("123456789").is_odd());
+    ASSERT_TRUE(Integer("-123456789").is_odd());
+}
+
 // operator+()
 TEST(Integer, plus)
 {
-    // +pos
-    ASSERT_EQ(+Integer("18446744073709551616"), Integer("18446744073709551616"));
-
-    // pos + pos (2^64 + 2^64)
+    // pos + pos
     ASSERT_EQ(Integer("18446744073709551616") + Integer("18446744073709551616"), Integer("36893488147419103232"));
+    ASSERT_EQ(Integer("18446744073709551616") + Integer("1"), Integer("18446744073709551617"));
+    ASSERT_EQ(Integer("1") + Integer("18446744073709551616"), Integer("18446744073709551617"));
 
     // pos + zero
     ASSERT_EQ(Integer("18446744073709551616") + Integer("0"), Integer("18446744073709551616"));
 
     // pos + neg
     ASSERT_EQ(Integer("18446744073709551616") + Integer("-18446744073709551616"), Integer("0"));
+    ASSERT_EQ(Integer("18446744073709551616") + Integer("-1"), Integer("18446744073709551615"));
+    ASSERT_EQ(Integer("1") + Integer("-18446744073709551616"), Integer("-18446744073709551615"));
 
     // neg + pos
     ASSERT_EQ(Integer("-18446744073709551616") + Integer("18446744073709551616"), Integer("0"));
+    ASSERT_EQ(Integer("-18446744073709551616") + Integer("1"), Integer("-18446744073709551615"));
+    ASSERT_EQ(Integer("-1") + Integer("18446744073709551616"), Integer("18446744073709551615"));
 
     // neg + zero
     ASSERT_EQ(Integer("-18446744073709551616") + Integer("0"), Integer("-18446744073709551616"));
 
     // neg + neg
     ASSERT_EQ(Integer("-18446744073709551616") + Integer("-18446744073709551616"), Integer("-36893488147419103232"));
+    ASSERT_EQ(Integer("-18446744073709551616") + Integer("-1"), Integer("-18446744073709551617"));
+    ASSERT_EQ(Integer("-1") + Integer("-18446744073709551616"), Integer("-18446744073709551617"));
 
     // zero + pos
     ASSERT_EQ(Integer("0") + Integer("18446744073709551616"), Integer("18446744073709551616"));
@@ -115,37 +182,36 @@ TEST(Integer, plus)
 
     // zero + neg
     ASSERT_EQ(Integer("0") + Integer("-18446744073709551616"), Integer("-18446744073709551616"));
-
-    // more tests
-    ASSERT_EQ(Integer("1") + Integer("18446744073709551616"), Integer("18446744073709551617"));
-    ASSERT_EQ(Integer("99999999") + Integer("1"), Integer("100000000"));
 }
 
 // operator-()
 TEST(Integer, minus)
 {
-    // -pos
-    ASSERT_EQ(-Integer("18446744073709551616"), Integer("-18446744073709551616"));
-
-    // pos - pos (2^64 - 2^64)
+    // pos - pos
     ASSERT_EQ(Integer("18446744073709551616") - Integer("18446744073709551616"), Integer("0"));
+    ASSERT_EQ(Integer("18446744073709551616") - Integer("1"), Integer("18446744073709551615"));
+    ASSERT_EQ(Integer("1") - Integer("18446744073709551616"), Integer("-18446744073709551615"));
 
     // pos - zero
     ASSERT_EQ(Integer("18446744073709551616") - Integer("0"), Integer("18446744073709551616"));
 
     // pos - neg
     ASSERT_EQ(Integer("18446744073709551616") - Integer("-18446744073709551616"), Integer("36893488147419103232"));
+    ASSERT_EQ(Integer("18446744073709551616") - Integer("-1"), Integer("18446744073709551617"));
+    ASSERT_EQ(Integer("1") - Integer("-18446744073709551616"), Integer("18446744073709551617"));
 
     // neg - pos
     ASSERT_EQ(Integer("-18446744073709551616") - Integer("18446744073709551616"), Integer("-36893488147419103232"));
+    ASSERT_EQ(Integer("-18446744073709551616") - Integer("1"), Integer("-18446744073709551617"));
+    ASSERT_EQ(Integer("-1") - Integer("18446744073709551616"), Integer("-18446744073709551617"));
 
     // neg - zero
     ASSERT_EQ(Integer("-18446744073709551616") - Integer("0"), Integer("-18446744073709551616"));
 
     // neg - neg
     ASSERT_EQ(Integer("-18446744073709551616") - Integer("-18446744073709551616"), Integer("0"));
-    ASSERT_EQ(Integer("-2") - Integer("-1"), Integer("-1"));
-    ASSERT_EQ(Integer("-1") - Integer("-2"), Integer("1"));
+    ASSERT_EQ(Integer("-18446744073709551616") - Integer("-1"), Integer("-18446744073709551615"));
+    ASSERT_EQ(Integer("-1") - Integer("-18446744073709551616"), Integer("18446744073709551615"));
 
     // zero - pos
     ASSERT_EQ(Integer("0") - Integer("18446744073709551616"), Integer("-18446744073709551616"));
@@ -155,32 +221,36 @@ TEST(Integer, minus)
 
     // zero - neg
     ASSERT_EQ(Integer("0") - Integer("-18446744073709551616"), Integer("18446744073709551616"));
-
-    // more tests
-    ASSERT_EQ(Integer("1") - Integer("18446744073709551616"), Integer("-18446744073709551615"));
-    ASSERT_EQ(Integer("100000000") - Integer("1"), Integer("99999999"));
 }
 
 // operator*()
 TEST(Integer, times)
 {
-    // pos * pos (2^64 * 2)
-    ASSERT_EQ(Integer("18446744073709551616") * Integer("2"), Integer("36893488147419103232"));
+    // pos * pos
+    ASSERT_EQ(Integer("18446744073709551616") * Integer("1"), Integer("18446744073709551616"));
+    ASSERT_EQ(Integer("1") * Integer("18446744073709551616"), Integer("18446744073709551616"));
+    ASSERT_EQ(Integer("18446744073709551616") * Integer("18446744073709551616"), Integer("340282366920938463463374607431768211456"));
 
     // pos * zero
     ASSERT_EQ(Integer("18446744073709551616") * Integer("0"), Integer("0"));
 
     // pos * neg
-    ASSERT_EQ(Integer("18446744073709551616") * Integer("-2"), Integer("-36893488147419103232"));
+    ASSERT_EQ(Integer("18446744073709551616") * Integer("-1"), Integer("-18446744073709551616"));
+    ASSERT_EQ(Integer("1") * Integer("-18446744073709551616"), Integer("-18446744073709551616"));
+    ASSERT_EQ(Integer("18446744073709551616") * Integer("-18446744073709551616"), Integer("-340282366920938463463374607431768211456"));
 
     // neg * pos
-    ASSERT_EQ(Integer("-18446744073709551616") * Integer("2"), Integer("-36893488147419103232"));
+    ASSERT_EQ(Integer("-18446744073709551616") * Integer("1"), Integer("-18446744073709551616"));
+    ASSERT_EQ(Integer("-1") * Integer("18446744073709551616"), Integer("-18446744073709551616"));
+    ASSERT_EQ(Integer("-18446744073709551616") * Integer("18446744073709551616"), Integer("-340282366920938463463374607431768211456"));
 
     // neg * zero
     ASSERT_EQ(Integer("-18446744073709551616") * Integer("0"), Integer("0"));
 
     // neg * neg
-    ASSERT_EQ(Integer("-18446744073709551616") * Integer("-2"), Integer("36893488147419103232"));
+    ASSERT_EQ(Integer("-18446744073709551616") * Integer("-1"), Integer("18446744073709551616"));
+    ASSERT_EQ(Integer("-1") * Integer("-18446744073709551616"), Integer("18446744073709551616"));
+    ASSERT_EQ(Integer("-18446744073709551616") * Integer("-18446744073709551616"), Integer("340282366920938463463374607431768211456"));
 
     // zero * pos
     ASSERT_EQ(Integer("0") * Integer("18446744073709551616"), Integer("0"));
@@ -190,18 +260,15 @@ TEST(Integer, times)
 
     // zero * neg
     ASSERT_EQ(Integer("0") * Integer("-18446744073709551616"), Integer("0"));
-
-    // more tests
-    ASSERT_EQ(Integer("1") * Integer("18446744073709551616"), Integer("18446744073709551616"));
-    ASSERT_EQ(Integer("10000") * Integer("10000"), Integer("100000000"));
 }
 
 // operator/()
 TEST(Integer, divide)
 {
-    // pos / pos (2^64 / 2^64)
+    // pos / pos
     ASSERT_EQ(Integer("18446744073709551616") / Integer("18446744073709551616"), Integer("1"));
     ASSERT_EQ(Integer("36893488147419103232") / Integer("2"), Integer("18446744073709551616"));
+    ASSERT_EQ(Integer("2") / Integer("36893488147419103232"), Integer("0"));
 
     // pos / zero
     MY_ASSERT_THROWS_MESSAGE(Integer("18446744073709551616") / Integer("0"), std::runtime_error, "ERROR: Divide by zero.");
@@ -209,10 +276,12 @@ TEST(Integer, divide)
     // pos / neg
     ASSERT_EQ(Integer("18446744073709551616") / Integer("-18446744073709551616"), Integer("-1"));
     ASSERT_EQ(Integer("36893488147419103232") / Integer("-2"), Integer("-18446744073709551616"));
+    ASSERT_EQ(Integer("2") / Integer("-36893488147419103232"), Integer("0"));
 
     // neg / pos
     ASSERT_EQ(Integer("-18446744073709551616") / Integer("18446744073709551616"), Integer("-1"));
     ASSERT_EQ(Integer("-36893488147419103232") / Integer("2"), Integer("-18446744073709551616"));
+    ASSERT_EQ(Integer("-2") / Integer("36893488147419103232"), Integer("0"));
 
     // neg / zero
     MY_ASSERT_THROWS_MESSAGE(Integer("-18446744073709551616") / Integer("0"), std::runtime_error, "ERROR: Divide by zero.");
@@ -220,6 +289,7 @@ TEST(Integer, divide)
     // neg / neg
     ASSERT_EQ(Integer("-18446744073709551616") / Integer("-18446744073709551616"), Integer("1"));
     ASSERT_EQ(Integer("-36893488147419103232") / Integer("-2"), Integer("18446744073709551616"));
+    ASSERT_EQ(Integer("-2") / Integer("-36893488147419103232"), Integer("0"));
 
     // zero / pos
     ASSERT_EQ(Integer("0") / Integer("18446744073709551616"), Integer("0"));
@@ -229,41 +299,98 @@ TEST(Integer, divide)
 
     // zero / neg
     ASSERT_EQ(Integer("0") / Integer("-18446744073709551616"), Integer("0"));
-
-    // more tests
-    ASSERT_EQ(Integer("10000") / Integer("2000"), Integer("5"));
-    ASSERT_EQ(Integer("2000") / Integer("10000"), Integer("0"));
-    ASSERT_EQ(Integer("12345") / Integer("11"), Integer("1122"));
 }
 
 // operator%()
 TEST(Integer, mod)
 {
-    ASSERT_EQ(Integer("3") % Integer("2"), Integer("1"));
-    ASSERT_EQ(Integer("3") % Integer("1"), Integer("0"));
-    ASSERT_EQ(Integer("2") % Integer("3"), Integer("2"));
-    ASSERT_EQ(Integer("100") % Integer("3"), Integer("1"));
+    // pos % pos
+    ASSERT_EQ(Integer("18446744073709551616") % Integer("18446744073709551616"), Integer("0"));
+    ASSERT_EQ(Integer("36893488147419103232") % Integer("2"), Integer("0"));
+    ASSERT_EQ(Integer("2") % Integer("36893488147419103232"), Integer("2"));
+
+    // pos % zero
+    MY_ASSERT_THROWS_MESSAGE(Integer("18446744073709551616") % Integer("0"), std::runtime_error, "ERROR: Divide by zero.");
+
+    // pos % neg
+    ASSERT_EQ(Integer("18446744073709551616") % Integer("-18446744073709551616"), Integer("0"));
+    ASSERT_EQ(Integer("36893488147419103232") % Integer("-2"), Integer("0"));
+    ASSERT_EQ(Integer("2") % Integer("-36893488147419103232"), Integer("2"));
+
+    // neg % pos
+    ASSERT_EQ(Integer("-18446744073709551616") % Integer("18446744073709551616"), Integer("0"));
+    ASSERT_EQ(Integer("-36893488147419103232") % Integer("2"), Integer("0"));
+    ASSERT_EQ(Integer("-2") % Integer("36893488147419103232"), Integer("-2"));
+
+    // neg % zero
+    MY_ASSERT_THROWS_MESSAGE(Integer("-18446744073709551616") % Integer("0"), std::runtime_error, "ERROR: Divide by zero.");
+
+    // neg % neg
+    ASSERT_EQ(Integer("-18446744073709551616") % Integer("-18446744073709551616"), Integer("0"));
+    ASSERT_EQ(Integer("-36893488147419103232") % Integer("-2"), Integer("0"));
+    ASSERT_EQ(Integer("-2") % Integer("-36893488147419103232"), Integer("-2"));
+
+    // zero % pos
+    ASSERT_EQ(Integer("0") % Integer("18446744073709551616"), Integer("0"));
+
+    // zero % zero
+    MY_ASSERT_THROWS_MESSAGE(Integer("0") % Integer("0"), std::runtime_error, "ERROR: Divide by zero.");
+
+    // zero % neg
+    ASSERT_EQ(Integer("0") % Integer("-18446744073709551616"), Integer("0"));
 }
 
 // pow()
 TEST(Integer, pow)
 {
-    ASSERT_EQ(Integer("3").pow(Integer("2")), Integer("9"));
-    ASSERT_EQ(Integer("3").pow(Integer("3")), Integer("27"));
-    ASSERT_EQ(Integer("2").pow(Integer("3")), Integer("8"));
-    ASSERT_EQ(Integer("1").pow(Integer("1")), Integer("1"));
-    ASSERT_EQ(Integer("1").pow(Integer("0")), Integer("1"));
+    // 0^0 == 1
+    ASSERT_EQ(Integer("0").pow(Integer("0")), Integer("1"));
+
+    // 0^1 == 0
     ASSERT_EQ(Integer("0").pow(Integer("1")), Integer("0"));
+
+    // 1^0 == 1
+    ASSERT_EQ(Integer("1").pow(Integer("0")), Integer("1"));
+
+    // 1^1 == 1
+    ASSERT_EQ(Integer("1").pow(Integer("1")), Integer("1"));
+
+    // 2^3 == 8
+    ASSERT_EQ(Integer("2").pow(Integer("3")), Integer("8"));
+
+    // 2^100 == 1267650600228229401496703205376
+    ASSERT_EQ(Integer("2").pow(Integer("100")), Integer("1267650600228229401496703205376"));
+
+    // (9^9)^9 == 196627050475552913618075908526912116283103450944214766927315415537966391196809
+    ASSERT_EQ(Integer("9").pow(Integer("9")).pow(Integer("9")), Integer("196627050475552913618075908526912116283103450944214766927315415537966391196809"));
+
+    // 1024^1024 % 100 == 76
+    ASSERT_EQ(Integer("1024").pow(Integer("1024"), Integer("100")), Integer("76"));
 }
 
 // factorial()
 TEST(Integer, factorial)
 {
+    // (negative)! throws exception
+    MY_ASSERT_THROWS_MESSAGE(Integer("-1").factorial(), std::runtime_error, "ERROR: Negative integer have no factorial.");
+
+    // 0! == 1
     ASSERT_EQ(Integer("0").factorial(), Integer("1"));
+
+    // 1! == 1
     ASSERT_EQ(Integer("1").factorial(), Integer("1"));
+
+    // 2! == 2
     ASSERT_EQ(Integer("2").factorial(), Integer("2"));
+
+    // 3! == 6
     ASSERT_EQ(Integer("3").factorial(), Integer("6"));
+
+    // 100! == 93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000
     ASSERT_EQ(Integer("100").factorial(), Integer("93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000"));
+
+    // (5!)! == 6689502913449127057588118054090372586752746333138029810295671352301633557244962989366874165271984981308157637893214090552534408589408121859898481114389650005964960521256960000000000000000000000000000
+    ASSERT_EQ(Integer("5").factorial().factorial(), Integer("6689502913449127057588118054090372586752746333138029810295671352301633557244962989366874165271984981308157637893214090552534408589408121859898481114389650005964960521256960000000000000000000000000000"));
 }
 
 // operator<<()
