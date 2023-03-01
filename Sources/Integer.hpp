@@ -198,16 +198,18 @@ public:
             sign_ = '0';
         }
 
-        if (integer == 0)
+        if (integer != 0)
+        {
+            integer = std::abs(integer);
+            while (integer > 0)
+            {
+                digits_ += integer % 10;
+                integer /= 10;
+            }
+        }
+        else
         {
             digits_ += 0;
-        }
-
-        integer = std::abs(integer);
-        while (integer > 0)
-        {
-            digits_ += integer % 10;
-            integer /= 10;
         }
     }
 
@@ -642,7 +644,7 @@ public:
         // if one of the operands is zero, just return zero
         if (sign_ == '0' || rhs.sign_ == '0')
         {
-            return Integer();
+            return 0;
         }
 
         // the sign of two integers is not zero
@@ -775,8 +777,6 @@ public:
             Integer exp = n;
             Integer result = 1;
 
-            num %= mod;
-
             while (!exp.is_zero())
             {
                 if (exp.is_odd())
@@ -816,6 +816,45 @@ public:
 /*
  * Non-member functions
  */
+
+/**
+ * @brief Calculate the greatest common divisor of two integers.
+ *
+ * @param int1 integer 1
+ * @param int2 integer 2
+ * @return the greatest common divisor of two integers
+ */
+Integer gcd(const Integer& int1, const Integer& int2)
+{
+    Integer a = int1;
+    Integer b = int2;
+
+    if (a < b) // let a >= b
+    {
+        common::swap(a, b);
+    }
+
+    while (!b.is_zero()) // a, b = b, a % b until b == 0
+    {
+        auto t = b;
+        b = a % b;
+        a = t;
+    }
+
+    return a; // a is GCD
+}
+
+/**
+ * @brief Calculate the least common multiple of two integers.
+ *
+ * @param int1 integer 1
+ * @param int2 integer 2
+ * @return the least common multiple of two integers
+ */
+Integer lcm(const Integer& int1, const Integer& int2)
+{
+    return (int1 * int2) / gcd(int1, int2); // LCM = (int1 * int2) / GCD
+}
 
 /**
  * @brief Output integer to the specified output stream.

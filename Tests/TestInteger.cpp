@@ -366,6 +366,9 @@ TEST(Integer, pow)
 
     // 1024^1024 % 100 == 76
     ASSERT_EQ(Integer("1024").pow(Integer("1024"), Integer("100")), Integer("76"));
+
+    // 9999^1001 % 100 == 99
+    ASSERT_EQ(Integer("9999").pow(Integer("1001"), Integer("100")), Integer("99"));
 }
 
 // factorial()
@@ -391,6 +394,20 @@ TEST(Integer, factorial)
 
     // (5!)! == 6689502913449127057588118054090372586752746333138029810295671352301633557244962989366874165271984981308157637893214090552534408589408121859898481114389650005964960521256960000000000000000000000000000
     ASSERT_EQ(Integer("5").factorial().factorial(), Integer("6689502913449127057588118054090372586752746333138029810295671352301633557244962989366874165271984981308157637893214090552534408589408121859898481114389650005964960521256960000000000000000000000000000"));
+}
+
+// gcd() lcm()
+TEST(Integer, gcd_lcm)
+{
+    // gcd()
+    ASSERT_EQ(gcd(Integer("6"), Integer("12")), Integer("6"));
+    ASSERT_EQ(gcd(Integer("6"), Integer("11")), Integer("1"));
+    ASSERT_EQ(gcd(Integer("12345"), Integer("54321")), Integer("3"));
+
+    // lcm()
+    ASSERT_EQ(lcm(Integer("6"), Integer("12")), Integer("12"));
+    ASSERT_EQ(lcm(Integer("6"), Integer("11")), Integer("66"));
+    ASSERT_EQ(lcm(Integer("12345"), Integer("54321")), Integer("223530915"));
 }
 
 // operator<<()
