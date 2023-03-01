@@ -1,7 +1,7 @@
 /**
  * @file Integer.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief Big integer class.
+ * @brief Integer class, implemented by List of signed char.
  * @version 1.0
  * @date 2023.01.21
  *
@@ -18,7 +18,7 @@ namespace mdspp
 {
 
 /**
- * @brief Big integer class.
+ * @brief Integer class, implemented by List of signed char.
  */
 class Integer
 {

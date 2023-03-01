@@ -81,7 +81,7 @@ $(function() {
 <li>语言：采用标准C++语言编写，最低兼容版本： ISO C++14 。</li>
 <li>目的：提供一个简洁、好用、健壮的C++容器库。</li>
 <li>目标：像Python的内置类型一样好用又优雅。</li>
-<li>模块：List, String, Deque, Set, Map, Integer.</li>
+<li>模块：List, Set, Map, Integer, String, Tuple, Deque.</li>
 <li>简洁：Stay simple, stay young. 在保证好用和健壮的前提下，尽量简洁，便于维护和阅读。</li>
 <li>好用：提供了许多方便的函数，比如String类提供了像Python的str那样的替换、分割、查找等操作，比如List类和String类都支持像Python那样的负数下标等等。</li>
 <li>健壮：安全的扩容机制，防止溢出。对容器的增删改查都有相应的检查。这么多检查，肯定会对性能有一定影响，但是这个库追求的并不是性能，而是简洁，好用和健壮。</li>
@@ -93,14 +93,25 @@ $(function() {
 </ul>
 <h2><a class="anchor" id="autotoc_md2"></a>
 2. 模块说明</h2>
-<div class="fragment"><div class="line">Type        Implement               Python</div>
-<div class="line">List&lt;T&gt;     array list              list</div>
-<div class="line">String      List&lt;char&gt;              str</div>
-<div class="line">Deque&lt;T&gt;    doubly linked list      collections.deque</div>
-<div class="line">Set&lt;T&gt;      AVL tree or skip list   set</div>
-<div class="line">Map&lt;K, V&gt;   Set&lt;Pair&lt;K, V&gt;&gt;         dict</div>
-<div class="line">Integer     self                    int</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md3"></a>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Type   </th><th class="markdownTableHeadNone">Implement   </th><th class="markdownTableHeadNone">Python    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>List&lt;T&gt;</code>   </td><td class="markdownTableBodyNone"><code>dynamic array</code>   </td><td class="markdownTableBodyNone"><code>list</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>Set&lt;T&gt;</code>   </td><td class="markdownTableBodyNone"><code>AVL tree</code>   </td><td class="markdownTableBodyNone"><code>set</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>Map&lt;K, V&gt;</code>   </td><td class="markdownTableBodyNone"><code>Set&lt;Pair&lt;K, V&gt;&gt;</code>   </td><td class="markdownTableBodyNone"><code>dict</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>Integer</code>   </td><td class="markdownTableBodyNone"><code>List&lt;signed char&gt;</code>   </td><td class="markdownTableBodyNone"><code>int</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>String</code>   </td><td class="markdownTableBodyNone"><code>List&lt;char&gt;</code>   </td><td class="markdownTableBodyNone"><code>str</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>Tuple&lt;...T&gt;</code>   </td><td class="markdownTableBodyNone"><code>template meta-programming</code>   </td><td class="markdownTableBodyNone"><code>tuple</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>Deque&lt;T&gt;</code>   </td><td class="markdownTableBodyNone"><code>doubly linked list</code>   </td><td class="markdownTableBodyNone"><code>collections.deque</code>   </td></tr>
+</table>
+<h2><a class="anchor" id="autotoc_md3"></a>
 3. 开发历史</h2>
 <p>最开始是用的C语言开发，目的是学习数据结构。然后2021年开始尝试用C++实现一些方便的容器类，只当是练手。后来经过了几次重构，确定了目标和目的，2023年开始正式开发。</p>
 <p>说明一下关于<code>inline</code>：为了源码简洁性，我最后决定一律采用inline的风格。一般不会有问题，除非对程序体积有很高的要求。刚开始我是把声明和定义分开写的，但这是模板，没法分成两个文件，所以我在一个文件里分开写，一部分函数定义前面加上inline，但是这样最后写完了看起来非常冗长，一大堆的template typename inline，在看了Java源码后考虑再三决定全部写在类里面，也就是默认inline的形式。inline只是对编译器的请求而非要求，不能inline的函数（比如有递归的函数）编译器是不会执行inline的。</p>

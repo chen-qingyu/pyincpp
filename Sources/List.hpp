@@ -1,7 +1,7 @@
 /**
  * @file List.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief List template class, implemented by array list.
+ * @brief List template class, implemented by dynamic array.
  * @version 1.0
  * @date 2023.01.05
  *
@@ -33,7 +33,7 @@ template <typename T>
 class Set;
 
 /**
- * @brief List template class, implemented by array list.
+ * @brief List template class, implemented by dynamic array.
  *
  * @tparam T the type of elements in the list
  */

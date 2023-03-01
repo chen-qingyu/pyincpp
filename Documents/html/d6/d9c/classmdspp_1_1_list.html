@@ -84,7 +84,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html" title="List template class, implemented by array list.">List</a> template class, implemented by array list.  
+<p><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html" title="List template class, implemented by dynamic array.">List</a> template class, implemented by dynamic array.  
  <a href="../../d6/d9c/classmdspp_1_1_list.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>&gt;</code></p>
@@ -92,7 +92,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d11/classmdspp_1_1_list_1_1_iterator.html">Iterator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html" title="List template class, implemented by array list.">List</a> iterator class.  <a href="../../d9/d11/classmdspp_1_1_list_1_1_iterator.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html" title="List template class, implemented by dynamic array.">List</a> iterator class.  <a href="../../d9/d11/classmdspp_1_1_list_1_1_iterator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -112,6 +112,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae64044fbff1c2b3fbeee955e77b34e60"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#ae64044fbff1c2b3fbeee955e77b34e60">~List</a> ()</td></tr>
 <tr class="memdesc:ae64044fbff1c2b3fbeee955e77b34e60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the list object.  <br /></td></tr>
 <tr class="separator:ae64044fbff1c2b3fbeee955e77b34e60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a168d418cf9b67ec5f088c5f077177110"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a168d418cf9b67ec5f088c5f077177110">operator==</a> (const <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a>&lt; T &gt; &amp;that) const</td></tr>
+<tr class="memdesc:a168d418cf9b67ec5f088c5f077177110"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether two lists are equal.  <br /></td></tr>
+<tr class="separator:a168d418cf9b67ec5f088c5f077177110"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a250331a8fbf35268369dcb1102ed1167"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a250331a8fbf35268369dcb1102ed1167">operator!=</a> (const <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a>&lt; T &gt; &amp;that) const</td></tr>
+<tr class="memdesc:a250331a8fbf35268369dcb1102ed1167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether two lists are not equal.  <br /></td></tr>
+<tr class="separator:a250331a8fbf35268369dcb1102ed1167"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a529bee37fde8953ac1baa4030ea97e60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a529bee37fde8953ac1baa4030ea97e60">operator=</a> (const <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a>&lt; T &gt; &amp;that)</td></tr>
 <tr class="memdesc:a529bee37fde8953ac1baa4030ea97e60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator.  <br /></td></tr>
 <tr class="separator:a529bee37fde8953ac1baa4030ea97e60"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,12 +145,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afe669d4e59daaf24afe1a4f6daa0cbad"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#afe669d4e59daaf24afe1a4f6daa0cbad">capacity</a> () const</td></tr>
 <tr class="memdesc:afe669d4e59daaf24afe1a4f6daa0cbad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the available capacity in the list.  <br /></td></tr>
 <tr class="separator:afe669d4e59daaf24afe1a4f6daa0cbad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a168d418cf9b67ec5f088c5f077177110"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a168d418cf9b67ec5f088c5f077177110">operator==</a> (const <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a>&lt; T &gt; &amp;that) const</td></tr>
-<tr class="memdesc:a168d418cf9b67ec5f088c5f077177110"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether two lists are equal.  <br /></td></tr>
-<tr class="separator:a168d418cf9b67ec5f088c5f077177110"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a250331a8fbf35268369dcb1102ed1167"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a250331a8fbf35268369dcb1102ed1167">operator!=</a> (const <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a>&lt; T &gt; &amp;that) const</td></tr>
-<tr class="memdesc:a250331a8fbf35268369dcb1102ed1167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether two lists are not equal.  <br /></td></tr>
-<tr class="separator:a250331a8fbf35268369dcb1102ed1167"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2deb989493b335f354c5826ff6a9c40b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a2deb989493b335f354c5826ff6a9c40b">find</a> (const T &amp;element, int start=0, int stop=<a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#ad6f8b6cc0a6b9158cd2c760fbfa23dc2">MAX_CAPACITY</a>+1) const</td></tr>
 <tr class="memdesc:a2deb989493b335f354c5826ff6a9c40b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the index of the first occurrence of the specified element in the list (at or after index start and before index stop).  <br /></td></tr>
 <tr class="separator:a2deb989493b335f354c5826ff6a9c40b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,10 +181,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad0efc6e16b60b4cb3a3522a8c0be6a21"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#ad0efc6e16b60b4cb3a3522a8c0be6a21">clear</a> ()</td></tr>
 <tr class="memdesc:ad0efc6e16b60b4cb3a3522a8c0be6a21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all of the elements from the list.  <br /></td></tr>
 <tr class="separator:ad0efc6e16b60b4cb3a3522a8c0be6a21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe5ee3d4bf63921616c37ebe7e43e53b"><td class="memTemplParams" colspan="2">template&lt;typename F &gt; </td></tr>
-<tr class="memitem:afe5ee3d4bf63921616c37ebe7e43e53b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#afe5ee3d4bf63921616c37ebe7e43e53b">traverse</a> (F action)</td></tr>
-<tr class="memdesc:afe5ee3d4bf63921616c37ebe7e43e53b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the given action for each element of the list.  <br /></td></tr>
-<tr class="separator:afe5ee3d4bf63921616c37ebe7e43e53b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc87d0307d122ea6c8117dcb37025b40"><td class="memTemplParams" colspan="2">template&lt;typename F &gt; </td></tr>
+<tr class="memitem:acc87d0307d122ea6c8117dcb37025b40"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#acc87d0307d122ea6c8117dcb37025b40">traverse</a> (const F &amp;action)</td></tr>
+<tr class="memdesc:acc87d0307d122ea6c8117dcb37025b40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the given action for each element of the list.  <br /></td></tr>
+<tr class="separator:acc87d0307d122ea6c8117dcb37025b40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a9dd6d5c7f237be9705dda7ecf27a5e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a0a9dd6d5c7f237be9705dda7ecf27a5e">reverse</a> ()</td></tr>
 <tr class="memdesc:a0a9dd6d5c7f237be9705dda7ecf27a5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse the list in place.  <br /></td></tr>
 <tr class="separator:a0a9dd6d5c7f237be9705dda7ecf27a5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -197,9 +197,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7f7945ec48bc28a3c758cf0a7eb1cd35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a7f7945ec48bc28a3c758cf0a7eb1cd35">swap</a> (<a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a> &amp;that)</td></tr>
 <tr class="memdesc:a7f7945ec48bc28a3c758cf0a7eb1cd35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swap the contents of two lists.  <br /></td></tr>
 <tr class="separator:a7f7945ec48bc28a3c758cf0a7eb1cd35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70af95e58ebbee9ae1bead6484c0c2cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a70af95e58ebbee9ae1bead6484c0c2cc">adjust_capacity</a> (int new_capacity=-1)</td></tr>
-<tr class="memdesc:a70af95e58ebbee9ae1bead6484c0c2cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adjust capacity safely.  <br /></td></tr>
-<tr class="separator:a70af95e58ebbee9ae1bead6484c0c2cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8feb27f982d9291bfe07a4719a03689"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#ae8feb27f982d9291bfe07a4719a03689">adjust_capacity</a> (int new_capacity)</td></tr>
+<tr class="memdesc:ae8feb27f982d9291bfe07a4719a03689"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adjust capacity safely.  <br /></td></tr>
+<tr class="separator:ae8feb27f982d9291bfe07a4719a03689"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4720f22b900d7d481af762652c5bf00f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a4720f22b900d7d481af762652c5bf00f">slice</a> (int start, int stop, int step=1) const</td></tr>
 <tr class="memdesc:a4720f22b900d7d481af762652c5bf00f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return slice of the list from start to stop with certain step.  <br /></td></tr>
 <tr class="separator:a4720f22b900d7d481af762652c5bf00f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -215,6 +215,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0d1b45684185b9786b72d1871266cda3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a0d1b45684185b9786b72d1871266cda3">operator*</a> (int times) const</td></tr>
 <tr class="memdesc:a0d1b45684185b9786b72d1871266cda3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a new list and add the list to itself a certain number of times.  <br /></td></tr>
 <tr class="separator:a0d1b45684185b9786b72d1871266cda3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba1c54ab4d7ed8b4cee13f81180717f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d8d/classmdspp_1_1_deque.html">Deque</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#aba1c54ab4d7ed8b4cee13f81180717f3">to_deque</a> () const</td></tr>
+<tr class="memdesc:aba1c54ab4d7ed8b4cee13f81180717f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a deque with the same elements.  <br /></td></tr>
+<tr class="separator:aba1c54ab4d7ed8b4cee13f81180717f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bb98e6db95c081b11699ed6e958c21c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/dc8/classmdspp_1_1_set.html">Set</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a0bb98e6db95c081b11699ed6e958c21c">to_set</a> () const</td></tr>
+<tr class="memdesc:a0bb98e6db95c081b11699ed6e958c21c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a set with the same elements.  <br /></td></tr>
+<tr class="separator:a0bb98e6db95c081b11699ed6e958c21c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -229,10 +235,12 @@ Static Public Attributes</h2></td></tr>
 Friends</h2></td></tr>
 <tr class="memitem:a7fb804f7dc96dd9f705c84095f37f1ca"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a7fb804f7dc96dd9f705c84095f37f1ca">String</a></td></tr>
 <tr class="separator:a7fb804f7dc96dd9f705c84095f37f1ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76a310ed32984822b85a68e4d66176a5"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a76a310ed32984822b85a68e4d66176a5">Integer</a></td></tr>
+<tr class="separator:a76a310ed32984822b85a68e4d66176a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
-class mdspp::List&lt; T &gt;</div><p><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html" title="List template class, implemented by array list.">List</a> template class, implemented by array list. </p>
+class mdspp::List&lt; T &gt;</div><p><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html" title="List template class, implemented by dynamic array.">List</a> template class, implemented by dynamic array. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>the type of elements in the list </td></tr>
@@ -240,7 +248,7 @@ class mdspp::List&lt; T &gt;</div><p><a class="el" href="../../d6/d9c/classmdspp
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00032">32</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00041">41</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a297b76532874bf5a5f603555809416f5" name="a297b76532874bf5a5f603555809416f5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a297b76532874bf5a5f603555809416f5">&#9670;&#160;</a></span>List() <span class="overload">[1/4]</span></h2>
@@ -269,7 +277,7 @@ template&lt;typename T &gt; </div>
 
 <p>Construct a new list object. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00172">172</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00182">182</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -307,7 +315,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00184">184</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00194">194</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -345,7 +353,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00200">200</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00210">210</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -383,7 +391,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00216">216</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00226">226</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -414,11 +422,89 @@ template&lt;typename T &gt; </div>
 
 <p>Destroy the list object. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00229">229</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00239">239</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a168d418cf9b67ec5f088c5f077177110" name="a168d418cf9b67ec5f088c5f077177110"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a168d418cf9b67ec5f088c5f077177110">&#9670;&#160;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">mdspp::List</a>&lt; T &gt;::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>that</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check whether two lists are equal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">that</td><td>another list </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if two lists are equal </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00254">254</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a250331a8fbf35268369dcb1102ed1167" name="a250331a8fbf35268369dcb1102ed1167"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a250331a8fbf35268369dcb1102ed1167">&#9670;&#160;</a></span>operator!=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">mdspp::List</a>&lt; T &gt;::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>that</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check whether two lists are not equal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">that</td><td>another list </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if two lists are not equal </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00278">278</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a529bee37fde8953ac1baa4030ea97e60" name="a529bee37fde8953ac1baa4030ea97e60"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a529bee37fde8953ac1baa4030ea97e60">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
 
@@ -454,7 +540,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00244">244</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00293">293</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -493,7 +579,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00268">268</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00317">317</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -533,7 +619,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>reference to the element at the specified position in the list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00298">298</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00347">347</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -573,7 +659,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>const reference to the element at the specified position in the list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00313">313</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00362">362</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -606,7 +692,7 @@ template&lt;typename T &gt; </div>
 <p>If the list is empty, the returned iterator will be equal to <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a1958be01b960050d62772789e9d229fb" title="Return an iterator to the element following the last element of the list.">end()</a>.</p>
 <dl class="section return"><dt>Returns</dt><dd>iterator to the first element </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00331">331</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00380">380</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -639,7 +725,7 @@ template&lt;typename T &gt; </div>
 <p>This element acts as a placeholder, attempting to access it results in undefined behavior.</p>
 <dl class="section return"><dt>Returns</dt><dd>iterator to the element following the last element </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00343">343</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00392">392</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -671,7 +757,7 @@ template&lt;typename T &gt; </div>
 <p>Return the number of elements in the list. </p>
 <dl class="section return"><dt>Returns</dt><dd>the number of elements in the list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00357">357</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00406">406</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -703,7 +789,7 @@ template&lt;typename T &gt; </div>
 <p>Return true if the list contains no elements. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the list contains no elements </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00367">367</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00416">416</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -735,85 +821,7 @@ template&lt;typename T &gt; </div>
 <p>Return the available capacity in the list. </p>
 <dl class="section return"><dt>Returns</dt><dd>the available capacity in the list. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00377">377</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a168d418cf9b67ec5f088c5f077177110" name="a168d418cf9b67ec5f088c5f077177110"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a168d418cf9b67ec5f088c5f077177110">&#9670;&#160;</a></span>operator==()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">mdspp::List</a>&lt; T &gt;::operator== </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>that</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check whether two lists are equal. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">that</td><td>another list </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if two lists are equal </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00388">388</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a250331a8fbf35268369dcb1102ed1167" name="a250331a8fbf35268369dcb1102ed1167"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a250331a8fbf35268369dcb1102ed1167">&#9670;&#160;</a></span>operator!=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">mdspp::List</a>&lt; T &gt;::operator!= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>that</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check whether two lists are not equal. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">that</td><td>another list </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if two lists are not equal </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00412">412</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00426">426</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -871,7 +879,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the index of the first occurrence of the specified element in the list, or -1 if the list does not contain the element </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00427">427</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00441">441</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -928,7 +936,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the list contains the specified element </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00449">449</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00463">463</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -960,7 +968,7 @@ template&lt;typename T &gt; </div>
 <p>Get the smallest item of the list. </p>
 <dl class="section return"><dt>Returns</dt><dd>the smallest item </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00459">459</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00473">473</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -992,7 +1000,7 @@ template&lt;typename T &gt; </div>
 <p>Get the largest item of the list. </p>
 <dl class="section return"><dt>Returns</dt><dd>the largest item </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00480">480</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00494">494</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1031,7 +1039,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the total number of occurrences of the specified element in the list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00502">502</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00516">516</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1080,7 +1088,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00525">525</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00539">539</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1119,7 +1127,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the removed element </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00558">558</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00573">573</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1158,7 +1166,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00588">588</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00603">603</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1197,7 +1205,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00601">601</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00616">616</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1237,7 +1245,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00630">630</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00645">645</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1276,7 +1284,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00647">647</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00662">662</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1308,12 +1316,12 @@ template&lt;typename T &gt; </div>
 <p>Remove all of the elements from the list. </p>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00669">669</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00684">684</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
-<a id="afe5ee3d4bf63921616c37ebe7e43e53b" name="afe5ee3d4bf63921616c37ebe7e43e53b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afe5ee3d4bf63921616c37ebe7e43e53b">&#9670;&#160;</a></span>traverse()</h2>
+<a id="acc87d0307d122ea6c8117dcb37025b40" name="acc87d0307d122ea6c8117dcb37025b40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc87d0307d122ea6c8117dcb37025b40">&#9670;&#160;</a></span>traverse()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1328,7 +1336,7 @@ template&lt;typename F &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a> &amp; <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">mdspp::List</a>&lt; T &gt;::traverse </td>
           <td>(</td>
-          <td class="paramtype">F&#160;</td>
+          <td class="paramtype">const F &amp;&#160;</td>
           <td class="paramname"><em>action</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1355,7 +1363,7 @@ template&lt;typename F &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00690">690</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00705">705</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1387,7 +1395,7 @@ template&lt;typename T &gt; </div>
 <p>Reverse the list in place. </p>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00705">705</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00720">720</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1420,7 +1428,7 @@ template&lt;typename T &gt; </div>
 <p>Will not change the original relative order of elements.</p>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00722">722</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00737">737</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1460,7 +1468,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00744">744</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00759">759</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1498,12 +1506,12 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00774">774</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00789">789</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a70af95e58ebbee9ae1bead6484c0c2cc" name="a70af95e58ebbee9ae1bead6484c0c2cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70af95e58ebbee9ae1bead6484c0c2cc">&#9670;&#160;</a></span>adjust_capacity()</h2>
+<a id="ae8feb27f982d9291bfe07a4719a03689" name="ae8feb27f982d9291bfe07a4719a03689"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8feb27f982d9291bfe07a4719a03689">&#9670;&#160;</a></span>adjust_capacity()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1517,7 +1525,7 @@ template&lt;typename T &gt; </div>
           <td class="memname"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a> &amp; <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">mdspp::List</a>&lt; T &gt;::adjust_capacity </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>new_capacity</em> = <code>-1</code></td><td>)</td>
+          <td class="paramname"><em>new_capacity</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1531,13 +1539,13 @@ template&lt;typename T &gt; </div>
 <p>Adjust capacity safely. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">new_capacity</td><td>new capacity, default -1 means double capacity </td></tr>
+    <tr><td class="paramname">new_capacity</td><td>new capacity </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00787">787</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00802">802</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1595,7 +1603,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the slice of the list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00840">840</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00847">847</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1634,7 +1642,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the generated list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00874">874</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00881">881</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1673,7 +1681,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the generated list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00886">886</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00893">893</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1712,7 +1720,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the generated list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00898">898</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00905">905</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1751,7 +1759,71 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the generated list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00910">910</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00917">917</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aba1c54ab4d7ed8b4cee13f81180717f3" name="aba1c54ab4d7ed8b4cee13f81180717f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba1c54ab4d7ed8b4cee13f81180717f3">&#9670;&#160;</a></span>to_deque()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d8d/classmdspp_1_1_deque.html">Deque</a>&lt; T &gt; <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">mdspp::List</a>&lt; T &gt;::to_deque </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Generate a deque with the same elements. </p>
+<dl class="section return"><dt>Returns</dt><dd>a deque with the same elements </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00928">928</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a0bb98e6db95c081b11699ed6e958c21c" name="a0bb98e6db95c081b11699ed6e958c21c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bb98e6db95c081b11699ed6e958c21c">&#9670;&#160;</a></span>to_set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/dc8/classmdspp_1_1_set.html">Set</a>&lt; T &gt; <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">mdspp::List</a>&lt; T &gt;::to_set </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Generate a set with the same elements. </p>
+<dl class="section return"><dt>Returns</dt><dd>a set with the same elements </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00943">943</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1778,7 +1850,33 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00034">34</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00043">43</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a76a310ed32984822b85a68e4d66176a5" name="a76a310ed32984822b85a68e4d66176a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76a310ed32984822b85a68e4d66176a5">&#9670;&#160;</a></span>Integer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="../../d8/d6c/classmdspp_1_1_integer.html">Integer</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00044">44</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1807,7 +1905,7 @@ template&lt;typename T &gt; </div>
 
 <p>Initial capacity. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00158">158</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00168">168</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
@@ -1835,11 +1933,12 @@ template&lt;typename T &gt; </div>
 
 <p>Maximum capacity. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00163">163</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d72/_list_8hpp_source.html#l00173">173</a> of file <a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>F:/Projects/MDSPP/Sources/<a class="el" href="../../dc/d29/_deque_8hpp_source.html">Deque.hpp</a></li>
 <li>F:/Projects/MDSPP/Sources/<a class="el" href="../../dc/d72/_list_8hpp_source.html">List.hpp</a></li>
 </ul>
 </div><!-- contents -->

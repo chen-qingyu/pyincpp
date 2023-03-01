@@ -1,7 +1,7 @@
 /**
  * @file String.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief My C++ string library.
+ * @brief String class, implemented by List of char.
  * @version 1.0
  * @date 2023.01.08
  *
@@ -20,7 +20,7 @@ namespace mdspp
 {
 
 /**
- * @brief String class.
+ * @brief String class, implemented by List of char.
  */
 class String
 {

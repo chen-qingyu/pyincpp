@@ -81,7 +81,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="../../de/d45/classmdspp_1_1_string.html" title="String class.">String</a> class.  
+<p><a class="el" href="../../de/d45/classmdspp_1_1_string.html" title="String class, implemented by List of char.">String</a> class, implemented by <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html" title="List template class, implemented by dynamic array.">List</a> of char.  
  <a href="../../de/d45/classmdspp_1_1_string.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>&gt;</code></p>
@@ -103,6 +103,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6d9b091ef61b5c2fdcd2b5ec931e09fa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a6d9b091ef61b5c2fdcd2b5ec931e09fa">~String</a> ()</td></tr>
 <tr class="memdesc:a6d9b091ef61b5c2fdcd2b5ec931e09fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the string object.  <br /></td></tr>
 <tr class="separator:a6d9b091ef61b5c2fdcd2b5ec931e09fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad90399f92b2f9314ea89065ece2f156a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#ad90399f92b2f9314ea89065ece2f156a">operator==</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;that) const</td></tr>
+<tr class="memdesc:ad90399f92b2f9314ea89065ece2f156a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether two strings are equal.  <br /></td></tr>
+<tr class="separator:ad90399f92b2f9314ea89065ece2f156a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee9244bb4cfadb6d100e2587624cd232"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#aee9244bb4cfadb6d100e2587624cd232">operator!=</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;that) const</td></tr>
+<tr class="memdesc:aee9244bb4cfadb6d100e2587624cd232"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether two strings are not equal.  <br /></td></tr>
+<tr class="separator:aee9244bb4cfadb6d100e2587624cd232"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5d2aa38b16a4bf6777c74a47c7fa441"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#af5d2aa38b16a4bf6777c74a47c7fa441">operator&lt;</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;that) const</td></tr>
+<tr class="memdesc:af5d2aa38b16a4bf6777c74a47c7fa441"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two strings lexicographically.  <br /></td></tr>
+<tr class="separator:af5d2aa38b16a4bf6777c74a47c7fa441"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31ef1c68bc80803732d8dc43b84f9491"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a31ef1c68bc80803732d8dc43b84f9491">operator&lt;=</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;that) const</td></tr>
+<tr class="memdesc:a31ef1c68bc80803732d8dc43b84f9491"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two strings lexicographically.  <br /></td></tr>
+<tr class="separator:a31ef1c68bc80803732d8dc43b84f9491"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ee76578bda667991c864f739f5f88c8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a4ee76578bda667991c864f739f5f88c8">operator&gt;</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;that) const</td></tr>
+<tr class="memdesc:a4ee76578bda667991c864f739f5f88c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two strings lexicographically.  <br /></td></tr>
+<tr class="separator:a4ee76578bda667991c864f739f5f88c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a695e0a83ac8146f5c28522d19501d8f4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a695e0a83ac8146f5c28522d19501d8f4">operator&gt;=</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;that) const</td></tr>
+<tr class="memdesc:a695e0a83ac8146f5c28522d19501d8f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two strings lexicographically.  <br /></td></tr>
+<tr class="separator:a695e0a83ac8146f5c28522d19501d8f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2c07332b046349048232785d30c8acc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#ad2c07332b046349048232785d30c8acc">operator=</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;that)</td></tr>
 <tr class="memdesc:ad2c07332b046349048232785d30c8acc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator.  <br /></td></tr>
 <tr class="separator:ad2c07332b046349048232785d30c8acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,24 +145,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aab7db48157c1e55fd83eba4ada652e89"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#aab7db48157c1e55fd83eba4ada652e89">is_empty</a> () const</td></tr>
 <tr class="memdesc:aab7db48157c1e55fd83eba4ada652e89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the string contains no elements.  <br /></td></tr>
 <tr class="separator:aab7db48157c1e55fd83eba4ada652e89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad90399f92b2f9314ea89065ece2f156a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#ad90399f92b2f9314ea89065ece2f156a">operator==</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;that) const</td></tr>
-<tr class="memdesc:ad90399f92b2f9314ea89065ece2f156a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether two strings are equal.  <br /></td></tr>
-<tr class="separator:ad90399f92b2f9314ea89065ece2f156a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee9244bb4cfadb6d100e2587624cd232"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#aee9244bb4cfadb6d100e2587624cd232">operator!=</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;that) const</td></tr>
-<tr class="memdesc:aee9244bb4cfadb6d100e2587624cd232"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether two strings are not equal.  <br /></td></tr>
-<tr class="separator:aee9244bb4cfadb6d100e2587624cd232"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5d2aa38b16a4bf6777c74a47c7fa441"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#af5d2aa38b16a4bf6777c74a47c7fa441">operator&lt;</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;that) const</td></tr>
-<tr class="memdesc:af5d2aa38b16a4bf6777c74a47c7fa441"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two strings lexicographically.  <br /></td></tr>
-<tr class="separator:af5d2aa38b16a4bf6777c74a47c7fa441"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31ef1c68bc80803732d8dc43b84f9491"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a31ef1c68bc80803732d8dc43b84f9491">operator&lt;=</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;that) const</td></tr>
-<tr class="memdesc:a31ef1c68bc80803732d8dc43b84f9491"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two strings lexicographically.  <br /></td></tr>
-<tr class="separator:a31ef1c68bc80803732d8dc43b84f9491"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ee76578bda667991c864f739f5f88c8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a4ee76578bda667991c864f739f5f88c8">operator&gt;</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;that) const</td></tr>
-<tr class="memdesc:a4ee76578bda667991c864f739f5f88c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two strings lexicographically.  <br /></td></tr>
-<tr class="separator:a4ee76578bda667991c864f739f5f88c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a695e0a83ac8146f5c28522d19501d8f4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a695e0a83ac8146f5c28522d19501d8f4">operator&gt;=</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;that) const</td></tr>
-<tr class="memdesc:a695e0a83ac8146f5c28522d19501d8f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two strings lexicographically.  <br /></td></tr>
-<tr class="separator:a695e0a83ac8146f5c28522d19501d8f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50f6842435d6e981a2ccf76c28e77682"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a50f6842435d6e981a2ccf76c28e77682">find</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;pattern, int start=0, int stop=INT_MAX) const</td></tr>
 <tr class="memdesc:a50f6842435d6e981a2ccf76c28e77682"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the index of the first occurrence of the specified pattern in the string (at or after index start and before index stop).  <br /></td></tr>
 <tr class="separator:a50f6842435d6e981a2ccf76c28e77682"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -241,9 +241,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad0f24729fbdb7fb46ef524464482e916"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="../../de/d45/classmdspp_1_1_string.html" title="String class.">String</a> class. </p>
+<div class="textblock"><p><a class="el" href="../../de/d45/classmdspp_1_1_string.html" title="String class, implemented by List of char.">String</a> class, implemented by <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html" title="List template class, implemented by dynamic array.">List</a> of char. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00024">24</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00025">25</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa90c48f5bbac1c9ffe9e8b444025c60a" name="aa90c48f5bbac1c9ffe9e8b444025c60a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa90c48f5bbac1c9ffe9e8b444025c60a">&#9670;&#160;</a></span>String() <span class="overload">[1/4]</span></h2>
@@ -270,7 +270,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Construct a new string object. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00190">190</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00191">191</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -306,7 +306,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00200">200</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00201">201</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -342,7 +342,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00214">214</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00215">215</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -378,7 +378,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00224">224</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00225">225</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -407,11 +407,233 @@ Public Member Functions</h2></td></tr>
 
 <p>Destroy the string object. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00232">232</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00233">233</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad90399f92b2f9314ea89065ece2f156a" name="ad90399f92b2f9314ea89065ece2f156a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad90399f92b2f9314ea89065ece2f156a">&#9670;&#160;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool mdspp::String::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>that</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check whether two strings are equal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">that</td><td>another string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if two strings are equal </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00247">247</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aee9244bb4cfadb6d100e2587624cd232" name="aee9244bb4cfadb6d100e2587624cd232"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee9244bb4cfadb6d100e2587624cd232">&#9670;&#160;</a></span>operator!=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool mdspp::String::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>that</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check whether two strings are not equal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">that</td><td>another string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if two strings are not equal </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00258">258</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af5d2aa38b16a4bf6777c74a47c7fa441" name="af5d2aa38b16a4bf6777c74a47c7fa441"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5d2aa38b16a4bf6777c74a47c7fa441">&#9670;&#160;</a></span>operator&lt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool mdspp::String::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>that</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compare two strings lexicographically. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">that</td><td>another string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if this &lt; that </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00269">269</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a31ef1c68bc80803732d8dc43b84f9491" name="a31ef1c68bc80803732d8dc43b84f9491"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31ef1c68bc80803732d8dc43b84f9491">&#9670;&#160;</a></span>operator&lt;=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool mdspp::String::operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>that</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compare two strings lexicographically. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">that</td><td>another string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if this &lt;= that </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00280">280</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a4ee76578bda667991c864f739f5f88c8" name="a4ee76578bda667991c864f739f5f88c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ee76578bda667991c864f739f5f88c8">&#9670;&#160;</a></span>operator&gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool mdspp::String::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>that</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compare two strings lexicographically. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">that</td><td>another string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if this &gt; that </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00291">291</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a695e0a83ac8146f5c28522d19501d8f4" name="a695e0a83ac8146f5c28522d19501d8f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a695e0a83ac8146f5c28522d19501d8f4">&#9670;&#160;</a></span>operator&gt;=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool mdspp::String::operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>that</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compare two strings lexicographically. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">that</td><td>another string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if this &gt;= that </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00302">302</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+
+</div>
+</div>
 <a id="ad2c07332b046349048232785d30c8acc" name="ad2c07332b046349048232785d30c8acc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad2c07332b046349048232785d30c8acc">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
 
@@ -445,7 +667,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00246">246</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00317">317</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -482,7 +704,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00259">259</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00330">330</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -520,7 +742,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>reference to the element at the specified position in the string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00278">278</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00349">349</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -558,7 +780,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>const reference to the element at the specified position in the string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00291">291</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00362">362</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -588,7 +810,7 @@ Public Member Functions</h2></td></tr>
 <p>Get the copy of the contents of the string. </p>
 <dl class="section return"><dt>Returns</dt><dd>a pointer to a null-terminated byte string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00305">305</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00376">376</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -624,7 +846,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00323">323</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00394">394</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -654,7 +876,7 @@ Public Member Functions</h2></td></tr>
 <p>Return the number of elements in the string. </p>
 <dl class="section return"><dt>Returns</dt><dd>the number of elements in the string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00341">341</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00412">412</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -684,229 +906,7 @@ Public Member Functions</h2></td></tr>
 <p>Return true if the string contains no elements. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the string contains no elements </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00351">351</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
-
-</div>
-</div>
-<a id="ad90399f92b2f9314ea89065ece2f156a" name="ad90399f92b2f9314ea89065ece2f156a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad90399f92b2f9314ea89065ece2f156a">&#9670;&#160;</a></span>operator==()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool mdspp::String::operator== </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>that</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check whether two strings are equal. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">that</td><td>another string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if two strings are equal </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00362">362</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
-
-</div>
-</div>
-<a id="aee9244bb4cfadb6d100e2587624cd232" name="aee9244bb4cfadb6d100e2587624cd232"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee9244bb4cfadb6d100e2587624cd232">&#9670;&#160;</a></span>operator!=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool mdspp::String::operator!= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>that</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Check whether two strings are not equal. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">that</td><td>another string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if two strings are not equal </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00373">373</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
-
-</div>
-</div>
-<a id="af5d2aa38b16a4bf6777c74a47c7fa441" name="af5d2aa38b16a4bf6777c74a47c7fa441"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5d2aa38b16a4bf6777c74a47c7fa441">&#9670;&#160;</a></span>operator&lt;()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool mdspp::String::operator&lt; </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>that</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Compare two strings lexicographically. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">that</td><td>another string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if this &lt; that </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00384">384</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a31ef1c68bc80803732d8dc43b84f9491" name="a31ef1c68bc80803732d8dc43b84f9491"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31ef1c68bc80803732d8dc43b84f9491">&#9670;&#160;</a></span>operator&lt;=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool mdspp::String::operator&lt;= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>that</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Compare two strings lexicographically. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">that</td><td>another string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if this &lt;= that </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00395">395</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a4ee76578bda667991c864f739f5f88c8" name="a4ee76578bda667991c864f739f5f88c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ee76578bda667991c864f739f5f88c8">&#9670;&#160;</a></span>operator&gt;()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool mdspp::String::operator&gt; </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>that</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Compare two strings lexicographically. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">that</td><td>another string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if this &gt; that </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00406">406</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a695e0a83ac8146f5c28522d19501d8f4" name="a695e0a83ac8146f5c28522d19501d8f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a695e0a83ac8146f5c28522d19501d8f4">&#9670;&#160;</a></span>operator&gt;=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool mdspp::String::operator&gt;= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>that</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Compare two strings lexicographically. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">that</td><td>another string </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if this &gt;= that </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00417">417</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00422">422</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -962,7 +962,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the index of the first occurrence of the specified pattern in the string, or -1 if the string does not contain the pattern </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00432">432</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00437">437</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1017,7 +1017,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the string contains the specified pattern </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00454">454</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00459">459</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1047,7 +1047,7 @@ Public Member Functions</h2></td></tr>
 <p>Get the smallest item of the string. </p>
 <dl class="section return"><dt>Returns</dt><dd>the smallest item </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00464">464</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00469">469</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1077,7 +1077,7 @@ Public Member Functions</h2></td></tr>
 <p>Get the largest item of the string. </p>
 <dl class="section return"><dt>Returns</dt><dd>the largest item </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00474">474</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00479">479</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1114,7 +1114,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the total number of occurrences of the specified element in the string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00485">485</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00490">490</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1143,7 +1143,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Convert the string to a double-precision floating-point decimal number. </p>
 <p>If the string is too big to be representable will return <code>HUGE_VAL</code>. If the string represents nan ("[+-]?(nan, NaN, NAN)") will return <code>NAN</code>. If the string represents infinity ("[+-]?(inf, Inf, INF, infinity, Infinity, INFINITY)") will return <code>[+-]?INFINITY</code>.</p>
-<p>Example: <a class="el" href="../../de/d45/classmdspp_1_1_string.html" title="String class.">String</a>("233.33").<a class="el" href="../../de/d45/classmdspp_1_1_string.html#a5fd36032fa5e8c85ad861e1722607217" title="Convert the string to a double-precision floating-point decimal number.">to_decimal()</a>; // =&gt; 233.33 </p><pre class="fragment">     String("123.456e-3").to_decimal(); // =&gt; 0.123456
+<p>Example: <a class="el" href="../../de/d45/classmdspp_1_1_string.html" title="String class, implemented by List of char.">String</a>("233.33").<a class="el" href="../../de/d45/classmdspp_1_1_string.html#a5fd36032fa5e8c85ad861e1722607217" title="Convert the string to a double-precision floating-point decimal number.">to_decimal()</a>; // =&gt; 233.33 </p><pre class="fragment">     String("123.456e-3").to_decimal(); // =&gt; 0.123456
 
      String("1e+600").to_decimal(); // =&gt; HUGE_VAL
 
@@ -1152,7 +1152,7 @@ Public Member Functions</h2></td></tr>
      String("inf").to_decimal(); // =&gt; INFINITY
 </pre> <dl class="section return"><dt>Returns</dt><dd>a number that can represent the string or HUGE_VAL or NAN or [+-]?INFINITY </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00509">509</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00514">514</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1182,7 +1182,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Convert the string to an integer number based on 2-36 base. </p>
 <p>Numeric character in 36 base: 0, 1, ..., 9, A(10), ..., F(15), G(16), ..., Y(34), Z(35).</p>
-<p>Example: <a class="el" href="../../de/d45/classmdspp_1_1_string.html" title="String class.">String</a>("233").<a class="el" href="../../de/d45/classmdspp_1_1_string.html#abd5fe1c77fb9a1fcd9d3e9e9bcb8ca29" title="Convert the string to an integer number based on 2-36 base.">to_integer()</a>; // =&gt; 233 </p><pre class="fragment">     String("cafebabe").to_integer(16); // =&gt; 3405691582
+<p>Example: <a class="el" href="../../de/d45/classmdspp_1_1_string.html" title="String class, implemented by List of char.">String</a>("233").<a class="el" href="../../de/d45/classmdspp_1_1_string.html#abd5fe1c77fb9a1fcd9d3e9e9bcb8ca29" title="Convert the string to an integer number based on 2-36 base.">to_integer()</a>; // =&gt; 233 </p><pre class="fragment">     String("cafebabe").to_integer(16); // =&gt; 3405691582
 
      String("z").to_integer(36); // =&gt; 35
 </pre> <dl class="params"><dt>Parameters</dt><dd>
@@ -1193,7 +1193,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>an integer number that can represent the string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00640">640</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00645">645</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1240,7 +1240,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00703">703</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00708">708</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1277,7 +1277,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the removed element </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00714">714</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00719">719</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1314,7 +1314,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00725">725</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00730">730</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1351,7 +1351,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00738">738</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00743">743</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1389,7 +1389,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00753">753</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00758">758</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1426,7 +1426,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00766">766</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00771">771</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1456,7 +1456,7 @@ Public Member Functions</h2></td></tr>
 <p>Remove all of the elements from the string. </p>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00778">778</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00783">783</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1501,7 +1501,7 @@ template&lt;typename F &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00793">793</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00798">798</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1531,7 +1531,7 @@ template&lt;typename F &gt; </div>
 <p>Reverse the string in place. </p>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00805">805</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00810">810</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1562,7 +1562,7 @@ template&lt;typename F &gt; </div>
 <p>Will not change the original relative order of elements.</p>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00819">819</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00824">824</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1600,7 +1600,7 @@ template&lt;typename F &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00834">834</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00839">839</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1636,7 +1636,7 @@ template&lt;typename F &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00847">847</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00852">852</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1666,7 +1666,7 @@ template&lt;typename F &gt; </div>
 <p>Convert the string to lowercase. </p>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00857">857</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00862">862</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1696,7 +1696,7 @@ template&lt;typename F &gt; </div>
 <p>Convert the string to uppercase. </p>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00872">872</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00877">877</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1744,7 +1744,7 @@ template&lt;typename F &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00889">889</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00894">894</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1792,7 +1792,7 @@ template&lt;typename F &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00910">910</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00915">915</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1822,7 +1822,7 @@ template&lt;typename F &gt; </div>
 <p>Remove leading and trailing blank characters of the string. </p>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00933">933</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00938">938</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1878,7 +1878,7 @@ template&lt;typename F &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the slice of the string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00965">965</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00970">970</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1915,7 +1915,7 @@ template&lt;typename F &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the generated string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00978">978</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00983">983</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1952,7 +1952,7 @@ template&lt;typename F &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the generated string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00990">990</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l00995">995</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -1989,7 +1989,7 @@ template&lt;typename F &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the generated string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l01002">1002</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l01007">1007</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -2026,7 +2026,7 @@ template&lt;typename F &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the generated string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l01014">1014</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l01019">1019</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -2055,7 +2055,7 @@ template&lt;typename F &gt; </div>
 </div><div class="memdoc">
 
 <p>Split string with separator. </p>
-<p>Example: <a class="el" href="../../de/d45/classmdspp_1_1_string.html" title="String class.">String</a>("one, two, three").split(", "); // =&gt; ["one", "two", "three"]</p>
+<p>Example: <a class="el" href="../../de/d45/classmdspp_1_1_string.html" title="String class, implemented by List of char.">String</a>("one, two, three").split(", "); // =&gt; ["one", "two", "three"]</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">sep</td><td>separator string </td></tr>
@@ -2064,7 +2064,7 @@ template&lt;typename F &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a list of split strings </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l01028">1028</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l01033">1033</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
@@ -2101,7 +2101,7 @@ template&lt;typename F &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a string which is the concatenation of the strings in str_list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l01055">1055</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dc5/_string_8hpp_source.html#l01060">1060</a> of file <a class="el" href="../../d9/dc5/_string_8hpp_source.html">String.hpp</a>.</p>
 
 </div>
 </div>
