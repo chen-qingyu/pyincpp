@@ -123,6 +123,45 @@ private:
         return true;
     }
 
+    // Increment the absolute value by 1 quickly
+    void abs_inc()
+    {
+        digits_ += 0; // add a leading zero
+
+        int i = 0;
+        while (digits_[i] == 9)
+        {
+            ++i;
+        }
+        ++digits_[i];
+        while (i != 0)
+        {
+            digits_[--i] = 0;
+        }
+
+        remove_leading_zeros();
+    }
+
+    // Decrement the absolute value by 1 quickly
+    void abs_dec()
+    {
+        int i = 0;
+        while (digits_[i] == 0)
+        {
+            ++i;
+        }
+        --digits_[i];
+        while (i != 0)
+        {
+            digits_[--i] = 9;
+        }
+
+        remove_leading_zeros();
+
+        // if result is zero, set sign to '0'
+        sign_ = (digits_.size_ == 1 && digits_[0] == 0) ? '0' : sign_;
+    }
+
 public:
     /*
      * Constructor / Destructor
@@ -472,6 +511,54 @@ public:
         return *this = *this % rhs;
     }
 
+    /**
+     * @brief Increment the value by 1 quickly.
+     *
+     * @return this += 1
+     */
+    Integer& operator++()
+    {
+        if (sign_ == '+')
+        {
+            abs_inc();
+        }
+        else if (sign_ == '-')
+        {
+            abs_dec();
+        }
+        else // sign_=='0'
+        {
+            sign_ = '+';
+            digits_[0] = 1;
+        }
+
+        return *this;
+    }
+
+    /**
+     * @brief Decrement the value by 1 quickly.
+     *
+     * @return this -= 1
+     */
+    Integer& operator--()
+    {
+        if (sign_ == '+')
+        {
+            abs_dec();
+        }
+        else if (sign_ == '-')
+        {
+            abs_inc();
+        }
+        else // sign_=='0'
+        {
+            sign_ = '-';
+            digits_[0] = 1;
+        }
+
+        return *this;
+    }
+
     /*
      * Production (will produce new object)
      */
@@ -802,14 +889,12 @@ public:
             throw std::runtime_error("ERROR: Negative integer have no factorial.");
         }
 
-        if (sign_ == '0') // base: 0! == 1
+        Integer result = 1;                           // 0! == 1
+        for (Integer i = *this; i.is_positive(); --i) // fast judgement, fast decrement
         {
-            return 1;
+            result *= i;
         }
-        else // chain
-        {
-            return *this * (*this - 1).factorial();
-        }
+        return result;
     }
 };
 

@@ -145,6 +145,22 @@ TEST(Integer, examination)
     ASSERT_TRUE(Integer("-123456789").is_odd());
 }
 
+// operator++() operator--()
+TEST(Integer, inc_dec)
+{
+    // operator++()
+    ASSERT_EQ(++Integer("-1"), Integer("0"));
+    ASSERT_EQ(++Integer("0"), Integer("1"));
+    ASSERT_EQ(++Integer("1"), Integer("2"));
+    ASSERT_EQ(++Integer("99999999999999"), Integer("100000000000000"));
+
+    // operator--()
+    ASSERT_EQ(--Integer("-1"), Integer("-2"));
+    ASSERT_EQ(--Integer("0"), Integer("-1"));
+    ASSERT_EQ(--Integer("1"), Integer("0"));
+    ASSERT_EQ(--Integer("100000000000000"), Integer("99999999999999"));
+}
+
 // operator+()
 TEST(Integer, plus)
 {
