@@ -123,7 +123,7 @@ private:
         return true;
     }
 
-    // Increment the absolute value by 1 quickly
+    // Increment the absolute value by 1 quickly.
     void abs_inc()
     {
         digits_ += 0; // add a leading zero
@@ -142,7 +142,7 @@ private:
         remove_leading_zeros();
     }
 
-    // Decrement the absolute value by 1 quickly
+    // Decrement the absolute value by 1 quickly.
     void abs_dec()
     {
         int i = 0;
@@ -514,7 +514,7 @@ public:
     /**
      * @brief Increment the value by 1 quickly.
      *
-     * @return this += 1
+     * @return this += 1 faster
      */
     Integer& operator++()
     {
@@ -538,7 +538,7 @@ public:
     /**
      * @brief Decrement the value by 1 quickly.
      *
-     * @return this -= 1
+     * @return this -= 1 faster
      */
     Integer& operator--()
     {
@@ -828,57 +828,39 @@ public:
     }
 
     /**
-     * @brief Return (this**n) % mod.
+     * @brief Return (this**exp) % mod (mod default = 0 means does not perform module).
      *
-     * @param n the power of this
-     * @param mod module (default 0 means does not perform module)
-     * @return (this**n) % mod
+     * @param exp the power of this
+     * @param mod module (default = 0 means does not perform module)
+     * @return (this**exp) % mod
      */
-    Integer pow(const Integer& n, const Integer& mod = 0) const
+    Integer pow(const Integer& exp, const Integer& mod = 0) const
     {
-        if (n.is_negative())
+        if (exp.is_negative())
         {
             return 0;
         }
 
-        if (mod.is_zero())
-        {
-            if (n.is_zero())
-            {
-                return 1;
-            }
-            else if (n.is_even())
-            {
-                Integer y = pow(n / 2);
-                return y * y;
-            }
-            else // n is odd
-            {
-                Integer y = pow(n / 2); // integer divide
-                return *this * y * y;
-            }
-        }
-        else // fast power algorithm
-        {
-            Integer num = *this;
-            Integer exp = n;
-            Integer result = 1;
+        // fast power algorithm
 
-            while (!exp.is_zero())
+        Integer num = *this;
+        Integer n = exp;
+        Integer result = 1; // this**0 == 1
+
+        while (!n.is_zero())
+        {
+            if (n.is_odd())
             {
-                if (exp.is_odd())
-                {
-                    result = (result * num) % mod;
-                }
-                num = (num * num) % mod;
-                exp /= 2;
+                result = mod.is_zero() ? result * num : (result * num) % mod;
             }
-            return result;
+            num = mod.is_zero() ? num * num : (num * num) % mod;
+            n /= 2; // integer divide
         }
+        return result;
     }
 
     /**
-     * @brief Calculate the factorial of this.
+     * @brief Return the factorial of this.
      *
      * @return the factorial of this
      */
@@ -914,11 +896,6 @@ Integer gcd(const Integer& int1, const Integer& int2)
     Integer a = int1;
     Integer b = int2;
 
-    if (a < b) // let a >= b
-    {
-        common::swap(a, b);
-    }
-
     while (!b.is_zero()) // a, b = b, a % b until b == 0
     {
         auto t = b;
@@ -938,6 +915,11 @@ Integer gcd(const Integer& int1, const Integer& int2)
  */
 Integer lcm(const Integer& int1, const Integer& int2)
 {
+    if (int1.is_zero() || int2.is_zero())
+    {
+        return 0;
+    }
+
     return (int1 * int2) / gcd(int1, int2); // LCM = (int1 * int2) / GCD
 }
 
