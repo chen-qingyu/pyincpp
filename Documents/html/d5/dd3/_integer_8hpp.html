@@ -96,6 +96,12 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ae7404fb811cda1b6eb3dd4a1c14356dc"><td class="memItemLeft" align="right" valign="top">Integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dd3/_integer_8hpp.html#ae7404fb811cda1b6eb3dd4a1c14356dc">mdspp::gcd</a> (const Integer &amp;int1, const Integer &amp;int2)</td></tr>
+<tr class="memdesc:ae7404fb811cda1b6eb3dd4a1c14356dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the greatest common divisor of two integers using Euclidean algorithm.  <br /></td></tr>
+<tr class="separator:ae7404fb811cda1b6eb3dd4a1c14356dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a016c6d16d766376c2721935ce2c225b2"><td class="memItemLeft" align="right" valign="top">Integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dd3/_integer_8hpp.html#a016c6d16d766376c2721935ce2c225b2">mdspp::lcm</a> (const Integer &amp;int1, const Integer &amp;int2)</td></tr>
+<tr class="memdesc:a016c6d16d766376c2721935ce2c225b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the least common multiple of two integers.  <br /></td></tr>
+<tr class="separator:a016c6d16d766376c2721935ce2c225b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84db98d7253b62249b0d1126dba1062e"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dd3/_integer_8hpp.html#a84db98d7253b62249b0d1126dba1062e">mdspp::operator&lt;&lt;</a> (std::ostream &amp;os, const Integer &amp;integer)</td></tr>
 <tr class="memdesc:a84db98d7253b62249b0d1126dba1062e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output integer to the specified output stream.  <br /></td></tr>
 <tr class="separator:a84db98d7253b62249b0d1126dba1062e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -112,6 +118,86 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="../../d5/dd3/_integer_8hpp_source.html">Integer.hpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="ae7404fb811cda1b6eb3dd4a1c14356dc" name="ae7404fb811cda1b6eb3dd4a1c14356dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7404fb811cda1b6eb3dd4a1c14356dc">&#9670;&#160;</a></span>gcd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Integer mdspp::gcd </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d8/d6c/classmdspp_1_1_integer.html">Integer</a> &amp;&#160;</td>
+          <td class="paramname"><em>int1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../d8/d6c/classmdspp_1_1_integer.html">Integer</a> &amp;&#160;</td>
+          <td class="paramname"><em>int2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculate the greatest common divisor of two integers using Euclidean algorithm. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">int1</td><td>integer 1 </td></tr>
+    <tr><td class="paramname">int2</td><td>integer 2 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the greatest common divisor of two integers </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d5/dd3/_integer_8hpp_source.html#l00928">928</a> of file <a class="el" href="../../d5/dd3/_integer_8hpp_source.html">Integer.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a016c6d16d766376c2721935ce2c225b2" name="a016c6d16d766376c2721935ce2c225b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a016c6d16d766376c2721935ce2c225b2">&#9670;&#160;</a></span>lcm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Integer mdspp::lcm </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d8/d6c/classmdspp_1_1_integer.html">Integer</a> &amp;&#160;</td>
+          <td class="paramname"><em>int1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../d8/d6c/classmdspp_1_1_integer.html">Integer</a> &amp;&#160;</td>
+          <td class="paramname"><em>int2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculate the least common multiple of two integers. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">int1</td><td>integer 1 </td></tr>
+    <tr><td class="paramname">int2</td><td>integer 2 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the least common multiple of two integers </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d5/dd3/_integer_8hpp_source.html#l00950">950</a> of file <a class="el" href="../../d5/dd3/_integer_8hpp_source.html">Integer.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a84db98d7253b62249b0d1126dba1062e" name="a84db98d7253b62249b0d1126dba1062e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a84db98d7253b62249b0d1126dba1062e">&#9670;&#160;</a></span>operator&lt;&lt;()</h2>
 
@@ -156,7 +242,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference of the output stream </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/dd3/_integer_8hpp_source.html#l00827">827</a> of file <a class="el" href="../../d5/dd3/_integer_8hpp_source.html">Integer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/dd3/_integer_8hpp_source.html#l00967">967</a> of file <a class="el" href="../../d5/dd3/_integer_8hpp_source.html">Integer.hpp</a>.</p>
 
 </div>
 </div>
@@ -204,7 +290,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference of the input stream </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/dd3/_integer_8hpp_source.html#l00848">848</a> of file <a class="el" href="../../d5/dd3/_integer_8hpp_source.html">Integer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/dd3/_integer_8hpp_source.html#l00988">988</a> of file <a class="el" href="../../d5/dd3/_integer_8hpp_source.html">Integer.hpp</a>.</p>
 
 </div>
 </div>
