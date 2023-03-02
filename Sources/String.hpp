@@ -616,7 +616,7 @@ public:
 
                 default:
                     st = S_OTHER;
-                    i = list_.size_; // exit for loop
+                    i = list_.size_; // exit loop
                     break;
             }
         }
@@ -683,7 +683,7 @@ public:
 
                 default:
                     st = S_OTHER;
-                    i = list_.size_; // exit for loop
+                    i = list_.size_; // exit loop
                     break;
             }
         }

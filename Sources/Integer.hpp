@@ -878,6 +878,40 @@ public:
         }
         return result;
     }
+
+    /**
+     * @brief Return the square root of this using Newton's method.
+     *
+     * @return the square root of this
+     */
+    Integer sqrt() const
+    {
+        if (sign_ == '-')
+        {
+            throw std::runtime_error("ERROR: Cannot compute square root of a negative integer.");
+        }
+
+        if (is_zero())
+        {
+            return 0;
+        }
+        else if (*this < 4) // can not be omitted, otherwise will enter an infinite loop due to precision problem
+        {
+            return 1;
+        }
+
+        // as far as possible to reduce the number of iterations
+        Integer cur_sqrt = *this / 2;
+        Integer pre_sqrt = 2;
+
+        while (cur_sqrt != pre_sqrt)
+        {
+            pre_sqrt = cur_sqrt;
+            cur_sqrt = (cur_sqrt + *this / cur_sqrt) / 2;
+        }
+
+        return cur_sqrt;
+    }
 };
 
 /*
@@ -885,7 +919,7 @@ public:
  */
 
 /**
- * @brief Calculate the greatest common divisor of two integers.
+ * @brief Calculate the greatest common divisor of two integers using Euclidean algorithm.
  *
  * @param int1 integer 1
  * @param int2 integer 2

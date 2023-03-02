@@ -416,14 +416,31 @@ TEST(Integer, factorial)
 TEST(Integer, gcd_lcm)
 {
     // gcd()
+    ASSERT_EQ(gcd(Integer("0"), Integer("1")), Integer("1"));
     ASSERT_EQ(gcd(Integer("6"), Integer("12")), Integer("6"));
     ASSERT_EQ(gcd(Integer("6"), Integer("11")), Integer("1"));
     ASSERT_EQ(gcd(Integer("12345"), Integer("54321")), Integer("3"));
 
     // lcm()
+    ASSERT_EQ(lcm(Integer("0"), Integer("1")), Integer("0"));
     ASSERT_EQ(lcm(Integer("6"), Integer("12")), Integer("12"));
     ASSERT_EQ(lcm(Integer("6"), Integer("11")), Integer("66"));
     ASSERT_EQ(lcm(Integer("12345"), Integer("54321")), Integer("223530915"));
+}
+
+// sqrt()
+TEST(Integer, sqrt)
+{
+    MY_ASSERT_THROWS_MESSAGE(Integer("-1").sqrt(), std::runtime_error, "ERROR: Cannot compute square root of a negative integer.");
+
+    ASSERT_EQ(Integer("0").sqrt(), Integer("0"));
+    ASSERT_EQ(Integer("1").sqrt(), Integer("1"));
+    ASSERT_EQ(Integer("2").sqrt(), Integer("1"));
+    ASSERT_EQ(Integer("3").sqrt(), Integer("1"));
+    ASSERT_EQ(Integer("4").sqrt(), Integer("2"));
+    ASSERT_EQ(Integer("5").sqrt(), Integer("2"));
+    ASSERT_EQ(Integer("9").sqrt(), Integer("3"));
+    ASSERT_EQ(Integer("9801").sqrt(), Integer("99"));
 }
 
 // operator<<()
