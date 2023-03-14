@@ -29,6 +29,7 @@
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="Set.hpp" />
     <ClInclude Include="String.hpp" />
+    <ClInclude Include="Tuple.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

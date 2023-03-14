@@ -24,5 +24,6 @@
     <ClInclude Include="common\swap.hpp">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="Tuple.hpp" />
   </ItemGroup>
 </Project>

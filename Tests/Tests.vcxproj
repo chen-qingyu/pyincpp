@@ -49,6 +49,7 @@
     <ClCompile Include="TestMap.cpp" />
     <ClCompile Include="TestSet.cpp" />
     <ClCompile Include="TestString.cpp" />
+    <ClCompile Include="TestTuple.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sources\Sources.vcxproj">
