@@ -2,7 +2,7 @@
  * @file Tuple.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
  * @brief Tuple template class.
- * @version 0.1
+ * @version 1.0
  * @date 2023.03.13
  *
  * @copyright Copyright (c) 2023
@@ -14,7 +14,7 @@
 namespace mdspp
 {
 
-template <typename... Ts>
+template <typename... Args>
 class Tuple;
 
 /**
@@ -24,16 +24,19 @@ template <>
 class Tuple<>
 {
 public:
+    // Two empty tuples are equal.
     bool operator==(const Tuple<>& that) const
     {
         return true;
     }
 
+    // Two empty tuples are equal.
     bool operator!=(const Tuple<>& that) const
     {
         return false;
     }
 
+    // Empty tuple have no element.
     int size() const
     {
         return 0;
