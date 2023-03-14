@@ -180,26 +180,24 @@ void print(std::ostream& os, const Tuple<>& tuple)
  * @brief Get the i-th element of the tuple.
  *
  * @tparam N the index
- * @tparam Args the types of elements in the tuple
  * @param tuple the tuple
  * @return the i-th element
  */
-template <int N, typename... Args>
-auto get(const Tuple<Args...>& tuple)
+template <int N, typename... _>
+auto get(const Tuple<_...>& tuple)
 {
-    return ((typename impl::Get<N, Tuple<Args...>>::class_type&)tuple).value_;
+    return ((typename impl::Get<N, Tuple<_...>>::class_type&)tuple).value_;
 }
 
 /**
  * @brief Output tuple data to the specified output stream.
  *
- * @tparam Args the types of elements in the tuple, must be printable
  * @param os an output stream
  * @param tuple the tuple to be printed to the output stream
  * @return self reference of the output stream
  */
-template <typename... Args>
-std::ostream& operator<<(std::ostream& os, const Tuple<Args...>& tuple)
+template <typename... _>
+std::ostream& operator<<(std::ostream& os, const Tuple<_...>& tuple)
 {
     if (tuple.size() == 0)
     {
