@@ -58,6 +58,12 @@ Set<int>({1, 2, 3, 4, 5}) & Set<int>({1, 3, 5, 7, 9}); // Set<int>({1, 3, 5}) �
 
 Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}})["one"] = 1111; // Map<String, int>({{"one", 1111}, {"two", 2}, {"three", 3}})
 Map<int, String>({{1, "one"}, {2, "two"}, {3, "three"}}).values(); // Set<String>({"one", "two", "three"})
+
+Tuple<int, double, char> tuple(1, 2.5, 'A');
+get<0>(tuple); // 1
+get<1>(tuple); // 2.5
+get<2>(tuple); // 'A'
+tuple.rest(); // Tuple<double, char>(2.5, 'A')
 ```
 
 ### 3. 开发历史
