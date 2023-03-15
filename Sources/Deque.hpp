@@ -433,20 +433,15 @@ public:
             return *this;
         }
 
-        n %= size_;
-        if (n > 0)
+        if (n < 0)
         {
-            while (n--)
-            {
-                push_front(pop_back());
-            }
+            return *this <<= -n;
         }
-        else
+
+        n %= size_;
+        while (n--)
         {
-            while (n++)
-            {
-                push_back(pop_front());
-            }
+            push_front(pop_back());
         }
 
         return *this;
@@ -465,20 +460,15 @@ public:
             return *this;
         }
 
-        n %= size_;
-        if (n > 0)
+        if (n < 0)
         {
-            while (n--)
-            {
-                push_back(pop_front());
-            }
+            return *this >>= -n;
         }
-        else
+
+        n %= size_;
+        while (n--)
         {
-            while (n++)
-            {
-                push_front(pop_back());
-            }
+            push_back(pop_front());
         }
 
         return *this;
