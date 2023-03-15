@@ -956,10 +956,10 @@ public:
     /**
      * @brief Shift the string to right n characters.
      *
-     * @param n length of shift
+     * @param n length of shifted characters
      * @return self reference
      */
-    String& operator>>=(int n) // "ABCDEFGHIJK"
+    String& operator>>=(int n)
     {
         n %= size();
 
@@ -994,7 +994,7 @@ public:
     /**
      * @brief Shift the string to left n characters.
      *
-     * @param n length of shift
+     * @param n length of shifted characters
      * @return self reference
      */
     String& operator<<=(int n)
