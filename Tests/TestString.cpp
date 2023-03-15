@@ -470,6 +470,22 @@ TEST(String, strip)
     ASSERT_EQ(String("\n\n\n\n \t\n\b\n   hello  \n\n\t\n \r\b\n\r").strip(), "hello");
 }
 
+// operator>>=() operator<<=()
+TEST(String, shift)
+{
+    ASSERT_EQ(String("ABCDEFGHIJK") >>= -1, "BCDEFGHIJKA");
+    ASSERT_EQ(String("ABCDEFGHIJK") >>= 0, "ABCDEFGHIJK");
+    ASSERT_EQ(String("ABCDEFGHIJK") >>= 1, "KABCDEFGHIJ");
+    ASSERT_EQ(String("ABCDEFGHIJK") >>= 3, "IJKABCDEFGH");
+    ASSERT_EQ(String("ABCDEFGHIJK") >>= 11, "ABCDEFGHIJK");
+
+    ASSERT_EQ(String("ABCDEFGHIJK") <<= -1, "KABCDEFGHIJ");
+    ASSERT_EQ(String("ABCDEFGHIJK") <<= 0, "ABCDEFGHIJK");
+    ASSERT_EQ(String("ABCDEFGHIJK") <<= 1, "BCDEFGHIJKA");
+    ASSERT_EQ(String("ABCDEFGHIJK") <<= 3, "DEFGHIJKABC");
+    ASSERT_EQ(String("ABCDEFGHIJK") <<= 11, "ABCDEFGHIJK");
+}
+
 // slice()
 TEST(String, slice)
 {

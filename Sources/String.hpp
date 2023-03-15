@@ -953,6 +953,82 @@ public:
         return *this;
     }
 
+    /**
+     * @brief Shift the string to right n characters.
+     *
+     * @param n length of shift
+     * @return self reference
+     */
+    String& operator>>=(int n) // "ABCDEFGHIJK"
+    {
+        n %= size();
+
+        if (size() <= 1 || n == 0)
+        {
+            return *this;
+        }
+
+        if (n < 0)
+        {
+            return *this <<= -n;
+        }
+
+        char* tmp = new char[n];
+        for (int i = 0; i < n; ++i)
+        {
+            tmp[i] = list_.data_[size() - n + i];
+        }
+        for (int i = 0; i < size() - n; ++i)
+        {
+            list_.data_[size() - i - 1] = list_.data_[size() - i - 1 - n];
+        }
+        for (int i = 0; i < n; ++i)
+        {
+            list_.data_[i] = tmp[i];
+        }
+        delete[] tmp;
+
+        return *this;
+    }
+
+    /**
+     * @brief Shift the string to left n characters.
+     *
+     * @param n length of shift
+     * @return self reference
+     */
+    String& operator<<=(int n)
+    {
+        n %= size();
+
+        if (size() <= 1 || n == 0)
+        {
+            return *this;
+        }
+
+        if (n < 0)
+        {
+            return *this >>= -n;
+        }
+
+        char* tmp = new char[n];
+        for (int i = 0; i < n; ++i)
+        {
+            tmp[i] = list_.data_[i];
+        }
+        for (int i = 0; i < size() - n; ++i)
+        {
+            list_.data_[i] = list_.data_[i + n];
+        }
+        for (int i = 0; i < n; ++i)
+        {
+            list_.data_[size() - n + i] = tmp[i];
+        }
+        delete[] tmp;
+
+        return *this;
+    }
+
     /*
      * Production (will produce new object)
      */
