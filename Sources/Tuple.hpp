@@ -52,8 +52,8 @@ public:
 template <typename T, typename... Ts>
 class Tuple<T, Ts...> : public Tuple<Ts...>
 {
-    template <int N, typename... Args>
-    friend auto get(const Tuple<Args...>& tuple);
+    template <int N, typename... _>
+    friend auto get(const Tuple<_...>& tuple);
 
 private:
     // The value stored in current level.
@@ -202,11 +202,6 @@ auto get(const Tuple<_...>& tuple)
 template <typename... _>
 std::ostream& operator<<(std::ostream& os, const Tuple<_...>& tuple)
 {
-    if (tuple.size() == 0)
-    {
-        return os << "()";
-    }
-
     os << "(";
     impl::print(os, tuple);
     os << ")";
