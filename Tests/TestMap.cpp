@@ -39,16 +39,34 @@ TEST(Map, basics)
     // ~Map()
 }
 
-// operator==() operator!=()
+// operator==() operator!=() operator<=() operator<() operator>=() operator>()
 TEST(Map, compare)
 {
-    Map<String, int> map({{"one", 1}, {"two", 2}, {"three", 3}});
+    Map<String, int> map = {{"one", 1}, {"two", 2}, {"three", 3}};
 
     // operator==
-    ASSERT_TRUE(map == (Map<String, int>({{"two", 2}, {"one", 1}, {"three", 3}})));
+    Map<String, int> eq_map = {{"three", 3}, {"three", 3}, {"one", 1}, {"two", 2}};
+    ASSERT_TRUE(eq_map == map);
 
     // operator!=
-    ASSERT_TRUE(map != (Map<String, int>({{"one", 1}, {"two", 2}, {"six", 6}})));
+    Map<String, int> ne_map = {{"one", 1}, {"three", 3}, {"five", 5}};
+    ASSERT_TRUE(ne_map != map);
+
+    // operator<
+    Map<String, int> lt_map = {{"one", 1}, {"two", 2}};
+    ASSERT_TRUE(lt_map < map);
+
+    // operator<=
+    ASSERT_TRUE(lt_map <= map);
+    ASSERT_TRUE(eq_map <= map);
+
+    // operator>
+    Map<String, int> gt_map = {{"one", 1}, {"two", 2}, {"three", 3}, {"four", 4}};
+    ASSERT_TRUE(gt_map > map);
+
+    // operator>=
+    ASSERT_TRUE(eq_map >= map);
+    ASSERT_TRUE(gt_map >= map);
 }
 
 // operator=()

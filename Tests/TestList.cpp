@@ -39,16 +39,40 @@ TEST(List, basics)
     // ~List()
 }
 
-// operator==() operator!=()
+// operator==() operator!=() operator<() operator<=() operator>() operator>=()
 TEST(List, compare)
 {
-    List<int> list = {1, 2, 3, 4, 5};
+    List<int> list({1, 2, 3, 4, 5});
 
     // operator==
-    ASSERT_TRUE(list == List<int>({1, 2, 3, 4, 5}));
+    List<int> eq_list({1, 2, 3, 4, 5});
+    ASSERT_TRUE(eq_list == list);
 
     // operator!=
-    ASSERT_TRUE(list != List<int>({1, 3, 5}));
+    List<int> ne_list({1, 3, 5});
+    ASSERT_TRUE(ne_list != list);
+
+    // operator<
+    List<int> lt_list({1, 2, 3});
+    List<int> lt_list2({0, 9, 9, 9, 9});
+    ASSERT_TRUE(lt_list < list);
+    ASSERT_TRUE(lt_list2 < list);
+
+    // operator<=
+    ASSERT_TRUE(lt_list <= list);
+    ASSERT_TRUE(lt_list2 <= list);
+    ASSERT_TRUE(eq_list <= list);
+
+    // operator>
+    List<int> gt_list({1, 2, 3, 4, 5, 6});
+    List<int> gt_list2({2});
+    ASSERT_TRUE(gt_list > list);
+    ASSERT_TRUE(gt_list2 > list);
+
+    // operator>=
+    ASSERT_TRUE(gt_list >= list);
+    ASSERT_TRUE(gt_list2 >= list);
+    ASSERT_TRUE(eq_list >= list);
 }
 
 // operator=()

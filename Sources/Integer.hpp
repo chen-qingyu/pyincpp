@@ -925,7 +925,7 @@ public:
  * @param int2 integer 2
  * @return the greatest common divisor of two integers
  */
-Integer gcd(const Integer& int1, const Integer& int2)
+inline Integer gcd(const Integer& int1, const Integer& int2)
 {
     Integer a = int1;
     Integer b = int2;
@@ -947,7 +947,7 @@ Integer gcd(const Integer& int1, const Integer& int2)
  * @param int2 integer 2
  * @return the least common multiple of two integers
  */
-Integer lcm(const Integer& int1, const Integer& int2)
+inline Integer lcm(const Integer& int1, const Integer& int2)
 {
     if (int1.is_zero() || int2.is_zero())
     {

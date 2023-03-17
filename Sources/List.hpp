@@ -161,6 +161,35 @@ private:
     // Pointer to the data.
     T* data_;
 
+    // Compare two lists.
+    int compare(const List& that) const
+    {
+        for (int i = 0; i < size_ && i < that.size_; i++)
+        {
+            if (data_[i] > that.data_[i])
+            {
+                return 1;
+            }
+            else if (data_[i] < that.data_[i])
+            {
+                return -1;
+            }
+        }
+
+        if (size_ > that.size_)
+        {
+            return 1;
+        }
+        else if (size_ < that.size_)
+        {
+            return -1;
+        }
+        else // size_ == that.size_
+        {
+            return 0;
+        }
+    }
+
 public:
     /**
      * @brief Initial capacity.
@@ -278,6 +307,50 @@ public:
     bool operator!=(const List<T>& that) const
     {
         return !(*this == that);
+    }
+
+    /**
+     * @brief Compare two lists.
+     *
+     * @param that another list
+     * @return true if this < that
+     */
+    bool operator<(const List<T>& that) const
+    {
+        return compare(that) < 0;
+    }
+
+    /**
+     * @brief Compare two lists.
+     *
+     * @param that another list
+     * @return true if this <= that
+     */
+    bool operator<=(const List<T>& that) const
+    {
+        return compare(that) <= 0;
+    }
+
+    /**
+     * @brief Compare two lists.
+     *
+     * @param that another list
+     * @return true if this > that
+     */
+    bool operator>(const List<T>& that) const
+    {
+        return compare(that) > 0;
+    }
+
+    /**
+     * @brief Compare two lists.
+     *
+     * @param that another list
+     * @return true if this >= that
+     */
+    bool operator>=(const List<T>& that) const
+    {
+        return compare(that) >= 0;
     }
 
     /*

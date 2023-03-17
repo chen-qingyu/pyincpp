@@ -53,19 +53,25 @@ TEST(String, compare)
 
     // operator<
     String lt_string("123");
+    String lt_string2("09999");
     ASSERT_TRUE(lt_string < string);
+    ASSERT_TRUE(lt_string2 < string);
 
     // operator<=
     ASSERT_TRUE(lt_string <= string);
+    ASSERT_TRUE(lt_string2 <= string);
     ASSERT_TRUE(eq_string <= string);
 
     // operator>
     String gt_string("123456");
+    String gt_string2("2");
     ASSERT_TRUE(gt_string > string);
+    ASSERT_TRUE(gt_string2 > string);
 
     // operator>=
-    ASSERT_TRUE(eq_string >= string);
     ASSERT_TRUE(gt_string >= string);
+    ASSERT_TRUE(gt_string2 >= string);
+    ASSERT_TRUE(eq_string >= string);
 }
 
 // operator=()

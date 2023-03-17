@@ -122,6 +122,35 @@ private:
         trailer_->pred_ = header_;
     }
 
+    // Compare two deques.
+    int compare(const Deque& that) const
+    {
+        for (Node *it1 = header_->succ_, *it2 = that.header_->succ_; it1 != trailer_ && it2 != that.trailer_; it1 = it1->succ_, it2 = it2->succ_)
+        {
+            if (it1->data_ > it2->data_)
+            {
+                return 1;
+            }
+            else if (it1->data_ < it2->data_)
+            {
+                return -1;
+            }
+        }
+
+        if (size_ > that.size_)
+        {
+            return 1;
+        }
+        else if (size_ < that.size_)
+        {
+            return -1;
+        }
+        else // size_ == that.size_
+        {
+            return 0;
+        }
+    }
+
 public:
     /*
      * Constructor / Destructor
@@ -212,9 +241,9 @@ public:
             return false;
         }
 
-        for (Node *this_it = header_->succ_, *that_it = that.header_->succ_; this_it != trailer_; this_it = this_it->succ_, that_it = that_it->succ_)
+        for (Node *it1 = header_->succ_, *it2 = that.header_->succ_; it1 != trailer_; it1 = it1->succ_, it2 = it2->succ_)
         {
-            if (this_it->data_ != that_it->data_)
+            if (it1->data_ != it2->data_)
             {
                 return false;
             }
@@ -232,6 +261,50 @@ public:
     bool operator!=(const Deque<T>& that) const
     {
         return !(*this == that);
+    }
+
+    /**
+     * @brief Compare two deques.
+     *
+     * @param that another deque
+     * @return true if this < that
+     */
+    bool operator<(const Deque<T>& that) const
+    {
+        return compare(that) < 0;
+    }
+
+    /**
+     * @brief Compare two deques.
+     *
+     * @param that another deque
+     * @return true if this <= that
+     */
+    bool operator<=(const Deque<T>& that) const
+    {
+        return compare(that) <= 0;
+    }
+
+    /**
+     * @brief Compare two deques.
+     *
+     * @param that another deque
+     * @return true if this > that
+     */
+    bool operator>(const Deque<T>& that) const
+    {
+        return compare(that) > 0;
+    }
+
+    /**
+     * @brief Compare two deques.
+     *
+     * @param that another deque
+     * @return true if this >= that
+     */
+    bool operator>=(const Deque<T>& that) const
+    {
+        return compare(that) >= 0;
     }
 
     /*

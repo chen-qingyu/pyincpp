@@ -38,16 +38,40 @@ TEST(Deque, basics)
     // ~Deque()
 }
 
-// operator==() operator!=()
+// operator==() operator!=() operator<() operator<=() operator>() operator>=()
 TEST(Deque, compare)
 {
-    Deque<int> deque = {1, 2, 3, 4, 5};
+    Deque<int> deque({1, 2, 3, 4, 5});
 
     // operator==
-    ASSERT_TRUE(deque == Deque<int>({1, 2, 3, 4, 5}));
+    Deque<int> eq_deque({1, 2, 3, 4, 5});
+    ASSERT_TRUE(eq_deque == deque);
 
     // operator!=
-    ASSERT_TRUE(deque != Deque<int>({1, 3, 5}));
+    Deque<int> ne_deque({1, 3, 5});
+    ASSERT_TRUE(ne_deque != deque);
+
+    // operator<
+    Deque<int> lt_deque({1, 2, 3});
+    Deque<int> lt_deque2({0, 9, 9, 9, 9});
+    ASSERT_TRUE(lt_deque < deque);
+    ASSERT_TRUE(lt_deque2 < deque);
+
+    // operator<=
+    ASSERT_TRUE(lt_deque <= deque);
+    ASSERT_TRUE(lt_deque2 <= deque);
+    ASSERT_TRUE(eq_deque <= deque);
+
+    // operator>
+    Deque<int> gt_deque({1, 2, 3, 4, 5, 6});
+    Deque<int> gt_deque2({2});
+    ASSERT_TRUE(gt_deque > deque);
+    ASSERT_TRUE(gt_deque2 > deque);
+
+    // operator>=
+    ASSERT_TRUE(gt_deque >= deque);
+    ASSERT_TRUE(gt_deque2 >= deque);
+    ASSERT_TRUE(eq_deque >= deque);
 }
 
 // operator=()

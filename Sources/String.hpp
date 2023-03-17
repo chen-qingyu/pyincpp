@@ -55,40 +55,6 @@ private:
         E_OTHER = 1 << 16,     // other
     };
 
-    // Compare two strings lexicographically.
-    int compare(const String& that) const
-    {
-        int diff = 0;
-        for (int i = 0; i < list_.size_ && i < that.list_.size_ && diff == 0; i++)
-        {
-            diff = list_.data_[i] - that.list_.data_[i];
-        }
-
-        if (diff > 0)
-        {
-            return 1;
-        }
-        else if (diff < 0)
-        {
-            return -1;
-        }
-        else // diff == 0
-        {
-            if (list_.size_ > that.list_.size_)
-            {
-                return 1;
-            }
-            else if (list_.size_ < that.list_.size_)
-            {
-                return -1;
-            }
-            else // list_.size_ == that.list_.size_
-            {
-                return 0;
-            }
-        }
-    }
-
     // Use the KMP algorithm to find the position of the pattern.
     static int kmp(const char* this_str, const char* patt_str, int n, int m)
     {
@@ -246,7 +212,7 @@ public:
      */
     bool operator==(const String& that) const
     {
-        return compare(that) == 0;
+        return list_ == that.list_;
     }
 
     /**
@@ -257,7 +223,7 @@ public:
      */
     bool operator!=(const String& that) const
     {
-        return compare(that) != 0;
+        return list_ != that.list_;
     }
 
     /**
@@ -268,7 +234,7 @@ public:
      */
     bool operator<(const String& that) const
     {
-        return compare(that) < 0;
+        return list_ < that.list_;
     }
 
     /**
@@ -279,7 +245,7 @@ public:
      */
     bool operator<=(const String& that) const
     {
-        return compare(that) <= 0;
+        return list_ <= that.list_;
     }
 
     /**
@@ -290,7 +256,7 @@ public:
      */
     bool operator>(const String& that) const
     {
-        return compare(that) > 0;
+        return list_ > that.list_;
     }
 
     /**
@@ -301,7 +267,7 @@ public:
      */
     bool operator>=(const String& that) const
     {
-        return compare(that) >= 0;
+        return list_ >= that.list_;
     }
 
     /*

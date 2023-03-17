@@ -328,6 +328,50 @@ public:
         return set_ != that.set_;
     }
 
+    /**
+     * @brief Compare two maps.
+     *
+     * @param that another map
+     * @return true if this < that
+     */
+    bool operator<(const Map& that) const
+    {
+        return set_ < that.set_;
+    }
+
+    /**
+     * @brief Compare two maps.
+     *
+     * @param that another map
+     * @return true if this <= that
+     */
+    bool operator<=(const Map& that) const
+    {
+        return set_ <= that.set_;
+    }
+
+    /**
+     * @brief Compare two maps.
+     *
+     * @param that another map
+     * @return true if this > that
+     */
+    bool operator>(const Map& that) const
+    {
+        return set_ > that.set_;
+    }
+
+    /**
+     * @brief Compare two maps.
+     *
+     * @param that another map
+     * @return true if this >= that
+     */
+    bool operator>=(const Map& that) const
+    {
+        return set_ >= that.set_;
+    }
+
     /*
      * Assignment
      */
