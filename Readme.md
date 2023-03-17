@@ -48,7 +48,7 @@ String("hahaha").replace("a", "ooow~ "); // "hooow~ hooow~ hooow~ "
 // 字符串切片
 String("12345").slice(0, 5, 2); // "135"
 // 字符串分割
-String("one, two, three").split(", "); // List<String>({"one", "two", "three"})
+String("one, two, three").split(", "); // ["one", "two", "three"]
 // 字符串合并
 String(".").join(List<String>({"192", "168", "0", "1"})); // "192.168.0.1"
 
