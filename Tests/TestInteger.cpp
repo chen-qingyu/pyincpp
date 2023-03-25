@@ -17,7 +17,8 @@ TEST(Integer, basics)
     Integer int1;
 
     // Integer(const String& str)
-    Integer int2 = "123456789000";
+    Integer int2("123456789000");
+    MY_ASSERT_THROWS_MESSAGE(Integer("hello"), std::runtime_error, "ERROR: Wrong integer literal.");
 
     // Integer(long long integer)
     Integer int3 = 123456789000LL;
@@ -80,8 +81,8 @@ TEST(Integer, compare)
 // operator=()
 TEST(Integer, copy_assignment)
 {
-    Integer integer1 = "12345";
-    Integer integer2 = "54321";
+    Integer integer1("12345");
+    Integer integer2("54321");
 
     integer1 = integer2;
     ASSERT_EQ(integer1, Integer("54321"));
@@ -91,8 +92,8 @@ TEST(Integer, copy_assignment)
 // operator=()
 TEST(Integer, move_assignment)
 {
-    Integer integer1 = "12345";
-    Integer integer2 = "54321";
+    Integer integer1("12345");
+    Integer integer2("54321");
 
     integer1 = std::move(integer2);
     ASSERT_EQ(integer1, Integer("54321"));
@@ -476,7 +477,7 @@ TEST(Integer, input)
     ASSERT_EQ(one, Integer("1"));
 
     Integer pos;
-    std::istringstream("123456789000") >> pos;
+    std::istringstream("+123456789000") >> pos;
     ASSERT_EQ(pos, Integer("123456789000"));
 
     Integer neg;
