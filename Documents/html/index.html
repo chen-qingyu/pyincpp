@@ -95,52 +95,88 @@ $(function() {
 2. 使用说明</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Type   </th><th class="markdownTableHeadNone">Implement   </th><th class="markdownTableHeadNone">Python    </th></tr>
+<th class="markdownTableHeadNone">Type   </th><th class="markdownTableHeadNone">Python    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>List&lt;T&gt;</code>   </td><td class="markdownTableBodyNone"><code>dynamic array</code>   </td><td class="markdownTableBodyNone"><code>list</code>    </td></tr>
+<td class="markdownTableBodyNone"><code>List&lt;T&gt;</code>   </td><td class="markdownTableBodyNone"><code>list</code>    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>Set&lt;T&gt;</code>   </td><td class="markdownTableBodyNone"><code>AVL tree</code>   </td><td class="markdownTableBodyNone"><code>set</code>    </td></tr>
+<td class="markdownTableBodyNone"><code>Set&lt;T&gt;</code>   </td><td class="markdownTableBodyNone"><code>set</code>    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>Map&lt;K, V&gt;</code>   </td><td class="markdownTableBodyNone"><code>Set&lt;Pair&lt;K, V&gt;&gt;</code>   </td><td class="markdownTableBodyNone"><code>dict</code>    </td></tr>
+<td class="markdownTableBodyNone"><code>Map&lt;K, V&gt;</code>   </td><td class="markdownTableBodyNone"><code>dict</code>    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>Integer</code>   </td><td class="markdownTableBodyNone"><code>List&lt;signed char&gt;</code>   </td><td class="markdownTableBodyNone"><code>int</code>    </td></tr>
+<td class="markdownTableBodyNone"><code>Integer</code>   </td><td class="markdownTableBodyNone"><code>int</code>    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>String</code>   </td><td class="markdownTableBodyNone"><code>List&lt;char&gt;</code>   </td><td class="markdownTableBodyNone"><code>str</code>    </td></tr>
+<td class="markdownTableBodyNone"><code>String</code>   </td><td class="markdownTableBodyNone"><code>str</code>    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>Tuple&lt;...T&gt;</code>   </td><td class="markdownTableBodyNone"><code>template meta-programming</code>   </td><td class="markdownTableBodyNone"><code>tuple</code>    </td></tr>
+<td class="markdownTableBodyNone"><code>Tuple&lt;Ts...&gt;</code>   </td><td class="markdownTableBodyNone"><code>tuple</code>    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>Deque&lt;T&gt;</code>   </td><td class="markdownTableBodyNone"><code>doubly linked list</code>   </td><td class="markdownTableBodyNone"><code>collections.deque</code>   </td></tr>
+<td class="markdownTableBodyNone"><code>Deque&lt;T&gt;</code>   </td><td class="markdownTableBodyNone"><code>collections.deque</code>   </td></tr>
 </table>
 <p>直接include对应的hpp文件然后<code>using namespace mdspp;</code>就可以使用了。</p>
 <p>一些简单的例子：</p>
-<div class="fragment"><div class="line">String(<span class="stringliteral">&quot;.1e-2&quot;</span>).to_decimal(); <span class="comment">// 0.1e-2 支持inf和nan</span></div>
-<div class="line">String(<span class="stringliteral">&quot;-0101&quot;</span>).to_integer(2); <span class="comment">// -5 支持2-36进制的整数</span></div>
-<div class="line">String(<span class="stringliteral">&quot;hello&quot;</span>) += <span class="stringliteral">&quot; world!&quot;</span>; <span class="comment">// &quot;hello world!&quot; 追加</span></div>
-<div class="line">String(<span class="stringliteral">&quot;hello! &quot;</span>) *= 2; <span class="comment">// &quot;hello! hello! &quot; 重复</span></div>
-<div class="line">String(<span class="stringliteral">&quot;hahaha&quot;</span>).replace(<span class="stringliteral">&quot;a&quot;</span>, <span class="stringliteral">&quot;ooow~ &quot;</span>); <span class="comment">// &quot;hooow~ hooow~ hooow~ &quot; 替换</span></div>
-<div class="line">String(<span class="stringliteral">&quot;12345&quot;</span>).slice(0, 5, 2); <span class="comment">// &quot;135&quot; 切片</span></div>
-<div class="line">String(<span class="stringliteral">&quot;one, two, three&quot;</span>).split(<span class="stringliteral">&quot;, &quot;</span>); <span class="comment">// List&lt;String&gt;({&quot;one&quot;, &quot;two&quot;, &quot;three&quot;}) 分割</span></div>
-<div class="line">String(<span class="stringliteral">&quot;.&quot;</span>).join(List&lt;String&gt;({<span class="stringliteral">&quot;192&quot;</span>, <span class="stringliteral">&quot;168&quot;</span>, <span class="stringliteral">&quot;0&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>})); <span class="comment">// &quot;192.168.0.1&quot; 合并</span></div>
+<div class="fragment"><div class="line"><span class="comment">// 字符串转浮点数，支持 inf 和 nan</span></div>
+<div class="line">String(<span class="stringliteral">&quot;.1e-2&quot;</span>).to_decimal(); <span class="comment">// 0.1e-2</span></div>
+<div class="line"><span class="comment">// 字符串转整数，支持 2-36 进制</span></div>
+<div class="line">String(<span class="stringliteral">&quot;-0101&quot;</span>).to_integer(2); <span class="comment">// -5</span></div>
+<div class="line"><span class="comment">// 字符串追加</span></div>
+<div class="line">String(<span class="stringliteral">&quot;hello&quot;</span>) += <span class="stringliteral">&quot; world!&quot;</span>; <span class="comment">// &quot;hello world!&quot;</span></div>
+<div class="line"><span class="comment">// 字符串重复</span></div>
+<div class="line">String(<span class="stringliteral">&quot;hello! &quot;</span>) *= 2; <span class="comment">// &quot;hello! hello! &quot;</span></div>
+<div class="line"><span class="comment">// 字符串替换</span></div>
+<div class="line">String(<span class="stringliteral">&quot;hahaha&quot;</span>).replace(<span class="stringliteral">&quot;a&quot;</span>, <span class="stringliteral">&quot;ooow~ &quot;</span>); <span class="comment">// &quot;hooow~ hooow~ hooow~ &quot;</span></div>
+<div class="line"><span class="comment">// 字符串切片</span></div>
+<div class="line">String(<span class="stringliteral">&quot;12345&quot;</span>).slice(0, 5, 2); <span class="comment">// &quot;135&quot;</span></div>
+<div class="line"><span class="comment">// 字符串分割</span></div>
+<div class="line">String(<span class="stringliteral">&quot;one, two, three&quot;</span>).split(<span class="stringliteral">&quot;, &quot;</span>); <span class="comment">// [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</span></div>
+<div class="line"><span class="comment">// 字符串合并</span></div>
+<div class="line">String(<span class="stringliteral">&quot;.&quot;</span>).join(List&lt;String&gt;({<span class="stringliteral">&quot;192&quot;</span>, <span class="stringliteral">&quot;168&quot;</span>, <span class="stringliteral">&quot;0&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>})); <span class="comment">// &quot;192.168.0.1&quot;</span></div>
 <div class="line"> </div>
-<div class="line">List&lt;int&gt;({1, 2, 3, 4, 5})[-1]; <span class="comment">// 5 就像Python的负数下标</span></div>
-<div class="line">List&lt;int&gt;({1, 2, 3, 4, 5}).traverse([](<span class="keywordtype">int</span>&amp; x) { x *= 2; }); <span class="comment">// List&lt;int&gt;({2, 4, 6, 8, 10}) 遍历操作</span></div>
-<div class="line">List&lt;int&gt;({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify(); <span class="comment">// List&lt;int&gt;({1, 2, 3}) 无序列表快速唯一化</span></div>
-<div class="line">List&lt;int&gt;({0, 1, 2, 3, 4, 5, 6, 7, 8, 9}).sort([](<span class="keyword">const</span> <span class="keywordtype">int</span>&amp; e1, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; e2) { <span class="keywordflow">return</span> e1 &gt; e2; }); <span class="comment">// List&lt;int&gt;({9, 8, 7, 6, 5, 4, 3, 2, 1, 0}) 默认从小到大，稳定排序</span></div>
+<div class="line"><span class="comment">// 列表索引，支持负数</span></div>
+<div class="line">List&lt;int&gt;({1, 2, 3, 4, 5})[-1]; <span class="comment">// 5</span></div>
+<div class="line"><span class="comment">// 列表遍历</span></div>
+<div class="line">List&lt;int&gt;({1, 2, 3, 4, 5}).traverse([](<span class="keywordtype">int</span>&amp; x) { x *= 2; }); <span class="comment">// [2, 4, 6, 8, 10]</span></div>
+<div class="line"><span class="comment">// 列表去重</span></div>
+<div class="line">List&lt;int&gt;({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify(); <span class="comment">// [1, 2, 3]</span></div>
+<div class="line"><span class="comment">// 列表排序，稳定排序，默认从小到大，可自定义比较器</span></div>
+<div class="line">List&lt;int&gt;({1, 2, 3, 4, 5, 6, 7, 8, 9}).sort([](<span class="keyword">const</span> <span class="keywordtype">int</span>&amp; e1, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; e2) { <span class="keywordflow">return</span> e1 &gt; e2; }); <span class="comment">// [9, 8, 7, 6, 5, 4, 3, 2, 1]</span></div>
 <div class="line"> </div>
-<div class="line">Deque&lt;int&gt;({1, 2, 3, 4, 5}) &gt;&gt;= 1; <span class="comment">// Deque&lt;int&gt;({5, 1, 2, 3, 4}) 很生动形象有木有！</span></div>
+<div class="line"><span class="comment">// 双端队列尾部入栈，头部、尾部入栈、出栈、引用都支持</span></div>
+<div class="line">Deque&lt;int&gt;({1, 2, 3, 4}).push_back(5); <span class="comment">// &lt;1, 2, 3, 4, 5&gt;</span></div>
+<div class="line"><span class="comment">// 双端队列向右移位，很生动形象有木有！</span></div>
+<div class="line">Deque&lt;int&gt;({1, 2, 3, 4, 5}) &gt;&gt;= 1; <span class="comment">// &lt;5, 1, 2, 3, 4&gt;</span></div>
 <div class="line"> </div>
-<div class="line">Integer(<span class="stringliteral">&quot;1024&quot;</span>).pow(Integer(<span class="stringliteral">&quot;1024&quot;</span>), Integer(<span class="stringliteral">&quot;100&quot;</span>)); <span class="comment">// 1024^1024 % 100 == 76 快速幂取模，非常快</span></div>
-<div class="line">Integer(<span class="stringliteral">&quot;5&quot;</span>).factorial().factorial(); <span class="comment">// (5!)! == 668950291344912705758811805409037258675274633313802981029567135230163355...</span></div>
+<div class="line"><span class="comment">// 整数幂取模，非常快</span></div>
+<div class="line">Integer(<span class="stringliteral">&quot;1024&quot;</span>).pow(Integer(<span class="stringliteral">&quot;1024&quot;</span>), Integer(<span class="stringliteral">&quot;100&quot;</span>)); <span class="comment">// 76</span></div>
+<div class="line"><span class="comment">// 整数求阶乘</span></div>
+<div class="line">Integer(<span class="stringliteral">&quot;5&quot;</span>).factorial().factorial(); <span class="comment">// 668950291344912705758811805409037258675274633313802981029567135230163355...</span></div>
 <div class="line"> </div>
-<div class="line">Set&lt;int&gt;({1, 2, 3, 4, 5}) &amp; Set&lt;int&gt;({1, 3, 5, 7, 9}); <span class="comment">// Set&lt;int&gt;({1, 3, 5}) 集合的交、并、差、对称差（异或）及对应的赋值都支持</span></div>
+<div class="line"><span class="comment">// 集合添加元素</span></div>
+<div class="line">Set&lt;int&gt;({1, 2, 3, 4}) += 5; <span class="comment">// {1, 2, 3, 4, 5}</span></div>
+<div class="line"><span class="comment">// 集合求交集，交、并、差、对称差（异或）都支持</span></div>
+<div class="line">Set&lt;int&gt;({1, 2, 3, 4, 5}) &amp; Set&lt;int&gt;({1, 3, 5, 7, 9}); <span class="comment">// {1, 3, 5}</span></div>
 <div class="line"> </div>
-<div class="line">Map&lt;String, int&gt;({{<span class="stringliteral">&quot;one&quot;</span>, 1}, {<span class="stringliteral">&quot;two&quot;</span>, 2}, {<span class="stringliteral">&quot;three&quot;</span>, 3}})[<span class="stringliteral">&quot;one&quot;</span>] = 1111; <span class="comment">// Map&lt;String, int&gt;({{&quot;one&quot;, 1111}, {&quot;two&quot;, 2}, {&quot;three&quot;, 3}})</span></div>
-<div class="line">Map&lt;int, String&gt;({{1, <span class="stringliteral">&quot;one&quot;</span>}, {2, <span class="stringliteral">&quot;two&quot;</span>}, {3, <span class="stringliteral">&quot;three&quot;</span>}}).values(); <span class="comment">// Set&lt;String&gt;({&quot;one&quot;, &quot;two&quot;, &quot;three&quot;})</span></div>
+<div class="line"><span class="comment">// 字典根据键赋值</span></div>
+<div class="line">Map&lt;String, int&gt;({{<span class="stringliteral">&quot;one&quot;</span>, 1}, {<span class="stringliteral">&quot;two&quot;</span>, 2}, {<span class="stringliteral">&quot;three&quot;</span>, 3}})[<span class="stringliteral">&quot;one&quot;</span>] = 1111; <span class="comment">// {&quot;one&quot;: 1111, &quot;two&quot;: 2, &quot;three&quot;: 3}</span></div>
+<div class="line"><span class="comment">// 字典取值集合</span></div>
+<div class="line">Map&lt;int, String&gt;({{<span class="stringliteral">&quot;one&quot;</span>, 1}, {<span class="stringliteral">&quot;two&quot;</span>, 2}, {<span class="stringliteral">&quot;three&quot;</span>, 3}}).values(); <span class="comment">// {1, 2, 3}</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 元组索引，返回类型不同所以使用模板函数</span></div>
+<div class="line">get&lt;2&gt;(Tuple&lt;int, double, char&gt;(1, 2.5, <span class="charliteral">&#39;A&#39;</span>)); <span class="comment">// &#39;A&#39;</span></div>
+<div class="line"><span class="comment">// 元组取剩余部分，底层是指针转换，非常快</span></div>
+<div class="line">Tuple&lt;int, double, char&gt;(1, 2.5, <span class="charliteral">&#39;A&#39;</span>).rest(); <span class="comment">// (2.5, &#39;A&#39;)</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 任意嵌套多层容器</span></div>
+<div class="line">Map&lt;String, List&lt;Integer&gt;&gt; map = {</div>
+<div class="line">    {<span class="stringliteral">&quot;first&quot;</span>, {123, 456}}, {<span class="stringliteral">&quot;second&quot;</span>, {789}}, {<span class="stringliteral">&quot;second&quot;</span>, {0}}, {<span class="stringliteral">&quot;third&quot;</span>, {123456789, 5}}};</div>
+<div class="line">    <span class="comment">// {&quot;first&quot;: [123, 456], &quot;second&quot;: [789], &quot;third&quot;: [123456789, 5]}</span></div>
+<div class="line">map.size(); <span class="comment">// 3</span></div>
+<div class="line">map.keys(); <span class="comment">// {&quot;first&quot;, &quot;second&quot;, &quot;third&quot;}</span></div>
+<div class="line">map[<span class="stringliteral">&quot;third&quot;</span>][-1].factorial(); <span class="comment">// 120</span></div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md3"></a>
 3. 开发历史</h2>
 <p>最开始是用的C语言开发，目的是学习数据结构。然后2021年开始尝试用C++实现一些方便的容器类，只当是练手。后来经过了几次重构，确定了目标和目的，2023年开始正式开发。</p>
 <p>说明一下关于<code>inline</code>：为了源码简洁性，我最后决定一律采用inline的风格。一般不会有问题，除非对程序体积有很高的要求。刚开始我是把声明和定义分开写的，但这是模板，没法分成两个文件，所以我在一个文件里分开写，一部分函数定义前面加上inline，但是这样最后写完了看起来非常冗长，一大堆的template typename inline，在看了Java源码后考虑再三决定全部写在类里面，也就是默认inline的形式。inline只是对编译器的请求而非要求，不能inline的函数（比如有递归的函数）编译器是不会执行inline的。</p>
 <p>开发完了<code>Integer</code>类后和GitHub上一个有三百多star的大整数类<code>BigInt</code>做了比较，结论是 <a class="el" href="d8/d6c/classmdspp_1_1_integer.html" title="Integer class, implemented by List of signed char.">mdspp::Integer</a> 的性能综合来看更快，同时易用性和BigInt差不多，而源码行数只有BigInt的几乎一半，并且代码也更加整洁。对比细节：./Documents/Integer%20vs%20BigInt/Integer%20vs%20BigInt.md "Integer vs BigInt"</p>
+<p>我这个项目用到了FPGA里面的独热码思想结合有限状态机，还用到了模板元编程在编译期递归实现任意可变模板参数，听着很厉害，但是不赚钱，也没多少人真的会用，属于自娱自乐。可我创造就是快乐，创造就是意义（反正我不缺钱——饿不死）。</p>
 <h2><a class="anchor" id="autotoc_md4"></a>
 4. 开源目的</h2>
 <ul>

@@ -1,7 +1,7 @@
 /**
  * @file Set.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief Set template class, implemented by BST.
+ * @brief Set template class, implemented by binary search tree.
  * @version 1.0
  * @date 2023.01.15
  *
@@ -24,7 +24,7 @@ template <typename T>
 class Deque;
 
 /**
- * @brief Set template class, implemented by BST.
+ * @brief Set template class, implemented by binary search tree.
  *
  * @tparam T the type of elements in the set, require support operator<
  */
