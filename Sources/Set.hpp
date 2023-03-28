@@ -1,7 +1,7 @@
 /**
  * @file Set.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief Set template class, implemented by AVL tree.
+ * @brief Set template class, implemented by BST.
  * @version 1.0
  * @date 2023.01.15
  *
@@ -24,7 +24,7 @@ template <typename T>
 class Deque;
 
 /**
- * @brief Set template class, implemented by AVL tree.
+ * @brief Set template class, implemented by BST.
  *
  * @tparam T the type of elements in the set, require support operator<
  */
@@ -291,7 +291,6 @@ private:
     // Insert node.
     Node* insert(Node* pos, const T& element)
     {
-        // TODO: AVL
         if (pos == nullptr)
         {
             pos = new Node(element);
@@ -315,7 +314,6 @@ private:
     // Remove node.
     Node* remove(Node* pos, const T& element)
     {
-        // TODO: AVL
         if (pos)
         {
             if (element < pos->data_)

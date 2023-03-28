@@ -20,15 +20,15 @@
 
 ### 2. 使用说明
 
-| Type          | Implement                   | Python              |
-| ------------- | --------------------------- | ------------------- |
-| `List<T>`     | `dynamic array`             | `list`              |
-| `Set<T>`      | `AVL tree`                  | `set`               |
-| `Map<K, V>`   | `Set<Pair<K, V>>`           | `dict`              |
-| `Integer`     | `List<signed char>`         | `int`               |
-| `String`      | `List<char>`                | `str`               |
-| `Tuple<...T>` | `template meta-programming` | `tuple`             |
-| `Deque<T>`    | `doubly linked list`        | `collections.deque` |
+| Type           | Python              |
+| -------------- | ------------------- |
+| `List<T>`      | `list`              |
+| `Set<T>`       | `set`               |
+| `Map<K, V>`    | `dict`              |
+| `Integer`      | `int`               |
+| `String`       | `str`               |
+| `Tuple<Ts...>` | `tuple`             |
+| `Deque<T>`     | `collections.deque` |
 
 直接include对应的hpp文件然后`using namespace mdspp;`就可以使用了。
 
