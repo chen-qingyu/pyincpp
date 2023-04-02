@@ -44,8 +44,8 @@ public:
 /**
  * @brief Tuple template class.
  *
- * @tparam T the first element
- * @tparam Ts the rest elements
+ * @tparam T the type of first element
+ * @tparam Ts the type of rest elements
  */
 template <typename T, typename... Ts>
 class Tuple<T, Ts...> : public Tuple<Ts...>
