@@ -17,9 +17,7 @@ namespace mdspp
 template <typename... Args>
 class Tuple;
 
-/**
- * @brief Empty tuple template class.
- */
+// Empty tuple template class.
 template <>
 class Tuple<>
 {
