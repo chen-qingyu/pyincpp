@@ -428,6 +428,20 @@ public:
         return access(key);
     }
 
+    /**
+     * @brief Return the value for key if key is in the map, else default.
+     *
+     * If default is not given, it defaults to the default value of type V,
+     *
+     * @param key key of the key-value pair
+     * @param defaults default value
+     * @return the value of the key in the map or default value if key is not in the map
+     */
+    const V& get(const K& key, const V& defaults = V()) const
+    {
+        return contains(key) ? access(key) : defaults;
+    }
+
     /*
      * Iterator
      */

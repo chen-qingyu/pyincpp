@@ -91,10 +91,15 @@ TEST(Map, move_assignment)
     ASSERT_EQ(map2, (Map<int, String>()));
 }
 
-// operator[]()
+// operator[]() get()
 TEST(Map, access)
 {
     Map<String, int> map({{"one", 1}, {"two", 2}, {"three", 3}});
+
+    // get
+    ASSERT_EQ(map.get("one"), 1);
+    ASSERT_EQ(map.get("not exist"), 0);
+    ASSERT_EQ(map.get("not exist", 233), 233);
 
     // access
     ASSERT_EQ(map["one"], 1);
