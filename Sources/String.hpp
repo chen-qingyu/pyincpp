@@ -661,6 +661,54 @@ public:
         return sign * integer_part;
     }
 
+    /**
+     * @brief Return true if the string begins with the specified string, otherwise return false.
+     *
+     * @param str the specified string
+     * @return true if the string begins with the specified string
+     */
+    bool begin_with(const String& str)
+    {
+        if (size() < str.size())
+        {
+            return false;
+        }
+
+        for (int i = 0; i < str.size(); i++)
+        {
+            if (str.list_[i] != list_[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @brief Return true if the string ends with the specified string, otherwise return false.
+     *
+     * @param str the specified string
+     * @return true if the string ends with the specified string
+     */
+    bool end_with(const String& str)
+    {
+        if (size() < str.size())
+        {
+            return false;
+        }
+
+        for (int i = 0; i < str.size(); i++)
+        {
+            if (str.list_[str.size() - 1 - i] != list_[size() - 1 - i])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /*
      * Manipulation (will change the object itself)
      */

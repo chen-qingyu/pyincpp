@@ -158,7 +158,7 @@ TEST(String, find)
     ASSERT_EQ(s5.find(s5, 3, 99), -1);
 }
 
-// contains() min() max() count()
+// contains() min() max() count() begin_with() end_with()
 TEST(String, examination)
 {
     String string("12345");
@@ -180,6 +180,18 @@ TEST(String, examination)
     // count
     ASSERT_EQ(string.count('0'), 0);
     ASSERT_EQ(string.count('1'), 1);
+
+    // begin_with
+    ASSERT_TRUE(string.begin_with("1"));
+    ASSERT_TRUE(string.begin_with("12345"));
+    ASSERT_FALSE(string.begin_with("2"));
+    ASSERT_FALSE(string.begin_with("123456"));
+
+    // end_with
+    ASSERT_TRUE(string.end_with("5"));
+    ASSERT_TRUE(string.end_with("12345"));
+    ASSERT_FALSE(string.end_with("4"));
+    ASSERT_FALSE(string.end_with("123456"));
 }
 
 // to_decimal()
