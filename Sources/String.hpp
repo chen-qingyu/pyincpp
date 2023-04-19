@@ -667,7 +667,7 @@ public:
      * @param str the specified string
      * @return true if the string begins with the specified string
      */
-    bool begin_with(const String& str)
+    bool begin_with(const String& str) const
     {
         if (size() < str.size())
         {
@@ -691,7 +691,7 @@ public:
      * @param str the specified string
      * @return true if the string ends with the specified string
      */
-    bool end_with(const String& str)
+    bool end_with(const String& str) const
     {
         if (size() < str.size())
         {
