@@ -444,6 +444,13 @@ TEST(Integer, sqrt)
     ASSERT_EQ(Integer("9801").sqrt(), Integer("99"));
 }
 
+// to_string()
+TEST(Integer, to_string)
+{
+    ASSERT_EQ(Integer("0").to_string(), "0");
+    ASSERT_EQ(Integer("2333").to_string(), "2333");
+}
+
 // operator<<()
 TEST(Integer, print)
 {

@@ -912,6 +912,28 @@ public:
 
         return cur_sqrt;
     }
+
+    /**
+     * @brief Generate a string that represents the integer.
+     *
+     * @return a string that represents the integer
+     */
+    String to_string() const
+    {
+        String str;
+
+        if (sign_ == '-')
+        {
+            str += '-';
+        }
+
+        for (int i = digits_.size() - 1; i >= 0; i--)
+        {
+            str += (char)(digits_.data_[i] + '0');
+        }
+
+        return str;
+    }
 };
 
 /*
@@ -975,6 +997,7 @@ inline std::ostream& operator<<(std::ostream& os, const Integer& integer)
     {
         os << (char)(integer.digits_[i] + '0');
     }
+
     return os;
 }
 
