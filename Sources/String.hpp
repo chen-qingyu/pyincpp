@@ -922,8 +922,8 @@ public:
     /**
      * @brief Replace the string.
      *
-     * @param old_str Old substring.
-     * @param new_str New substring.
+     * @param old_str old substring
+     * @param new_str new substring
      * @return self reference
      */
     String& replace(const String& old_str, const String& new_str)
@@ -945,20 +945,22 @@ public:
     }
 
     /**
-     * @brief Remove leading and trailing blank characters of the string.
+     * @brief Remove leading and trailing characters of the string.
      *
+     * @param ch specified character to remove (default is blank character)
      * @return self reference
      */
-    String& strip()
+    String& strip(const signed char& ch = -1)
     {
         int i = 0;
-        while (i < list_.size_ && list_.data_[i] <= 0x20)
+        while (i < list_.size_ && (ch == -1 ? list_.data_[i] <= 0x20 : (list_.data_[i] == ch)))
         {
             ++i;
         }
         erase(0, i);
+
         i = list_.size_ - 1;
-        while (i >= 0 && list_.data_[i] <= 0x20)
+        while (i >= 0 && (ch == -1 ? list_.data_[i] <= 0x20 : (list_.data_[i] == ch)))
         {
             --i;
         }
