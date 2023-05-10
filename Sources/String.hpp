@@ -953,14 +953,14 @@ public:
     String& strip(const signed char& ch = -1)
     {
         int i = 0;
-        while (i < list_.size_ && (ch == -1 ? list_.data_[i] <= 0x20 : (list_.data_[i] == ch)))
+        while (i < list_.size_ && (ch == -1 ? list_.data_[i] <= 0x20 : list_.data_[i] == ch))
         {
             ++i;
         }
         erase(0, i);
 
         i = list_.size_ - 1;
-        while (i >= 0 && (ch == -1 ? list_.data_[i] <= 0x20 : (list_.data_[i] == ch)))
+        while (i >= 0 && (ch == -1 ? list_.data_[i] <= 0x20 : list_.data_[i] == ch))
         {
             --i;
         }
