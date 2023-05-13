@@ -20,7 +20,7 @@
 
 ### 2. 使用说明
 
-| Type           | Python              |
+| Type in MDSPP  | Type in Python      |
 | -------------- | ------------------- |
 | `List<T>`      | `list`              |
 | `Set<T>`       | `set`               |
