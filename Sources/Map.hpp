@@ -431,7 +431,7 @@ public:
     /**
      * @brief Return the value for key if key is in the map, else default.
      *
-     * If default is not given, it defaults to the default value of type V,
+     * If default value is not given, it defaults to the default value of type V.
      *
      * @param key key of the key-value pair
      * @param defaults default value
