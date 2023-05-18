@@ -14,28 +14,25 @@
 namespace mdspp
 {
 
-template <typename... Args>
-class Tuple;
-
 // Empty tuple template class.
-template <>
-class Tuple<>
+template <typename... _>
+class Tuple
 {
 public:
     // Two empty tuples are equal.
-    bool operator==(const Tuple<>& that) const
+    constexpr bool operator==(const Tuple<>& that) const
     {
         return true;
     }
 
     // Two empty tuples are equal.
-    bool operator!=(const Tuple<>& that) const
+    constexpr bool operator!=(const Tuple<>& that) const
     {
         return false;
     }
 
     // Empty tuple have no element.
-    int size() const
+    constexpr int size() const
     {
         return 0;
     }
@@ -50,26 +47,20 @@ public:
 template <typename T, typename... Ts>
 class Tuple<T, Ts...> : public Tuple<Ts...>
 {
-    template <int N, typename... _>
-    friend auto get(const Tuple<_...>& tuple);
-
 private:
     // The value stored in current level.
     T value_;
 
-    // Check whether two tuples are equal.
-    template <typename... Args>
-    static bool eq(const Tuple<Args...>& tuple1, const Tuple<Args...>& tuple2)
-    {
-        // tuple1.value_ == tuple2.value_ compile error
-        return get<0>(tuple1) == get<0>(tuple2) ? eq(tuple1.rest(), tuple2.rest()) : false;
-    }
-
-    // Two empty tuples are equal. Must appear after eq(Tuple<Args...>, Tuple<Args...>)
-    template <>
+    // Two empty tuples are equal.
     static bool eq(const Tuple<>& tuple1, const Tuple<>& tuple2)
     {
         return true;
+    }
+
+    // Check whether two tuples are equal.
+    static bool eq(const Tuple<T, Ts...>& tuple1, const Tuple<T, Ts...>& tuple2)
+    {
+        return tuple1.value_ == tuple2.value_ ? eq(tuple1.rest(), tuple2.rest()) : false;
     }
 
 public:
@@ -101,7 +92,7 @@ public:
      */
     bool operator==(const Tuple<T, Ts...>& that) const
     {
-        return size() == that.size() ? eq(*this, that) : false;
+        return eq(*this, that);
     }
 
     /**
@@ -116,6 +107,30 @@ public:
     }
 
     /*
+     * Access
+     */
+
+    /**
+     * @brief Get the i-th element of the tuple.
+     *
+     * @tparam N the index
+     * @return the i-th element
+     */
+    template <int N>
+    decltype(auto) get() const
+    {
+        static_assert(N < 1 + sizeof...(Ts));
+        if constexpr (N == 0)
+        {
+            return value_;
+        }
+        else
+        {
+            return Tuple<Ts...>::template get<N - 1>();
+        }
+    }
+
+    /*
      * Examination (will not change the object itself)
      */
 
@@ -124,9 +139,9 @@ public:
      *
      * @return the number of elements in the tuple
      */
-    int size() const
+    constexpr int size() const
     {
-        return 1 + Tuple<Ts...>::size();
+        return 1 + sizeof...(Ts);
     }
 
     /**
@@ -148,47 +163,17 @@ public:
 namespace impl
 {
 
-template <int N, typename... Args>
-struct Get;
-
-template <typename T, typename... Ts>
-struct Get<0, Tuple<T, Ts...>>
-{
-    using class_type = Tuple<T, Ts...>;
-};
-
-template <int N, typename T, typename... Ts>
-struct Get<N, Tuple<T, Ts...>> : Get<N - 1, Tuple<Ts...>>
-{
-};
-
 template <typename... Args>
 void print(std::ostream& os, const Tuple<Args...>& tuple)
 {
-    os << get<0>(tuple) << (tuple.size() == 1 ? "" : ", ");
-    print(os, tuple.rest());
-}
-
-// Must appear after print(std::ostream, Tuple<Args...>)
-template <>
-void print(std::ostream& os, const Tuple<>& tuple)
-{
+    if constexpr (sizeof...(Args) > 0)
+    {
+        os << tuple.get<0>() << (tuple.size() == 1 ? "" : ", ");
+        print(os, tuple.rest());
+    }
 }
 
 } // namespace impl
-
-/**
- * @brief Get the i-th element of the tuple.
- *
- * @tparam N the index
- * @param tuple the tuple
- * @return the i-th element
- */
-template <int N, typename... _>
-auto get(const Tuple<_...>& tuple)
-{
-    return ((typename impl::Get<N, Tuple<_...>>::class_type&)tuple).value_;
-}
 
 /**
  * @brief Output tuple data to the specified output stream.

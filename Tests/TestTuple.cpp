@@ -44,11 +44,13 @@ TEST(Tuple, compare)
     Tuple<int> one(1);
     ASSERT_TRUE(one == Tuple<int>(1));
     ASSERT_TRUE(one != Tuple<int>(2));
+    ASSERT_TRUE(one != (Tuple<int, int>(2, 3)));
 
     // many
     Tuple<int, int, int> many(1, 2, 3);
     ASSERT_TRUE(many == (Tuple<int, int, int>(1, 2, 3)));
-    ASSERT_TRUE(many != (Tuple<int, int, int>(1, 3, 2)));
+    ASSERT_TRUE(many != (Tuple<int, int, int>(3, 2, 1)));
+    ASSERT_TRUE(many != (Tuple<int, int, int, int>(1, 2, 3, 4)));
 }
 
 // rest()
@@ -65,9 +67,9 @@ TEST(Tuple, get)
 {
     Tuple<int, double, char> tuple(1, 2.5, 'A');
 
-    ASSERT_EQ(get<0>(tuple), 1);
-    ASSERT_EQ(get<1>(tuple), 2.5);
-    ASSERT_EQ(get<2>(tuple), 'A');
+    ASSERT_EQ(tuple.get<0>(), 1);
+    ASSERT_EQ(tuple.get<1>(), 2.5);
+    ASSERT_EQ(tuple.get<2>(), 'A');
 }
 
 // operator<<()

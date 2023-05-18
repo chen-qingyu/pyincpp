@@ -5,7 +5,7 @@
 ### 1. 基本属性
 
 - 名称：MineDataStructure++，缩写为MDSPP，灵感来源于我喜欢的游戏——Minecraft以及本项目的编程语言——C++。
-- 语言：采用标准C++语言编写，最低兼容版本： ISO C++14 。
+- 语言：采用标准C++语言编写，最低兼容版本： ISO C++17 。
 - 目的：提供一个简洁、好用、健壮的C++容器库。
 - 目标：像Python的内置类型一样好用又优雅。
 - 模块：List, Set, Map, Integer, String, Tuple, Deque.
@@ -82,7 +82,7 @@ Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}})["one"] = 1111; // {"one
 Map<int, String>({{"one", 1}, {"two", 2}, {"three", 3}}).values(); // {1, 2, 3}
 
 // 元组索引，返回类型不同所以使用模板函数
-get<2>(Tuple<int, double, char>(1, 2.5, 'A')); // 'A'
+Tuple<int, double, char>(1, 2.5, 'A').get<2>(); // 'A'
 // 元组取剩余部分，底层是指针转换，非常快
 Tuple<int, double, char>(1, 2.5, 'A').rest(); // (2.5, 'A')
 

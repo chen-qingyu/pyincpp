@@ -194,12 +194,12 @@ public:
     /**
      * @brief Initial capacity.
      */
-    static const int INIT_CAPACITY = 4;
+    static constexpr int INIT_CAPACITY = 4;
 
     /**
      * @brief Maximum capacity.
      */
-    static const int MAX_CAPACITY = INT_MAX - 1; // - 1 to prevent boundary subscript overflow
+    static constexpr int MAX_CAPACITY = INT_MAX - 1; // - 1 to prevent boundary subscript overflow
 
     /*
      * Constructor / Destructor
