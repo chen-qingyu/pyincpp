@@ -1,13 +1,13 @@
 # MineDataStructure++
 
-*——像Python一样好用的C++容器库*
+*——像Python的内置类型一样优雅的C++库*
 
 ### 1. 基本属性
 
 - 名称：MineDataStructure++，缩写为MDSPP，灵感来源于我喜欢的游戏——Minecraft以及本项目的编程语言——C++。
 - 语言：采用标准C++语言编写，最低兼容版本： ISO C++17 。
-- 目的：提供一个简洁、好用、健壮的C++容器库。
-- 目标：像Python的内置类型一样好用又优雅。
+- 目的：学习C++和项目开发。
+- 目标：实现一个像Python的内置类型一样优雅的C++库。
 - 模块：List, Set, Map, Integer, String, Tuple, Deque.
 - 简洁：Stay simple, stay young. 在保证好用和健壮的前提下，尽量简洁，便于维护和阅读。
 - 好用：提供了许多方便的函数，比如String类提供了像Python的str那样的替换、分割、查找等操作，比如List类和String类都支持像Python那样的负数下标等等。
@@ -20,6 +20,12 @@
 
 ### 2. 使用说明
 
+因为用的是C++模板，所以全部以头文件的形式（.hpp）给出。
+
+使用非常方便：直接拷贝整个源码目录然后在需要用的文件里`#include "mdspp.hpp"`就可以了。
+
+一共七个类，对标Python里面的七个常用的类：
+
 | Type in MDSPP  | Type in Python      |
 | -------------- | ------------------- |
 | `List<T>`      | `list`              |
@@ -30,11 +36,11 @@
 | `Tuple<Ts...>` | `tuple`             |
 | `Deque<T>`     | `collections.deque` |
 
-直接include对应的hpp文件然后`using namespace mdspp;`就可以使用了。
-
 一些简单的例子：
 
 ```cpp
+using namespace mdspp;
+
 // 字符串转浮点数，支持 inf 和 nan
 String(".1e-2").to_decimal(); // 0.1e-2
 // 字符串转整数，支持 2-36 进制
@@ -112,6 +118,6 @@ map["third"][-1].factorial(); // 120
 
 ### 5. C版本
 
-这个是C++版本的，目标是像Python的内置类型一样好用又优雅。
+这个是C++版本的，目标是实现一个像Python的内置类型一样优雅的C++库。
 
 我还写了C版本的： [MDS (GitHub)](https://github.com/chen-qingyu/MDS) [MDS (Gitee)](https://gitee.com/ChobitsY/mds) ，目标是实现完整而标准的数据结构。
