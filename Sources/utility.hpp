@@ -3,10 +3,7 @@
 
 #include <stdexcept>
 
-namespace mdspp
-{
-
-namespace utility
+namespace mdspp::utility
 {
 
 // Check whether the index is valid (begin <= pos < end).
@@ -45,8 +42,6 @@ static inline void swap(T& e1, T& e2)
     e2 = std::move(tmp);
 }
 
-} // namespace utility
-
-} // namespace mdspp
+} // namespace mdspp::utility
 
 #endif // UTILITY_H
