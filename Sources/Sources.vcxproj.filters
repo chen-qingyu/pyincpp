@@ -9,5 +9,6 @@
     <ClInclude Include="Integer.hpp" />
     <ClInclude Include="Tuple.hpp" />
     <ClInclude Include="utility.hpp" />
+    <ClInclude Include="mdspp.hpp" />
   </ItemGroup>
 </Project>
