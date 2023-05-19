@@ -11,6 +11,8 @@
 #ifndef STRING_HPP
 #define STRING_HPP
 
+#include "utility.hpp"
+
 #include "List.hpp"
 
 #include <cmath>   // std::pow INFINITY NAN
@@ -907,8 +909,8 @@ public:
      */
     String& erase(int start, int stop)
     {
-        common::check_bounds(start, 0, size() + 1);
-        common::check_bounds(stop, 0, size() + 1);
+        utility::check_bounds(start, 0, size() + 1);
+        utility::check_bounds(stop, 0, size() + 1);
 
         for (int i = stop; i < list_.size_; i++)
         {

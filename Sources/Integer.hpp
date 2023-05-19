@@ -11,6 +11,8 @@
 #ifndef INTEGER_HPP
 #define INTEGER_HPP
 
+#include "utility.hpp"
+
 #include "List.hpp"
 #include "String.hpp"
 
@@ -691,7 +693,7 @@ public:
         result.sign_ = sign_;                         // the signs are same
         if (sign_ == '+' ? num1 < num2 : num1 > num2) // let num1.abs() >= num2.abs()
         {
-            common::swap(num1, num2);
+            utility::swap(num1, num2);
             result = -result;
         }
         result.add_leading_zeros(size - 1); // result initially has a 0

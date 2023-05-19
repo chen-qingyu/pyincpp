@@ -15,10 +15,7 @@
 #include <ostream> // std::ostream
 #include <utility> // std::initializer_list std::move
 
-#include "common/check_bounds.hpp"
-#include "common/check_empty.hpp"
-#include "common/check_full.hpp"
-#include "common/swap.hpp"
+#include "utility.hpp"
 
 #include "Deque.hpp"
 #include "Set.hpp"
@@ -419,7 +416,7 @@ public:
      */
     T& operator[](int index)
     {
-        common::check_bounds(index, -size_, size_);
+        utility::check_bounds(index, -size_, size_);
 
         return index >= 0 ? data_[index] : data_[size_ + index];
     }
@@ -434,7 +431,7 @@ public:
      */
     const T& operator[](int index) const
     {
-        common::check_bounds(index, -size_, size_);
+        utility::check_bounds(index, -size_, size_);
 
         return index >= 0 ? data_[index] : data_[size_ + index];
     }
@@ -545,7 +542,7 @@ public:
      */
     T min() const
     {
-        common::check_empty(size_);
+        utility::check_empty(size_);
 
         T smallest = data_[0];
         for (int i = 0; i < size_; i++)
@@ -566,7 +563,7 @@ public:
      */
     T max() const
     {
-        common::check_empty(size_);
+        utility::check_empty(size_);
 
         T largest = data_[0];
         for (int i = 0; i < size_; i++)
@@ -612,9 +609,9 @@ public:
     void insert(int index, const T& element)
     {
         // check
-        common::check_full(size_, MAX_CAPACITY);
+        utility::check_full(size_, MAX_CAPACITY);
 
-        common::check_bounds(index, -size_, size_ + 1);
+        utility::check_bounds(index, -size_, size_ + 1);
 
         // adjust capacity
         if (size_ == capacity_)
@@ -646,9 +643,9 @@ public:
     T remove(int index)
     {
         // check
-        common::check_empty(size_);
+        utility::check_empty(size_);
 
-        common::check_bounds(index, -size_, size_);
+        utility::check_bounds(index, -size_, size_);
 
         // get element
         index = index >= 0 ? index : index + size_;
@@ -794,7 +791,7 @@ public:
     {
         for (int i = 0, j = size_ - 1; i < j; ++i, --j)
         {
-            common::swap(data_[i], data_[j]);
+            utility::swap(data_[i], data_[j]);
         }
 
         return *this;
@@ -841,7 +838,7 @@ public:
             {
                 if (comparator(data_[j + 1], data_[j]))
                 {
-                    common::swap(data_[j], data_[j + 1]);
+                    utility::swap(data_[j], data_[j + 1]);
                     swapped = true;
                 }
             }
@@ -861,9 +858,9 @@ public:
      */
     void swap(List& that)
     {
-        common::swap(size_, that.size_);
-        common::swap(capacity_, that.capacity_);
-        common::swap(data_, that.data_);
+        utility::swap(size_, that.size_);
+        utility::swap(capacity_, that.capacity_);
+        utility::swap(data_, that.data_);
     }
 
     /**
@@ -928,8 +925,8 @@ public:
             throw std::runtime_error("ERROR: Slice step can not be zero.");
         }
 
-        common::check_bounds(start, -size_, size_);
-        common::check_bounds(stop, -size_ - 1, size_ + 1);
+        utility::check_bounds(start, -size_, size_);
+        utility::check_bounds(stop, -size_ - 1, size_ + 1);
 
         // convert
         start = start < 0 ? start + size_ : start;

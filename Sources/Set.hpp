@@ -11,6 +11,8 @@
 #ifndef SET_HPP
 #define SET_HPP
 
+#include "utility.hpp"
+
 #include "Deque.hpp"
 #include "List.hpp"
 
@@ -712,7 +714,7 @@ public:
      */
     T min() const
     {
-        common::check_empty(size_);
+        utility::check_empty(size_);
 
         return min_->data_;
     }
@@ -724,7 +726,7 @@ public:
      */
     T max() const
     {
-        common::check_empty(size_);
+        utility::check_empty(size_);
 
         return max_->data_;
     }
@@ -741,7 +743,7 @@ public:
      */
     Set& operator+=(const T& element)
     {
-        common::check_full(size_, INT_MAX);
+        utility::check_full(size_, INT_MAX);
 
         root_ = insert(root_, element);
         end_->link_left(root_);

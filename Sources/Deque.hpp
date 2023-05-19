@@ -15,8 +15,7 @@
 #include <initializer_list> // std::initializer_list
 #include <ostream>          // std::ostream
 
-#include "common/check_empty.hpp"
-#include "common/check_full.hpp"
+#include "utility.hpp"
 
 #include "List.hpp"
 #include "Set.hpp"
@@ -82,7 +81,7 @@ private:
     // Insert the given element at the given position.
     void insert(Node* pos, const T& element)
     {
-        common::check_full(size_, INT_MAX);
+        utility::check_full(size_, INT_MAX);
 
         auto node = new Node(element, pos->pred_, pos);
         pos->pred_->succ_ = node;
@@ -94,7 +93,7 @@ private:
     // Remove and return an element at the given position.
     T remove(Node* pos)
     {
-        common::check_empty(size_);
+        utility::check_empty(size_);
 
         T element = pos->data_;
 
@@ -369,7 +368,7 @@ public:
      */
     const T& back() const
     {
-        common::check_empty(size_);
+        utility::check_empty(size_);
 
         return trailer_->pred_->data_;
     }
@@ -381,7 +380,7 @@ public:
      */
     const T& front() const
     {
-        common::check_empty(size_);
+        utility::check_empty(size_);
 
         return header_->succ_->data_;
     }
@@ -393,7 +392,7 @@ public:
      */
     T& back()
     {
-        common::check_empty(size_);
+        utility::check_empty(size_);
 
         return trailer_->pred_->data_;
     }
@@ -405,7 +404,7 @@ public:
      */
     T& front()
     {
-        common::check_empty(size_);
+        utility::check_empty(size_);
 
         return header_->succ_->data_;
     }

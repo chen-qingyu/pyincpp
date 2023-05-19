@@ -19,10 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="common\check_bounds.hpp" />
-    <ClInclude Include="common\check_empty.hpp" />
-    <ClInclude Include="common\check_full.hpp" />
-    <ClInclude Include="common\swap.hpp" />
     <ClInclude Include="Deque.hpp" />
     <ClInclude Include="Integer.hpp" />
     <ClInclude Include="List.hpp" />
@@ -30,6 +26,7 @@
     <ClInclude Include="Set.hpp" />
     <ClInclude Include="String.hpp" />
     <ClInclude Include="Tuple.hpp" />
+    <ClInclude Include="utility.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
