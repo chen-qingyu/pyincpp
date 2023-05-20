@@ -811,9 +811,24 @@ public:
      * @return self reference
      */
     template <typename F>
-    String& traverse(F action)
+    String& map(const F& action)
     {
-        list_.traverse(action);
+        list_.map(action);
+
+        return *this;
+    }
+
+    /**
+     * @brief Filter the elements in the string so that the elements that meet the predicate are retained.
+     *
+     * @tparam F function
+     * @param predicate a predicate function that to be performed for each element
+     * @return self reference
+     */
+    template <typename F>
+    String& filter(const F& predicate)
+    {
+        list_.filter(predicate);
 
         return *this;
     }

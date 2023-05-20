@@ -772,7 +772,7 @@ public:
      * @return self reference
      */
     template <typename F>
-    List& traverse(const F& action)
+    List& map(const F& action)
     {
         for (int i = 0; i < size_; ++i)
         {
@@ -780,6 +780,28 @@ public:
         }
 
         return *this;
+    }
+
+    /**
+     * @brief Filter the elements in the list so that the elements that meet the predicate are retained.
+     *
+     * @tparam F funtion
+     * @param predicate a predicate function that to be performed for each element
+     * @return self reference
+     */
+    template <typename F>
+    List& filter(const F& predicate)
+    {
+        List list;
+        for (int i = 0; i < size_; i++)
+        {
+            if (predicate(data_[i]))
+            {
+                list += data_[i];
+            }
+        }
+
+        return *this = std::move(list);
     }
 
     /**

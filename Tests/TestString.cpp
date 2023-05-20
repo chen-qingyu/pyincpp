@@ -380,18 +380,32 @@ TEST(String, clear)
     ASSERT_EQ(string, "233");
 }
 
-// traverse()
-TEST(String, traverse)
+// map()
+TEST(String, map)
 {
     String string("12345");
 
-    string.traverse([](char& x)
-                    { x += 1; });
+    string.map([](char& x)
+               { x += 1; });
     ASSERT_EQ(string, "23456");
 
-    string.traverse([](char& x)
-                    { x = '1'; });
+    string.map([](char& x)
+               { x = '1'; });
     ASSERT_EQ(string, "11111");
+}
+
+// filter()
+TEST(String, filter)
+{
+    String string("123456789");
+
+    string.filter([](char& x)
+                  { return x % 2 == 0; });
+    ASSERT_EQ(string, "2468");
+
+    string.filter([](char& x)
+                  { return x % 2 == 1; });
+    ASSERT_EQ(string, "");
 }
 
 // reverse()

@@ -299,23 +299,37 @@ TEST(List, clear)
     ASSERT_EQ(list, List<int>({233}));
 }
 
-// traverse()
-TEST(List, traverse)
+// map()
+TEST(List, map)
 {
     List<int> list = {1, 2, 3, 4, 5};
 
-    list.traverse([](int& x)
-                  { x *= 2; });
+    list.map([](int& x)
+             { x *= 2; });
     ASSERT_EQ(list, List<int>({2, 4, 6, 8, 10}));
 
-    list.traverse([](int& x)
-                  { x = 1; });
+    list.map([](int& x)
+             { x = 1; });
     ASSERT_EQ(list, List<int>({1, 1, 1, 1, 1}));
 
     std::string str;
-    list.traverse([&](int& x)
-                  { str += std::to_string(x) + " "; });
+    list.map([&](int& x)
+             { str += std::to_string(x) + " "; });
     ASSERT_EQ(str, "1 1 1 1 1 ");
+}
+
+// filter()
+TEST(List, filter)
+{
+    List<int> list = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    list.filter([](int& x)
+                { return x % 2 == 0; });
+    ASSERT_EQ(list, List<int>({2, 4, 6, 8}));
+
+    list.filter([](int& x)
+                { return x % 2 == 1; });
+    ASSERT_EQ(list, List<int>());
 }
 
 // reverse()
@@ -331,9 +345,11 @@ TEST(List, uniquify)
 {
     ASSERT_EQ(List<int>({1, 2, 2, 3, 3, 3}).uniquify(), List<int>({1, 2, 3}));
 
-    ASSERT_EQ(List<int>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}).uniquify(), List<int>({0}));
+    ASSERT_EQ(List<int>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}).uniquify(),
+              List<int>({0}));
 
-    ASSERT_EQ(List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify(), List<int>({1, 2, 3}));
+    ASSERT_EQ(List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify(),
+              List<int>({1, 2, 3}));
 
     List<int> many;
     for (int i = 0; i < 10000; i++)
