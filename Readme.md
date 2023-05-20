@@ -61,7 +61,7 @@ String(".").join(List<String>({"192", "168", "0", "1"})); // "192.168.0.1"
 // 列表索引，支持负数
 List<int>({1, 2, 3, 4, 5})[-1]; // 5
 // 列表遍历
-List<int>({1, 2, 3, 4, 5}).traverse([](int& x) { x *= 2; }); // [2, 4, 6, 8, 10]
+List<int>({1, 2, 3, 4, 5}).map([](int& x) { x *= 2; }); // [2, 4, 6, 8, 10]
 // 列表去重
 List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify(); // [1, 2, 3]
 // 列表排序，稳定排序，默认从小到大，可自定义比较器
@@ -93,8 +93,7 @@ Tuple<int, double, char>(1, 2.5, 'A').get<2>(); // 'A'
 Tuple<int, double, char>(1, 2.5, 'A').rest(); // (2.5, 'A')
 
 // 任意嵌套多层容器
-Map<String, List<Integer>> map = {
-    {"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {123456789, 5}}};
+Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {123456789, 5}}};
     // {"first": [123, 456], "second": [789], "third": [123456789, 5]}
 map.size(); // 3
 map.keys(); // {"first", "second", "third"}
