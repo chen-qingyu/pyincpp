@@ -345,11 +345,9 @@ TEST(List, uniquify)
 {
     ASSERT_EQ(List<int>({1, 2, 2, 3, 3, 3}).uniquify(), List<int>({1, 2, 3}));
 
-    ASSERT_EQ(List<int>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}).uniquify(),
-              List<int>({0}));
+    ASSERT_EQ(List<int>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}).uniquify(), List<int>({0}));
 
-    ASSERT_EQ(List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify(),
-              List<int>({1, 2, 3}));
+    ASSERT_EQ(List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify(), List<int>({1, 2, 3}));
 
     List<int> many;
     for (int i = 0; i < 10000; i++)
