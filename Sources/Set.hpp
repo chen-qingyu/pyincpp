@@ -889,12 +889,7 @@ public:
     {
         Set new_set;
         level_action(root_, [&](const T& e)
-                     {
-                         if (that.contains(e))
-                         {
-                             new_set += e;
-                         }
-                     });
+                     { if (that.contains(e)) { new_set += e; } });
 
         return new_set;
     }
@@ -921,12 +916,7 @@ public:
     {
         Set new_set;
         level_action(root_, [&](const T& e)
-                     {
-                         if (!that.contains(e))
-                         {
-                             new_set += e;
-                         }
-                     });
+                     { if (!that.contains(e)) { new_set += e; } });
 
         return new_set;
     }
