@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">MineDataStructure++
    </div>
-   <div id="projectbrief">像Python一样好用的C++容器库</div>
+   <div id="projectbrief">A C++ containers library that is as easy to use as Python&#39;s containers library.</div>
   </td>
  </tr>
  </tbody>
@@ -143,6 +143,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0f5c87fb8b06f4dc538d4920d41b82ad"><td class="memItemLeft" align="right" valign="top">const V &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d60/classmdspp_1_1_map.html#a0f5c87fb8b06f4dc538d4920d41b82ad">operator[]</a> (const K &amp;key) const</td></tr>
 <tr class="memdesc:a0f5c87fb8b06f4dc538d4920d41b82ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the const reference to value of the key in the map.  <br /></td></tr>
 <tr class="separator:a0f5c87fb8b06f4dc538d4920d41b82ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90cbd2becf8950006e9aef9f8797bf33"><td class="memItemLeft" align="right" valign="top">V&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d60/classmdspp_1_1_map.html#a90cbd2becf8950006e9aef9f8797bf33">get</a> (const K &amp;key, const V &amp;defaults=V()) const</td></tr>
+<tr class="memdesc:a90cbd2becf8950006e9aef9f8797bf33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return copy of the value for key if key is in the map, else default value.  <br /></td></tr>
+<tr class="separator:a90cbd2becf8950006e9aef9f8797bf33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d13c38494d18d67714b1286d9e450ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/df7/classmdspp_1_1_map_1_1_iterator.html">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d60/classmdspp_1_1_map.html#a0d13c38494d18d67714b1286d9e450ae">begin</a> () const</td></tr>
 <tr class="memdesc:a0d13c38494d18d67714b1286d9e450ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return an iterator to the first element of the map.  <br /></td></tr>
 <tr class="separator:a0d13c38494d18d67714b1286d9e450ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -670,6 +673,55 @@ template&lt;typename K , typename V &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>const reference to the value of the key in the map </dd></dl>
+
+</div>
+</div>
+<a id="a90cbd2becf8950006e9aef9f8797bf33" name="a90cbd2becf8950006e9aef9f8797bf33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90cbd2becf8950006e9aef9f8797bf33">&#9670;&#160;</a></span>get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename K , typename V &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">V <a class="el" href="../../d2/d60/classmdspp_1_1_map.html">mdspp::Map</a>&lt; K, V &gt;::get </td>
+          <td>(</td>
+          <td class="paramtype">const K &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const V &amp;&#160;</td>
+          <td class="paramname"><em>defaults</em> = <code>V()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return copy of the value for key if key is in the map, else default value. </p>
+<p>If default value is not given, it defaults to the default value of type V.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>key of the key-value pair </td></tr>
+    <tr><td class="paramname">defaults</td><td>default value </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>copy of the value for key if key is in the map, else default value </dd></dl>
 
 </div>
 </div>

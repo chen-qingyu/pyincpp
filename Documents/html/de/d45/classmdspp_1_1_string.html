@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">MineDataStructure++
    </div>
-   <div id="projectbrief">像Python一样好用的C++容器库</div>
+   <div id="projectbrief">A C++ containers library that is as easy to use as Python&#39;s containers library.</div>
   </td>
  </tr>
  </tbody>
@@ -166,6 +166,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abd5fe1c77fb9a1fcd9d3e9e9bcb8ca29"><td class="memItemLeft" align="right" valign="top">long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#abd5fe1c77fb9a1fcd9d3e9e9bcb8ca29">to_integer</a> (int base=10) const</td></tr>
 <tr class="memdesc:abd5fe1c77fb9a1fcd9d3e9e9bcb8ca29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the string to an integer number based on 2-36 base.  <br /></td></tr>
 <tr class="separator:abd5fe1c77fb9a1fcd9d3e9e9bcb8ca29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80db29e4c3eba9e1dbfbd853a1b720b8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a80db29e4c3eba9e1dbfbd853a1b720b8">begin_with</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;str) const</td></tr>
+<tr class="memdesc:a80db29e4c3eba9e1dbfbd853a1b720b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the string begins with the specified string, otherwise return false.  <br /></td></tr>
+<tr class="separator:a80db29e4c3eba9e1dbfbd853a1b720b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfba4eb5a89ab2c0e3bfc4ea4f7f271d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#abfba4eb5a89ab2c0e3bfc4ea4f7f271d">end_with</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;str) const</td></tr>
+<tr class="memdesc:abfba4eb5a89ab2c0e3bfc4ea4f7f271d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the string ends with the specified string, otherwise return false.  <br /></td></tr>
+<tr class="separator:abfba4eb5a89ab2c0e3bfc4ea4f7f271d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a872a582ad92475ede965f0748bd702db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a872a582ad92475ede965f0748bd702db">insert</a> (int index, const char &amp;element)</td></tr>
 <tr class="memdesc:a872a582ad92475ede965f0748bd702db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert the specified element at the specified position in the string.  <br /></td></tr>
 <tr class="separator:a872a582ad92475ede965f0748bd702db"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -187,10 +193,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae439997f2ff15006aa3a4f537ffa9ef3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#ae439997f2ff15006aa3a4f537ffa9ef3">clear</a> ()</td></tr>
 <tr class="memdesc:ae439997f2ff15006aa3a4f537ffa9ef3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all of the elements from the string.  <br /></td></tr>
 <tr class="separator:ae439997f2ff15006aa3a4f537ffa9ef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0251922538e9a1ddc2f4be6982a1783c"><td class="memTemplParams" colspan="2">template&lt;typename F &gt; </td></tr>
-<tr class="memitem:a0251922538e9a1ddc2f4be6982a1783c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a0251922538e9a1ddc2f4be6982a1783c">traverse</a> (F action)</td></tr>
-<tr class="memdesc:a0251922538e9a1ddc2f4be6982a1783c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the given action for each element of the string.  <br /></td></tr>
-<tr class="separator:a0251922538e9a1ddc2f4be6982a1783c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aade44a05d779536ac95c45f165812f03"><td class="memTemplParams" colspan="2">template&lt;typename F &gt; </td></tr>
+<tr class="memitem:aade44a05d779536ac95c45f165812f03"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#aade44a05d779536ac95c45f165812f03">map</a> (const F &amp;action)</td></tr>
+<tr class="memdesc:aade44a05d779536ac95c45f165812f03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the given action for each element of the string.  <br /></td></tr>
+<tr class="separator:aade44a05d779536ac95c45f165812f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4234ebc3b8f9d9aa91cb0069119d04b4"><td class="memTemplParams" colspan="2">template&lt;typename F &gt; </td></tr>
+<tr class="memitem:a4234ebc3b8f9d9aa91cb0069119d04b4"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a4234ebc3b8f9d9aa91cb0069119d04b4">filter</a> (const F &amp;predicate)</td></tr>
+<tr class="memdesc:a4234ebc3b8f9d9aa91cb0069119d04b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filter the elements in the string so that the elements that meet the predicate are retained.  <br /></td></tr>
+<tr class="separator:a4234ebc3b8f9d9aa91cb0069119d04b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a302bc7fab1ff27e9d01584ab42710e50"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a302bc7fab1ff27e9d01584ab42710e50">reverse</a> ()</td></tr>
 <tr class="memdesc:a302bc7fab1ff27e9d01584ab42710e50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse the string in place.  <br /></td></tr>
 <tr class="separator:a302bc7fab1ff27e9d01584ab42710e50"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -215,9 +225,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab3832019f760bb2f3b676311750bacf5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#ab3832019f760bb2f3b676311750bacf5">replace</a> (const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;old_str, const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;new_str)</td></tr>
 <tr class="memdesc:ab3832019f760bb2f3b676311750bacf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replace the string.  <br /></td></tr>
 <tr class="separator:ab3832019f760bb2f3b676311750bacf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeecabaf57105311c9b9e2fadfe472fd3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#aeecabaf57105311c9b9e2fadfe472fd3">strip</a> ()</td></tr>
-<tr class="memdesc:aeecabaf57105311c9b9e2fadfe472fd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove leading and trailing blank characters of the string.  <br /></td></tr>
-<tr class="separator:aeecabaf57105311c9b9e2fadfe472fd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52cce6347248c834b22f0d76ce8c3342"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a52cce6347248c834b22f0d76ce8c3342">strip</a> (const signed char &amp;ch=-1)</td></tr>
+<tr class="memdesc:a52cce6347248c834b22f0d76ce8c3342"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove leading and trailing characters of the string.  <br /></td></tr>
+<tr class="separator:a52cce6347248c834b22f0d76ce8c3342"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ace6e9bc9a5b40641b92f20946fe9bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d45/classmdspp_1_1_string.html#a6ace6e9bc9a5b40641b92f20946fe9bb">operator&gt;&gt;=</a> (int n)</td></tr>
 <tr class="memdesc:a6ace6e9bc9a5b40641b92f20946fe9bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shift the string to right n characters.  <br /></td></tr>
 <tr class="separator:a6ace6e9bc9a5b40641b92f20946fe9bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1095,6 +1105,76 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a80db29e4c3eba9e1dbfbd853a1b720b8" name="a80db29e4c3eba9e1dbfbd853a1b720b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80db29e4c3eba9e1dbfbd853a1b720b8">&#9670;&#160;</a></span>begin_with()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool mdspp::String::begin_with </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return true if the string begins with the specified string, otherwise return false. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>the specified string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the string begins with the specified string </dd></dl>
+
+</div>
+</div>
+<a id="abfba4eb5a89ab2c0e3bfc4ea4f7f271d" name="abfba4eb5a89ab2c0e3bfc4ea4f7f271d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfba4eb5a89ab2c0e3bfc4ea4f7f271d">&#9670;&#160;</a></span>end_with()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool mdspp::String::end_with </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return true if the string ends with the specified string, otherwise return false. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>the specified string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the string ends with the specified string </dd></dl>
+
+</div>
+</div>
 <a id="a872a582ad92475ede965f0748bd702db" name="a872a582ad92475ede965f0748bd702db"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a872a582ad92475ede965f0748bd702db">&#9670;&#160;</a></span>insert()</h2>
 
@@ -1344,8 +1424,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0251922538e9a1ddc2f4be6982a1783c" name="a0251922538e9a1ddc2f4be6982a1783c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0251922538e9a1ddc2f4be6982a1783c">&#9670;&#160;</a></span>traverse()</h2>
+<a id="aade44a05d779536ac95c45f165812f03" name="aade44a05d779536ac95c45f165812f03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aade44a05d779536ac95c45f165812f03">&#9670;&#160;</a></span>map()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1356,9 +1436,9 @@ template&lt;typename F &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp; mdspp::String::traverse </td>
+          <td class="memname"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp; mdspp::String::map </td>
           <td>(</td>
-          <td class="paramtype">F&#160;</td>
+          <td class="paramtype">const F &amp;&#160;</td>
           <td class="paramname"><em>action</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1380,6 +1460,49 @@ template&lt;typename F &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">action</td><td>a function that to be performed for each element </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
+
+</div>
+</div>
+<a id="a4234ebc3b8f9d9aa91cb0069119d04b4" name="a4234ebc3b8f9d9aa91cb0069119d04b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4234ebc3b8f9d9aa91cb0069119d04b4">&#9670;&#160;</a></span>filter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp; mdspp::String::filter </td>
+          <td>(</td>
+          <td class="paramtype">const F &amp;&#160;</td>
+          <td class="paramname"><em>predicate</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Filter the elements in the string so that the elements that meet the predicate are retained. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">F</td><td>function </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">predicate</td><td>a predicate function that to be performed for each element </td></tr>
   </table>
   </dd>
 </dl>
@@ -1653,8 +1776,8 @@ template&lt;typename F &gt; </div>
 <p>Replace the string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">old_str</td><td>Old substring. </td></tr>
-    <tr><td class="paramname">new_str</td><td>New substring. </td></tr>
+    <tr><td class="paramname">old_str</td><td>old substring </td></tr>
+    <tr><td class="paramname">new_str</td><td>new substring </td></tr>
   </table>
   </dd>
 </dl>
@@ -1662,8 +1785,8 @@ template&lt;typename F &gt; </div>
 
 </div>
 </div>
-<a id="aeecabaf57105311c9b9e2fadfe472fd3" name="aeecabaf57105311c9b9e2fadfe472fd3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeecabaf57105311c9b9e2fadfe472fd3">&#9670;&#160;</a></span>strip()</h2>
+<a id="a52cce6347248c834b22f0d76ce8c3342" name="a52cce6347248c834b22f0d76ce8c3342"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52cce6347248c834b22f0d76ce8c3342">&#9670;&#160;</a></span>strip()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1674,7 +1797,8 @@ template&lt;typename F &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="../../de/d45/classmdspp_1_1_string.html">String</a> &amp; mdspp::String::strip </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">const signed char &amp;&#160;</td>
+          <td class="paramname"><em>ch</em> = <code>-1</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1685,7 +1809,13 @@ template&lt;typename F &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Remove leading and trailing blank characters of the string. </p>
+<p>Remove leading and trailing characters of the string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>specified character to remove (default is blank character) </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
 
 </div>

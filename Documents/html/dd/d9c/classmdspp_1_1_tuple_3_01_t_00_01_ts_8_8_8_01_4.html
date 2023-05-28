@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">MineDataStructure++
    </div>
-   <div id="projectbrief">像Python一样好用的C++容器库</div>
+   <div id="projectbrief">A C++ containers library that is as easy to use as Python&#39;s containers library.</div>
   </td>
  </tr>
  </tbody>
@@ -76,7 +76,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#friends">Friends</a> &#124;
 <a href="../../da/d56/classmdspp_1_1_tuple_3_01_t_00_01_ts_8_8_8_01_4-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">mdspp::Tuple&lt; T, Ts... &gt; Class Template Reference</div></div>
 </div><!--header-->
@@ -85,7 +84,7 @@ $(function() {
 <p>Tuple template class.  
  <a href="../../dd/d9c/classmdspp_1_1_tuple_3_01_t_00_01_ts_8_8_8_01_4.html#details">More...</a></p>
 
-<p>Inherits mdspp::Tuple&lt; Args &gt;.</p>
+<p>Inherits mdspp::Tuple&lt; _ &gt;.</p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -98,19 +97,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a10b9164cd12588919b58a7d554e22116"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d9c/classmdspp_1_1_tuple_3_01_t_00_01_ts_8_8_8_01_4.html#a10b9164cd12588919b58a7d554e22116">operator!=</a> (const <a class="el" href="../../dd/d9c/classmdspp_1_1_tuple_3_01_t_00_01_ts_8_8_8_01_4.html#a2430513193dcb6e6d5cac307c02d76a9">Tuple</a>&lt; T, Ts... &gt; &amp;that) const</td></tr>
 <tr class="memdesc:a10b9164cd12588919b58a7d554e22116"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether two tuples are not equal.  <br /></td></tr>
 <tr class="separator:a10b9164cd12588919b58a7d554e22116"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04d07da67df9a3533d7495cd781f14cf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d9c/classmdspp_1_1_tuple_3_01_t_00_01_ts_8_8_8_01_4.html#a04d07da67df9a3533d7495cd781f14cf">size</a> () const</td></tr>
-<tr class="memdesc:a04d07da67df9a3533d7495cd781f14cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of elements in the tuple.  <br /></td></tr>
-<tr class="separator:a04d07da67df9a3533d7495cd781f14cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d4c575d0532401549025674b2c2f9db"><td class="memTemplParams" colspan="2">template&lt;int N&gt; </td></tr>
+<tr class="memitem:a7d4c575d0532401549025674b2c2f9db"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../dd/d9c/classmdspp_1_1_tuple_3_01_t_00_01_ts_8_8_8_01_4.html#a7d4c575d0532401549025674b2c2f9db">get</a> () const</td></tr>
+<tr class="memdesc:a7d4c575d0532401549025674b2c2f9db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the i-th element of the tuple.  <br /></td></tr>
+<tr class="separator:a7d4c575d0532401549025674b2c2f9db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c50c7a5343c190a18d44322e17f01b4"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d9c/classmdspp_1_1_tuple_3_01_t_00_01_ts_8_8_8_01_4.html#a0c50c7a5343c190a18d44322e17f01b4">size</a> () const</td></tr>
+<tr class="memdesc:a0c50c7a5343c190a18d44322e17f01b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of elements in the tuple.  <br /></td></tr>
+<tr class="separator:a0c50c7a5343c190a18d44322e17f01b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b5794d936b883bbd2ee557502970027"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../dd/d9c/classmdspp_1_1_tuple_3_01_t_00_01_ts_8_8_8_01_4.html#a2430513193dcb6e6d5cac307c02d76a9">Tuple</a>&lt; Ts... &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d9c/classmdspp_1_1_tuple_3_01_t_00_01_ts_8_8_8_01_4.html#a9b5794d936b883bbd2ee557502970027">rest</a> () const</td></tr>
 <tr class="memdesc:a9b5794d936b883bbd2ee557502970027"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the rest of the tuple.  <br /></td></tr>
 <tr class="separator:a9b5794d936b883bbd2ee557502970027"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:a93cfa6ec37da61a59a3093efdd9f20a4"><td class="memTemplParams" colspan="2">template&lt;int N, typename... _&gt; </td></tr>
-<tr class="memitem:a93cfa6ec37da61a59a3093efdd9f20a4"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../dd/d9c/classmdspp_1_1_tuple_3_01_t_00_01_ts_8_8_8_01_4.html#a93cfa6ec37da61a59a3093efdd9f20a4">get</a> (const <a class="el" href="../../dd/d9c/classmdspp_1_1_tuple_3_01_t_00_01_ts_8_8_8_01_4.html#a2430513193dcb6e6d5cac307c02d76a9">Tuple</a>&lt; _... &gt; &amp;tuple)</td></tr>
-<tr class="memdesc:a93cfa6ec37da61a59a3093efdd9f20a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the i-th element of the tuple.  <br /></td></tr>
-<tr class="separator:a93cfa6ec37da61a59a3093efdd9f20a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T, typename... Ts&gt;<br />
@@ -245,8 +241,46 @@ template&lt;typename T , typename... Ts&gt; </div>
 
 </div>
 </div>
-<a id="a04d07da67df9a3533d7495cd781f14cf" name="a04d07da67df9a3533d7495cd781f14cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04d07da67df9a3533d7495cd781f14cf">&#9670;&#160;</a></span>size()</h2>
+<a id="a7d4c575d0532401549025674b2c2f9db" name="a7d4c575d0532401549025674b2c2f9db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d4c575d0532401549025674b2c2f9db">&#9670;&#160;</a></span>get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename... Ts&gt; </div>
+<div class="memtemplate">
+template&lt;int N&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">decltype(auto) mdspp::Tuple&lt; T, Ts... &gt;::get </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the i-th element of the tuple. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">N</td><td>the index </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the i-th element </dd></dl>
+
+</div>
+</div>
+<a id="a0c50c7a5343c190a18d44322e17f01b4" name="a0c50c7a5343c190a18d44322e17f01b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c50c7a5343c190a18d44322e17f01b4">&#9670;&#160;</a></span>size()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -257,7 +291,7 @@ template&lt;typename T , typename... Ts&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int mdspp::Tuple&lt; T, Ts... &gt;::size </td>
+          <td class="memname">constexpr int mdspp::Tuple&lt; T, Ts... &gt;::size </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -265,7 +299,7 @@ template&lt;typename T , typename... Ts&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -302,52 +336,6 @@ template&lt;typename T , typename... Ts&gt; </div>
 
 <p>Return the rest of the tuple. </p>
 <dl class="section return"><dt>Returns</dt><dd>the rest of the tuple </dd></dl>
-
-</div>
-</div>
-<h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="a93cfa6ec37da61a59a3093efdd9f20a4" name="a93cfa6ec37da61a59a3093efdd9f20a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93cfa6ec37da61a59a3093efdd9f20a4">&#9670;&#160;</a></span>get</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T , typename... Ts&gt; </div>
-<div class="memtemplate">
-template&lt;int N, typename... _&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto get </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../dd/d9c/classmdspp_1_1_tuple_3_01_t_00_01_ts_8_8_8_01_4.html#a2430513193dcb6e6d5cac307c02d76a9">Tuple</a>&lt; _... &gt; &amp;&#160;</td>
-          <td class="paramname"><em>tuple</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the i-th element of the tuple. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">N</td><td>the index </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">tuple</td><td>the tuple </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the i-th element </dd></dl>
 
 </div>
 </div>
