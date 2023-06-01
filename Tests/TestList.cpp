@@ -204,11 +204,11 @@ TEST(List, insert)
     // check full
     // 测试成功了！但是每次测试耗时太长，可以注释掉。
     // List<bool> big_list;
-    // for (int i = 0; i < INT_MAX; i++)
+    // for (int i = 0; i < List<bool>::MAX_CAPACITY; i++)
     // {
     //     big_list.insert(big_list.size(), true);
     // }
-    // ASSERT_EQ(big_list.size(), INT_MAX);
+    // ASSERT_EQ(big_list.size(), List<bool>::MAX_CAPACITY);
     // MY_ASSERT_THROWS_MESSAGE(big_list.insert(big_list.size(), true), std::runtime_error, "ERROR: The container has reached the maximum size.");
 
     // modify after inserted
