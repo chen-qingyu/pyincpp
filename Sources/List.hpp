@@ -756,7 +756,6 @@ public:
         if (size_ != 0)
         {
             size_ = 0;
-            capacity_ = INIT_CAPACITY;
             delete[] data_;
             data_ = new T[capacity_];
         }
