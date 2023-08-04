@@ -284,6 +284,21 @@ TEST(List, repeat)
     ASSERT_EQ(list *= 0, List<int>({}));
 }
 
+// operator/=()
+TEST(List, remove_all_element)
+{
+    List<int> list = {1, 2, 3, 4, 5, 4, 3, 2, 1};
+
+    ASSERT_EQ(list /= 1, List<int>({2, 3, 4, 5, 4, 3, 2}));
+    ASSERT_EQ(list /= 2, List<int>({3, 4, 5, 4, 3}));
+    ASSERT_EQ(list /= 3, List<int>({4, 5, 4}));
+    ASSERT_EQ(list /= 4, List<int>({5}));
+    ASSERT_EQ(list /= 5, List<int>({}));
+
+    // if the list does not contain the element, it is unchanged.
+    ASSERT_EQ(list /= 6, List<int>({}));
+}
+
 // clear()
 TEST(List, clear)
 {
@@ -430,7 +445,7 @@ TEST(List, swap)
     List<int> list1({1, 2, 3});
     List<int> list2({4, 5, 6});
 
-    list1.swap(list2);
+    ASSERT_EQ(list1.swap(list2), List<int>({4, 5, 6}));
 
     ASSERT_EQ(list1, List<int>({4, 5, 6}));
     ASSERT_EQ(list2, List<int>({1, 2, 3}));
@@ -489,7 +504,7 @@ TEST(List, slice)
     MY_ASSERT_THROWS_MESSAGE(list.slice(-7, -6), std::runtime_error, "ERROR: Index out of range.");
 }
 
-// operator+() operator-() operator*()
+// operator+() operator-() operator*() operator/()
 TEST(List, production)
 {
     List<int> list = {1, 2, 3, 4, 5};
@@ -509,6 +524,10 @@ TEST(List, production)
     ASSERT_EQ(0 * list, List<int>({}));
     ASSERT_EQ(1 * list, List<int>({1, 2, 3, 4, 5}));
     ASSERT_EQ(2 * list, List<int>({1, 2, 3, 4, 5, 1, 2, 3, 4, 5}));
+
+    // operator/
+    ASSERT_EQ(list / 5, List<int>({1, 2, 3, 4}));
+    ASSERT_EQ(list / 6, List<int>({1, 2, 3, 4, 5}));
 }
 
 // to_deque() to_set()

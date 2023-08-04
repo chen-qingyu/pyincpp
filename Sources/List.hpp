@@ -705,9 +705,7 @@ public:
     }
 
     /**
-     * @brief Remove the first occurrence of the specified element from the list, if it is present.
-     *
-     * If the list does not contain the element, it is unchanged.
+     * @brief Remove the first occurrence of the specified element from the list.
      *
      * @param element element to be removed
      * @return self reference
@@ -731,19 +729,18 @@ public:
      */
     List& operator*=(int times)
     {
-        if (times < 0)
-        {
-            throw std::runtime_error("ERROR: Times to repeat can not be less than zero.");
-        }
+        return *this = std::move((*this) * times);
+    }
 
-        List buffer;
-        for (int i = 0; i < times; i++)
-        {
-            buffer += *this;
-        }
-        *this = std::move(buffer);
-
-        return *this;
+    /**
+     * @brief Remove all the specified elements from the list.
+     *
+     * @param element element to be removed
+     * @return self reference
+     */
+    List& operator/=(const T& element)
+    {
+        return *this = std::move((*this) / element);
     }
 
     /**
@@ -875,13 +872,16 @@ public:
     /**
      * @brief Swap the contents of two lists.
      *
-     * @param that second list
+     * @param that the second list
+     * @return self reference
      */
-    void swap(List& that)
+    List& swap(List& that)
     {
         utility::swap(size_, that.size_);
         utility::swap(capacity_, that.capacity_);
         utility::swap(data_, that.data_);
+
+        return *this;
     }
 
     /**
@@ -988,7 +988,7 @@ public:
     }
 
     /**
-     * @brief Generate a new list and remove the first occurrence of the specified element from the list, if it is present.
+     * @brief Generate a new list and remove the first occurrence of the specified element from the list.
      *
      * @param element element to be removed
      * @return the generated list
@@ -1007,8 +1007,38 @@ public:
      */
     List operator*(int times) const
     {
-        List new_list = *this;
-        return new_list *= times;
+        if (times < 0)
+        {
+            throw std::runtime_error("ERROR: Times to repeat can not be less than zero.");
+        }
+
+        List buffer;
+        for (int i = 0; i < times; i++)
+        {
+            buffer += *this;
+        }
+
+        return buffer;
+    }
+
+    /**
+     * @brief Generate a new list and remove all the specified elements from the list.
+     *
+     * @param element element to be removed
+     * @return the generated list
+     */
+    List operator/(const T& element) const
+    {
+        List buffer;
+        for (int i = 0; i < size_; i++)
+        {
+            if (data_[i] != element)
+            {
+                buffer += data_[i];
+            }
+        }
+
+        return buffer;
     }
 
     /**
