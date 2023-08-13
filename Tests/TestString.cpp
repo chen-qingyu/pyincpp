@@ -454,7 +454,7 @@ TEST(String, swap)
     String s1("first");
     String s2("second");
 
-    s1.swap(s2);
+    ASSERT_EQ(s1.swap(s2), "second");
 
     ASSERT_EQ(s1, "second");
     ASSERT_EQ(s2, "first");

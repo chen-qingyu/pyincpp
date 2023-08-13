@@ -921,6 +921,82 @@ public:
         return *this;
     }
 
+    /**
+     * @brief Shift the list to right n elements.
+     *
+     * @param n length of shifted elements
+     * @return self reference
+     */
+    List& operator>>=(int n)
+    {
+        n %= size_;
+
+        if (size_ <= 1 || n == 0)
+        {
+            return *this;
+        }
+
+        if (n < 0)
+        {
+            return *this <<= -n;
+        }
+
+        T* tmp = new T[n];
+        for (int i = 0; i < n; ++i)
+        {
+            tmp[i] = data_[size_ - n + i];
+        }
+        for (int i = 0; i < size_ - n; ++i)
+        {
+            data_[size_ - i - 1] = data_[size_ - i - 1 - n];
+        }
+        for (int i = 0; i < n; ++i)
+        {
+            data_[i] = tmp[i];
+        }
+        delete[] tmp;
+
+        return *this;
+    }
+
+    /**
+     * @brief Shift the list to left n elements.
+     *
+     * @param n length of shifted elements
+     * @return self reference
+     */
+    List& operator<<=(int n)
+    {
+        n %= size_;
+
+        if (size_ <= 1 || n == 0)
+        {
+            return *this;
+        }
+
+        if (n < 0)
+        {
+            return *this >>= -n;
+        }
+
+        T* tmp = new T[n];
+        for (int i = 0; i < n; ++i)
+        {
+            tmp[i] = data_[i];
+        }
+        for (int i = 0; i < size_ - n; ++i)
+        {
+            data_[i] = data_[i + n];
+        }
+        for (int i = 0; i < n; ++i)
+        {
+            data_[size_ - n + i] = tmp[i];
+        }
+        delete[] tmp;
+
+        return *this;
+    }
+
     /*
      * Production (will produce new object)
      */

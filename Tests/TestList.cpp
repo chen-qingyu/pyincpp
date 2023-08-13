@@ -474,6 +474,22 @@ TEST(List, adjust_capacity)
     MY_ASSERT_THROWS_MESSAGE(list.adjust_capacity(INT_MAX), std::runtime_error, "ERROR: Capacity can not be larger than the maximum capacity.");
 }
 
+// operator>>=() operator<<=()
+TEST(List, shift)
+{
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}) >>= -1, List<int>({2, 3, 4, 5, 1}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}) >>= 0, List<int>({1, 2, 3, 4, 5}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}) >>= 1, List<int>({5, 1, 2, 3, 4}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}) >>= 3, List<int>({3, 4, 5, 1, 2}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}) >>= 5, List<int>({1, 2, 3, 4, 5}));
+
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}) <<= -1, List<int>({5, 1, 2, 3, 4}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}) <<= 0, List<int>({1, 2, 3, 4, 5}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}) <<= 1, List<int>({2, 3, 4, 5, 1}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}) <<= 3, List<int>({4, 5, 1, 2, 3}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5}) <<= 5, List<int>({1, 2, 3, 4, 5}));
+}
+
 // slice()
 TEST(List, slice)
 {

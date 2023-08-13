@@ -764,9 +764,7 @@ public:
     }
 
     /**
-     * @brief Remove the first occurrence of the specified element from the string, if it is present.
-     *
-     * If the string does not contain the element, it is unchanged.
+     * @brief Remove the first occurrence of the specified element from the string.
      *
      * @param element element to be removed
      * @return self reference
@@ -879,10 +877,13 @@ public:
      * @brief Swap the contents of two strings.
      *
      * @param that second string
+     * @return self reference
      */
-    void swap(String& that)
+    String& swap(String& that)
     {
         list_.swap(that.list_);
+
+        return *this;
     }
 
     /**
@@ -994,33 +995,7 @@ public:
      */
     String& operator>>=(int n)
     {
-        n %= size();
-
-        if (size() <= 1 || n == 0)
-        {
-            return *this;
-        }
-
-        if (n < 0)
-        {
-            return *this <<= -n;
-        }
-
-        char* tmp = new char[n];
-        for (int i = 0; i < n; ++i)
-        {
-            tmp[i] = list_.data_[size() - n + i];
-        }
-        for (int i = 0; i < size() - n; ++i)
-        {
-            list_.data_[size() - i - 1] = list_.data_[size() - i - 1 - n];
-        }
-        for (int i = 0; i < n; ++i)
-        {
-            list_.data_[i] = tmp[i];
-        }
-        delete[] tmp;
-
+        list_ >>= n;
         return *this;
     }
 
@@ -1032,33 +1007,7 @@ public:
      */
     String& operator<<=(int n)
     {
-        n %= size();
-
-        if (size() <= 1 || n == 0)
-        {
-            return *this;
-        }
-
-        if (n < 0)
-        {
-            return *this >>= -n;
-        }
-
-        char* tmp = new char[n];
-        for (int i = 0; i < n; ++i)
-        {
-            tmp[i] = list_.data_[i];
-        }
-        for (int i = 0; i < size() - n; ++i)
-        {
-            list_.data_[i] = list_.data_[i + n];
-        }
-        for (int i = 0; i < n; ++i)
-        {
-            list_.data_[size() - n + i] = tmp[i];
-        }
-        delete[] tmp;
-
+        list_ <<= n;
         return *this;
     }
 
@@ -1108,7 +1057,7 @@ public:
     }
 
     /**
-     * @brief Generate a new string and remove the first occurrence of the specified element from the string, if it is present.
+     * @brief Generate a new string and remove the first occurrence of the specified element from the string.
      *
      * @param element element to be removed
      * @return the generated string
