@@ -1080,10 +1080,15 @@ public:
         }
 
         List buffer;
-        for (int i = 0; i < times; i++)
+        buffer.adjust_capacity(std::max(size_ * times, INIT_CAPACITY));
+        for (int part = 0; part < times; part++)
         {
-            buffer += *this;
+            for (int i = 0; i < size_; i++)
+            {
+                buffer.data_[part * size_ + i] = data_[i];
+            }
         }
+        buffer.size_ = size_ * times;
 
         return buffer;
     }
