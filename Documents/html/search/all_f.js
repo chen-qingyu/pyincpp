@@ -13,5 +13,5 @@ var searchData=
   ['string_10',['String',['../de/d45/classmdspp_1_1_string.html',1,'mdspp::String'],['../de/d45/classmdspp_1_1_string.html#aa90c48f5bbac1c9ffe9e8b444025c60a',1,'mdspp::String::String()'],['../de/d45/classmdspp_1_1_string.html#a2fb15cc5473b2efb337ac3949cb1b8bf',1,'mdspp::String::String(const char *chars)'],['../de/d45/classmdspp_1_1_string.html#a5d540b5515ca4b7ca1d6cb2d95728d6e',1,'mdspp::String::String(const String &amp;that)'],['../de/d45/classmdspp_1_1_string.html#afe2e952c1660d01e1cca648e70b8719b',1,'mdspp::String::String(String &amp;&amp;that)']]],
   ['string_2ehpp_11',['String.hpp',['../d9/dc5/_string_8hpp.html',1,'']]],
   ['strip_12',['strip',['../de/d45/classmdspp_1_1_string.html#a52cce6347248c834b22f0d76ce8c3342',1,'mdspp::String']]],
-  ['swap_13',['swap',['../d6/d9c/classmdspp_1_1_list.html#a7f7945ec48bc28a3c758cf0a7eb1cd35',1,'mdspp::List::swap()'],['../de/d45/classmdspp_1_1_string.html#ae257ef28cff5148effe960602de57566',1,'mdspp::String::swap()']]]
+  ['swap_13',['swap',['../d6/d9c/classmdspp_1_1_list.html#a3e5c9524e286d91a4e0441d149828358',1,'mdspp::List::swap()'],['../de/d45/classmdspp_1_1_string.html#ab4d29097049c338c8eeb8a55ed76e64d',1,'mdspp::String::swap()']]]
 ];

@@ -9,5 +9,5 @@ var searchData=
   ['sqrt_6',['sqrt',['../d8/d6c/classmdspp_1_1_integer.html#a631cf7367d0cd5e82a07238d6c9b4dd2',1,'mdspp::Integer']]],
   ['string_7',['String',['../de/d45/classmdspp_1_1_string.html#aa90c48f5bbac1c9ffe9e8b444025c60a',1,'mdspp::String::String()'],['../de/d45/classmdspp_1_1_string.html#a2fb15cc5473b2efb337ac3949cb1b8bf',1,'mdspp::String::String(const char *chars)'],['../de/d45/classmdspp_1_1_string.html#a5d540b5515ca4b7ca1d6cb2d95728d6e',1,'mdspp::String::String(const String &amp;that)'],['../de/d45/classmdspp_1_1_string.html#afe2e952c1660d01e1cca648e70b8719b',1,'mdspp::String::String(String &amp;&amp;that)']]],
   ['strip_8',['strip',['../de/d45/classmdspp_1_1_string.html#a52cce6347248c834b22f0d76ce8c3342',1,'mdspp::String']]],
-  ['swap_9',['swap',['../d6/d9c/classmdspp_1_1_list.html#a7f7945ec48bc28a3c758cf0a7eb1cd35',1,'mdspp::List::swap()'],['../de/d45/classmdspp_1_1_string.html#ae257ef28cff5148effe960602de57566',1,'mdspp::String::swap()']]]
+  ['swap_9',['swap',['../d6/d9c/classmdspp_1_1_list.html#a3e5c9524e286d91a4e0441d149828358',1,'mdspp::List::swap()'],['../de/d45/classmdspp_1_1_string.html#ab4d29097049c338c8eeb8a55ed76e64d',1,'mdspp::String::swap()']]]
 ];
