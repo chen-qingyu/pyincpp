@@ -685,24 +685,12 @@ public:
      */
     List& operator+=(const List& list)
     {
-        if (this == &list)
+        adjust_capacity(std::max(size_ + list.size_, INIT_CAPACITY));
+        for (int i = 0; i < list.size_; i++)
         {
-            adjust_capacity(std::max(size_ * 2, INIT_CAPACITY));
-            for (int i = 0; i < size_; i++)
-            {
-                data_[size_ + i] = data_[i];
-            }
-            size_ *= 2;
+            data_[size_ + i] = list.data_[i];
         }
-        else
-        {
-            adjust_capacity(std::max(size_ + list.size_, INIT_CAPACITY));
-            for (int i = 0; i < list.size_; i++)
-            {
-                data_[size_ + i] = list.data_[i];
-            }
-            size_ += list.size_;
-        }
+        size_ += list.size_;
 
         return *this;
     }
