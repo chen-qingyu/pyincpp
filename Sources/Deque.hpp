@@ -150,6 +150,27 @@ private:
         }
     }
 
+    // Set the node to the first visible node.
+    void set_first(Node* node)
+    {
+        if (node == header_->succ_)
+        {
+            return;
+        }
+
+        // link origin last node and origin first node
+        trailer_->pred_->succ_ = header_->succ_;
+        header_->succ_->pred_ = trailer_->pred_;
+
+        // link new last node and trailer
+        node->pred_->succ_ = trailer_;
+        trailer_->pred_ = node->pred_;
+
+        // then, link new first node and header
+        node->pred_ = header_;
+        header_->succ_ = node;
+    }
+
 public:
     /*
      * Constructor / Destructor
@@ -500,7 +521,7 @@ public:
      */
     Deque& operator>>=(int n)
     {
-        if (size_ <= 1)
+        if (size_ <= 1 || n == 0)
         {
             return *this;
         }
@@ -511,10 +532,17 @@ public:
         }
 
         n %= size_;
+        if (n > size_ / 2)
+        {
+            return *this <<= (size_ - n);
+        }
+
+        Node* it = trailer_;
         while (n--)
         {
-            push_front(pop_back());
+            it = it->pred_;
         }
+        set_first(it);
 
         return *this;
     }
@@ -527,7 +555,7 @@ public:
      */
     Deque& operator<<=(int n)
     {
-        if (size_ <= 1)
+        if (size_ <= 1 || n == 0)
         {
             return *this;
         }
@@ -538,10 +566,17 @@ public:
         }
 
         n %= size_;
+        if (n > size_ / 2)
+        {
+            return *this >>= (size_ - n);
+        }
+
+        Node* it = header_->succ_;
         while (n--)
         {
-            push_back(pop_front());
+            it = it->succ_;
         }
+        set_first(it);
 
         return *this;
     }
