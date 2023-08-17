@@ -464,8 +464,7 @@ TEST(List, adjust_capacity)
     ASSERT_EQ(list.adjust_capacity(list.capacity() * 2).capacity(), 4);
 
     list += List<int>({1, 2, 3, 4, 5});
-    ASSERT_EQ(list.capacity(), 8);
-    ASSERT_EQ(list.adjust_capacity(5).capacity(), 5);
+    ASSERT_EQ(list.capacity(), 5);
 
     MY_ASSERT_THROWS_MESSAGE(list.adjust_capacity(0), std::runtime_error, "ERROR: Capacity can not be zero.");
 

@@ -687,18 +687,21 @@ public:
     {
         if (this == &list)
         {
-            List saved_list = list; // save list, for valid addr when adjust capacity when this == &list
-            for (int i = 0; i < saved_list.size_; i++)
+            adjust_capacity(std::max(size_ * 2, INIT_CAPACITY));
+            for (int i = 0; i < size_; i++)
             {
-                *this += saved_list.data_[i];
+                data_[size_ + i] = data_[i];
             }
+            size_ *= 2;
         }
         else
         {
+            adjust_capacity(std::max(size_ + list.size_, INIT_CAPACITY));
             for (int i = 0; i < list.size_; i++)
             {
-                *this += list.data_[i];
+                data_[size_ + i] = list.data_[i];
             }
+            size_ += list.size_;
         }
 
         return *this;
