@@ -989,6 +989,27 @@ public:
         return *this;
     }
 
+    /**
+     * @brief Erase the contents of a range of list.
+     *
+     * @param start start range subscript (included)
+     * @param stop stop range subscript (excluded)
+     * @return self reference
+     */
+    List& erase(int start, int stop)
+    {
+        utility::check_bounds(start, 0, size_ + 1);
+        utility::check_bounds(stop, 0, size_ + 1);
+
+        for (int i = stop; i < size_; i++)
+        {
+            data_[i - (stop - start)] = data_[i];
+        }
+        size_ -= (stop - start);
+
+        return *this;
+    }
+
     /*
      * Production (will produce new object)
      */

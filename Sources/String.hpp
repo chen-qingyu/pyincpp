@@ -925,14 +925,7 @@ public:
      */
     String& erase(int start, int stop)
     {
-        utility::check_bounds(start, 0, size() + 1);
-        utility::check_bounds(stop, 0, size() + 1);
-
-        for (int i = stop; i < list_.size_; i++)
-        {
-            list_.data_[i - (stop - start)] = list_.data_[i];
-        }
-        list_.size_ -= (stop - start);
+        list_.erase(start, stop);
 
         return *this;
     }

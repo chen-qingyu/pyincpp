@@ -489,6 +489,17 @@ TEST(List, shift)
     ASSERT_EQ(List<int>({1, 2, 3, 4, 5}) <<= 5, List<int>({1, 2, 3, 4, 5}));
 }
 
+// erase()
+TEST(List, erase)
+{
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(0, 1), List<int>({2, 3, 4, 5, 6, 7}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(1, 2), List<int>({1, 3, 4, 5, 6, 7}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(1, 6), List<int>({1, 7}));
+    ASSERT_EQ(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(0, 7), List<int>());
+
+    MY_ASSERT_THROWS_MESSAGE(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(-1, 99), std::runtime_error, "ERROR: Index out of range.");
+}
+
 // slice()
 TEST(List, slice)
 {
