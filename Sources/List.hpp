@@ -1102,13 +1102,16 @@ public:
     List operator/(const T& element) const
     {
         List buffer;
+        buffer.adjust_capacity(std::max(size_, INIT_CAPACITY));
+        int j = 0;
         for (int i = 0; i < size_; i++)
         {
             if (data_[i] != element)
             {
-                buffer += data_[i];
+                buffer.data_[j++] = data_[i];
             }
         }
+        buffer.size_ = j;
 
         return buffer;
     }
