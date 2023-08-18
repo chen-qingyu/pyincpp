@@ -204,6 +204,14 @@ TEST(Deque, rotate)
     ASSERT_EQ(deque <<= -233, Deque<int>({1, 2, 3, 4, 5}));
 }
 
+// reverse()
+TEST(Deque, reverse)
+{
+    ASSERT_EQ(Deque<int>().reverse(), Deque<int>());
+    ASSERT_EQ(Deque<int>({1}).reverse(), Deque<int>({1}));
+    ASSERT_EQ(Deque<int>({1, 2, 3, 4, 5}).reverse(), Deque<int>({5, 4, 3, 2, 1}));
+}
+
 // to_list() to_set()
 TEST(Deque, to_list_set)
 {

@@ -581,6 +581,22 @@ public:
         return *this;
     }
 
+    /**
+     * @brief Reverse the deque in place.
+     *
+     * @return self reference
+     */
+    Deque& reverse()
+    {
+        utility::swap(header_, trailer_);
+        for (Node* cur = trailer_; cur != nullptr; cur = cur->pred_)
+        {
+            utility::swap(cur->pred_, cur->succ_);
+        }
+
+        return *this;
+    }
+
     /*
      * Production (will produce new object)
      */
