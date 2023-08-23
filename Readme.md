@@ -115,8 +115,8 @@ map["third"][-1].factorial(); // 120
 - 为开源世界做一点微小的贡献。里面的代码对于许多初学数据结构的新手来说，能有一定的帮助。
 - 期待有更多人加入，或者提出改进意见，一起把库进一步完善。
 
-### 5. C版本
+### 5. 其他版本
 
 这个是C++版本的，目标是实现一个像Python的内置类型一样优雅的C++库。
 
-我还写了C版本的： [MDS (GitHub)](https://github.com/chen-qingyu/MDS) [MDS (Gitee)](https://gitee.com/ChobitsY/mds) ，目标是实现完整而标准的数据结构。
+我还写了C版本的： [MDS (GitHub)](https://github.com/chen-qingyu/MDS) [MDS (Gitee)](https://gitee.com/ChobitsY/mds) ，目标是实现标准的基础数据结构，后续打算用C#或C++进一步实现标准而完整的数据结构。

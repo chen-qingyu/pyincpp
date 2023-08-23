@@ -1,5 +1,5 @@
-#ifndef MDSPP_H
-#define MDSPP_H
+#ifndef MDSPP_HPP
+#define MDSPP_HPP
 
 #include "Deque.hpp"
 #include "Integer.hpp"
@@ -9,4 +9,4 @@
 #include "String.hpp"
 #include "Tuple.hpp"
 
-#endif // MDSPP_H
+#endif // MDSPP_HPP

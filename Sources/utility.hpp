@@ -1,5 +1,5 @@
-#ifndef UTILITY_H
-#define UTILITY_H
+#ifndef UTILITY_HPP
+#define UTILITY_HPP
 
 #include <stdexcept>
 
@@ -44,4 +44,4 @@ static inline void swap(T& e1, T& e2)
 
 } // namespace mdspp::utility
 
-#endif // UTILITY_H
+#endif // UTILITY_HPP

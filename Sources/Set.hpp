@@ -1,7 +1,7 @@
 /**
  * @file Set.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief Set template class, implemented by binary search tree.
+ * @brief Set template class, implemented by red-black tree.
  * @version 1.0
  * @date 2023.01.15
  *
@@ -25,8 +25,10 @@ class List;
 template <typename T>
 class Deque;
 
+// TODO: use red-black tree.
+
 /**
- * @brief Set template class, implemented by binary search tree.
+ * @brief Set template class, implemented by red-black tree.
  *
  * @tparam T the type of elements in the set, require support operator<
  */
