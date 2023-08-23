@@ -224,6 +224,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7303c6351bfb7d31ffdeb53a0124839d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a7303c6351bfb7d31ffdeb53a0124839d">operator&lt;&lt;=</a> (int n)</td></tr>
 <tr class="memdesc:a7303c6351bfb7d31ffdeb53a0124839d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shift the list to left n elements.  <br /></td></tr>
 <tr class="separator:a7303c6351bfb7d31ffdeb53a0124839d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e10dac1f7496e979a38b38c789aee6e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a9e10dac1f7496e979a38b38c789aee6e">erase</a> (int start, int stop)</td></tr>
+<tr class="memdesc:a9e10dac1f7496e979a38b38c789aee6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase the contents of a range of list.  <br /></td></tr>
+<tr class="separator:a9e10dac1f7496e979a38b38c789aee6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4720f22b900d7d481af762652c5bf00f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html#a4720f22b900d7d481af762652c5bf00f">slice</a> (int start, int stop, int step=1) const</td></tr>
 <tr class="memdesc:a4720f22b900d7d481af762652c5bf00f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return slice of the list from start to stop with certain step.  <br /></td></tr>
 <tr class="separator:a4720f22b900d7d481af762652c5bf00f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1740,6 +1743,54 @@ template&lt;typename T &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">n</td><td>length of shifted elements </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>self reference </dd></dl>
+
+</div>
+</div>
+<a id="a9e10dac1f7496e979a38b38c789aee6e" name="a9e10dac1f7496e979a38b38c789aee6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e10dac1f7496e979a38b38c789aee6e">&#9670;&#160;</a></span>erase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">List</a> &amp; <a class="el" href="../../d6/d9c/classmdspp_1_1_list.html">mdspp::List</a>&lt; T &gt;::erase </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>stop</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Erase the contents of a range of list. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">start</td><td>start range subscript (included) </td></tr>
+    <tr><td class="paramname">stop</td><td>stop range subscript (excluded) </td></tr>
   </table>
   </dd>
 </dl>
