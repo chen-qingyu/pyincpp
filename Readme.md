@@ -4,6 +4,8 @@
 
 [![](https://img.shields.io/badge/blog-@qingyu-blue.svg)](https://chen-qingyu.github.io/)
 
+![](https://img.shields.io/badge/version-1.0-blue.svg)
+
 ### 1. 基本属性
 
 - 名称：MineDataStructure++，缩写为MDSPP，灵感来源于我喜欢的游戏——Minecraft以及本项目的编程语言——C++。
