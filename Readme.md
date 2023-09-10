@@ -2,8 +2,6 @@
 
 *——像Python的内置类型一样优雅的C++库*
 
-[![](https://img.shields.io/badge/blog-@qingyu-blue.svg)](https://chen-qingyu.github.io/)
-
 ![](https://img.shields.io/badge/version-1.0-blue.svg)
 
 ### 1. 基本属性
