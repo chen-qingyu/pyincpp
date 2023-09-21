@@ -587,11 +587,11 @@ TEST(String, split)
 // join()
 TEST(String, join)
 {
-    ASSERT_EQ(String(", ").join(List<String>()), "");
-    ASSERT_EQ(String(", ").join(List<String>({"a"})), "a");
-    ASSERT_EQ(String(", ").join(List<String>({"a", "b"})), "a, b");
-    ASSERT_EQ(String(", ").join(List<String>({"a", "b", "c"})), "a, b, c");
-    ASSERT_EQ(String(".").join(List<String>({"192", "168", "0", "1"})), "192.168.0.1");
+    ASSERT_EQ(String(", ").join({}), "");
+    ASSERT_EQ(String(", ").join({"a"}), "a");
+    ASSERT_EQ(String(", ").join({"a", "b"}), "a, b");
+    ASSERT_EQ(String(", ").join({"a", "b", "c"}), "a, b, c");
+    ASSERT_EQ(String(".").join({"192", "168", "0", "1"}), "192.168.0.1");
 }
 
 // operator<<()

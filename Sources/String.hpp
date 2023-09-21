@@ -464,20 +464,21 @@ public:
      * @brief Convert the string to a double-precision floating-point decimal number.
      *
      * If the string is too big to be representable will return `HUGE_VAL`.
-     * If the string represents nan ("[+-]?(nan, NaN, NAN)") will return `NAN`.
-     * If the string represents infinity ("[+-]?(inf, Inf, INF, infinity, Infinity, INFINITY)") will return `[+-]?INFINITY`.
      *
-     * Example: String("233.33").to_decimal(); // => 233.33
+     * If the string represents NaN will return `NAN`.
      *
-     *          String("123.456e-3").to_decimal(); // => 0.123456
+     * If the string represents Infinity will return `(+-)INFINITY`.
      *
-     *          String("1e+600").to_decimal(); // => HUGE_VAL
+     * Example:
+     * ```
+     * String("233.33").to_decimal(); // 233.33
+     * String("123.456e-3").to_decimal(); // 0.123456
+     * String("1e+600").to_decimal(); // HUGE_VAL
+     * String("nan").to_decimal(); // NAN
+     * String("inf").to_decimal(); // INFINITY
+     * ```
      *
-     *          String("nan").to_decimal(); // => NAN
-     *
-     *          String("inf").to_decimal(); // => INFINITY
-     *
-     * @return a number that can represent the string or HUGE_VAL or NAN or [+-]?INFINITY
+     * @return a number that can represent the string or HUGE_VAL or NAN or (+-)INFINITY
      */
     double to_decimal() const
     {
@@ -601,11 +602,12 @@ public:
      *
      * Numeric character in 36 base: 0, 1, ..., 9, A(10), ..., F(15), G(16), ..., Y(34), Z(35).
      *
-     * Example: String("233").to_integer(); // => 233
-     *
-     *          String("cafebabe").to_integer(16); // => 3405691582
-     *
-     *          String("z").to_integer(36); // => 35
+     * Example:
+     * ```
+     * String("233").to_integer(); // 233
+     * String("cafebabe").to_integer(16); // 3405691582
+     * String("z").to_integer(36); // 35
+     * ```
      *
      * @param base the base of an integer (2 <= base <= 36, default 10)
      * @return an integer number that can represent the string
@@ -1076,7 +1078,10 @@ public:
     /**
      * @brief Split string with separator.
      *
-     * Example: String("one, two, three").split(", "); // => ["one", "two", "three"]
+     * Example:
+     * ```
+     * String("one, two, three").split(", "); // ["one", "two", "three"]
+     * ```
      *
      * @param sep separator string
      * @return a list of split strings
@@ -1104,6 +1109,11 @@ public:
 
     /**
      * @brief Return a string which is the concatenation of the strings in str_list.
+     *
+     * Example:
+     * ```
+     * String(".").join({"192", "168", "0", "1"}) // "192.168.0.1"
+     * ```
      *
      * @param str_list a list of strings
      * @return a string which is the concatenation of the strings in str_list
