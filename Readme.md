@@ -75,7 +75,7 @@ Deque<int>({1, 2, 3, 4}).push_back(5); // <1, 2, 3, 4, 5>
 Deque<int>({1, 2, 3, 4, 5}) >>= 1; // <5, 1, 2, 3, 4>
 
 // 整数幂取模，非常快
-Integer("1024").pow(Integer("1024"), Integer("100")); // 76
+Integer("1024").pow("1024", "100") // 76
 // 整数求阶乘
 Integer("5").factorial().factorial(); // 668950291344912705758811805409037258675274633313802981029567135230163355...
 
@@ -95,7 +95,7 @@ Tuple<int, double, char>(1, 2.5, 'A').get<2>(); // 'A'
 Tuple<int, double, char>(1, 2.5, 'A').rest(); // (2.5, 'A')
 
 // 任意嵌套多层容器
-Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {12345678987654321, 5}}};
+Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {"12345678987654321", 5}}};
     // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
 map.size(); // 3
 map.keys(); // {"first", "second", "third"}
