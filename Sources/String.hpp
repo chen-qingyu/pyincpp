@@ -478,7 +478,7 @@ public:
      * String("inf").to_decimal(); // INFINITY
      * ```
      *
-     * @return a number that can represent the string or HUGE_VAL or NAN or (+-)INFINITY
+     * @return a number that can represent the string or `HUGE_VAL` or `NAN` or `(+-)INFINITY`.
      */
     double to_decimal() const
     {
