@@ -107,16 +107,16 @@ private:
     }
 
     // Test whether a string represents an integer.
-    static bool is_integer(const String& str)
+    static bool is_integer(const char* chars, int len)
     {
-        if (str.size() == 0 || (str.size() == 1 && (str[0] == '+' || str[0] == '-')))
+        if (len == 0 || (len == 1 && (chars[0] == '+' || chars[0] == '-')))
         {
             return false;
         }
 
-        for (int i = (str[0] == '+' || str[0] == '-'); i < str.size(); i++)
+        for (int i = (chars[0] == '+' || chars[0] == '-'); i < len; i++)
         {
-            if (str[i] < '0' || str[i] > '9')
+            if (chars[i] < '0' || chars[i] > '9')
             {
                 return false;
             }
@@ -179,33 +179,35 @@ public:
     }
 
     /**
-     * @brief Construct a new integer object based on the given string.
+     * @brief Construct a new Integer object based on the given null-terminated byte string.
      *
-     * @param str string
+     * @param chars null-terminated byte string
      */
-    Integer(const String& str)
+    Integer(const char* chars)
         : digits_()
         , sign_()
     {
-        if (!is_integer(str))
+        int len = (int)strlen(chars);
+
+        if (!is_integer(chars, len))
         {
             throw std::runtime_error("ERROR: Wrong integer literal.");
         }
 
-        if (str[0] == '-' || str[0] == '+')
+        if (chars[0] == '-' || chars[0] == '+')
         {
-            sign_ = str[0];
-            for (int i = str.size() - 1; i >= 1; i--)
+            sign_ = chars[0];
+            for (int i = len - 1; i >= 1; i--)
             {
-                digits_ += str[i] - '0';
+                digits_ += chars[i] - '0';
             }
         }
         else
         {
             sign_ = '+';
-            for (int i = str.size() - 1; i >= 0; i--)
+            for (int i = len - 1; i >= 0; i--)
             {
-                digits_ += str[i] - '0';
+                digits_ += chars[i] - '0';
             }
         }
 
@@ -218,11 +220,21 @@ public:
     }
 
     /**
-     * @brief Construct a new integer object based on the given long long int.
+     * @brief Construct a new integer object based on the given string.
      *
-     * @param integer long long int
+     * @param str string
      */
-    Integer(long long integer)
+    Integer(const String& str)
+        : Integer(str.get())
+    {
+    }
+
+    /**
+     * @brief Construct a new integer object based on the given int.
+     *
+     * @param integer int
+     */
+    Integer(int integer)
         : digits_()
         , sign_()
     {
