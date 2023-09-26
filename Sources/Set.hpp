@@ -255,17 +255,11 @@ private:
     // Pointer to the root.
     Node* root_;
 
-    // For --end(), end node is the imaginary maximum node.
+    // Virtual maximum node.
     Node* end_;
 
-    // For begin() and min() time complexity O(1).
-    Node* min_;
-
-    // For max() time complexity O(1).
-    Node* max_;
-
     // Find subtree minimum node.
-    Node* find_min(Node* pos) const
+    static Node* find_min(Node* pos)
     {
         if (pos)
         {
@@ -275,11 +269,11 @@ private:
             }
         }
 
-        return pos != nullptr ? pos : end_;
+        return pos;
     }
 
     // Find subtree maximum node.
-    Node* find_max(Node* pos) const
+    static Node* find_max(Node* pos)
     {
         if (pos)
         {
@@ -289,7 +283,7 @@ private:
             }
         }
 
-        return pos != nullptr ? pos : end_;
+        return pos;
     }
 
     // Insert node.
@@ -330,24 +324,14 @@ private:
             }
             else // element == pos->data_
             {
-                if (pos->left_ && pos->right_) // certainly not the min or max pos
+                if (pos->left_ && pos->right_)
                 {
                     Node* tmp = find_min(pos->right_);
                     pos->data_ = tmp->data_;
                     pos->link_right(remove(pos->right_, tmp->data_));
                 }
-                else // may be the min or max pos
+                else
                 {
-                    // if it is the min or max pos, mark it
-                    if (pos == min_)
-                    {
-                        min_ = end_;
-                    }
-                    if (pos == max_) // must `if`, not `else if` cuz pos may be root
-                    {
-                        max_ = end_;
-                    }
-
                     Node* tmp = pos;
                     pos = pos->left_ ? pos->left_ : pos->right_;
                     delete tmp;
@@ -407,9 +391,6 @@ public:
         : size_(0)
         , root_(nullptr)
         , end_(new Node(T()))
-        , min_(end_)
-        , max_(end_)
-
     {
     }
 
@@ -449,14 +430,10 @@ public:
         : size_(that.size_)
         , root_(that.root_)
         , end_(that.end_)
-        , min_(that.min_)
-        , max_(that.max_)
     {
         that.size_ = 0;
         that.root_ = nullptr;
         that.end_ = new Node(T());
-        that.min_ = that.end_;
-        that.max_ = that.end_;
     }
 
     /**
@@ -576,8 +553,6 @@ public:
 
             size_ = 0;
             root_ = nullptr;
-            min_ = end_;
-            max_ = end_;
 
             // level copy
             level_action(that.root_, [&](const T& e)
@@ -602,14 +577,10 @@ public:
             size_ = that.size_;
             root_ = that.root_;
             end_ = that.end_;
-            min_ = that.min_;
-            max_ = that.max_;
 
             that.size_ = 0;
             that.root_ = nullptr;
             that.end_ = new Node(T());
-            that.min_ = that.end_;
-            that.max_ = that.end_;
         }
 
         return *this;
@@ -628,7 +599,8 @@ public:
      */
     Iterator begin() const
     {
-        return Iterator(min_);
+        Node* node = find_min(root_);
+        return Iterator(node == nullptr ? end_ : node);
     }
 
     /**
@@ -718,7 +690,7 @@ public:
     {
         utility::check_empty(size_);
 
-        return min_->data_;
+        return find_min(root_)->data_;
     }
 
     /**
@@ -730,7 +702,7 @@ public:
     {
         utility::check_empty(size_);
 
-        return max_->data_;
+        return find_max(root_)->data_;
     }
 
     /*
@@ -750,26 +722,6 @@ public:
         root_ = insert(root_, element);
         end_->link_left(root_);
 
-        // update min node
-        if (min_ == end_)
-        {
-            min_ = root_;
-        }
-        else if (min_->left_)
-        {
-            min_ = min_->left_;
-        }
-
-        // update max node
-        if (max_ == end_)
-        {
-            max_ = root_;
-        }
-        else if (max_->right_)
-        {
-            max_ = max_->right_;
-        }
-
         return *this;
     }
 
@@ -785,18 +737,6 @@ public:
     {
         root_ = remove(root_, element);
         end_->link_left(root_);
-
-        // update min node
-        if (min_ == end_)
-        {
-            min_ = find_min(root_);
-        }
-
-        // update max node
-        if (max_ == end_)
-        {
-            max_ = find_max(root_);
-        }
 
         return *this;
     }
@@ -815,8 +755,6 @@ public:
             size_ = 0;
             root_ = nullptr;
             end_->link_left(root_);
-            min_ = end_;
-            max_ = end_;
         }
 
         return *this;

@@ -263,3 +263,23 @@ TEST(Set, print)
     ASSERT_EQ(oss.str(), "{1, 2, 3, 4, 5}");
     oss.str("");
 }
+
+TEST(Set, all)
+{
+    Set<int> set = {1, 5, 10, 11, 9};
+    ASSERT_EQ(set.max(), 11);
+    ASSERT_EQ(set.min(), 1);
+
+    set -= 11;
+    set -= 10;
+    ASSERT_EQ(set.max(), 9);
+
+    set -= 1;
+    set -= 5;
+    ASSERT_EQ(set.min(), 9);
+
+    set -= 9;
+    set -= 9;
+    MY_ASSERT_THROWS_MESSAGE(set.max(), std::runtime_error, "ERROR: The container is empty.");
+    MY_ASSERT_THROWS_MESSAGE(set.min(), std::runtime_error, "ERROR: The container is empty.");
+}
