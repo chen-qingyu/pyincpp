@@ -578,6 +578,7 @@ TEST(String, split)
 {
     ASSERT_EQ(String("one, two, three").split(", "), List<String>({"one", "two", "three"}));
     ASSERT_EQ(String("this is my code!").split(" "), List<String>({"this", "is", "my", "code!"}));
+    ASSERT_EQ(String("this is my code!").split(), List<String>({"this", "is", "my", "code!"}));
     ASSERT_EQ(String("this is my code!").split("this is my code!"), List<String>({""}));
     ASSERT_EQ(String(" this is my code! ").split(" "), List<String>({"", "this", "is", "my", "code!"}));
     ASSERT_EQ(String("aaa").split("a"), List<String>({"", "", ""}));

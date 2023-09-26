@@ -1085,10 +1085,10 @@ public:
      * String("one, two, three").split(", "); // ["one", "two", "three"]
      * ```
      *
-     * @param sep separator string
+     * @param sep separator string (default = " ")
      * @return a list of split strings
      */
-    List<String> split(const String& sep) const
+    List<String> split(const String& sep = " ") const
     {
         if (sep.size() == 0)
         {
