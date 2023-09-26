@@ -164,9 +164,9 @@ public:
     }
 
     /**
-     * @brief Create a string from null-terminated byte string.
+     * @brief Create a string from null-terminated characters.
      *
-     * @param chars a pointer to a null-terminated byte string
+     * @param chars a pointer to the null-terminated characters
      */
     String(const char* chars)
         : list_()
@@ -341,7 +341,7 @@ public:
     /**
      * @brief Get the copy of the contents of the string.
      *
-     * @return a pointer to a null-terminated byte string
+     * @return a pointer to null-terminated characters
      */
     char* get() const
     {
@@ -357,9 +357,9 @@ public:
     }
 
     /**
-     * @brief Set the contents of the string using null-terminated byte string.
+     * @brief Set the contents of the string using null-terminated characters.
      *
-     * @param chars a pointer to a null-terminated byte string
+     * @param chars a pointer to null-terminated characters
      */
     void set(const char* chars)
     {

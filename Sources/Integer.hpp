@@ -106,7 +106,7 @@ private:
         return *this;
     }
 
-    // Test whether a string represents an integer.
+    // Test whether the characters represent an integer.
     static bool is_integer(const char* chars, int len)
     {
         if (len == 0 || (len == 1 && (chars[0] == '+' || chars[0] == '-')))
@@ -125,7 +125,7 @@ private:
         return true;
     }
 
-    // Calculate the length of a null-terminated byte string.
+    // Calculate the length of null-terminated characters.
     static int length(const char* chars)
     {
         int len = 0;
@@ -136,7 +136,7 @@ private:
         return len;
     }
 
-    // Construct an integer with given chars and length.
+    // Construct an integer with given characters.
     void construct(const char* chars, int len)
     {
         if (!is_integer(chars, len))
@@ -213,9 +213,9 @@ public:
     }
 
     /**
-     * @brief Construct a new Integer object based on the given null-terminated byte string.
+     * @brief Construct a new Integer object based on the given null-terminated characters.
      *
-     * @param chars null-terminated byte string
+     * @param chars null-terminated characters
      */
     Integer(const char* chars)
         : digits_()
