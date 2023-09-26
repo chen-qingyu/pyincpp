@@ -26,6 +26,8 @@ namespace mdspp
  */
 class String
 {
+    friend class Integer;
+
 private:
     // List of characters.
     List<char> list_;

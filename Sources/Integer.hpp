@@ -125,6 +125,40 @@ private:
         return true;
     }
 
+    // Calculate the length of a null-terminated byte string.
+    static int length(const char* chars)
+    {
+        int len = 0;
+        while (chars[len] != '\0')
+        {
+            len++;
+        }
+        return len;
+    }
+
+    // Construct an integer with given chars and length.
+    void construct(const char* chars, int len)
+    {
+        if (!is_integer(chars, len))
+        {
+            throw std::runtime_error("ERROR: Wrong integer literal.");
+        }
+
+        int s = (chars[0] == '-' || chars[0] == '+');
+        sign_ = s ? chars[0] : '+';
+        for (int i = len - 1; i >= s; i--)
+        {
+            digits_ += chars[i] - '0';
+        }
+
+        remove_leading_zeros();
+
+        if (digits_.size_ == 1 && digits_[0] == 0)
+        {
+            sign_ = '0';
+        }
+    }
+
     // Increment the absolute value by 1 quickly.
     void abs_inc()
     {
@@ -187,36 +221,7 @@ public:
         : digits_()
         , sign_()
     {
-        int len = (int)strlen(chars);
-
-        if (!is_integer(chars, len))
-        {
-            throw std::runtime_error("ERROR: Wrong integer literal.");
-        }
-
-        if (chars[0] == '-' || chars[0] == '+')
-        {
-            sign_ = chars[0];
-            for (int i = len - 1; i >= 1; i--)
-            {
-                digits_ += chars[i] - '0';
-            }
-        }
-        else
-        {
-            sign_ = '+';
-            for (int i = len - 1; i >= 0; i--)
-            {
-                digits_ += chars[i] - '0';
-            }
-        }
-
-        remove_leading_zeros();
-
-        if (digits_.size_ == 1 && digits_[0] == 0)
-        {
-            sign_ = '0';
-        }
+        construct(chars, length(chars));
     }
 
     /**
@@ -225,8 +230,10 @@ public:
      * @param str string
      */
     Integer(const String& str)
-        : Integer(str.get())
+        : digits_()
+        , sign_()
     {
+        construct(str.list_.data_, str.list_.size_);
     }
 
     /**
