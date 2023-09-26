@@ -291,14 +291,14 @@ TEST(Integer, divide)
     MY_ASSERT_THROWS_MESSAGE(Integer("18446744073709551616") / Integer("0"), std::runtime_error, "ERROR: Divide by zero.");
 
     // pos / neg
-    ASSERT_EQ(Integer("18446744073709551616") / Integer("-18446744073709551616"), ("-1"));
-    ASSERT_EQ(Integer("36893488147419103232") / Integer("-2"), ("-18446744073709551616"));
-    ASSERT_EQ(Integer("2") / Integer("-36893488147419103232"), ("0"));
+    ASSERT_EQ(Integer("18446744073709551616") / Integer("-18446744073709551616"), "-1");
+    ASSERT_EQ(Integer("36893488147419103232") / Integer("-2"), "-18446744073709551616");
+    ASSERT_EQ(Integer("2") / Integer("-36893488147419103232"), "0");
 
     // neg / pos
-    ASSERT_EQ(Integer("-18446744073709551616") / Integer("18446744073709551616"), ("-1"));
-    ASSERT_EQ(Integer("-36893488147419103232") / Integer("2"), ("-18446744073709551616"));
-    ASSERT_EQ(Integer("-2") / Integer("36893488147419103232"), ("0"));
+    ASSERT_EQ(Integer("-18446744073709551616") / Integer("18446744073709551616"), "-1");
+    ASSERT_EQ(Integer("-36893488147419103232") / Integer("2"), "-18446744073709551616");
+    ASSERT_EQ(Integer("-2") / Integer("36893488147419103232"), "0");
 
     // neg / zero
     MY_ASSERT_THROWS_MESSAGE(Integer("-18446744073709551616") / Integer("0"), std::runtime_error, "ERROR: Divide by zero.");
