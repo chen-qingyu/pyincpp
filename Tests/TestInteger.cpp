@@ -16,18 +16,22 @@ TEST(Integer, basics)
     // Integer()
     Integer int1;
 
-    // Integer(const char* chars), Integer(const String& str)
+    // Integer(const char* chars)
     Integer int2("123456789000");
     MY_ASSERT_THROWS_MESSAGE(Integer("hello"), std::runtime_error, "ERROR: Wrong integer literal.");
 
+    // Integer(const String& str)
+    Integer int3(String("123456789000"));
+    MY_ASSERT_THROWS_MESSAGE(Integer(String("hello")), std::runtime_error, "ERROR: Wrong integer literal.");
+
     // Integer(int integer)
-    Integer int3 = 123456789;
+    Integer int4 = 123456789;
 
     // Integer(const Integer &that)
-    Integer int4(int3);
+    Integer int5(int4);
 
     // Integer(Integer &&that)
-    Integer int5(std::move(int4));
+    Integer int6(std::move(int5));
 
     // ~Integer()
 }
