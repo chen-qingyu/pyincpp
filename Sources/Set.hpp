@@ -259,7 +259,7 @@ private:
     Node* end_;
 
     // Find subtree minimum node.
-    static Node* find_min(Node* pos)
+    Node* find_min(Node* pos) const
     {
         if (pos)
         {
@@ -269,11 +269,11 @@ private:
             }
         }
 
-        return pos;
+        return pos == nullptr ? end_ : pos;
     }
 
     // Find subtree maximum node.
-    static Node* find_max(Node* pos)
+    Node* find_max(Node* pos) const
     {
         if (pos)
         {
@@ -283,7 +283,7 @@ private:
             }
         }
 
-        return pos;
+        return pos == nullptr ? end_ : pos;
     }
 
     // Insert node.
@@ -599,8 +599,7 @@ public:
      */
     Iterator begin() const
     {
-        Node* node = find_min(root_);
-        return Iterator(node == nullptr ? end_ : node);
+        return Iterator(find_min(root_));
     }
 
     /**

@@ -457,8 +457,7 @@ public:
      */
     Iterator begin() const
     {
-        auto node = set_.find_min(set_.root_);
-        return Iterator(node == nullptr ? set_.end_ : node);
+        return Iterator(set_.find_min(set_.root_));
     }
 
     /**
