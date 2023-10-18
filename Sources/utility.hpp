@@ -11,7 +11,7 @@ static inline void check_bounds(int pos, int begin, int end)
 {
     if (pos < begin || pos >= end)
     {
-        throw std::runtime_error("ERROR: Index out of range.");
+        throw std::runtime_error("Error: Index out of range.");
     }
 }
 
@@ -20,7 +20,7 @@ static inline void check_empty(int size)
 {
     if (size == 0)
     {
-        throw std::runtime_error("ERROR: The container is empty.");
+        throw std::runtime_error("Error: The container is empty.");
     }
 }
 
@@ -29,7 +29,7 @@ static inline void check_full(int size, int capacity)
 {
     if (size >= capacity)
     {
-        throw std::runtime_error("ERROR: The container has reached the maximum size.");
+        throw std::runtime_error("Error: The container has reached the maximum size.");
     }
 }
 

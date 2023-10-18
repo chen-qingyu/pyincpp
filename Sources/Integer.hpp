@@ -141,7 +141,7 @@ private:
     {
         if (!is_integer(chars, len))
         {
-            throw std::runtime_error("ERROR: Wrong integer literal.");
+            throw std::runtime_error("Error: Wrong integer literal.");
         }
 
         int s = (chars[0] == '-' || chars[0] == '+');
@@ -793,7 +793,7 @@ public:
         // if rhs is zero, throw an exception
         if (rhs.sign_ == '0')
         {
-            throw std::runtime_error("ERROR: Divide by zero.");
+            throw std::runtime_error("Error: Divide by zero.");
         }
 
         // if this is zero, just return zero
@@ -889,7 +889,7 @@ public:
     {
         if (sign_ == '-')
         {
-            throw std::runtime_error("ERROR: Negative integer have no factorial.");
+            throw std::runtime_error("Error: Negative integer have no factorial.");
         }
 
         Integer result = 1;                           // 0! == 1
@@ -909,7 +909,7 @@ public:
     {
         if (sign_ == '-')
         {
-            throw std::runtime_error("ERROR: Cannot compute square root of a negative integer.");
+            throw std::runtime_error("Error: Cannot compute square root of a negative integer.");
         }
 
         if (is_zero())

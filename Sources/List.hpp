@@ -886,17 +886,17 @@ public:
     {
         if (new_capacity == 0)
         {
-            throw std::runtime_error("ERROR: Capacity can not be zero.");
+            throw std::runtime_error("Error: Capacity can not be zero.");
         }
 
         if (new_capacity < size_)
         {
-            throw std::runtime_error("ERROR: Capacity can not be smaller than the size.");
+            throw std::runtime_error("Error: Capacity can not be smaller than the size.");
         }
 
         if (new_capacity > MAX_CAPACITY)
         {
-            throw std::runtime_error("ERROR: Capacity can not be larger than the maximum capacity.");
+            throw std::runtime_error("Error: Capacity can not be larger than the maximum capacity.");
         }
 
         capacity_ = new_capacity;
@@ -1032,7 +1032,7 @@ public:
         // check
         if (step == 0)
         {
-            throw std::runtime_error("ERROR: Slice step can not be zero.");
+            throw std::runtime_error("Error: Slice step can not be zero.");
         }
 
         utility::check_bounds(start, -size_, size_);
@@ -1098,7 +1098,7 @@ public:
     {
         if (times < 0)
         {
-            throw std::runtime_error("ERROR: Times to repeat can not be less than zero.");
+            throw std::runtime_error("Error: Times to repeat can not be less than zero.");
         }
 
         List buffer;

@@ -12,11 +12,11 @@ TEST(Integer, basics)
 
     // Integer(const char* chars)
     Integer int2("123456789000");
-    MY_ASSERT_THROWS_MESSAGE(Integer("hello"), std::runtime_error, "ERROR: Wrong integer literal.");
+    MY_ASSERT_THROW_MESSAGE(Integer("hello"), std::runtime_error, "Error: Wrong integer literal.");
 
     // Integer(const String& str)
     Integer int3(String("123456789000"));
-    MY_ASSERT_THROWS_MESSAGE(Integer(String("hello")), std::runtime_error, "ERROR: Wrong integer literal.");
+    MY_ASSERT_THROW_MESSAGE(Integer(String("hello")), std::runtime_error, "Error: Wrong integer literal.");
 
     // Integer(int integer)
     Integer int4 = 123456789;
@@ -286,7 +286,7 @@ TEST(Integer, divide)
     ASSERT_EQ(Integer("2") / Integer("36893488147419103232"), "0");
 
     // pos / zero
-    MY_ASSERT_THROWS_MESSAGE(Integer("18446744073709551616") / Integer("0"), std::runtime_error, "ERROR: Divide by zero.");
+    MY_ASSERT_THROW_MESSAGE(Integer("18446744073709551616") / Integer("0"), std::runtime_error, "Error: Divide by zero.");
 
     // pos / neg
     ASSERT_EQ(Integer("18446744073709551616") / Integer("-18446744073709551616"), "-1");
@@ -299,7 +299,7 @@ TEST(Integer, divide)
     ASSERT_EQ(Integer("-2") / Integer("36893488147419103232"), "0");
 
     // neg / zero
-    MY_ASSERT_THROWS_MESSAGE(Integer("-18446744073709551616") / Integer("0"), std::runtime_error, "ERROR: Divide by zero.");
+    MY_ASSERT_THROW_MESSAGE(Integer("-18446744073709551616") / Integer("0"), std::runtime_error, "Error: Divide by zero.");
 
     // neg / neg
     ASSERT_EQ(Integer("-18446744073709551616") / Integer("-18446744073709551616"), "1");
@@ -310,7 +310,7 @@ TEST(Integer, divide)
     ASSERT_EQ(Integer("0") / Integer("18446744073709551616"), "0");
 
     // zero / zero
-    MY_ASSERT_THROWS_MESSAGE(Integer("0") / Integer("0"), std::runtime_error, "ERROR: Divide by zero.");
+    MY_ASSERT_THROW_MESSAGE(Integer("0") / Integer("0"), std::runtime_error, "Error: Divide by zero.");
 
     // zero / neg
     ASSERT_EQ(Integer("0") / Integer("-18446744073709551616"), "0");
@@ -325,7 +325,7 @@ TEST(Integer, mod)
     ASSERT_EQ(Integer("2") % Integer("36893488147419103232"), "2");
 
     // pos % zero
-    MY_ASSERT_THROWS_MESSAGE(Integer("18446744073709551616") % Integer("0"), std::runtime_error, "ERROR: Divide by zero.");
+    MY_ASSERT_THROW_MESSAGE(Integer("18446744073709551616") % Integer("0"), std::runtime_error, "Error: Divide by zero.");
 
     // pos % neg
     ASSERT_EQ(Integer("18446744073709551616") % Integer("-18446744073709551616"), "0");
@@ -338,7 +338,7 @@ TEST(Integer, mod)
     ASSERT_EQ(Integer("-2") % Integer("36893488147419103232"), "-2");
 
     // neg % zero
-    MY_ASSERT_THROWS_MESSAGE(Integer("-18446744073709551616") % Integer("0"), std::runtime_error, "ERROR: Divide by zero.");
+    MY_ASSERT_THROW_MESSAGE(Integer("-18446744073709551616") % Integer("0"), std::runtime_error, "Error: Divide by zero.");
 
     // neg % neg
     ASSERT_EQ(Integer("-18446744073709551616") % Integer("-18446744073709551616"), "0");
@@ -349,7 +349,7 @@ TEST(Integer, mod)
     ASSERT_EQ(Integer("0") % Integer("18446744073709551616"), "0");
 
     // zero % zero
-    MY_ASSERT_THROWS_MESSAGE(Integer("0") % Integer("0"), std::runtime_error, "ERROR: Divide by zero.");
+    MY_ASSERT_THROW_MESSAGE(Integer("0") % Integer("0"), std::runtime_error, "Error: Divide by zero.");
 
     // zero % neg
     ASSERT_EQ(Integer("0") % Integer("-18446744073709551616"), "0");
@@ -390,7 +390,7 @@ TEST(Integer, pow)
 TEST(Integer, factorial)
 {
     // (negative)! throws exception
-    MY_ASSERT_THROWS_MESSAGE(Integer("-1").factorial(), std::runtime_error, "ERROR: Negative integer have no factorial.");
+    MY_ASSERT_THROW_MESSAGE(Integer("-1").factorial(), std::runtime_error, "Error: Negative integer have no factorial.");
 
     // 0! == 1
     ASSERT_EQ(Integer("0").factorial(), "1");
@@ -430,7 +430,7 @@ TEST(Integer, gcd_lcm)
 // sqrt()
 TEST(Integer, sqrt)
 {
-    MY_ASSERT_THROWS_MESSAGE(Integer("-1").sqrt(), std::runtime_error, "ERROR: Cannot compute square root of a negative integer.");
+    MY_ASSERT_THROW_MESSAGE(Integer("-1").sqrt(), std::runtime_error, "Error: Cannot compute square root of a negative integer.");
 
     ASSERT_EQ(Integer("0").sqrt(), "0");
     ASSERT_EQ(Integer("1").sqrt(), "1");

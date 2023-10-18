@@ -593,7 +593,7 @@ public:
         }
         if (st != S_INT_PART && st != S_DEC_POINT_HAS_LEFT && st != S_DEC_PART && st != S_EXP_PART && st != S_END_BLANK)
         {
-            throw std::runtime_error("ERROR: Invalid literal for to_decimal().");
+            throw std::runtime_error("Error: Invalid literal for to_decimal().");
         }
 
         return sign * ((decimal_part / std::pow(10, decimal_cnt)) * std::pow(10, exp_sign * exp_part));
@@ -619,7 +619,7 @@ public:
         // check base
         if (base < 2 || base > 36)
         {
-            throw std::runtime_error("ERROR: Invalid base for to_integer().");
+            throw std::runtime_error("Error: Invalid base for to_integer().");
         }
 
         long long sign = 1; // default '+'
@@ -661,7 +661,7 @@ public:
         }
         if (st != S_INT_PART && st != S_END_BLANK)
         {
-            throw std::runtime_error("ERROR: Invalid literal for to_integer().");
+            throw std::runtime_error("Error: Invalid literal for to_integer().");
         }
 
         return sign * integer_part;
@@ -1092,7 +1092,7 @@ public:
     {
         if (sep.size() == 0)
         {
-            throw std::runtime_error("ERROR: Empty separator.");
+            throw std::runtime_error("Error: Empty separator.");
         }
 
         List<String> str_list;

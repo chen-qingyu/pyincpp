@@ -244,7 +244,7 @@ private:
         auto it = set_.find(Pair(key, V()));
         if (it == set_.end())
         {
-            throw std::runtime_error("ERROR: Key is not found in the map.");
+            throw std::runtime_error("Error: Key is not found in the map.");
         }
 
         return it.current_->data_.value_;

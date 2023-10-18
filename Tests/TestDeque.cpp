@@ -95,9 +95,9 @@ TEST(Deque, peek)
 {
     Deque<int> empty;
 
-    MY_ASSERT_THROWS_MESSAGE(empty.back(), std::runtime_error, "ERROR: The container is empty.");
+    MY_ASSERT_THROW_MESSAGE(empty.back(), std::runtime_error, "Error: The container is empty.");
 
-    MY_ASSERT_THROWS_MESSAGE(empty.front(), std::runtime_error, "ERROR: The container is empty.");
+    MY_ASSERT_THROW_MESSAGE(empty.front(), std::runtime_error, "Error: The container is empty.");
 
     Deque<int> deque = {1, 2, 3, 4, 5};
 
@@ -113,9 +113,9 @@ TEST(Deque, push_pop)
 {
     Deque<int> empty;
 
-    MY_ASSERT_THROWS_MESSAGE(empty.pop_back(), std::runtime_error, "ERROR: The container is empty.");
+    MY_ASSERT_THROW_MESSAGE(empty.pop_back(), std::runtime_error, "Error: The container is empty.");
 
-    MY_ASSERT_THROWS_MESSAGE(empty.pop_front(), std::runtime_error, "ERROR: The container is empty.");
+    MY_ASSERT_THROW_MESSAGE(empty.pop_front(), std::runtime_error, "Error: The container is empty.");
 
     Deque<int> deque;
     const int size = 99;

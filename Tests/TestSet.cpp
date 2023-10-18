@@ -274,6 +274,6 @@ TEST(Set, all)
 
     set -= 9;
     set -= 9;
-    MY_ASSERT_THROWS_MESSAGE(set.max(), std::runtime_error, "ERROR: The container is empty.");
-    MY_ASSERT_THROWS_MESSAGE(set.min(), std::runtime_error, "ERROR: The container is empty.");
+    MY_ASSERT_THROW_MESSAGE(set.max(), std::runtime_error, "Error: The container is empty.");
+    MY_ASSERT_THROW_MESSAGE(set.min(), std::runtime_error, "Error: The container is empty.");
 }

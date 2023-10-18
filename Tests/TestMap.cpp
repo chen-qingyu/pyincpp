@@ -104,7 +104,7 @@ TEST(Map, access)
     ASSERT_EQ(map["one"], 1111);
 
     // check key
-    MY_ASSERT_THROWS_MESSAGE(map["four"], std::runtime_error, "ERROR: Key is not found in the map.");
+    MY_ASSERT_THROW_MESSAGE(map["four"], std::runtime_error, "Error: Key is not found in the map.");
 }
 
 // begin() end()
