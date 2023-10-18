@@ -1,13 +1,6 @@
-// Tested on Microsoft Visual Studio Community 2019: ALL PASSED
-
-#include <gtest/gtest.h>
-
-#include <sstream> // std::ostringstream
-#include <string>  // std::string std::to_string
-
 #include "../Sources/List.hpp"
 
-#include "my_tools.hpp"
+#include "tool.hpp"
 
 using namespace mdspp;
 

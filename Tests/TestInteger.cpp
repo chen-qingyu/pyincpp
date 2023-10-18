@@ -1,12 +1,6 @@
-// Tested on Microsoft Visual Studio Community 2019: ALL PASSED
-
-#include <gtest/gtest.h>
-
-#include <sstream> // std::ostringstream std::istringstream
-
 #include "../Sources/Integer.hpp"
 
-#include "my_tools.hpp"
+#include "tool.hpp"
 
 using namespace mdspp;
 
