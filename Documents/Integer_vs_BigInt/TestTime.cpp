@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include "../../Sources/Integer.hpp" // MDS
+#include "../../Sources/Integer.hpp" // mds::Integer
 #include "BigInt.hpp"                // https://github.com/faheel/BigInt
 
 using namespace mds;
