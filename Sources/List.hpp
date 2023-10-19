@@ -20,7 +20,7 @@
 #include "Deque.hpp"
 #include "Set.hpp"
 
-namespace mdspp
+namespace mds
 {
 
 template <typename T>
@@ -1214,6 +1214,6 @@ List<T> operator*(int times, const List<T>& list)
     return list * times;
 }
 
-} // namespace mdspp
+} // namespace mds
 
 #endif // LIST_HPP

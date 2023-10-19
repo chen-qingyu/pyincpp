@@ -18,7 +18,7 @@
 #include <cmath>   // std::pow INFINITY NAN
 #include <istream> // std::istream
 
-namespace mdspp
+namespace mds
 {
 
 /**
@@ -1224,6 +1224,6 @@ inline String operator*(int times, const String& string)
     return string * times;
 }
 
-} // namespace mdspp
+} // namespace mds
 
 #endif // STRING_HPP

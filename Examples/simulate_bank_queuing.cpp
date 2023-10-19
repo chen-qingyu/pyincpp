@@ -27,7 +27,7 @@ std::ostream& operator<<(std::ostream& os, const Customer& c)
 }
 
 // 为新到顾客确定最佳队列
-int best_window(mdspp::Deque<Customer> windows[], int win_num)
+int best_window(mds::Deque<Customer> windows[], int win_num)
 {
     int min_size = windows[0].size(), opt_win = 0;
     for (int i = 1; i < win_num; i++) // 在所有窗口中
@@ -44,7 +44,7 @@ int best_window(mdspp::Deque<Customer> windows[], int win_num)
 // 按指定窗口数、服务总时间模拟银行业务
 void simulate_bank_queuing(int win_num, int serv_time)
 {
-    mdspp::Deque<Customer>* windows = new mdspp::Deque<Customer>[win_num]; // 为每一窗口创建一个队列
+    mds::Deque<Customer>* windows = new mds::Deque<Customer>[win_num]; // 为每一窗口创建一个队列
 
     std::srand((unsigned int)std::time(nullptr));
     for (int now = 1; now <= serv_time; now++) // 每隔一个单位时间

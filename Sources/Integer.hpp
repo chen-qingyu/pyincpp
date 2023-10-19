@@ -16,7 +16,7 @@
 #include "List.hpp"
 #include "String.hpp"
 
-namespace mdspp
+namespace mds
 {
 
 /**
@@ -1042,6 +1042,6 @@ inline std::istream& operator>>(std::istream& is, Integer& integer)
     return is;
 }
 
-} // namespace mdspp
+} // namespace mds
 
 #endif // INTEGER_HPP

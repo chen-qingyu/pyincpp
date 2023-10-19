@@ -1,79 +1,75 @@
-// Roughly compare the speed of two integer classes: mdspp::Integer vs BigInt
-// Tested on Microsoft Visual Studio Community 2019: ALL PASSED
+// Roughly compare the speed of two integer classes: mds::Integer vs BigInt
 
-#include "pch.h" // GoogleTest pre-compiled header
+#include <gtest/gtest.h>
 
-#include "../Sources/Integer.hpp" // MDSPP
+#include "../../Sources/Integer.hpp" // MDS
+#include "BigInt.hpp"                // https://github.com/faheel/BigInt
 
-#define or ||         // for BigInt.hpp
-#define and &&        // for BigInt.hpp
-#include "BigInt.hpp" // https://github.com/faheel/BigInt
-
-using namespace mdspp; // mdspp::*
+using namespace mds;
 
 #define LOOP 100
 
-TEST(Integer, time_bigint_add)
+TEST(Speed, bigint_add)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(BigInt("18446744073709551616") + BigInt("18446744073709551616"), BigInt("36893488147419103232"));
 }
 
-TEST(Integer, time_mdspp_add)
+TEST(Speed, mds_add)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(Integer("18446744073709551616") + Integer("18446744073709551616"), Integer("36893488147419103232"));
 }
 
-TEST(Integer, time_bigint_sub)
+TEST(Speed, bigint_sub)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(BigInt("36893488147419103232") - BigInt("18446744073709551616"), BigInt("18446744073709551616"));
 }
 
-TEST(Integer, time_mdspp_sub)
+TEST(Speed, mds_sub)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(Integer("36893488147419103232") - Integer("18446744073709551616"), Integer("18446744073709551616"));
 }
 
-TEST(Integer, time_bigint_mul)
+TEST(Speed, bigint_mul)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(BigInt("18446744073709551616") * BigInt("2"), BigInt("36893488147419103232"));
 }
 
-TEST(Integer, time_mdspp_mul)
+TEST(Speed, mds_mul)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(Integer("18446744073709551616") * Integer("2"), Integer("36893488147419103232"));
 }
 
-TEST(Integer, time_bigint_div)
+TEST(Speed, bigint_div)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(BigInt("36893488147419103232") / BigInt("2"), BigInt("18446744073709551616"));
 }
 
-TEST(Integer, time_mdspp_div)
+TEST(Speed, mds_div)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(Integer("36893488147419103232") / Integer("2"), Integer("18446744073709551616"));
 }
 
-TEST(Integer, time_bigint_mod)
+TEST(Speed, bigint_mod)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(BigInt("36893488147419103232") % BigInt("2"), BigInt("0"));
 }
 
-TEST(Integer, time_mdspp_mod)
+TEST(Speed, mds_mod)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(Integer("36893488147419103232") % Integer("2"), Integer("0"));
 }
 
-TEST(Integer, time_bigint_inc_dec)
+TEST(Speed, bigint_inc_dec)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(++BigInt("36893488147419103232"), BigInt("36893488147419103233"));
@@ -82,7 +78,7 @@ TEST(Integer, time_bigint_inc_dec)
         ASSERT_EQ(--BigInt("36893488147419103232"), BigInt("36893488147419103231"));
 }
 
-TEST(Integer, time_mdspp_inc_dec)
+TEST(Speed, mds_inc_dec)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(++Integer("36893488147419103232"), Integer("36893488147419103233"));
@@ -91,7 +87,7 @@ TEST(Integer, time_mdspp_inc_dec)
         ASSERT_EQ(--Integer("36893488147419103232"), Integer("36893488147419103231"));
 }
 
-TEST(Integer, time_bigint_compare)
+TEST(Speed, bigint_compare)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_TRUE(BigInt("36893488147419103232000") == BigInt("36893488147419103232000"));
@@ -103,7 +99,7 @@ TEST(Integer, time_bigint_compare)
         ASSERT_TRUE(BigInt("36893488147419103232") < BigInt("18446744073709551616000"));
 }
 
-TEST(Integer, time_mdspp_compare)
+TEST(Speed, mds_compare)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_TRUE(Integer("36893488147419103232000") == Integer("36893488147419103232000"));
@@ -115,7 +111,7 @@ TEST(Integer, time_mdspp_compare)
         ASSERT_TRUE(Integer("36893488147419103232") < Integer("18446744073709551616000"));
 }
 
-TEST(Integer, time_bigint_gcd_lcm)
+TEST(Speed, bigint_gcd_lcm)
 {
     for (int i = 0; i < LOOP / 2; i++)
         ASSERT_EQ(gcd(BigInt("12345678987654321"), BigInt("98765432123456789")), BigInt("1"));
@@ -124,7 +120,7 @@ TEST(Integer, time_bigint_gcd_lcm)
         ASSERT_EQ(lcm(BigInt("12345678987654321"), BigInt("98765432123456789")), BigInt("1219326320073159566072245112635269"));
 }
 
-TEST(Integer, time_mdspp_gcd_lcm)
+TEST(Speed, mds_gcd_lcm)
 {
     for (int i = 0; i < LOOP / 2; i++)
         ASSERT_EQ(gcd(Integer("12345678987654321"), Integer("98765432123456789")), Integer("1"));
@@ -133,71 +129,71 @@ TEST(Integer, time_mdspp_gcd_lcm)
         ASSERT_EQ(lcm(Integer("12345678987654321"), Integer("98765432123456789")), Integer("1219326320073159566072245112635269"));
 }
 
-TEST(Integer, time_bigint_pow)
+TEST(Speed, bigint_pow)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(pow(BigInt("2"), 100), BigInt("1267650600228229401496703205376"));
 }
 
-TEST(Integer, time_mdspp_pow)
+TEST(Speed, mds_pow)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(Integer("2").pow(Integer("100")), Integer("1267650600228229401496703205376"));
 }
 
-TEST(Integer, time_bigint_sqrt)
+TEST(Speed, bigint_sqrt)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(sqrt(BigInt("9801")), BigInt("99"));
 }
 
-TEST(Integer, time_mdspp_sqrt)
+TEST(Speed, mds_sqrt)
 {
     for (int i = 0; i < LOOP; i++)
         ASSERT_EQ(Integer("9801").sqrt(), Integer("99"));
 }
 
 /*
-Run results:
+Run results (update 2023.10.19):
 
-[ RUN      ] Integer.time_bigint_add
-[       OK ] Integer.time_bigint_add (5 ms)
-[ RUN      ] Integer.time_mdspp_add
-[       OK ] Integer.time_mdspp_add (1 ms)
-[ RUN      ] Integer.time_bigint_sub
-[       OK ] Integer.time_bigint_sub (5 ms)
-[ RUN      ] Integer.time_mdspp_sub
-[       OK ] Integer.time_mdspp_sub (1 ms)
-[ RUN      ] Integer.time_bigint_mul
-[       OK ] Integer.time_bigint_mul (52 ms)
-[ RUN      ] Integer.time_mdspp_mul
-[       OK ] Integer.time_mdspp_mul (1 ms)
-[ RUN      ] Integer.time_bigint_div
-[       OK ] Integer.time_bigint_div (162 ms)
-[ RUN      ] Integer.time_mdspp_div
-[       OK ] Integer.time_mdspp_div (28 ms)
-[ RUN      ] Integer.time_bigint_mod
-[       OK ] Integer.time_bigint_mod (195 ms)
-[ RUN      ] Integer.time_mdspp_mod
-[       OK ] Integer.time_mdspp_mod (29 ms)
-[ RUN      ] Integer.time_bigint_inc_dec
-[       OK ] Integer.time_bigint_inc_dec (9 ms)
-[ RUN      ] Integer.time_mdspp_inc_dec
-[       OK ] Integer.time_mdspp_inc_dec (2 ms)
-[ RUN      ] Integer.time_bigint_compare
-[       OK ] Integer.time_bigint_compare (2 ms)
-[ RUN      ] Integer.time_mdspp_compare
-[       OK ] Integer.time_mdspp_compare (2 ms)
-[ RUN      ] Integer.time_bigint_gcd_lcm
-[       OK ] Integer.time_bigint_gcd_lcm (25 ms)
-[ RUN      ] Integer.time_mdspp_gcd_lcm
-[       OK ] Integer.time_mdspp_gcd_lcm (58 ms)
-[ RUN      ] Integer.time_bigint_pow
-[       OK ] Integer.time_bigint_pow (105 ms)
-[ RUN      ] Integer.time_mdspp_pow
-[       OK ] Integer.time_mdspp_pow (13 ms)
-[ RUN      ] Integer.time_bigint_sqrt
-[       OK ] Integer.time_bigint_sqrt (32 ms)
-[ RUN      ] Integer.time_mdspp_sqrt
-[       OK ] Integer.time_mdspp_sqrt (41 ms)
+[ RUN      ] Speed.bigint_add
+[       OK ] Speed.bigint_add (2 ms)
+[ RUN      ] Speed.mds_add
+[       OK ] Speed.mds_add (0 ms)
+[ RUN      ] Speed.bigint_sub
+[       OK ] Speed.bigint_sub (3 ms)
+[ RUN      ] Speed.mds_sub
+[       OK ] Speed.mds_sub (0 ms)
+[ RUN      ] Speed.bigint_mul
+[       OK ] Speed.bigint_mul (35 ms)
+[ RUN      ] Speed.mds_mul
+[       OK ] Speed.mds_mul (0 ms)
+[ RUN      ] Speed.bigint_div
+[       OK ] Speed.bigint_div (108 ms)
+[ RUN      ] Speed.mds_div
+[       OK ] Speed.mds_div (15 ms)
+[ RUN      ] Speed.bigint_mod
+[       OK ] Speed.bigint_mod (139 ms)
+[ RUN      ] Speed.mds_mod
+[       OK ] Speed.mds_mod (15 ms)
+[ RUN      ] Speed.bigint_inc_dec
+[       OK ] Speed.bigint_inc_dec (7 ms)
+[ RUN      ] Speed.mds_inc_dec
+[       OK ] Speed.mds_inc_dec (0 ms)
+[ RUN      ] Speed.bigint_compare
+[       OK ] Speed.bigint_compare (1 ms)
+[ RUN      ] Speed.mds_compare
+[       OK ] Speed.mds_compare (0 ms)
+[ RUN      ] Speed.bigint_gcd_lcm
+[       OK ] Speed.bigint_gcd_lcm (16 ms)
+[ RUN      ] Speed.mds_gcd_lcm
+[       OK ] Speed.mds_gcd_lcm (30 ms)
+[ RUN      ] Speed.bigint_pow
+[       OK ] Speed.bigint_pow (80 ms)
+[ RUN      ] Speed.mds_pow
+[       OK ] Speed.mds_pow (7 ms)
+[ RUN      ] Speed.bigint_sqrt
+[       OK ] Speed.bigint_sqrt (26 ms)
+[ RUN      ] Speed.mds_sqrt
+[       OK ] Speed.mds_sqrt (23 ms)
 */

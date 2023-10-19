@@ -32,3 +32,14 @@ gtest_discover_tests(Tests)
 
 file(GLOB_RECURSE examples "Examples/*.cpp")
 add_executable(Examples ${examples})
+
+
+file(GLOB_RECURSE documents "Documents/*.cpp")
+add_executable(Documents ${documents})
+
+target_link_libraries(
+  Documents
+  GTest::gtest_main
+)
+
+gtest_discover_tests(Documents)

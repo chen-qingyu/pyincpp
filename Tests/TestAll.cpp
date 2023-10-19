@@ -1,8 +1,8 @@
-#include "../Sources/mdspp.hpp"
+#include "../Sources/mds.hpp"
 
 #include "tool.hpp"
 
-using namespace mdspp;
+using namespace mds;
 
 TEST(All, demo)
 {

@@ -24,11 +24,11 @@ _——像 Python 的内置类型一样优雅的 C++ 库_
 
 因为用的是 C++ 模板，所以全部以头文件的形式（.hpp）给出。
 
-使用非常方便：直接拷贝整个 Sources 目录到工程目录下然后直接`#include "mdspp.hpp"`就可以了。
+使用非常方便：直接拷贝整个 Sources 目录到工程目录下然后直接`#include "mds.hpp"`就可以了。
 
 一共七个类，对标 Python 里面的七个常用的类：
 
-| Type in MDSPP  | Type in Python      |
+| Type in MDS    | Type in Python      |
 | -------------- | ------------------- |
 | `List<T>`      | `list`              |
 | `Set<T>`       | `set`               |
@@ -41,7 +41,7 @@ _——像 Python 的内置类型一样优雅的 C++ 库_
 一些简单的例子：
 
 ```cpp
-using namespace mdspp;
+using namespace mds;
 
 // 字符串转浮点数，支持 inf 和 nan
 String(".1e-2").to_decimal(); // 0.1e-2
@@ -108,7 +108,7 @@ map["third"][-1].factorial(); // 120
 
 说明一下关于`inline`：为了源码简洁性，我最后决定一律采用 inline 的风格。一般不会有问题，除非对程序体积有很高的要求。刚开始我是把声明和定义分开写的，但这是模板，没法分成两个文件，所以我在一个文件里分开写，一部分函数定义前面加上 inline，但是这样最后写完了看起来非常冗长，一大堆的 template typename inline，在看了 Java 源码后考虑再三决定全部写在类里面，也就是默认 inline 的形式。inline 只是对编译器的请求而非要求，不能 inline 的函数（比如有递归的函数）编译器是不会执行 inline 的。
 
-开发完了`Integer`类后和 GitHub 上一个有三百多 star 的大整数类`BigInt`做了比较，结论是 mdspp::Integer 的性能综合来看更快，同时易用性和 BigInt 差不多，而源码行数只有 BigInt 的几乎一半，并且代码也更加整洁。对比细节：[Integer vs BigInt](./Documents/Integer_vs_BigInt/Integer_vs_BigInt.md)
+开发完了`Integer`类后和 GitHub 上一个有三百多 star 的大整数类`BigInt`做了比较，结论是 mds::Integer 的性能综合来看更快，同时易用性和 BigInt 差不多，而源码行数只有 BigInt 的几乎一半，并且代码也更加整洁。对比细节：[Integer vs BigInt](./Documents/Integer_vs_BigInt/Integer_vs_BigInt.md)
 
 我这个项目用到了 FPGA 里面的独热码思想结合有限状态机，还用到了模板元编程在编译期递归实现任意可变模板参数，听着很厉害，但是不赚钱，也没多少人真的会用，属于自娱自乐。可我创造就是快乐，创造就是意义（反正我不缺钱——饿不死）。
 

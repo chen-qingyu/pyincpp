@@ -16,7 +16,7 @@
 #include "Deque.hpp"
 #include "List.hpp"
 
-namespace mdspp
+namespace mds
 {
 
 template <typename T>
@@ -935,6 +935,6 @@ std::ostream& operator<<(std::ostream& os, const Set<T>& set)
     }
 }
 
-} // namespace mdspp
+} // namespace mds
 
 #endif // SET_HPP

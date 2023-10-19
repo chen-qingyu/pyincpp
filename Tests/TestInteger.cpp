@@ -2,7 +2,7 @@
 
 #include "tool.hpp"
 
-using namespace mdspp;
+using namespace mds;
 
 // constructor destructor
 TEST(Integer, basics)

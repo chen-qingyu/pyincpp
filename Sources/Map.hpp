@@ -15,7 +15,7 @@
 
 #include "Set.hpp"
 
-namespace mdspp
+namespace mds
 {
 
 /**
@@ -650,6 +650,6 @@ std::ostream& operator<<(std::ostream& os, const Map<K, V>& map)
     }
 }
 
-} // namespace mdspp
+} // namespace mds
 
 #endif // MAP_HPP

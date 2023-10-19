@@ -13,7 +13,7 @@
 
 #include "utility.hpp"
 
-namespace mdspp
+namespace mds
 {
 
 // Empty tuple template class.
@@ -194,6 +194,6 @@ std::ostream& operator<<(std::ostream& os, const Tuple<_...>& tuple)
     return os;
 }
 
-} // namespace mdspp
+} // namespace mds
 
 #endif // TUPLE_HPP
