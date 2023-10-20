@@ -28,6 +28,6 @@ gtest_discover_tests(Tests)
 file(GLOB_RECURSE examples "Examples/*.cpp")
 add_executable(Examples ${examples})
 
-add_executable(Integer_vs_BigInt Documents/Integer_vs_BigInt/TestTime.cpp)
+add_executable(Integer_vs_BigInt "Documents/Integer_vs_BigInt/TestTime.cpp")
 target_link_libraries(Integer_vs_BigInt GTest::gtest_main)
 gtest_discover_tests(Integer_vs_BigInt)
