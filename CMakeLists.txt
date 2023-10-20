@@ -18,28 +18,16 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 enable_testing()
+include(GoogleTest)
 
 file(GLOB_RECURSE tests "Tests/*.cpp")
 add_executable(Tests ${tests})
-
-target_link_libraries(
-  Tests
-  GTest::gtest_main
-)
-
-include(GoogleTest)
+target_link_libraries(Tests GTest::gtest_main)
 gtest_discover_tests(Tests)
 
 file(GLOB_RECURSE examples "Examples/*.cpp")
 add_executable(Examples ${examples})
 
-
-file(GLOB_RECURSE documents "Documents/*.cpp")
-add_executable(Documents ${documents})
-
-target_link_libraries(
-  Documents
-  GTest::gtest_main
-)
-
-gtest_discover_tests(Documents)
+add_executable(Integer_vs_BigInt Documents/Integer_vs_BigInt/TestTime.cpp)
+target_link_libraries(Integer_vs_BigInt GTest::gtest_main)
+gtest_discover_tests(Integer_vs_BigInt)
