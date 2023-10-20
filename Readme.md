@@ -1,4 +1,4 @@
-# My Data Structure
+# MyDataStructure
 
 _——像 Python 的内置类型一样优雅的 C++ 库_
 
@@ -6,7 +6,7 @@ _——像 Python 的内置类型一样优雅的 C++ 库_
 
 ### 1. 基本属性
 
-- 名称：My Data Structure，缩写为 MDS。
+- 名称：MyDataStructure，缩写为 MDS。
 - 语言：采用标准 C++ 语言编写，最低兼容版本：ISO C++17 。
 - 目的：学习 C++ 和项目开发。
 - 目标：实现一个像 Python 的内置类型一样优雅的 C++ 库。
