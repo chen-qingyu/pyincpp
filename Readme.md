@@ -17,8 +17,8 @@ _——像 Python 的内置类型一样优雅的 C++ 库_
 - 优雅：经过我的精心设计，用起来可以像 Python 的内置类型一样方便。
 - 风格：大部分遵循 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) ，小部分基于项目规模和源码简洁性的考虑采用自己的风格。
 - 测试：使用 [GoogleTest](https://github.com/google/googletest) 进行了测试，确保测试全部通过。
-- 安全：使用 [Dr. Memory](https://drmemory.org/) 进行了检查，确保没有安全问题（比如内存泄漏）。
-- 文档：使用 [Doxygen](https://www.doxygen.nl/) 制作了文档。
+- 安全：使用 [Dr. Memory](https://drmemory.org/) 进行了检查，确保没有安全问题。
+- 文档：使用 [Doxygen](https://www.doxygen.nl/) 生成文档。
 
 ### 2. 使用说明
 
