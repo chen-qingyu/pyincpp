@@ -21,6 +21,9 @@
 #include "String.hpp"
 #include "Tuple.hpp"
 
+#else
+#error "Require at least C++17."
+
 #endif // C++17
 
 #endif // MDS_HPP
