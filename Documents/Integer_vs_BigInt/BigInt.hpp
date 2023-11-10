@@ -22,8 +22,10 @@
 
 #include <iostream>
 
+#ifdef _MSVC_LANG
 #define or ||
 #define and &&
+#endif
 
 class BigInt
 {
