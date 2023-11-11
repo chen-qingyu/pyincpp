@@ -194,12 +194,13 @@ void print(std::ostream& os, const Tuple<Args...>& tuple)
 /**
  * @brief Output tuple data to the specified output stream.
  *
+ * @tparam Ts the type of elements in the tuple, must be printable
  * @param os an output stream
  * @param tuple the tuple to be printed to the output stream
  * @return self reference of the output stream
  */
-template <typename... _>
-std::ostream& operator<<(std::ostream& os, const Tuple<_...>& tuple)
+template <typename... Ts>
+std::ostream& operator<<(std::ostream& os, const Tuple<Ts...>& tuple)
 {
     os << "(";
     impl::print(os, tuple);
