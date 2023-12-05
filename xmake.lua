@@ -1,7 +1,9 @@
 set_languages("cxx17")
 add_requires("gtest")
-add_cxflags("/utf-8") -- for MSVC
-add_ldflags("/subsystem:console") -- for MSVC
+if is_plat("windows") then -- for MSVC
+    add_cxflags("/utf-8")
+    add_ldflags("/subsystem:console")
+end
 
 target("Tests")
     set_kind("binary")
