@@ -19,6 +19,7 @@ _——像 Python 的内置类型一样优雅的 C++ 库_
 - 测试：使用 [GoogleTest](https://github.com/google/googletest) 进行了测试，确保测试全部通过。
 - 安全：使用 [Dr. Memory](https://drmemory.org/) 进行了检查，确保没有安全问题。
 - 文档：使用 [Doxygen](https://www.doxygen.nl/) 生成文档。
+- 构建：使用 [XMake](https://xmake.io/) 进行构建。
 
 ### 2. 使用说明
 
