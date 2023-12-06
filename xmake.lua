@@ -13,8 +13,3 @@ target("Tests")
 target("Examples")
     set_kind("binary")
     add_files("Examples/*.cpp")
-
-target("Integer_vs_BigInt")
-    set_kind("binary")
-    add_files("Documents/Integer_vs_BigInt/*.cpp")
-    add_packages("gtest")
