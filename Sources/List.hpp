@@ -199,6 +199,14 @@ private:
         }
     }
 
+    // Helper function for operator[]().
+    T& access_helper(int index) const
+    {
+        utility::check_bounds(index, -size_, size_);
+
+        return index >= 0 ? data_[index] : data_[size_ + index];
+    }
+
 public:
     /**
      * @brief Initial capacity.
@@ -428,9 +436,7 @@ public:
      */
     T& operator[](int index)
     {
-        utility::check_bounds(index, -size_, size_);
-
-        return index >= 0 ? data_[index] : data_[size_ + index];
+        return access_helper(index);
     }
 
     /**
@@ -443,9 +449,7 @@ public:
      */
     const T& operator[](int index) const
     {
-        utility::check_bounds(index, -size_, size_);
-
-        return index >= 0 ? data_[index] : data_[size_ + index];
+        return access_helper(index);
     }
 
     /*
