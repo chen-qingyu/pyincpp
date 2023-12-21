@@ -23,7 +23,7 @@
 #include <ctime>
 #include <iostream>
 
-#include "../Sources/Deque.hpp"
+#include "../sources/Deque.hpp"
 
 // 顾客类
 struct Customer

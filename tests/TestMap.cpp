@@ -1,4 +1,4 @@
-#include "../Sources/Map.hpp"
+#include "../sources/Map.hpp"
 
 #include "tool.hpp"
 
