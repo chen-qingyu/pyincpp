@@ -1,3 +1,4 @@
+add_rules("mode.debug", "mode.release")
 set_languages("cxx17")
 add_requires("gtest", {configs = {main = true}})
 if is_plat("windows") then -- for MSVC
