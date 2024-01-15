@@ -324,6 +324,17 @@ public:
     }
 
     /**
+     * @brief this %= rhs
+     *
+     * @param rhs right-hand-side value
+     * @return self reference
+     */
+    Fraction& operator%=(const Fraction& rhs)
+    {
+        return *this = *this % rhs;
+    }
+
+    /**
      * @brief Increment the value by 1.
      *
      * @return this += 1
