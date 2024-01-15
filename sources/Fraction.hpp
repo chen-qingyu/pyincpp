@@ -447,12 +447,7 @@ public:
             throw std::runtime_error("Error: Zero denominator.");
         }
 
-        int a = this->numerator_;
-        int b = this->denominator_;
-        int c = rhs.numerator_;
-        int d = rhs.denominator_;
-
-        return Fraction((a * d) % (c * b), b * d);
+        return Fraction((numerator_ * rhs.denominator_) % (rhs.numerator_ * denominator_), denominator_ * rhs.denominator_);
     }
 
     /**
