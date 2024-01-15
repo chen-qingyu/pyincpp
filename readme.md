@@ -102,7 +102,7 @@ Fraction(1, 2) * Fraction(1, 2) // Fraction(1, 4)
 Fraction(3, -6).to_string() // "-1/2"
 
 // 任意嵌套多层容器
-Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {"12345678987654321", 5}}};
+Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {"12345678987654321", 5}}}
     // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
 map.size() // 3
 map.keys() // {"first", "second", "third"}
