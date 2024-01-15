@@ -29,20 +29,45 @@ _——像 Python 的内置类型一样优雅的 C++ 库_
 
 一共七个类，对标 Python 里面的七个常用的类：
 
-| Type in MDS    | Type in Python      |
-| -------------- | ------------------- |
-| `List<T>`      | `list`              |
-| `Set<T>`       | `set`               |
-| `Map<K, V>`    | `dict`              |
-| `Integer`      | `int`               |
-| `String`       | `str`               |
-| `Tuple<Ts...>` | `tuple`             |
-| `Deque<T>`     | `collections.deque` |
+| Type in MDS    | Type in Python       |
+| -------------- | -------------------- |
+| `List<T>`      | `list`               |
+| `Set<T>`       | `set`                |
+| `Map<K, V>`    | `dict`               |
+| `Integer`      | `int`                |
+| `String`       | `str`                |
+| `Tuple<Ts...>` | `tuple`              |
+| `Deque<T>`     | `collections.deque`  |
+| `Fraction`     | `fractions.Fraction` |
 
 一些简单的例子：
 
 ```cpp
 using namespace mds;
+
+// 列表索引，支持负数
+List<int>({1, 2, 3, 4, 5})[-1]; // 5
+// 列表遍历
+List<int>({1, 2, 3, 4, 5}).map([](int& x) { x *= 2; }); // [2, 4, 6, 8, 10]
+// 列表去重
+List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify(); // [1, 2, 3]
+// 列表排序，稳定排序，默认从小到大，可自定义比较器
+List<int>({1, 2, 3, 4, 5, 6, 7, 8, 9}).sort([](const int& e1, const int& e2) { return e1 > e2; }); // [9, 8, 7, 6, 5, 4, 3, 2, 1]
+
+// 集合添加元素
+Set<int>({1, 2, 3, 4}) += 5; // {1, 2, 3, 4, 5}
+// 集合求交集，交、并、差、对称差（异或）都支持
+Set<int>({1, 2, 3, 4, 5}) & Set<int>({1, 3, 5, 7, 9}); // {1, 3, 5}
+
+// 字典根据键赋值
+Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}})["one"] = 1111; // {"one": 1111, "two": 2, "three": 3}
+// 字典取值集合
+Map<int, String>({{"one", 1}, {"two", 2}, {"three", 3}}).values(); // {1, 2, 3}
+
+// 整数幂取模，非常快
+Integer("1024").pow("1024", "100") // 76
+// 整数求阶乘
+Integer("5").factorial().factorial(); // 668950291344912705758811805409037258675274633313802981029567135230163355...
 
 // 字符串转浮点数，支持 inf 和 nan
 String(".1e-2").to_decimal(); // 0.1e-2
@@ -61,39 +86,22 @@ String("one, two, three").split(", "); // ["one", "two", "three"]
 // 字符串合并
 String(".").join({"192", "168", "0", "1"}) // "192.168.0.1"
 
-// 列表索引，支持负数
-List<int>({1, 2, 3, 4, 5})[-1]; // 5
-// 列表遍历
-List<int>({1, 2, 3, 4, 5}).map([](int& x) { x *= 2; }); // [2, 4, 6, 8, 10]
-// 列表去重
-List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify(); // [1, 2, 3]
-// 列表排序，稳定排序，默认从小到大，可自定义比较器
-List<int>({1, 2, 3, 4, 5, 6, 7, 8, 9}).sort([](const int& e1, const int& e2) { return e1 > e2; }); // [9, 8, 7, 6, 5, 4, 3, 2, 1]
+// 元组索引，返回类型不同所以使用模板函数
+Tuple<int, double, char>(1, 2.5, 'A').get<2>(); // 'A'
+// 元组取剩余部分，底层是指针转换，非常快
+Tuple<int, double, char>(1, 2.5, 'A').rest(); // (2.5, 'A')
 
 // 双端队列尾部入栈，头部、尾部入栈、出栈、引用都支持
 Deque<int>({1, 2, 3, 4}).push_back(5); // <1, 2, 3, 4, 5>
 // 双端队列向右移位，很生动形象有木有！
 Deque<int>({1, 2, 3, 4, 5}) >>= 1; // <5, 1, 2, 3, 4>
 
-// 整数幂取模，非常快
-Integer("1024").pow("1024", "100") // 76
-// 整数求阶乘
-Integer("5").factorial().factorial(); // 668950291344912705758811805409037258675274633313802981029567135230163355...
-
-// 集合添加元素
-Set<int>({1, 2, 3, 4}) += 5; // {1, 2, 3, 4, 5}
-// 集合求交集，交、并、差、对称差（异或）都支持
-Set<int>({1, 2, 3, 4, 5}) & Set<int>({1, 3, 5, 7, 9}); // {1, 3, 5}
-
-// 字典根据键赋值
-Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}})["one"] = 1111; // {"one": 1111, "two": 2, "three": 3}
-// 字典取值集合
-Map<int, String>({{"one", 1}, {"two", 2}, {"three", 3}}).values(); // {1, 2, 3}
-
-// 元组索引，返回类型不同所以使用模板函数
-Tuple<int, double, char>(1, 2.5, 'A').get<2>(); // 'A'
-// 元组取剩余部分，底层是指针转换，非常快
-Tuple<int, double, char>(1, 2.5, 'A').rest(); // (2.5, 'A')
+// 分数乘法
+Fraction(1, 2) * Fraction(1, 2) // Fraction(1, 4)
+// 分数除法
+Fraction(-1, 2) / Fraction(-1, 2) // 1
+// 分数转字符串
+Fraction(3, -6).to_string() // "-1/2"
 
 // 任意嵌套多层容器
 Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {"12345678987654321", 5}}};
