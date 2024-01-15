@@ -228,6 +228,37 @@ TEST(Fraction, divide)
     ASSERT_EQ(Fraction(0) / Fraction(-1, 2), 0);
 }
 
+// operator%()
+TEST(Fraction, mod)
+{
+    // pos % pos
+    ASSERT_EQ(Fraction(1, 2) % Fraction(1, 3), Fraction(1, 6));
+
+    // pos % zero
+    MY_ASSERT_THROW_MESSAGE(Fraction(1, 2) % Fraction(0), std::runtime_error, "Error: Zero denominator.");
+
+    // pos % neg
+    ASSERT_EQ(Fraction(1, 2) % Fraction(-1, 3), Fraction(1, 6));
+
+    // neg % pos
+    ASSERT_EQ(Fraction(-1, 2) % Fraction(1, 3), Fraction(-1, 6));
+
+    // neg % zero
+    MY_ASSERT_THROW_MESSAGE(Fraction(1, 2) % Fraction(0), std::runtime_error, "Error: Zero denominator.");
+
+    // neg % neg
+    ASSERT_EQ(Fraction(-1, 2) % Fraction(-1, 2), 0);
+
+    // zero % pos
+    ASSERT_EQ(Fraction(0) % Fraction(1, 2), 0);
+
+    // zero % zero
+    MY_ASSERT_THROW_MESSAGE(Fraction(0) % Fraction(0), std::runtime_error, "Error: Zero denominator.");
+
+    // zero % neg
+    ASSERT_EQ(Fraction(0) % Fraction(-1, 2), 0);
+}
+
 // to_string()
 TEST(Fraction, to_string)
 {

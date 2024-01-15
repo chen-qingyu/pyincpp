@@ -424,6 +424,27 @@ public:
     }
 
     /**
+     * @brief Return this % rhs.
+     *
+     * @param rhs right-hand-side value (not zero)
+     * @return this % rhs
+     */
+    Fraction operator%(const Fraction& rhs) const
+    {
+        if (rhs == 0)
+        {
+            throw std::runtime_error("Error: Zero denominator.");
+        }
+
+        int a = this->numerator_;
+        int b = this->denominator_;
+        int c = rhs.numerator_;
+        int d = rhs.denominator_;
+
+        return Fraction((a * d) % (c * b), b * d);
+    }
+
+    /**
      * @brief Generate a string that represents the fraction.
      *
      * @return a string that represents the fraction
