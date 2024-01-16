@@ -184,7 +184,7 @@ void print(std::ostream& os, const Tuple<Args...>& tuple)
 {
     if constexpr (sizeof...(Args) > 0)
     {
-        os << tuple.get<0>() << (tuple.size() == 1 ? "" : ", ");
+        os << tuple.template get<0>() << (tuple.size() == 1 ? "" : ", ");
         print(os, tuple.rest());
     }
 }

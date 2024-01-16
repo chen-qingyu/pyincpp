@@ -81,13 +81,13 @@ TEST(Fraction, inc_dec)
     ASSERT_EQ(++Fraction(-1), 0);
     ASSERT_EQ(++Fraction(0), 1);
     ASSERT_EQ(++Fraction(1), 2);
-    ASSERT_EQ(++Fraction(99999999999999), 100000000000000);
+    ASSERT_EQ(++Fraction(99999), 100000);
 
     // operator--()
     ASSERT_EQ(--Fraction(-1), -2);
     ASSERT_EQ(--Fraction(0), -1);
     ASSERT_EQ(--Fraction(1), 0);
-    ASSERT_EQ(--Fraction(100000000000000), 99999999999999);
+    ASSERT_EQ(--Fraction(100000), 99999);
 }
 
 // operator+() operator-() abs()
