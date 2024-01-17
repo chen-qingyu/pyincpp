@@ -22,8 +22,8 @@
 
 #include <iostream>
 
-#include "../sources/Fraction.hpp"
 #include <Eigen/Dense>
+#include <mds/Fraction.hpp>
 
 void fraction_in_eigen()
 {
