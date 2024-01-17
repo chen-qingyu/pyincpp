@@ -107,6 +107,21 @@ Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"se
 map.size() // 3
 map.keys() // {"first", "second", "third"}
 map["third"][-1].factorial() // 120
+
+// 将Fraction与Eigen库结合显示精确的矩阵运算结果
+using Matrix = Eigen::Matrix<Fraction, 2, 2>;
+
+Matrix A;
+A << 1, 2, 3, 4;
+Matrix B = Matrix::Zero();
+Matrix C = Matrix::Ones();
+Matrix D = Matrix::Identity();
+
+((A + B) * (C + D)).inverse()
+/*
+-11/6     5/6
+  5/3    -2/3
+*/
 ```
 
 ### 3. 开发历史

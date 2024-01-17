@@ -1,10 +1,10 @@
 /**
- * @file examples_main.cpp
+ * @file fraction_in_eigen.cpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief 容器类应用例子 主函数
- * @date 2023.01.12
+ * @brief Use Fraction in Eigen to show exact representation.
+ * @date 2024.01.17
  *
- * @copyright Copyright (C) 2023
+ * @copyright Copyright (C) 2024
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,14 +20,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-void simulate_bank_queuing(int win_num, int serv_time);
-void fraction_in_eigen();
+#include <iostream>
 
-int main(void)
+#include "../sources/Fraction.hpp"
+#include <Eigen/Dense>
+
+void fraction_in_eigen()
 {
-    simulate_bank_queuing(4, 50); // 模拟4个窗口，50个时间单位
+    using Matrix = Eigen::Matrix<mds::Fraction, 2, 2>;
 
-    fraction_in_eigen();
+    Matrix A;
+    A << 1, 2, 3, 4;
+    Matrix B = Matrix::Zero();
+    Matrix C = Matrix::Ones();
+    Matrix D = Matrix::Identity();
 
-    return 0;
+    std::cout << (((A + B) * (C + D)).inverse()) << std::endl;
+    /*
+    -11/6     5/6
+      5/3    -2/3
+    */
 }
