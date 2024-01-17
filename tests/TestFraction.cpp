@@ -60,17 +60,15 @@ TEST(Fraction, move_assignment)
     ASSERT_EQ(fraction2, Fraction());
 }
 
-// operator int(), operator float(), operator double()
+// operator int() operator double()
 TEST(Fraction, examination)
 {
     Fraction fraction1(1, 2);
     ASSERT_EQ(int(fraction1), 0);
-    ASSERT_FLOAT_EQ(float(fraction1), 0.5f);
     ASSERT_DOUBLE_EQ(double(fraction1), 0.5);
 
     Fraction fraction2(2, 3);
     ASSERT_EQ(int(fraction2), 0);
-    ASSERT_FLOAT_EQ(float(fraction2), 2.0f / 3.0f);
     ASSERT_DOUBLE_EQ(double(fraction2), 2.0 / 3.0);
 }
 

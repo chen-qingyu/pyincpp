@@ -256,16 +256,6 @@ public:
     }
 
     /**
-     * @brief Convert this fraction to float type.
-     *
-     * @return a float represents the fraction
-     */
-    operator float()
-    {
-        return (float)numerator_ / denominator_;
-    }
-
-    /**
      * @brief Convert this fraction to double type.
      *
      * @return a double represents the fraction
