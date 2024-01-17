@@ -246,21 +246,11 @@ public:
      */
 
     /**
-     * @brief Convert this fraction to int type.
-     *
-     * @return a int represents the fraction
-     */
-    operator int()
-    {
-        return numerator_ / denominator_;
-    }
-
-    /**
      * @brief Convert this fraction to double type.
      *
      * @return a double represents the fraction
      */
-    operator double()
+    operator double() const
     {
         return (double)numerator_ / denominator_;
     }
@@ -432,7 +422,7 @@ public:
      */
     Fraction operator%(const Fraction& rhs) const
     {
-        if (rhs == 0)
+        if (rhs.numerator_ == 0)
         {
             throw std::runtime_error("Error: Zero denominator.");
         }

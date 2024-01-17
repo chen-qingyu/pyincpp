@@ -1,3 +1,4 @@
+set_license("GPL-3.0")
 add_rules("mode.debug", "mode.release")
 set_languages("cxx17")
 add_requires("gtest", {configs = {main = true}})
@@ -14,7 +15,6 @@ target("tests")
     add_files("tests/*.cpp")
 
 target("examples")
-    set_license("GPL-3.0")
     set_kind("binary")
     add_packages("eigen")
     add_packages("mds")

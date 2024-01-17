@@ -25,7 +25,7 @@ TEST(Fraction, basics)
 // operator==() operator!=() operator<() operator<=() operator>() operator>=()
 TEST(Fraction, compare)
 {
-    ASSERT_EQ(Fraction(0), 0);
+    ASSERT_EQ(Fraction(0), Fraction(0));
     ASSERT_EQ(Fraction(9, 6), Fraction(3, 2));
 
     ASSERT_GT(Fraction(1), Fraction(1, 2));
@@ -60,32 +60,29 @@ TEST(Fraction, move_assignment)
     ASSERT_EQ(fraction2, Fraction());
 }
 
-// operator int() operator double()
+// operator double()
 TEST(Fraction, examination)
 {
-    Fraction fraction1(1, 2);
-    ASSERT_EQ(int(fraction1), 0);
-    ASSERT_DOUBLE_EQ(double(fraction1), 0.5);
-
-    Fraction fraction2(2, 3);
-    ASSERT_EQ(int(fraction2), 0);
-    ASSERT_DOUBLE_EQ(double(fraction2), 2.0 / 3.0);
+    ASSERT_DOUBLE_EQ(double(Fraction(0, 2)), 0.0);
+    ASSERT_DOUBLE_EQ(double(Fraction(1, 2)), 0.5);
+    ASSERT_DOUBLE_EQ(double(Fraction(2, 3)), 2.0 / 3.0);
+    ASSERT_DOUBLE_EQ(double(Fraction(1, -2)), -0.5);
 }
 
 // operator++() operator--()
 TEST(Fraction, inc_dec)
 {
     // operator++()
-    ASSERT_EQ(++Fraction(-1), 0);
-    ASSERT_EQ(++Fraction(0), 1);
-    ASSERT_EQ(++Fraction(1), 2);
-    ASSERT_EQ(++Fraction(99999), 100000);
+    ASSERT_EQ(++Fraction(-1), Fraction(0));
+    ASSERT_EQ(++Fraction(0), Fraction(1));
+    ASSERT_EQ(++Fraction(1), Fraction(2));
+    ASSERT_EQ(++Fraction(99999), Fraction(100000));
 
     // operator--()
-    ASSERT_EQ(--Fraction(-1), -2);
-    ASSERT_EQ(--Fraction(0), -1);
-    ASSERT_EQ(--Fraction(1), 0);
-    ASSERT_EQ(--Fraction(100000), 99999);
+    ASSERT_EQ(--Fraction(-1), Fraction(-2));
+    ASSERT_EQ(--Fraction(0), Fraction(-1));
+    ASSERT_EQ(--Fraction(1), Fraction(0));
+    ASSERT_EQ(--Fraction(100000), Fraction(99999));
 }
 
 // operator+() operator-() abs()
@@ -106,28 +103,28 @@ TEST(Fraction, unary)
 TEST(Fraction, plus)
 {
     // pos + pos
-    ASSERT_EQ(Fraction(1, 2) + Fraction(1, 2), 1);
+    ASSERT_EQ(Fraction(1, 2) + Fraction(1, 2), Fraction(1));
 
     // pos + zero
     ASSERT_EQ(Fraction(1, 2) + Fraction(0), Fraction(1, 2));
 
     // pos + neg
-    ASSERT_EQ(Fraction(1, 2) + Fraction(1, -2), 0);
+    ASSERT_EQ(Fraction(1, 2) + Fraction(1, -2), Fraction(0));
 
     // neg + pos
-    ASSERT_EQ(Fraction(-1, 2) + Fraction(1, 2), 0);
+    ASSERT_EQ(Fraction(-1, 2) + Fraction(1, 2), Fraction(0));
 
     // neg + zero
     ASSERT_EQ(Fraction(-1, 2) + Fraction(0), Fraction(-1, 2));
 
     // neg + neg
-    ASSERT_EQ(Fraction(-1, 2) + Fraction(-1, 2), -1);
+    ASSERT_EQ(Fraction(-1, 2) + Fraction(-1, 2), Fraction(-1));
 
     // zero + pos
     ASSERT_EQ(Fraction(0) + Fraction(1, 2), Fraction(1, 2));
 
     // zero + zero
-    ASSERT_EQ(Fraction(0) + Fraction(0), 0);
+    ASSERT_EQ(Fraction(0) + Fraction(0), Fraction(0));
 
     // zero + neg
     ASSERT_EQ(Fraction(0) + Fraction(-1, 2), Fraction(-1, 2));
@@ -137,28 +134,28 @@ TEST(Fraction, plus)
 TEST(Fraction, minus)
 {
     // pos - pos
-    ASSERT_EQ(Fraction(1, 2) - Fraction(1, 2), 0);
+    ASSERT_EQ(Fraction(1, 2) - Fraction(1, 2), Fraction(0));
 
     // pos - zero
     ASSERT_EQ(Fraction(1, 2) - Fraction(0), Fraction(1, 2));
 
     // pos - neg
-    ASSERT_EQ(Fraction(1, 2) - Fraction(-1, 2), 1);
+    ASSERT_EQ(Fraction(1, 2) - Fraction(-1, 2), Fraction(1));
 
     // neg - pos
-    ASSERT_EQ(Fraction(-1, 2) - Fraction(1, 2), -1);
+    ASSERT_EQ(Fraction(-1, 2) - Fraction(1, 2), Fraction(-1));
 
     // neg - zero
     ASSERT_EQ(Fraction(-1, 2) - Fraction(0), Fraction(-1, 2));
 
     // neg - neg
-    ASSERT_EQ(Fraction(-1, 2) - Fraction(-1, 2), 0);
+    ASSERT_EQ(Fraction(-1, 2) - Fraction(-1, 2), Fraction(0));
 
     // zero - pos
     ASSERT_EQ(Fraction(0) - Fraction(1, 2), Fraction(-1, 2));
 
     // zero - zero
-    ASSERT_EQ(Fraction(0) - Fraction(0), 0);
+    ASSERT_EQ(Fraction(0) - Fraction(0), Fraction(0));
 
     // zero - neg
     ASSERT_EQ(Fraction(0) - Fraction(-1, 2), Fraction(1, 2));
@@ -171,7 +168,7 @@ TEST(Fraction, times)
     ASSERT_EQ(Fraction(1, 2) * Fraction(1, 2), Fraction(1, 4));
 
     // pos * zero
-    ASSERT_EQ(Fraction(1, 2) * Fraction(0), 0);
+    ASSERT_EQ(Fraction(1, 2) * Fraction(0), Fraction(0));
 
     // pos * neg
     ASSERT_EQ(Fraction(1, 2) * Fraction(-1), Fraction(-1, 2));
@@ -180,50 +177,50 @@ TEST(Fraction, times)
     ASSERT_EQ(Fraction(-1, 2) * Fraction(1), Fraction(-1, 2));
 
     // neg * zero
-    ASSERT_EQ(Fraction(-1, 2) * Fraction(0), 0);
+    ASSERT_EQ(Fraction(-1, 2) * Fraction(0), Fraction(0));
 
     // neg * neg
     ASSERT_EQ(Fraction(-1, 2) * Fraction(-1), Fraction(1, 2));
 
     // zero * pos
-    ASSERT_EQ(Fraction(0) * Fraction(1, 2), 0);
+    ASSERT_EQ(Fraction(0) * Fraction(1, 2), Fraction(0));
 
     // zero * zero
-    ASSERT_EQ(Fraction(0) * Fraction(0), 0);
+    ASSERT_EQ(Fraction(0) * Fraction(0), Fraction(0));
 
     // zero * neg
-    ASSERT_EQ(Fraction(0) * Fraction(-1, 2), 0);
+    ASSERT_EQ(Fraction(0) * Fraction(-1, 2), Fraction(0));
 }
 
 // operator/()
 TEST(Fraction, divide)
 {
     // pos / pos
-    ASSERT_EQ(Fraction(1, 2) / Fraction(1, 2), 1);
+    ASSERT_EQ(Fraction(1, 2) / Fraction(1, 2), Fraction(1));
 
     // pos / zero
     MY_ASSERT_THROW_MESSAGE(Fraction(1, 2) / Fraction(0), std::runtime_error, "Error: Zero denominator.");
 
     // pos / neg
-    ASSERT_EQ(Fraction(1, 2) / Fraction(-1, 2), -1);
+    ASSERT_EQ(Fraction(1, 2) / Fraction(-1, 2), Fraction(-1));
 
     // neg / pos
-    ASSERT_EQ(Fraction(-1, 2) / Fraction(1, 2), -1);
+    ASSERT_EQ(Fraction(-1, 2) / Fraction(1, 2), Fraction(-1));
 
     // neg / zero
     MY_ASSERT_THROW_MESSAGE(Fraction(-1, 2) / Fraction(0), std::runtime_error, "Error: Zero denominator.");
 
     // neg / neg
-    ASSERT_EQ(Fraction(-1, 2) / Fraction(-1, 2), 1);
+    ASSERT_EQ(Fraction(-1, 2) / Fraction(-1, 2), Fraction(1));
 
     // zero / pos
-    ASSERT_EQ(Fraction(0) / Fraction(1, 2), 0);
+    ASSERT_EQ(Fraction(0) / Fraction(1, 2), Fraction(0));
 
     // zero / zero
     MY_ASSERT_THROW_MESSAGE(Fraction(0) / Fraction(0), std::runtime_error, "Error: Zero denominator.");
 
     // zero / neg
-    ASSERT_EQ(Fraction(0) / Fraction(-1, 2), 0);
+    ASSERT_EQ(Fraction(0) / Fraction(-1, 2), Fraction(0));
 }
 
 // operator%()
@@ -245,16 +242,16 @@ TEST(Fraction, mod)
     MY_ASSERT_THROW_MESSAGE(Fraction(1, 2) % Fraction(0), std::runtime_error, "Error: Zero denominator.");
 
     // neg % neg
-    ASSERT_EQ(Fraction(-1, 2) % Fraction(-1, 2), 0);
+    ASSERT_EQ(Fraction(-1, 2) % Fraction(-1, 2), Fraction(0));
 
     // zero % pos
-    ASSERT_EQ(Fraction(0) % Fraction(1, 2), 0);
+    ASSERT_EQ(Fraction(0) % Fraction(1, 2), Fraction(0));
 
     // zero % zero
     MY_ASSERT_THROW_MESSAGE(Fraction(0) % Fraction(0), std::runtime_error, "Error: Zero denominator.");
 
     // zero % neg
-    ASSERT_EQ(Fraction(0) % Fraction(-1, 2), 0);
+    ASSERT_EQ(Fraction(0) % Fraction(-1, 2), Fraction(0));
 }
 
 // to_string()
