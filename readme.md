@@ -23,9 +23,13 @@ _——像 Python 的内置类型一样优雅的 C++ 库_
 
 ### 2. 使用说明
 
-因为用的是 C++ 模板，所以全部以头文件的形式（.hpp）给出。
+因为用的是 C++ 模板，所以全部以头文件的形式（.hpp）给出，header-only。
 
-使用非常方便：直接拷贝整个 sources 目录到工程目录下然后直接`#include "mds.hpp"`就可以了。
+使用非常方便：
+
+因为 mds 已经进入 xmake 官方仓库，所以只需要在项目配置中 `add_requires("mds")` 然后源码中就可以直接 `#include <mds/mds.hpp>`。
+
+或者，简单粗暴地直接拷贝整个 sources 目录到项目源码目录下然后直接 `#include "mds.hpp"`。
 
 一共七个类，对标 Python 里面的七个常用的类：
 
