@@ -165,6 +165,19 @@ public:
  * Non-member functions
  */
 
+/**
+ * @brief Creates a tuple object, deducing the target type from the types of arguments.
+ *
+ * @tparam Ts the type of elements in the tuple
+ * @param values zero or more arguments to construct the tuple from
+ * @return A Tuple object containing the given values
+ */
+template <typename... Ts>
+decltype(auto) make_tuple(Ts&&... values)
+{
+    return Tuple<Ts...>(values...);
+}
+
 // Underlying implementation
 namespace impl
 {
