@@ -32,7 +32,8 @@ TEST(Tuple, compare)
     // empty
     Tuple<> empty;
     ASSERT_TRUE(empty == Tuple<>());
-    ASSERT_FALSE(empty != Tuple<int>(1));
+    ASSERT_TRUE(empty != Tuple<int>(1));
+    ASSERT_TRUE(empty != (Tuple<int, int>(2, 3)));
 
     // one
     Tuple<int> one(1);

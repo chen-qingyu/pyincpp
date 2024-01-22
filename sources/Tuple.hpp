@@ -35,16 +35,18 @@ template <typename... _>
 class Tuple
 {
 public:
-    // Two empty tuples are equal.
-    constexpr bool operator==(const Tuple<>& that) const
+    // Check whether two tuples are equal.
+    template <typename... Ts>
+    constexpr bool operator==(const Tuple<Ts...>& that) const
     {
-        return true;
+        return that.size() == 0;
     }
 
-    // Two empty tuples are equal.
-    constexpr bool operator!=(const Tuple<>& that) const
+    // Check whether two tuples are not equal.
+    template <typename... Ts>
+    constexpr bool operator!=(const Tuple<Ts...>& that) const
     {
-        return false;
+        return that.size() != 0;
     }
 
     // Empty tuple have no element.
@@ -66,18 +68,6 @@ class Tuple<T, Ts...> : public Tuple<Ts...>
 private:
     // The value stored in current level.
     T value_;
-
-    // Two empty tuples are equal.
-    static bool eq(const Tuple<>& tuple1, const Tuple<>& tuple2)
-    {
-        return true;
-    }
-
-    // Check whether two tuples are equal.
-    static bool eq(const Tuple<T, Ts...>& tuple1, const Tuple<T, Ts...>& tuple2)
-    {
-        return tuple1.value_ == tuple2.value_ ? eq(tuple1.rest(), tuple2.rest()) : false;
-    }
 
 public:
     /*
@@ -108,7 +98,7 @@ public:
      */
     bool operator==(const Tuple<T, Ts...>& that) const
     {
-        return eq(*this, that);
+        return value_ == that.value_ ? (rest() == that.rest()) : false;
     }
 
     /**
@@ -179,10 +169,10 @@ public:
 namespace impl
 {
 
-template <typename... Args>
-void print(std::ostream& os, const Tuple<Args...>& tuple)
+template <typename... Ts>
+void print(std::ostream& os, const Tuple<Ts...>& tuple)
 {
-    if constexpr (sizeof...(Args) > 0)
+    if constexpr (sizeof...(Ts) > 0)
     {
         os << tuple.template get<0>() << (tuple.size() == 1 ? "" : ", ");
         print(os, tuple.rest());
