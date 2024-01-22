@@ -30,7 +30,7 @@
 #include "Integer.hpp"
 #include "String.hpp"
 
-namespace mds
+namespace pytype
 {
 
 /**
@@ -477,6 +477,6 @@ inline std::ostream& operator<<(std::ostream& os, const Fraction& fraction)
     }
 }
 
-} // namespace mds
+} // namespace pytype
 
 #endif // FRACTION_HPP

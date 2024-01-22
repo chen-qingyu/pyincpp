@@ -1,7 +1,7 @@
 /**
  * @file utility.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief Utility functions for MyDataStructure.
+ * @brief Utility functions for Pytype.
  * @date 2023.01.05
  *
  * @copyright Copyright (C) 2023
@@ -25,7 +25,7 @@
 
 #include <stdexcept>
 
-namespace mds::utility
+namespace pytype::utility
 {
 
 // Check whether the index is valid (begin <= pos < end).
@@ -64,6 +64,6 @@ static inline void swap(T& e1, T& e2)
     e2 = std::move(tmp);
 }
 
-} // namespace mds::utility
+} // namespace pytype::utility
 
 #endif // UTILITY_HPP

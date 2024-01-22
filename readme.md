@@ -1,16 +1,15 @@
-# MyDataStructure
+# Pytype
 
-_——像 Python 的内置类型一样优雅的 C++ 库_
+_——像 Python 的内置类型一样好用的 C++ 库_
 
 ![](https://img.shields.io/badge/version-1.0-blue.svg)
 
 ### 1. 基本属性
 
-- 名称：MyDataStructure，缩写为 MDS。
+- 名称：Pytype。
 - 语言：采用标准 C++ 语言编写，最低兼容版本：ISO C++17 。
-- 目的：学习 C++ 和项目开发。
-- 目标：实现一个像 Python 的内置类型一样优雅的 C++ 库。
-- 模块：List, Set, Map, Integer, String, Tuple, Deque.
+- 目标：实现一个像 Python 的内置类型一样好用的 C++ 库。
+- 模块：List, Set, Map, Integer, String, Tuple, Deque, Fraction.
 - 简洁：Stay simple, stay young. 在保证好用和健壮的前提下，尽量简洁，便于维护和阅读。
 - 好用：提供了许多方便的函数，比如 String 类提供了像 Python 的 str 那样的替换、分割、查找等操作，比如 List 类和 String 类都支持像 Python 那样的负数下标等等。
 - 健壮：安全的扩容机制，防止溢出。对容器的增删改查都有相应的检查。这么多检查，肯定会对性能有一定影响，但是这个库追求的并不是性能，而是简洁，好用和健壮。
@@ -27,13 +26,13 @@ _——像 Python 的内置类型一样优雅的 C++ 库_
 
 使用非常方便：
 
-因为 mds 已经进入 xmake 官方仓库，所以只需要在项目配置中 `add_requires("mds")` 然后源码中就可以直接 `#include <mds/mds.hpp>`。
+因为 pytype 已经进入 xmake 官方仓库，所以只需要在项目配置中 `add_requires("pytype")` 然后源码中就可以直接 `#include <pytype/pytype.hpp>`。
 
-或者，简单粗暴地直接拷贝整个 sources 目录到项目源码目录下然后直接 `#include "mds.hpp"`。
+或者，简单粗暴地直接拷贝整个 sources 目录到项目源码目录下然后直接 `#include "pytype.hpp"`。
 
-一共七个类，对标 Python 里面的七个常用的类：
+一共八个类，对标 Python 里面的八个常用的类：
 
-| Type in MDS    | Type in Python       |
+| Type in Pytype | Type in Python       |
 | -------------- | -------------------- |
 | `List<T>`      | `list`               |
 | `Set<T>`       | `set`                |
@@ -47,7 +46,7 @@ _——像 Python 的内置类型一样优雅的 C++ 库_
 一些简单的例子：
 
 ```cpp
-using namespace mds;
+using namespace pytype;
 
 // 列表索引，支持负数
 List<int>({1, 2, 3, 4, 5})[-1] // 5
@@ -134,6 +133,6 @@ Matrix D = Matrix::Identity();
 
 说明一下关于 inline：为了源码简洁性，我最后决定一律采用 inline 的风格。一般不会有问题，除非对程序体积有很高的要求。刚开始我是把声明和定义分开写的，但这是模板，没法分成两个文件，所以我在一个文件里分开写，一部分函数定义前面加上 inline，但是这样最后写完了看起来非常冗长，一大堆的 template typename inline，在看了 Java 源码后考虑再三决定全部写在类里面，也就是默认 inline 的形式。inline 只是对编译器的请求而非要求，不能 inline 的函数（比如有递归的函数）编译器是不会执行 inline 的。
 
-开发完了 Integer 类后和 GitHub 上一个有三百多 star 的大整数类 [BigInt](https://github.com/faheel/BigInt) 做了比较，结论是 mds::Integer 的性能综合来看更快，同时易用性和 BigInt 差不多，而源码行数只有 BigInt 的几乎一半，并且代码也更加整洁。
+开发完了 Integer 类后和 GitHub 上一个有三百多 star 的大整数类 [BigInt](https://github.com/faheel/BigInt) 做了比较，结论是 pytype::Integer 的性能综合来看更快，同时易用性和 BigInt 差不多，而源码行数只有 BigInt 的几乎一半，并且代码也更加整洁。
 
 我这个项目用到了 FPGA 里面的独热码思想结合有限状态机，还用到了模板元编程在编译期递归实现任意可变模板参数，听着很厉害，但是不赚钱，也没多少人真的会用，属于自娱自乐。可我创造就是快乐，创造就是意义（反正我不缺钱——饿不死）。

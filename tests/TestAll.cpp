@@ -1,8 +1,8 @@
-#include "../sources/mds.hpp"
+#include "../sources/pytype.hpp"
 
 #include "tool.hpp"
 
-using namespace mds;
+using namespace pytype;
 
 TEST(All, demo)
 {

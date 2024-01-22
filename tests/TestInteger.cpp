@@ -2,7 +2,7 @@
 
 #include "tool.hpp"
 
-using namespace mds;
+using namespace pytype;
 
 // constructor destructor
 TEST(Integer, basics)

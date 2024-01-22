@@ -28,7 +28,7 @@
 #include "Deque.hpp"
 #include "List.hpp"
 
-namespace mds
+namespace pytype
 {
 
 template <typename T>
@@ -947,6 +947,6 @@ std::ostream& operator<<(std::ostream& os, const Set<T>& set)
     }
 }
 
-} // namespace mds
+} // namespace pytype
 
 #endif // SET_HPP

@@ -32,7 +32,7 @@
 #include "Deque.hpp"
 #include "Set.hpp"
 
-namespace mds
+namespace pytype
 {
 
 template <typename T>
@@ -1230,6 +1230,6 @@ List<T> operator*(int times, const List<T>& list)
     return list * times;
 }
 
-} // namespace mds
+} // namespace pytype
 
 #endif // LIST_HPP

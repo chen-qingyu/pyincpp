@@ -27,7 +27,7 @@
 
 #include "utility.hpp"
 
-namespace mds
+namespace pytype
 {
 
 // Empty tuple template class.
@@ -209,6 +209,6 @@ std::ostream& operator<<(std::ostream& os, const Tuple<Ts...>& tuple)
     return os;
 }
 
-} // namespace mds
+} // namespace pytype
 
 #endif // TUPLE_HPP

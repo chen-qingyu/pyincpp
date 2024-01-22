@@ -30,7 +30,7 @@
 #include <cmath>   // std::pow INFINITY NAN
 #include <istream> // std::istream
 
-namespace mds
+namespace pytype
 {
 
 /**
@@ -1236,6 +1236,6 @@ inline String operator*(int times, const String& string)
     return string * times;
 }
 
-} // namespace mds
+} // namespace pytype
 
 #endif // STRING_HPP

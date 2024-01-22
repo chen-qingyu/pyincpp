@@ -27,7 +27,7 @@
 
 #include "Set.hpp"
 
-namespace mds
+namespace pytype
 {
 
 /**
@@ -662,6 +662,6 @@ std::ostream& operator<<(std::ostream& os, const Map<K, V>& map)
     }
 }
 
-} // namespace mds
+} // namespace pytype
 
 #endif // MAP_HPP

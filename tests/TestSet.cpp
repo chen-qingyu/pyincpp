@@ -2,7 +2,7 @@
 
 #include "tool.hpp"
 
-using namespace mds;
+using namespace pytype;
 
 // constructor destructor size() is_empty()
 TEST(Set, basics)
