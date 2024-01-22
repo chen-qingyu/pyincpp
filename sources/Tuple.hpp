@@ -170,7 +170,7 @@ public:
  *
  * @tparam Ts the type of elements in the tuple
  * @param values zero or more arguments to construct the tuple from
- * @return A Tuple object containing the given values
+ * @return a Tuple object containing the given values
  */
 template <typename... Ts>
 decltype(auto) make_tuple(Ts&&... values)
