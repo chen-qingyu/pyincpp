@@ -73,7 +73,7 @@ TEST(Tuple, make_tuple)
     ASSERT_EQ(make_tuple(), Tuple<>());
     ASSERT_EQ(make_tuple(1), Tuple<int>(1));
     ASSERT_EQ(make_tuple(1, 2, 3), (Tuple<int, int, int>(1, 2, 3)));
-    ASSERT_EQ(make_tuple(1, 2.33, 'A', "wow"), (Tuple<int, double, char, const char(&)[4]>(1, 2.33, 'A', "wow")));
+    ASSERT_EQ(make_tuple(1, 2.33, 'A', Tuple<>()), (Tuple<int, double, char, Tuple<>>(1, 2.33, 'A', {})));
 }
 
 // operator<<()

@@ -1181,9 +1181,9 @@ public:
         std::ostringstream oss;
         const char* s = get();
         std::string_view str(s);
-        delete[] s;
         (format_helper(oss, str, args), ...);
         oss << str;
+        delete[] s;
         return oss.str().c_str();
     }
 };
