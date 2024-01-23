@@ -589,6 +589,14 @@ TEST(String, join)
     ASSERT_EQ(String(".").join({"192", "168", "0", "1"}), "192.168.0.1");
 }
 
+// format()
+TEST(String, format)
+{
+    ASSERT_EQ(String("{}, {}, {}, {}.").format(1, 2, 3, 4), String("1, 2, 3, 4."));
+    ASSERT_EQ(String("I'm {}, {} years old.").format("Alice", 18), String("I'm Alice, 18 years old."));
+    ASSERT_EQ(String("{} -> {}").format(List<int>({1, 2, 3}), List<String>({"one", "two", "three"})), String("[1, 2, 3] -> [\"one\", \"two\", \"three\"]"));
+}
+
 // operator<<()
 TEST(String, print)
 {

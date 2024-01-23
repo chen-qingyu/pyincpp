@@ -88,6 +88,8 @@ String("12345").slice(0, 5, 2) // "135"
 String("one, two, three").split(", ") // ["one", "two", "three"]
 // 字符串合并
 String(".").join({"192", "168", "0", "1"}) // "192.168.0.1"
+// 字符串格式化
+String("I'm {}, {} years old.").format("Alice", 18) // "I'm Alice, 18 years old."
 
 // 元组索引，返回类型不同所以使用模板函数
 Tuple<int, double, char>(1, 2.5, 'A').get<2>() // 'A'

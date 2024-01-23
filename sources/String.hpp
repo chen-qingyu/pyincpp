@@ -162,6 +162,20 @@ private:
         return -1; // not an integer
     }
 
+    // Format helper, see https://codereview.stackexchange.com/questions/269425/implementing-stdformat
+    template <typename T>
+    static void format_helper(std::ostringstream& oss, std::string_view& str, const T& value)
+    {
+        std::size_t open_bracket = str.find('{');
+        std::size_t close_bracket = str.find('}', open_bracket + 1);
+        if (open_bracket == std::string::npos || close_bracket == std::string::npos)
+        {
+            return;
+        }
+        oss << str.substr(0, open_bracket) << value;
+        str = str.substr(close_bracket + 1);
+    }
+
 public:
     /*
      * Constructor / Destructor
@@ -1152,6 +1166,25 @@ public:
         }
         str += str_list.data_[str_list.size_ - 1];
         return str;
+    }
+
+    /**
+     * @brief Format args according to the format string, and return the result as a string.
+     *
+     * @tparam Args types of arguments
+     * @param args arguments to be formatted
+     * @return formatted string
+     */
+    template <typename... Args>
+    String format(Args... args) const
+    {
+        std::ostringstream oss;
+        const char* s = get();
+        std::string_view str(s);
+        delete[] s;
+        (format_helper(oss, str, args), ...);
+        oss << str;
+        return oss.str().c_str();
     }
 };
 
