@@ -1176,7 +1176,7 @@ public:
      * @return formatted string
      */
     template <typename... Args>
-    String format(Args... args) const
+    String format(Args&&... args) const
     {
         std::ostringstream oss;
         const char* s = get();
