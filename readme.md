@@ -146,12 +146,12 @@ std::cout << ((f1 + f2) * f3 % f4) << std::endl; // 1/120
 /*
 std::tuple vs boost::tuple vs pytype::Tuple
 */
-auto t1 = std::make_tuple(1, 1.5, 'A', "hello", pytype::String("hello"), pytype::Tuple<int, char, boost::tuple<>, pytype::Tuple<>>(1, 'A', {}, {}));
-auto t2 = boost::make_tuple(1, 1.5, 'A', "hello", pytype::String("hello"), pytype::Tuple<int, char, boost::tuple<>, pytype::Tuple<>>(1, 'A', {}, {}));
-auto t3 = pytype::make_tuple(1, 1.5, 'A', "hello", pytype::String("hello"), pytype::Tuple<int, char, boost::tuple<>, pytype::Tuple<>>(1, 'A', {}, {}));
+auto t1 = std::make_tuple(1, 1.5, 'A', "hello", std::tuple<std::tuple<>, std::tuple<>>({}, {}));
+auto t2 = boost::make_tuple(1, 1.5, 'A', "hello", boost::tuple<boost::tuple<>, boost::tuple<>>({}, {}));
+auto t3 = pytype::make_tuple(1, 1.5, 'A', "hello", pytype::Tuple<pytype::Tuple<>, pytype::Tuple<>>({}, {}));
 // std::cout << t1 << std::endl; // std::tuple does not support operator<<
-std::cout << t2 << std::endl; // (1 1.5 A hello "hello" (1, A, (), ()))
-std::cout << t3 << std::endl; // (1, 1.5, A, hello, "hello", (1, A, (), ()))
+std::cout << t2 << std::endl; // (1 1.5 A hello (() ()))
+std::cout << t3 << std::endl; // (1, 1.5, A, hello, ((), ()))
 ```
 
 ### 3. 开发历史
