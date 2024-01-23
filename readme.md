@@ -110,9 +110,15 @@ Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"se
 map.size() // 3
 map.keys() // {"first", "second", "third"}
 map["third"][-1].factorial() // 120
+```
 
-// 将Fraction与Eigen库结合显示精确的矩阵运算结果
-using Matrix = Eigen::Matrix<Fraction, 2, 2>;
+pytype 的易用性优势：
+
+```cpp
+/*
+Combining pytype::Fraction with Eigen library to display accurate matrix operation results.
+*/
+using Matrix = Eigen::Matrix<pytype::Fraction, 2, 2>; // compiling with boost::rational will fail
 
 Matrix A;
 A << 1, 2, 3, 4;
@@ -120,11 +126,32 @@ Matrix B = Matrix::Zero();
 Matrix C = Matrix::Ones();
 Matrix D = Matrix::Identity();
 
-((A + B) * (C + D)).inverse()
+std::cout << (((A + B) * (C + D)).inverse()) << std::endl;
 /*
 -11/6     5/6
   5/3    -2/3
 */
+
+/*
+boost::rational vs pytype::Fraction
+*/
+boost::rational<int> r1(1, 2), r2(1, 3), r3(1, 4), r4(1, 5);
+pytype::Fraction f1(1, 2), f2(1, 3), f3(1, 4), f4(1, 5);
+
+std::cout << ((r1 + r2) * r3 / r4) << std::endl; // 25/24
+// std::cout << ((r1 + r2) * r3 % r4) << std::endl; // boost::rational does not support operator%
+std::cout << ((f1 + f2) * f3 / f4) << std::endl; // 25/24
+std::cout << ((f1 + f2) * f3 % f4) << std::endl; // 1/120
+
+/*
+std::tuple vs boost::tuple vs pytype::Tuple
+*/
+auto t1 = std::make_tuple(1, 1.5, 'A', "hello", pytype::String("hello"), pytype::Tuple<int, char, boost::tuple<>, pytype::Tuple<>>(1, 'A', {}, {}));
+auto t2 = boost::make_tuple(1, 1.5, 'A', "hello", pytype::String("hello"), pytype::Tuple<int, char, boost::tuple<>, pytype::Tuple<>>(1, 'A', {}, {}));
+auto t3 = pytype::make_tuple(1, 1.5, 'A', "hello", pytype::String("hello"), pytype::Tuple<int, char, boost::tuple<>, pytype::Tuple<>>(1, 'A', {}, {}));
+// std::cout << t1 << std::endl; // std::tuple does not support operator<<
+std::cout << t2 << std::endl; // (1 1.5 A hello "hello" (1, A, (), ()))
+std::cout << t3 << std::endl; // (1, 1.5, A, hello, "hello", (1, A, (), ()))
 ```
 
 ### 3. 开发历史
