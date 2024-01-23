@@ -100,7 +100,7 @@ Deque<int>({1, 2, 3, 4}).push_back(5) // <1, 2, 3, 4, 5>
 Deque<int>({1, 2, 3, 4, 5}) >>= 1 // <5, 1, 2, 3, 4>
 
 // 分数乘法，加、减、乘、除、模都支持
-Fraction(1, 2) * Fraction(1, 2) // Fraction(1, 4)
+Fraction(1, 2) * Fraction(1, 2) // 1/4
 // 分数转字符串
 Fraction(3, -6).to_string() // "-1/2"
 
