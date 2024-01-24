@@ -12,7 +12,7 @@ end
 
 target("tests")
     set_kind("binary")
-    add_packages("gtest")
+    add_packages("catch2")
     add_files("tests/*.cpp|benchmark.cpp")
 
 target("examples")

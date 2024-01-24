@@ -5,94 +5,94 @@
 using namespace pytype;
 
 // constructor destructor size()
-TEST(Tuple, basics)
+TEST_CASE("Tuple: basics")
 {
     // Tuple()
     Tuple<> tuple1;
-    ASSERT_EQ(tuple1.size(), 0);
+    REQUIRE(tuple1.size() == 0);
 
     // Tuple(int)
     Tuple<int> tuple2(1);
-    ASSERT_EQ(tuple2.size(), 1);
+    REQUIRE(tuple2.size() == 1);
 
     // Tuple(int, double)
     Tuple<int, double> tuple3(1, 2.5);
-    ASSERT_EQ(tuple3.size(), 2);
+    REQUIRE(tuple3.size() == 2);
 
     // Tuple(int, double, char)
     Tuple<int, double, char> tuple4(1, 2.5, 'A');
-    ASSERT_EQ(tuple4.size(), 3);
+    REQUIRE(tuple4.size() == 3);
 
     // ~Tuple()
 }
 
 // operator==() operator!=()
-TEST(Tuple, compare)
+TEST_CASE("Tuple: compare")
 {
     // empty
     Tuple<> empty;
-    ASSERT_TRUE(empty == Tuple<>());
-    ASSERT_TRUE(empty != Tuple<int>(1));
-    ASSERT_TRUE(empty != (Tuple<int, int>(2, 3)));
+    REQUIRE(empty == Tuple<>());
+    REQUIRE(empty != Tuple<int>(1));
+    REQUIRE(empty != (Tuple<int, int>(2, 3)));
 
     // one
     Tuple<int> one(1);
-    ASSERT_TRUE(one == Tuple<int>(1));
-    ASSERT_TRUE(one != Tuple<int>(2));
-    ASSERT_TRUE(one != (Tuple<int, int>(2, 3)));
+    REQUIRE(one == Tuple<int>(1));
+    REQUIRE(one != Tuple<int>(2));
+    REQUIRE(one != (Tuple<int, int>(2, 3)));
 
     // many
     Tuple<int, int, int> many(1, 2, 3);
-    ASSERT_TRUE(many == (Tuple<int, int, int>(1, 2, 3)));
-    ASSERT_TRUE(many != (Tuple<int, int, int>(3, 2, 1)));
-    ASSERT_TRUE(many != (Tuple<int, int, int, int>(1, 2, 3, 4)));
+    REQUIRE(many == (Tuple<int, int, int>(1, 2, 3)));
+    REQUIRE(many != (Tuple<int, int, int>(3, 2, 1)));
+    REQUIRE(many != (Tuple<int, int, int, int>(1, 2, 3, 4)));
 }
 
 // rest()
-TEST(Tuple, rest)
+TEST_CASE("Tuple: rest")
 {
     Tuple<int, double, char> tuple(1, 2.5, 'A');
-    ASSERT_EQ(tuple.rest(), (Tuple<double, char>(2.5, 'A')));
-    ASSERT_EQ(tuple.rest().rest(), Tuple<char>('A'));
-    ASSERT_EQ(tuple.rest().rest().rest(), Tuple<>());
+    REQUIRE(tuple.rest() == (Tuple<double, char>(2.5, 'A')));
+    REQUIRE(tuple.rest().rest() == Tuple<char>('A'));
+    REQUIRE(tuple.rest().rest().rest() == Tuple<>());
 }
 
 // get<>()
-TEST(Tuple, get)
+TEST_CASE("Tuple: get")
 {
     Tuple<int, double, char> tuple(1, 2.5, 'A');
 
-    ASSERT_EQ(tuple.get<0>(), 1);
-    ASSERT_EQ(tuple.get<1>(), 2.5);
-    ASSERT_EQ(tuple.get<2>(), 'A');
+    REQUIRE(tuple.get<0>() == 1);
+    REQUIRE(tuple.get<1>() == 2.5);
+    REQUIRE(tuple.get<2>() == 'A');
 }
 
 // make_tuple()
-TEST(Tuple, make_tuple)
+TEST_CASE("Tuple: make_tuple")
 {
-    ASSERT_EQ(make_tuple(), Tuple<>());
-    ASSERT_EQ(make_tuple(1), Tuple<int>(1));
-    ASSERT_EQ(make_tuple(1, 2, 3), (Tuple<int, int, int>(1, 2, 3)));
-    ASSERT_EQ(make_tuple(1, 2.33, 'A', Tuple<>()), (Tuple<int, double, char, Tuple<>>(1, 2.33, 'A', {})));
+    REQUIRE(make_tuple() == Tuple<>());
+    REQUIRE(make_tuple(1) == Tuple<int>(1));
+    REQUIRE(make_tuple(1, 2, 3) == (Tuple<int, int, int>(1, 2, 3)));
+    REQUIRE(make_tuple(1, 2.33, 'A', Tuple<>()) == (Tuple<int, double, char, Tuple<>>(1, 2.33, 'A', {})));
 }
 
 // operator<<()
-TEST(Tuple, print)
+TEST_CASE("Tuple: print")
 {
     std::ostringstream oss;
 
     Tuple<> empty;
     oss << empty;
-    ASSERT_EQ(oss.str(), "()"); // string == char*, use eq
+    REQUIRE(oss.str() == "()");
     oss.str("");
 
     Tuple<int> one(1);
     oss << one;
-    ASSERT_EQ(oss.str(), "(1)");
+    REQUIRE(oss.str() == "(1)");
     oss.str("");
 
     Tuple<int, double, char> many(1, 2.5, 'A');
     oss << many;
-    ASSERT_EQ(oss.str(), "(1, 2.5, A)");
+    REQUIRE(oss.str() == "(1, 2.5, A)");
     oss.str("");
 }

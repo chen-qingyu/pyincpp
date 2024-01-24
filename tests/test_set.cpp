@@ -5,69 +5,69 @@
 using namespace pytype;
 
 // constructor destructor size() is_empty()
-TEST(Set, basics)
+TEST_CASE("Set: basics")
 {
     // Set()
     Set<int> set1;
-    ASSERT_EQ(set1.size(), 0);
-    ASSERT_TRUE(set1.is_empty());
+    REQUIRE(set1.size() == 0);
+    REQUIRE(set1.is_empty());
 
     // Set(const std::initializer_list<T> &il)
     Set<int> set2 = {1, 2, 3, 4, 5};
-    ASSERT_EQ(set2.size(), 5);
-    ASSERT_FALSE(set2.is_empty());
+    REQUIRE(set2.size() == 5);
+    REQUIRE(!set2.is_empty());
 
     // Set(const Set<T> &that)
     Set<int> set3(set2);
-    ASSERT_EQ(set3.size(), 5);
-    ASSERT_FALSE(set3.is_empty());
+    REQUIRE(set3.size() == 5);
+    REQUIRE(!set3.is_empty());
 
     // Set(Set<T> &&that)
     Set<int> set4(std::move(set3));
-    ASSERT_EQ(set4.size(), 5);
-    ASSERT_FALSE(set4.is_empty());
-    ASSERT_EQ(set3.size(), 0);
-    ASSERT_TRUE(set3.is_empty());
+    REQUIRE(set4.size() == 5);
+    REQUIRE(!set4.is_empty());
+    REQUIRE(set3.size() == 0);
+    REQUIRE(set3.is_empty());
 
     // ~Set()
 }
 
 // operator==() operator!=() operator<=() operator<() operator>=() operator>()
-TEST(Set, compare)
+TEST_CASE("Set: compare")
 {
     Set<int> set = {1, 2, 3, 4, 5};
 
     // operator==
     Set<int> eq_set = {5, 4, 3, 2, 1};
-    ASSERT_TRUE(eq_set == set);
+    REQUIRE(eq_set == set);
 
     // operator!=
     Set<int> ne_set = {1, 3, 5};
-    ASSERT_TRUE(ne_set != set);
+    REQUIRE(ne_set != set);
 
     // operator<
     Set<int> lt_set = {1, 2, 3};
-    ASSERT_TRUE(lt_set < set);
+    REQUIRE(lt_set < set);
 
     // operator<=
-    ASSERT_TRUE(lt_set <= set);
-    ASSERT_TRUE(eq_set <= set);
+    REQUIRE(lt_set <= set);
+    REQUIRE(eq_set <= set);
 
     // operator>
     Set<int> gt_set = {1, 2, 3, 4, 5, 6};
-    ASSERT_TRUE(gt_set > set);
+    REQUIRE(gt_set > set);
 
     // operator>=
-    ASSERT_TRUE(eq_set >= set);
-    ASSERT_TRUE(gt_set >= set);
+    REQUIRE(eq_set >= set);
+    REQUIRE(gt_set >= set);
 }
 
 // begin() end()
-TEST(Set, iterator)
+TEST_CASE("Set: iterator")
 {
     // empty
     Set<int> empty;
-    ASSERT_EQ(empty.begin(), empty.end());
+    REQUIRE(empty.begin() == empty.end());
 
     Set<int> set = {1, 2, 3, 4, 5};
 
@@ -75,63 +75,63 @@ TEST(Set, iterator)
     int i = 1;
     for (auto it = set.begin(); it != set.end(); ++it)
     {
-        ASSERT_EQ(*it, i++);
+        REQUIRE(*it == i++);
     }
 
     // for in
     i = 1;
     for (const auto& e : set)
     {
-        ASSERT_EQ(e, i++);
+        REQUIRE(e == i++);
     }
 }
 
 // operator=()
-TEST(Set, copy_assignment)
+TEST_CASE("Set: copy_assignment")
 {
     Set<int> set1 = {1, 2, 3, 4, 5};
     Set<int> set2 = {6, 7, 8, 9};
 
     set1 = set2;
-    ASSERT_EQ(set1, Set<int>({6, 7, 8, 9}));
-    ASSERT_EQ(set2, Set<int>({6, 7, 8, 9}));
+    REQUIRE(set1 == Set<int>({6, 7, 8, 9}));
+    REQUIRE(set2 == Set<int>({6, 7, 8, 9}));
 }
 
 // operator=()
-TEST(Set, move_assignment)
+TEST_CASE("Set: move_assignment")
 {
     Set<int> set1 = {1, 2, 3, 4, 5};
     Set<int> set2 = {6, 7, 8, 9};
 
     set1 = std::move(set2);
-    ASSERT_EQ(set1, Set<int>({6, 7, 8, 9}));
-    ASSERT_EQ(set2, Set<int>());
+    REQUIRE(set1 == Set<int>({6, 7, 8, 9}));
+    REQUIRE(set2 == Set<int>());
 }
 
 // find() contains() min() max()
-TEST(Set, examination)
+TEST_CASE("Set: examination")
 {
     Set<int> set = {1, 2, 3, 4, 5};
 
     // find
-    ASSERT_EQ(set.find(1), set.begin());
-    ASSERT_EQ(set.find(5), --set.end());
-    ASSERT_EQ(set.find(0), set.end());
+    REQUIRE(set.find(1) == set.begin());
+    REQUIRE(set.find(5) == --set.end());
+    REQUIRE(set.find(0) == set.end());
 
     // contains
-    ASSERT_EQ(set.contains(1), true);
-    ASSERT_EQ(set.contains(5), true);
-    ASSERT_EQ(set.contains(0), false);
+    REQUIRE(set.contains(1) == true);
+    REQUIRE(set.contains(5) == true);
+    REQUIRE(set.contains(0) == false);
 
     // min
-    ASSERT_EQ(set.min(), 1);
+    REQUIRE(set.min() == 1);
 
     // max
-    ASSERT_EQ(set.max(), 5);
+    REQUIRE(set.max() == 5);
 }
 
 // operator+=()
-TEST(Set, insert)
+TEST_CASE("Set: insert")
 {
     Set<int> set;
 
@@ -141,7 +141,7 @@ TEST(Set, insert)
     set += 5;
     set += 4;
 
-    ASSERT_EQ(set, Set<int>({3, 1, 2, 5, 4}));
+    REQUIRE(set == Set<int>({3, 1, 2, 5, 4}));
 
     set += 4;
     set += 5;
@@ -149,11 +149,11 @@ TEST(Set, insert)
     set += 1;
     set += 3;
 
-    ASSERT_EQ(set, Set<int>({1, 2, 3, 4, 5}));
+    REQUIRE(set == Set<int>({1, 2, 3, 4, 5}));
 }
 
 // operator-=()
-TEST(Set, remove)
+TEST_CASE("Set: remove")
 {
     Set<int> set = {1, 2, 3, 4, 5};
 
@@ -163,7 +163,7 @@ TEST(Set, remove)
     set -= 5;
     set -= 4;
 
-    ASSERT_EQ(set, Set<int>());
+    REQUIRE(set == Set<int>());
 
     set -= 4;
     set -= 5;
@@ -171,106 +171,106 @@ TEST(Set, remove)
     set -= 1;
     set -= 3;
 
-    ASSERT_EQ(set, Set<int>());
+    REQUIRE(set == Set<int>());
 }
 
 // clear()
-TEST(Set, clear)
+TEST_CASE("Set: clear")
 {
     Set<int> set = {1, 2, 3, 4, 5};
 
-    ASSERT_EQ(set.clear(), Set<int>());
+    REQUIRE(set.clear() == Set<int>());
 
     // double clear
-    ASSERT_EQ(set.clear(), Set<int>());
+    REQUIRE(set.clear() == Set<int>());
 
     // modify after clear
     set += 233;
-    ASSERT_EQ(set, Set<int>({233}));
+    REQUIRE(set == Set<int>({233}));
 }
 
 // operator&=() operator&()
-TEST(Set, intersect)
+TEST_CASE("Set: intersect")
 {
     Set<int> set1 = {1, 2, 3, 4, 5};
     Set<int> set2 = {1, 3, 5, 7, 9};
 
-    ASSERT_EQ(set1 & set2, Set<int>({1, 3, 5}));
-    ASSERT_EQ(set1 &= set2, Set<int>({1, 3, 5}));
+    REQUIRE((set1 & set2) == Set<int>({1, 3, 5}));
+    REQUIRE((set1 &= set2) == Set<int>({1, 3, 5}));
 }
 
 // operator|=() operator|()
-TEST(Set, union)
+TEST_CASE("Set: union")
 {
     Set<int> set1 = {1, 2, 3, 4, 5};
     Set<int> set2 = {1, 3, 5, 7, 9};
 
-    ASSERT_EQ(set1 | set2, Set<int>({1, 2, 3, 4, 5, 7, 9}));
-    ASSERT_EQ(set1 |= set2, Set<int>({1, 2, 3, 4, 5, 7, 9}));
+    REQUIRE((set1 | set2) == Set<int>({1, 2, 3, 4, 5, 7, 9}));
+    REQUIRE((set1 |= set2) == Set<int>({1, 2, 3, 4, 5, 7, 9}));
 }
 
 // operator-=() operator-()
-TEST(Set, difference)
+TEST_CASE("Set: difference")
 {
     Set<int> set1 = {1, 2, 3, 4, 5};
     Set<int> set2 = {1, 3, 5, 7, 9};
 
-    ASSERT_EQ(set1 - set2, Set<int>({2, 4}));
-    ASSERT_EQ(set1 -= set2, Set<int>({2, 4}));
+    REQUIRE((set1 - set2) == Set<int>({2, 4}));
+    REQUIRE((set1 -= set2) == Set<int>({2, 4}));
 }
 
 // operator^=() operator^()
-TEST(Set, symmetric_difference)
+TEST_CASE("Set: symmetric_difference")
 {
     Set<int> set1 = {1, 2, 3, 4, 5};
     Set<int> set2 = {1, 3, 5, 7, 9};
 
-    ASSERT_EQ(set1 ^ set2, Set<int>({2, 4, 7, 9}));
-    ASSERT_EQ(set1 ^= set2, Set<int>({2, 4, 7, 9}));
+    REQUIRE((set1 ^ set2) == Set<int>({2, 4, 7, 9}));
+    REQUIRE((set1 ^= set2) == Set<int>({2, 4, 7, 9}));
 }
 
 // to_list() to_deque()
-TEST(Set, to_list_deque)
+TEST_CASE("Set: to_list_deque")
 {
-    ASSERT_EQ(Set<int>({1, 2, 3, 4, 5}).to_list(), List<int>({1, 2, 3, 4, 5}));
+    REQUIRE(Set<int>({1, 2, 3, 4, 5}).to_list() == List<int>({1, 2, 3, 4, 5}));
 
-    ASSERT_EQ(Set<int>({1, 2, 3, 4, 5}).to_deque(), Deque<int>({1, 2, 3, 4, 5}));
+    REQUIRE(Set<int>({1, 2, 3, 4, 5}).to_deque() == Deque<int>({1, 2, 3, 4, 5}));
 }
 
 // operator<<()
-TEST(Set, print)
+TEST_CASE("Set: print")
 {
     std::ostringstream oss;
 
     Set<int> empty;
     oss << empty;
-    ASSERT_EQ(oss.str(), "{}"); // string == char*, use eq
+    REQUIRE(oss.str() == "{}");
     oss.str("");
 
     Set<int> one = {1};
     oss << one;
-    ASSERT_EQ(oss.str(), "{1}");
+    REQUIRE(oss.str() == "{1}");
     oss.str("");
 
     Set<int> many = {5, 4, 3, 2, 1};
     oss << many;
-    ASSERT_EQ(oss.str(), "{1, 2, 3, 4, 5}");
+    REQUIRE(oss.str() == "{1, 2, 3, 4, 5}");
     oss.str("");
 }
 
-TEST(Set, all)
+TEST_CASE("Set: all")
 {
     Set<int> set = {1, 5, 10, 11, 9};
-    ASSERT_EQ(set.max(), 11);
-    ASSERT_EQ(set.min(), 1);
+    REQUIRE(set.max() == 11);
+    REQUIRE(set.min() == 1);
 
     set -= 11;
     set -= 10;
-    ASSERT_EQ(set.max(), 9);
+    REQUIRE(set.max() == 9);
 
     set -= 1;
     set -= 5;
-    ASSERT_EQ(set.min(), 9);
+    REQUIRE(set.min() == 9);
 
     set -= 9;
     set -= 9;
