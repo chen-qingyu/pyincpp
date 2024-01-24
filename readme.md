@@ -7,7 +7,7 @@ _——像 Python 的内置类型一样好用的 C++ 库_
 ### 1. 属性
 
 - 名称：Pytype。
-- 语言：采用标准 C++ 语言编写，最低兼容版本：ISO C++17 。
+- 语言：C++ ，最低兼容版本：C++17 。
 - 目标：实现一个像 Python 的内置类型一样好用的 C++ 库。
 - 模块：List, Set, Map, Integer, String, Tuple, Deque, Fraction.
 - 风格：大部分遵循 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) ，小部分基于项目规模和源码简洁性的考虑采用自己的风格。
@@ -22,7 +22,7 @@ _——像 Python 的内置类型一样好用的 C++ 库_
 - 好用：提供了许多方便的函数，比如 String 类提供了像 Python 的 str 那样的替换、分割、查找等操作，比如 List 类和 String 类都支持像 Python 那样的负数下标等等。
 - 健壮：安全的扩容机制，防止溢出。对容器的增删改查都有相应的检查。检查会对性能有影响，但是这个库追求的并不是性能，而是简洁，好用和健壮。
 - 优雅：经过我的精心设计，用起来可以像 Python 的内置类型一样方便。
-- 高效：和标准库重合的部分进行了性能比较，[基准测试结果](./benchmark/pytype_vs_std.cpp)表明性能并不差。
+- 高效：和标准库重合的部分进行了性能比较，[基准测试结果](./tests/benchmark.cpp)表明性能并不差。
 
 ### 3. 用法
 
