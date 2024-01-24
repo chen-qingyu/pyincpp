@@ -4,23 +4,27 @@ _——像 Python 的内置类型一样好用的 C++ 库_
 
 ![](https://img.shields.io/badge/version-1.0-blue.svg)
 
-### 1. 基本属性
+### 1. 属性
 
 - 名称：Pytype。
 - 语言：采用标准 C++ 语言编写，最低兼容版本：ISO C++17 。
 - 目标：实现一个像 Python 的内置类型一样好用的 C++ 库。
 - 模块：List, Set, Map, Integer, String, Tuple, Deque, Fraction.
-- 简洁：Stay simple, stay young. 在保证好用和健壮的前提下，尽量简洁，便于维护和阅读。
-- 好用：提供了许多方便的函数，比如 String 类提供了像 Python 的 str 那样的替换、分割、查找等操作，比如 List 类和 String 类都支持像 Python 那样的负数下标等等。
-- 健壮：安全的扩容机制，防止溢出。对容器的增删改查都有相应的检查。这么多检查，肯定会对性能有一定影响，但是这个库追求的并不是性能，而是简洁，好用和健壮。
-- 优雅：经过我的精心设计，用起来可以像 Python 的内置类型一样方便。
 - 风格：大部分遵循 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) ，小部分基于项目规模和源码简洁性的考虑采用自己的风格。
-- 测试：使用 [GoogleTest](https://github.com/google/googletest) 进行了测试，确保测试全部通过。
+- 测试：使用 [Catch2](https://github.com/catchorg/Catch2) 进行了单元测试和基准测试，确保测试全部通过。
 - 安全：使用 [Dr. Memory](https://drmemory.org/) 进行了检查，确保没有安全问题。
 - 文档：使用 [Doxygen](https://www.doxygen.nl/) 生成文档。
 - 构建：使用 [XMake](https://xmake.io/) 进行构建。
 
-### 2. 使用说明
+### 2. 特点
+
+- 简洁：Stay simple, stay young. 在保证好用和健壮的前提下，尽量简洁，便于维护和阅读。
+- 好用：提供了许多方便的函数，比如 String 类提供了像 Python 的 str 那样的替换、分割、查找等操作，比如 List 类和 String 类都支持像 Python 那样的负数下标等等。
+- 健壮：安全的扩容机制，防止溢出。对容器的增删改查都有相应的检查。检查会对性能有影响，但是这个库追求的并不是性能，而是简洁，好用和健壮。
+- 优雅：经过我的精心设计，用起来可以像 Python 的内置类型一样方便。
+- 高效：和标准库重合的部分进行了性能比较，[基准测试结果](./benchmark/pytype_vs_std.cpp)表明性能和标准库不相上下。
+
+### 3. 用法
 
 因为用的是 C++ 模板，所以全部以头文件的形式（.hpp）给出，header-only。
 
@@ -114,7 +118,9 @@ map.keys() // {"first", "second", "third"}
 map["third"][-1].factorial() // 120
 ```
 
-pytype 的易用性优势：
+### 4. 优势
+
+pytype 的优势在于把 C++ 的高性能和 Python 的易用性结合起来了，还可以方便地与其他库结合使用，比如：
 
 ```cpp
 /*
@@ -157,7 +163,7 @@ std::cout << t2 << std::endl; // (1 1.5 A hello (() ()))
 std::cout << t3 << std::endl; // (1, 1.5, A, hello, ((), ()))
 ```
 
-### 3. 开发历史
+### 5. 历史
 
 最开始是用的 C 语言开发，目的是学习数据结构。然后 2021 年开始尝试用 C++ 实现一些方便的容器类，只当是练手。后来经过了几次重构，确定了目标和目的，2023 年开始正式开发。
 
