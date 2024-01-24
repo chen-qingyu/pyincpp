@@ -36,15 +36,15 @@ class Tuple
 {
 public:
     // Check whether two tuples are equal.
-    template <typename... Ts>
-    constexpr bool operator==(const Tuple<Ts...>& that) const
+    template <typename... X>
+    constexpr bool operator==(const Tuple<X...>& that) const
     {
         return that.size() == 0;
     }
 
     // Check whether two tuples are not equal.
-    template <typename... Ts>
-    constexpr bool operator!=(const Tuple<Ts...>& that) const
+    template <typename... X>
+    constexpr bool operator!=(const Tuple<X...>& that) const
     {
         return that.size() != 0;
     }
@@ -65,6 +65,8 @@ public:
 template <typename T, typename... Ts>
 class Tuple<T, Ts...> : public Tuple<Ts...>
 {
+    friend class Tuple;
+
 private:
     // The value stored in current level.
     T value_;
@@ -96,9 +98,17 @@ public:
      * @param that another tuple
      * @return true if two tuples are equal
      */
-    bool operator==(const Tuple<T, Ts...>& that) const
+    template <typename... X>
+    bool operator==(const Tuple<X...>& that) const
     {
-        return value_ == that.value_ ? (rest() == that.rest()) : false;
+        if constexpr (sizeof...(X) > 0)
+        {
+            return value_ == that.value_ ? (rest() == that.rest()) : false;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -107,7 +117,8 @@ public:
      * @param that another tuple
      * @return true if two tuples are not equal
      */
-    bool operator!=(const Tuple<T, Ts...>& that) const
+    template <typename... X>
+    bool operator!=(const Tuple<X...>& that) const
     {
         return !(*this == that);
     }
