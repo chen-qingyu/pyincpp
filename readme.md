@@ -1,40 +1,40 @@
 # Pytype
 
-_——像 Python 的内置类型一样好用的 C++ 库_
+_A C++ type library that is as easy to use as Python built-in types._
 
 ![](https://img.shields.io/badge/version-1.0-blue.svg)
 
-### 1. 属性
+### 1. Attribute
 
-- 名称：Pytype。
-- 语言：C++ ，最低兼容版本：C++17 。
-- 目标：实现一个像 Python 的内置类型一样好用的 C++ 库。
-- 模块：List, Set, Map, Integer, String, Tuple, Deque, Fraction.
-- 风格：大部分遵循 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) ，小部分基于项目规模和源码简洁性的考虑采用自己的风格。
-- 测试：使用 [Catch2](https://github.com/catchorg/Catch2) 进行了单元测试和基准测试，确保测试全部通过。
-- 安全：使用 [Dr. Memory](https://drmemory.org/) 进行了检查，确保没有安全问题。
-- 文档：使用 [Doxygen](https://www.doxygen.nl/) 生成文档。
-- 构建：使用 [XMake](https://xmake.io/) 进行构建。
+- Name: Pytype.
+- Language: C++, minimum compatible version: C++17.
+- Goal: Write a C++ type library that is as easy to use as Python built-in types.
+- Module: List, Set, Map, Integer, String, Tuple, Deque, Fraction
+- Style: Most follow the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html), a small portion adopt their own style based on project size and source code simplicity considerations.
+- Test: Using [Catch2](https://github.com/catchorg/Catch2) for unit testing and benchmark testing and ensure that all tests passed.
+- Security: Using [Dr. Memory](https://drmemory.org/) checked to ensure there were no safety issues.
+- Document: Using [Doxygen](https://www.doxygen.nl/) to generate documents.
+- Build: Using [XMake](https://xmake.io/) to build.
 
-### 2. 特点
+### 2. Feature
 
-- 简洁：Stay simple, stay young. 在保证好用和健壮的前提下，尽量简洁，便于维护和阅读。
-- 好用：提供了许多方便的函数，比如 String 类提供了像 Python 的 str 那样的替换、分割、查找等操作，比如 List 类和 String 类都支持像 Python 那样的负数下标等等。
-- 健壮：安全的扩容机制，防止溢出。对容器的增删改查都有相应的检查。检查会对性能有影响，但是这个库追求的并不是性能，而是简洁，好用和健壮。
-- 优雅：经过我的精心设计，用起来可以像 Python 的内置类型一样方便。
-- 高效：和标准库重合的部分进行了性能比较，[基准测试结果](./tests/benchmark.cpp)表明性能并不差。
+- Simple: Stay simple, stay young. While ensuring usability and robustness, try to be concise and easy to maintain and read.
+- Friendly: Provides many convenient functions. For example, String class provides replace, split, find and other operations like Python's str, and List class and String class both support negative subscripts like python.
+- Robust: A secure expansion mechanism to prevent overflow. There are corresponding checks for the addition, deletion, modification, and inspection of containers. Checking will have an impact on performance, but this library is not pursuing performance, but simplicity, usability, and robustness.
+- Elegance: With my careful design, it can be used as conveniently as Python's built-in types.
+- Efficiency: Performance comparison was conducted on the parts that overlap with the standard library, and the [benchmark results](./tests/benchmark.cpp) showed that the performance was not poor.
 
-### 3. 用法
+### 3. Usage
 
-因为用的是 C++ 模板，所以全部以头文件的形式（.hpp）给出，header-only。
+Because C++ templates are used, they are all provided in the form of header files (. hpp), header only.
 
-使用非常方便：
+Very convenient to use:
 
-因为 pytype 已经进入 xmake 官方仓库，所以只需要在项目配置中 `add_requires("pytype")` 然后源码中就可以直接 `#include <pytype/pytype.hpp>`。
+Since pytype has already entered the official xmake repository, you only need to add it in the project configuration: `add_requires("pytype")` and then you can directly `#include <pytype/pytype.hpp>` in the source code.
 
-或者，简单粗暴地直接拷贝整个 sources 目录到项目源码目录下然后直接 `#include "pytype.hpp"`。
+Alternatively, simply and roughly copy the entire sources directory to the project source directory and then directly `#include "pytype.hpp"`.
 
-一共八个类，对标 Python 里面的八个常用的类：
+There are a total of 8 classes, refer to the 8 commonly used classes in Python:
 
 | Type in Pytype | Type in Python       |
 | -------------- | -------------------- |
@@ -47,70 +47,70 @@ _——像 Python 的内置类型一样好用的 C++ 库_
 | `Deque<T>`     | `collections.deque`  |
 | `Fraction`     | `fractions.Fraction` |
 
-一些简单的例子：
+Some simple examples:
 
 ```cpp
 using namespace pytype;
 
-// 列表索引，支持负数
+// List index, supports negative numbers
 List<int>({1, 2, 3, 4, 5})[-1] // 5
-// 列表遍历
+// List traversal
 List<int>({1, 2, 3, 4, 5}).map([](int& x) { x *= 2; }) // [2, 4, 6, 8, 10]
-// 列表去重
+// List uniquify
 List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify() // [1, 2, 3]
-// 列表排序，稳定排序，默认从小到大，可自定义比较器
+// List sorting, stable sorting, default from small to large, customizable comparator
 List<int>({1, 2, 3, 4, 5, 6, 7, 8, 9}).sort([](const int& e1, const int& e2) { return e1 > e2; }) // [9, 8, 7, 6, 5, 4, 3, 2, 1]
 
-// 集合添加元素
+// Adding Elements to Set
 Set<int>({1, 2, 3, 4}) += 5 // {1, 2, 3, 4, 5}
-// 集合求交集，交、并、差、对称差（异或）都支持
+// Intersection of sets, supported by intersection, union, difference, and symmetric difference (XOR)
 Set<int>({1, 2, 3, 4, 5}) & Set<int>({1, 3, 5, 7, 9}) // {1, 3, 5}
 
-// 字典根据键赋值
+// Map assigns values based on keys
 Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}})["one"] = 1111 // {"one": 1111, "two": 2, "three": 3}
-// 字典取值集合
+// The Set of Map values
 Map<int, String>({{"one", 1}, {"two", 2}, {"three", 3}}).values() // {1, 2, 3}
 
-// 整数幂取模，非常快
+// Modular Integer powers, very fast
 Integer("1024").pow("1024", "100") // 76
-// 整数求阶乘
+// Factorial of Integer
 Integer("5").factorial().factorial() // 668950291344912705758811805409037258675274633313802981029567135230163355...
 
-// 字符串转浮点数，支持 inf 和 nan
+// Convert String to floating-point number, supports inf and nan
 String(".1e-2").to_decimal() // 0.1e-2
-// 字符串转整数，支持 2-36 进制
+// Convert String to integer, supports base 2-36
 String("-0101").to_integer(2) // -5
-// 字符串追加
+// String append
 String("hello") += " world!" // "hello world!"
-// 字符串重复
+// String repetition
 String("hello! ") *= 2 // "hello! hello! "
-// 字符串替换
+// String replace
 String("hahaha").replace("a", "ooow~ ") // "hooow~ hooow~ hooow~ "
-// 字符串切片
+// String slice
 String("12345").slice(0, 5, 2) // "135"
-// 字符串分割
+// String split
 String("one, two, three").split(", ") // ["one", "two", "three"]
-// 字符串合并
+// String join
 String(".").join({"192", "168", "0", "1"}) // "192.168.0.1"
-// 字符串格式化
+// String format
 String("I'm {}, {} years old.").format("Alice", 18) // "I'm Alice, 18 years old."
 
-// 元组索引，返回类型不同所以使用模板函数
+// Tuple index, return type different, so template function is used
 Tuple<int, double, char>(1, 2.5, 'A').get<2>() // 'A'
-// 元组取剩余部分，底层是指针转换，非常快
+// Taking the remaining part of a Tuple, the underlying layer is pointer conversion, which is very fast
 Tuple<int, double, char>(1, 2.5, 'A').rest() // (2.5, 'A')
 
-// 双端队列尾部入栈，头部、尾部入栈、出栈、引用都支持
+// Deque tail push, supports both head and tail push, push, and element reference
 Deque<int>({1, 2, 3, 4}).push_back(5) // <1, 2, 3, 4, 5>
-// 双端队列向右移位，很生动形象有木有！
+// Deque shifts to the right, very vivid!
 Deque<int>({1, 2, 3, 4, 5}) >>= 1 // <5, 1, 2, 3, 4>
 
-// 分数乘法，加、减、乘、除、模都支持
+// Fraction multiplication, supports addition, subtraction, multiplication, division and modulo
 Fraction(1, 2) * Fraction(1, 2) // 1/4
-// 分数转字符串
+// Convert Fraction to String
 Fraction(3, -6).to_string() // "-1/2"
 
-// 任意嵌套多层容器
+// Arbitrarily nested multiple layers of containers
 Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {"12345678987654321", 5}}}
     // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
 map.size() // 3
@@ -118,9 +118,9 @@ map.keys() // {"first", "second", "third"}
 map["third"][-1].factorial() // 120
 ```
 
-### 4. 优势
+### 4. Advantage
 
-pytype 的优势在于把 C++ 的高性能和 Python 的易用性结合起来了，还可以方便地与其他库结合使用，比如：
+The advantage of pytype is that it combines the high performance of C++ with the ease of use of Python, and can also be easily combined with other libraries, for example:
 
 ```cpp
 /*
@@ -163,12 +163,12 @@ std::cout << t2 << std::endl; // (1 1.5 A hello (() ()))
 std::cout << t3 << std::endl; // (1, 1.5, A, hello, ((), ()))
 ```
 
-### 5. 历史
+### 5. History
 
-最开始是用的 C 语言开发，目的是学习数据结构。然后 2021 年开始尝试用 C++ 实现一些方便的容器类，只当是练手。后来经过了几次重构，确定了目标和目的，2023 年开始正式开发。
+It was originally developed in C to learn data structures. Then the 2021 started experimenting with some handy container classes in C++, just for practice. After several reconstructions, the goals and objectives were determined, and formal development began in 2023.
 
-说明一下关于 inline：为了源码简洁性，我最后决定一律采用 inline 的风格。一般不会有问题，除非对程序体积有很高的要求。刚开始我是把声明和定义分开写的，但这是模板，没法分成两个文件，所以我在一个文件里分开写，一部分函数定义前面加上 inline，但是这样最后写完了看起来非常冗长，一大堆的 template typename inline，在看了 Java 源码后考虑再三决定全部写在类里面，也就是默认 inline 的形式。inline 只是对编译器的请求而非要求，不能 inline 的函数（比如有递归的函数）编译器是不会执行 inline 的。
+A word about inline: for the sake of source brevity, I finally decided to adopt the inline style. There is usually no problem unless there is a high requirement for program size. At first I wrote the declaration and the definition separately, but this is a template, so I can't split it into two files, so I'm going to write it in one file, and I'm going to put inline in front of some of the function definitions, but it ended up being a verbose bunch of "template typename inline". After reading the Java source code, I decided to write it all in the class, as the default inline. Inline is just a request to the compiler, not a requirement, and functions that can not be inline (such as recursive functions) are not executed by the compiler.
 
-开发完了 Integer 类后和 GitHub 上一个有三百多 star 的大整数类 [BigInt](https://github.com/faheel/BigInt) 做了比较，结论是 pytype::Integer 的性能综合来看更快，同时易用性和 BigInt 差不多，而源码行数只有 BigInt 的几乎一半，并且代码也更加整洁。
+After developing the Integer class, I compared it to [BigInt](https://github.com/faheel/BigInt), a big integer class on GitHub with more than 300 stars, and the conclusion is that pytype::Integer has a faster overall performance, while its ease of use is similar to BigInt, and the number of source code lines is almost half of BigInt, and the code is also cleaner.
 
-我这个项目用到了 FPGA 里面的独热码思想结合有限状态机，还用到了模板元编程在编译期递归实现任意可变模板参数，听着很厉害，但是不赚钱，也没多少人真的会用，属于自娱自乐。可我创造就是快乐，创造就是意义（反正我不缺钱——饿不死）。
+In this project, I used the One-hot code idea in FPGA combined with the finite state machine. I also used template meta-programming to recursively implement any variable template parameters at compile time. It sounds great, but it doesn't make money, not many people really use, just belong to self-entertainment now. But I create is happy, create is the meaning.
