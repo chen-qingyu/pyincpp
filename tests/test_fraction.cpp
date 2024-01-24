@@ -10,9 +10,9 @@ TEST_CASE("Fraction")
     SECTION("basics")
     {
         // Fraction(int numerator = 0, int denominator = 1)
-        Fraction f1{}; // () -> function declare
-        Fraction f2(0);
-        Fraction f3(0, 1);
+        Fraction f1;
+        Fraction f2(2);
+        Fraction f3(2, 3);
         REQUIRE_THROWS_MATCHES(Fraction(1, 0), std::runtime_error, Message("Error: Zero denominator."));
 
         // Fraction(const Fraction &that)
