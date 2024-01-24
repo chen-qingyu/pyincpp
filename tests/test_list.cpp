@@ -133,7 +133,7 @@ TEST_CASE("List")
         REQUIRE(some[-1] == 999);
 
         // check bounds
-        MY_ASSERT_THROW_MESSAGE(some[5], std::runtime_error, "Error: Index out of range.");
+        REQUIRE_THROWS_MATCHES(some[5], std::runtime_error, Message("Error: Index out of range."));
     }
 
     // begin() end()
@@ -191,7 +191,7 @@ TEST_CASE("List")
     SECTION("insert")
     {
         // check bounds
-        MY_ASSERT_THROW_MESSAGE(empty.insert(999, 0), std::runtime_error, "Error: Index out of range.");
+        REQUIRE_THROWS_MATCHES(empty.insert(999, 0), std::runtime_error, Message("Error: Index out of range."));
 
         // insert
         empty.insert(0, 233);
@@ -213,7 +213,7 @@ TEST_CASE("List")
         //     big_list.insert(big_list.size(), true);
         // }
         // REQUIRE(big_list.size() == List<bool>::MAX_CAPACITY);
-        // MY_ASSERT_THROW_MESSAGE(big_list.insert(big_list.size(), true), std::runtime_error, "Error: The container has reached the maximum size.");
+        // REQUIRE_THROWS_MATCHES(big_list.insert(big_list.size(), true), std::runtime_error, Message("Error: The container has reached the maximum size."));
 
         // modify after inserted
         List<std::string> str_list;
@@ -228,7 +228,7 @@ TEST_CASE("List")
     SECTION("remove")
     {
         // check bounds
-        MY_ASSERT_THROW_MESSAGE(some.remove(999), std::runtime_error, "Error: Index out of range.");
+        REQUIRE_THROWS_MATCHES(some.remove(999), std::runtime_error, Message("Error: Index out of range."));
 
         // remove
         REQUIRE(some.remove(-2) == 4);
@@ -238,7 +238,7 @@ TEST_CASE("List")
         REQUIRE(some.remove(0) == 5);
 
         // check empty
-        MY_ASSERT_THROW_MESSAGE(some.remove(0), std::runtime_error, "Error: The container is empty.");
+        REQUIRE_THROWS_MATCHES(some.remove(0), std::runtime_error, Message("Error: The container is empty."));
     }
 
     // operator+=()
@@ -273,7 +273,7 @@ TEST_CASE("List")
     // operator*=()
     SECTION("repeat")
     {
-        MY_ASSERT_THROW_MESSAGE(some *= -1, std::runtime_error, "Error: Times to repeat can not be less than zero.");
+        REQUIRE_THROWS_MATCHES(some *= -1, std::runtime_error, Message("Error: Times to repeat can not be less than zero."));
 
         REQUIRE((some *= 1) == List<int>({1, 2, 3, 4, 5}));
         REQUIRE((some *= 2) == List<int>({1, 2, 3, 4, 5, 1, 2, 3, 4, 5}));
@@ -420,11 +420,11 @@ TEST_CASE("List")
         empty += List<int>({1, 2, 3, 4, 5});
         REQUIRE(empty.capacity() == 5);
 
-        MY_ASSERT_THROW_MESSAGE(empty.adjust_capacity(0), std::runtime_error, "Error: Capacity can not be zero.");
+        REQUIRE_THROWS_MATCHES(empty.adjust_capacity(0), std::runtime_error, Message("Error: Capacity can not be zero."));
 
-        MY_ASSERT_THROW_MESSAGE(empty.adjust_capacity(2), std::runtime_error, "Error: Capacity can not be smaller than the size.");
+        REQUIRE_THROWS_MATCHES(empty.adjust_capacity(2), std::runtime_error, Message("Error: Capacity can not be smaller than the size."));
 
-        MY_ASSERT_THROW_MESSAGE(empty.adjust_capacity(INT_MAX), std::runtime_error, "Error: Capacity can not be larger than the maximum capacity.");
+        REQUIRE_THROWS_MATCHES(empty.adjust_capacity(INT_MAX), std::runtime_error, Message("Error: Capacity can not be larger than the maximum capacity."));
     }
 
     // operator>>=() operator<<=()
@@ -451,7 +451,7 @@ TEST_CASE("List")
         REQUIRE(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(1, 6) == List<int>({1, 7}));
         REQUIRE(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(0, 7) == List<int>());
 
-        MY_ASSERT_THROW_MESSAGE(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(-1, 99), std::runtime_error, "Error: Index out of range.");
+        REQUIRE_THROWS_MATCHES(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(-1, 99), std::runtime_error, Message("Error: Index out of range."));
     }
 
     // slice()
@@ -477,9 +477,9 @@ TEST_CASE("List")
         REQUIRE(some.slice(-1, -1) == List<int>({}));
         REQUIRE(some.slice(-1, -1, -1) == List<int>({}));
 
-        MY_ASSERT_THROW_MESSAGE(some.slice(1, 2, 0), std::runtime_error, "Error: Slice step can not be zero.");
+        REQUIRE_THROWS_MATCHES(some.slice(1, 2, 0), std::runtime_error, Message("Error: Slice step can not be zero."));
 
-        MY_ASSERT_THROW_MESSAGE(some.slice(-7, -6), std::runtime_error, "Error: Index out of range.");
+        REQUIRE_THROWS_MATCHES(some.slice(-7, -6), std::runtime_error, Message("Error: Index out of range."));
     }
 
     // operator+() operator-() operator*() operator/()

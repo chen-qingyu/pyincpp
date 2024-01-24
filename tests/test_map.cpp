@@ -102,7 +102,7 @@ TEST_CASE("Map")
         REQUIRE(map["one"] == 1111);
 
         // check key
-        MY_ASSERT_THROW_MESSAGE(map["four"], std::runtime_error, "Error: Key is not found in the map.");
+        REQUIRE_THROWS_MATCHES(map["four"], std::runtime_error, Message("Error: Key is not found in the map."));
     }
 
     // begin() end()

@@ -258,7 +258,7 @@ TEST_CASE("Set")
 
         set -= 9;
         set -= 9;
-        MY_ASSERT_THROW_MESSAGE(set.max(), std::runtime_error, "Error: The container is empty.");
-        MY_ASSERT_THROW_MESSAGE(set.min(), std::runtime_error, "Error: The container is empty.");
+        REQUIRE_THROWS_MATCHES(set.max(), std::runtime_error, Message("Error: The container is empty."));
+        REQUIRE_THROWS_MATCHES(set.min(), std::runtime_error, Message("Error: The container is empty."));
     }
 }

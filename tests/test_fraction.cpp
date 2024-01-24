@@ -13,7 +13,7 @@ TEST_CASE("Fraction")
         Fraction f1{}; // () -> function declare
         Fraction f2(0);
         Fraction f3(0, 1);
-        MY_ASSERT_THROW_MESSAGE(Fraction(1, 0), std::runtime_error, "Error: Zero denominator.");
+        REQUIRE_THROWS_MATCHES(Fraction(1, 0), std::runtime_error, Message("Error: Zero denominator."));
 
         // Fraction(const Fraction &that)
         Fraction f4(f3);
@@ -63,10 +63,10 @@ TEST_CASE("Fraction")
     // operator double()
     SECTION("examination")
     {
-        REQUIRE(double(Fraction(0, 2)) == Catch::Approx(0.0));
-        REQUIRE(double(Fraction(1, 2)) == Catch::Approx(0.5));
-        REQUIRE(double(Fraction(2, 3)) == Catch::Approx(2.0 / 3.0));
-        REQUIRE(double(Fraction(1, -2)) == Catch::Approx(-0.5));
+        REQUIRE(double(Fraction(0, 2)) == Approx(0.0));
+        REQUIRE(double(Fraction(1, 2)) == Approx(0.5));
+        REQUIRE(double(Fraction(2, 3)) == Approx(2.0 / 3.0));
+        REQUIRE(double(Fraction(1, -2)) == Approx(-0.5));
     }
 
     // operator++() operator--()
@@ -149,15 +149,15 @@ TEST_CASE("Fraction")
     SECTION("divide")
     {
         REQUIRE(positive / positive == Fraction(1));
-        MY_ASSERT_THROW_MESSAGE(positive / zero, std::runtime_error, "Error: Zero denominator.");
+        REQUIRE_THROWS_MATCHES(positive / zero, std::runtime_error, Message("Error: Zero denominator."));
         REQUIRE(positive / negative == Fraction(-1));
 
         REQUIRE(negative / positive == Fraction(-1));
-        MY_ASSERT_THROW_MESSAGE(negative / zero, std::runtime_error, "Error: Zero denominator.");
+        REQUIRE_THROWS_MATCHES(negative / zero, std::runtime_error, Message("Error: Zero denominator."));
         REQUIRE(negative / negative == Fraction(1));
 
         REQUIRE(zero / positive == Fraction(0));
-        MY_ASSERT_THROW_MESSAGE(zero / zero, std::runtime_error, "Error: Zero denominator.");
+        REQUIRE_THROWS_MATCHES(zero / zero, std::runtime_error, Message("Error: Zero denominator."));
         REQUIRE(zero / negative == Fraction(0));
     }
 
@@ -165,15 +165,15 @@ TEST_CASE("Fraction")
     SECTION("mod")
     {
         REQUIRE(positive % positive == Fraction(0));
-        MY_ASSERT_THROW_MESSAGE(positive % zero, std::runtime_error, "Error: Zero denominator.");
+        REQUIRE_THROWS_MATCHES(positive % zero, std::runtime_error, Message("Error: Zero denominator."));
         REQUIRE(positive % negative == Fraction(0));
 
         REQUIRE(negative % positive == Fraction(0));
-        MY_ASSERT_THROW_MESSAGE(negative % zero, std::runtime_error, "Error: Zero denominator.");
+        REQUIRE_THROWS_MATCHES(negative % zero, std::runtime_error, Message("Error: Zero denominator."));
         REQUIRE(negative % negative == Fraction(0));
 
         REQUIRE(zero % positive == Fraction(0));
-        MY_ASSERT_THROW_MESSAGE(zero % zero, std::runtime_error, "Error: Zero denominator.");
+        REQUIRE_THROWS_MATCHES(zero % zero, std::runtime_error, Message("Error: Zero denominator."));
         REQUIRE(zero % negative == Fraction(0));
     }
 

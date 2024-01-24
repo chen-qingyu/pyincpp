@@ -91,8 +91,8 @@ TEST_CASE("Deque")
     // back() front()
     SECTION("peek")
     {
-        MY_ASSERT_THROW_MESSAGE(empty.back(), std::runtime_error, "Error: The container is empty.");
-        MY_ASSERT_THROW_MESSAGE(empty.front(), std::runtime_error, "Error: The container is empty.");
+        REQUIRE_THROWS_MATCHES(empty.back(), std::runtime_error, Message("Error: The container is empty."));
+        REQUIRE_THROWS_MATCHES(empty.front(), std::runtime_error, Message("Error: The container is empty."));
 
         REQUIRE(some.back() == 5);
         REQUIRE(some.front() == 1);
@@ -104,8 +104,8 @@ TEST_CASE("Deque")
     // push_back() push_front() pop_back() pop_front()
     SECTION("push_pop")
     {
-        MY_ASSERT_THROW_MESSAGE(empty.pop_back(), std::runtime_error, "Error: The container is empty.");
-        MY_ASSERT_THROW_MESSAGE(empty.pop_front(), std::runtime_error, "Error: The container is empty.");
+        REQUIRE_THROWS_MATCHES(empty.pop_back(), std::runtime_error, Message("Error: The container is empty."));
+        REQUIRE_THROWS_MATCHES(empty.pop_front(), std::runtime_error, Message("Error: The container is empty."));
 
         const int size = 99;
 

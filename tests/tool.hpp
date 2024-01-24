@@ -6,16 +6,9 @@
 
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
 
-#define MY_ASSERT_THROW_MESSAGE(expression, exception, message) \
-    // ASSERT_THROW(expression, exception);                        \
-    // try                                                         \
-    // {                                                           \
-    //     expression;                                             \
-    // }                                                           \
-    // catch (const exception& e)                                  \
-    // {                                                           \
-    //     ASSERT_STREQ(e.what(), message);                        \
-    // }
+using Catch::Approx;
+using Catch::Matchers::Message;
 
 #endif // TOOL_HPP

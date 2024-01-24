@@ -14,11 +14,11 @@ TEST_CASE("Integer")
 
         // Integer(const char* chars)
         Integer int2("123456789000");
-        MY_ASSERT_THROW_MESSAGE(Integer("hello"), std::runtime_error, "Error: Wrong integer literal.");
+        REQUIRE_THROWS_MATCHES(Integer("hello"), std::runtime_error, Message("Error: Wrong integer literal."));
 
         // Integer(const String& str)
         Integer int3(String("123456789000"));
-        MY_ASSERT_THROW_MESSAGE(Integer(String("hello")), std::runtime_error, "Error: Wrong integer literal.");
+        REQUIRE_THROWS_MATCHES(Integer(String("hello")), std::runtime_error, Message("Error: Wrong integer literal."));
 
         // Integer(int integer)
         Integer int4 = 123456789;
@@ -185,15 +185,15 @@ TEST_CASE("Integer")
     SECTION("divide")
     {
         REQUIRE(positive / positive == "1");
-        MY_ASSERT_THROW_MESSAGE(positive / zero, std::runtime_error, "Error: Divide by zero.");
+        REQUIRE_THROWS_MATCHES(positive / zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(positive / negative == "-1");
 
         REQUIRE(negative / positive == "-1");
-        MY_ASSERT_THROW_MESSAGE(negative / zero, std::runtime_error, "Error: Divide by zero.");
+        REQUIRE_THROWS_MATCHES(negative / zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(negative / negative == "1");
 
         REQUIRE(zero / positive == "0");
-        MY_ASSERT_THROW_MESSAGE(zero / zero, std::runtime_error, "Error: Divide by zero.");
+        REQUIRE_THROWS_MATCHES(zero / zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(zero / negative == "0");
     }
 
@@ -201,15 +201,15 @@ TEST_CASE("Integer")
     SECTION("mod")
     {
         REQUIRE(positive % positive == "0");
-        MY_ASSERT_THROW_MESSAGE(positive % zero, std::runtime_error, "Error: Divide by zero.");
+        REQUIRE_THROWS_MATCHES(positive % zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(positive % negative == "0");
 
         REQUIRE(negative % positive == "0");
-        MY_ASSERT_THROW_MESSAGE(negative % zero, std::runtime_error, "Error: Divide by zero.");
+        REQUIRE_THROWS_MATCHES(negative % zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(negative % negative == "0");
 
         REQUIRE(zero % positive == "0");
-        MY_ASSERT_THROW_MESSAGE(zero % zero, std::runtime_error, "Error: Divide by zero.");
+        REQUIRE_THROWS_MATCHES(zero % zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(zero % negative == "0");
     }
 
@@ -248,7 +248,7 @@ TEST_CASE("Integer")
     SECTION("factorial")
     {
         // (negative)! throws exception
-        MY_ASSERT_THROW_MESSAGE(Integer("-1").factorial(), std::runtime_error, "Error: Negative integer have no factorial.");
+        REQUIRE_THROWS_MATCHES(Integer("-1").factorial(), std::runtime_error, Message("Error: Negative integer have no factorial."));
 
         // 0! == 1
         REQUIRE(Integer("0").factorial() == "1");
@@ -288,7 +288,7 @@ TEST_CASE("Integer")
     // sqrt()
     SECTION("sqrt")
     {
-        MY_ASSERT_THROW_MESSAGE(Integer("-1").sqrt(), std::runtime_error, "Error: Cannot compute square root of a negative integer.");
+        REQUIRE_THROWS_MATCHES(Integer("-1").sqrt(), std::runtime_error, Message("Error: Cannot compute square root of a negative integer."));
 
         REQUIRE(Integer("0").sqrt() == "0");
         REQUIRE(Integer("1").sqrt() == "1");

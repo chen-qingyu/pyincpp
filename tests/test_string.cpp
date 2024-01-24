@@ -111,7 +111,7 @@ TEST_CASE("String")
         REQUIRE(some[-1] == 'Z');
 
         // check bounds
-        MY_ASSERT_THROW_MESSAGE(some[5], std::runtime_error, "Error: Index out of range.");
+        REQUIRE_THROWS_MATCHES(some[5], std::runtime_error, Message("Error: Index out of range."));
     }
 
     // get() set()
@@ -185,49 +185,49 @@ TEST_CASE("String")
     SECTION("to_decimal")
     {
         // example
-        REQUIRE(String("233.33").to_decimal() == Catch::Approx(233.33));
-        REQUIRE(String("123.456e-3").to_decimal() == Catch::Approx(0.123456));
-        REQUIRE(String("1e+600").to_decimal() == Catch::Approx(HUGE_VAL));
+        REQUIRE(String("233.33").to_decimal() == Approx(233.33));
+        REQUIRE(String("123.456e-3").to_decimal() == Approx(0.123456));
+        REQUIRE(String("1e+600").to_decimal() == Approx(HUGE_VAL));
         REQUIRE(std::isnan(String("nan").to_decimal()));
-        REQUIRE(String("inf").to_decimal() == Catch::Approx(INFINITY));
+        REQUIRE(String("inf").to_decimal() == Approx(INFINITY));
 
         // 0
-        REQUIRE(String("0").to_decimal() == Catch::Approx(0));
-        REQUIRE(String("-0").to_decimal() == Catch::Approx(0));
-        REQUIRE(String("+0").to_decimal() == Catch::Approx(0));
-        REQUIRE(String(".0").to_decimal() == Catch::Approx(0));
-        REQUIRE(String("0.").to_decimal() == Catch::Approx(0));
+        REQUIRE(String("0").to_decimal() == Approx(0));
+        REQUIRE(String("-0").to_decimal() == Approx(0));
+        REQUIRE(String("+0").to_decimal() == Approx(0));
+        REQUIRE(String(".0").to_decimal() == Approx(0));
+        REQUIRE(String("0.").to_decimal() == Approx(0));
 
         // 1
-        REQUIRE(String("1").to_decimal() == Catch::Approx(1.0));
-        REQUIRE(String("-1").to_decimal() == Catch::Approx(-1.0));
-        REQUIRE(String("+1").to_decimal() == Catch::Approx(1.0));
-        REQUIRE(String(".1").to_decimal() == Catch::Approx(0.1));
-        REQUIRE(String("1.").to_decimal() == Catch::Approx(1.0));
+        REQUIRE(String("1").to_decimal() == Approx(1.0));
+        REQUIRE(String("-1").to_decimal() == Approx(-1.0));
+        REQUIRE(String("+1").to_decimal() == Approx(1.0));
+        REQUIRE(String(".1").to_decimal() == Approx(0.1));
+        REQUIRE(String("1.").to_decimal() == Approx(1.0));
 
         // e
-        REQUIRE(String("1e2").to_decimal() == Catch::Approx(1e2));
-        REQUIRE(String("-1e2").to_decimal() == Catch::Approx(-1e2));
-        REQUIRE(String("+1e2").to_decimal() == Catch::Approx(1e2));
-        REQUIRE(String(".1e2").to_decimal() == Catch::Approx(0.1e2));
-        REQUIRE(String("1.e2").to_decimal() == Catch::Approx(1.e2));
+        REQUIRE(String("1e2").to_decimal() == Approx(1e2));
+        REQUIRE(String("-1e2").to_decimal() == Approx(-1e2));
+        REQUIRE(String("+1e2").to_decimal() == Approx(1e2));
+        REQUIRE(String(".1e2").to_decimal() == Approx(0.1e2));
+        REQUIRE(String("1.e2").to_decimal() == Approx(1.e2));
 
         // e+
-        REQUIRE(String("1e+2").to_decimal() == Catch::Approx(1e+2));
-        REQUIRE(String("-1e+2").to_decimal() == Catch::Approx(-1e+2));
-        REQUIRE(String("+1e+2").to_decimal() == Catch::Approx(1e+2));
-        REQUIRE(String(".1e+2").to_decimal() == Catch::Approx(0.1e+2));
-        REQUIRE(String("1.e+2").to_decimal() == Catch::Approx(1.e+2));
+        REQUIRE(String("1e+2").to_decimal() == Approx(1e+2));
+        REQUIRE(String("-1e+2").to_decimal() == Approx(-1e+2));
+        REQUIRE(String("+1e+2").to_decimal() == Approx(1e+2));
+        REQUIRE(String(".1e+2").to_decimal() == Approx(0.1e+2));
+        REQUIRE(String("1.e+2").to_decimal() == Approx(1.e+2));
 
         // e-
-        REQUIRE(String("1e-2").to_decimal() == Catch::Approx(1e-2));
-        REQUIRE(String("-1e-2").to_decimal() == Catch::Approx(-1e-2));
-        REQUIRE(String("+1e-2").to_decimal() == Catch::Approx(1e-2));
-        REQUIRE(String(".1e-2").to_decimal() == Catch::Approx(0.1e-2));
-        REQUIRE(String("1.e-2").to_decimal() == Catch::Approx(1.e-2));
+        REQUIRE(String("1e-2").to_decimal() == Approx(1e-2));
+        REQUIRE(String("-1e-2").to_decimal() == Approx(-1e-2));
+        REQUIRE(String("+1e-2").to_decimal() == Approx(1e-2));
+        REQUIRE(String(".1e-2").to_decimal() == Approx(0.1e-2));
+        REQUIRE(String("1.e-2").to_decimal() == Approx(1.e-2));
 
         // error
-        MY_ASSERT_THROW_MESSAGE(String("hello").to_decimal(), std::runtime_error, "Error: Invalid literal for to_decimal().");
+        REQUIRE_THROWS_MATCHES(String("hello").to_decimal(), std::runtime_error, Message("Error: Invalid literal for to_decimal()."));
     }
 
     // to_integer()
@@ -262,15 +262,15 @@ TEST_CASE("String")
         REQUIRE(String("\n\r\n\t  233  \t\r\n\r").to_integer() == 233);
 
         // error
-        MY_ASSERT_THROW_MESSAGE(String("123").to_integer(99), std::runtime_error, "Error: Invalid base for to_integer().");
-        MY_ASSERT_THROW_MESSAGE(String("!!!").to_integer(), std::runtime_error, "Error: Invalid literal for to_integer().");
+        REQUIRE_THROWS_MATCHES(String("123").to_integer(99), std::runtime_error, Message("Error: Invalid base for to_integer()."));
+        REQUIRE_THROWS_MATCHES(String("!!!").to_integer(), std::runtime_error, Message("Error: Invalid literal for to_integer()."));
     }
 
     // insert()
     SECTION("insert")
     {
         // check bounds
-        MY_ASSERT_THROW_MESSAGE(empty.insert(999, '0'), std::runtime_error, "Error: Index out of range.");
+        REQUIRE_THROWS_MATCHES(empty.insert(999, '0'), std::runtime_error, Message("Error: Index out of range."));
 
         // insert
         empty.insert(0, 'a');
@@ -289,7 +289,7 @@ TEST_CASE("String")
     SECTION("remove")
     {
         // check bounds
-        MY_ASSERT_THROW_MESSAGE(some.remove(999), std::runtime_error, "Error: Index out of range.");
+        REQUIRE_THROWS_MATCHES(some.remove(999), std::runtime_error, Message("Error: Index out of range."));
 
         // remove
         REQUIRE(some.remove(-2) == '4');
@@ -299,7 +299,7 @@ TEST_CASE("String")
         REQUIRE(some.remove(0) == '5');
 
         // check empty
-        MY_ASSERT_THROW_MESSAGE(some.remove(0), std::runtime_error, "Error: The container is empty.");
+        REQUIRE_THROWS_MATCHES(some.remove(0), std::runtime_error, Message("Error: The container is empty."));
     }
 
     // operator+=()
@@ -334,7 +334,7 @@ TEST_CASE("String")
     // operator*=()
     SECTION("repeat")
     {
-        MY_ASSERT_THROW_MESSAGE(some *= -1, std::runtime_error, "Error: Times to repeat can not be less than zero.");
+        REQUIRE_THROWS_MATCHES(some *= -1, std::runtime_error, Message("Error: Times to repeat can not be less than zero."));
 
         REQUIRE((some *= 1) == "12345");
         REQUIRE((some *= 2) == "1234512345");
@@ -440,7 +440,7 @@ TEST_CASE("String")
         REQUIRE(String("abcdefg").erase(1, 6) == "ag");
         REQUIRE(String("abcdefg").erase(0, 7) == "");
 
-        MY_ASSERT_THROW_MESSAGE(String("abcdefg").erase(-1, 99), std::runtime_error, "Error: Index out of range.");
+        REQUIRE_THROWS_MATCHES(String("abcdefg").erase(-1, 99), std::runtime_error, Message("Error: Index out of range."));
     }
 
     // replace()
@@ -506,9 +506,9 @@ TEST_CASE("String")
         REQUIRE(some.slice(-1, -1) == "");
         REQUIRE(some.slice(-1, -1, -1) == "");
 
-        MY_ASSERT_THROW_MESSAGE(some.slice(1, 2, 0), std::runtime_error, "Error: Slice step can not be zero.");
+        REQUIRE_THROWS_MATCHES(some.slice(1, 2, 0), std::runtime_error, Message("Error: Slice step can not be zero."));
 
-        MY_ASSERT_THROW_MESSAGE(some.slice(-7, -6), std::runtime_error, "Error: Index out of range.");
+        REQUIRE_THROWS_MATCHES(some.slice(-7, -6), std::runtime_error, Message("Error: Index out of range."));
     }
 
     // operator+() operator-() operator*()
