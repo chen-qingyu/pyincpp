@@ -120,7 +120,7 @@ map["third"][-1].factorial() // 120
 
 ### 4. Advantage
 
-The advantage of pytype is that it combines the high performance of C++ with the ease of use of Python, and can also be easily combined with other libraries, for example:
+The advantage of PyType is that it combines the high performance of C++ with the ease of use of Python, and can also be easily combined with other libraries, for example:
 
 ```cpp
 /*
