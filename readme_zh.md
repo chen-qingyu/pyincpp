@@ -1,4 +1,4 @@
-# Pytype
+# PyType
 
 _像 Python 的内置类型一样好用的 C++ 库_
 
@@ -6,7 +6,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 
 ### 1. 属性
 
-- 名称：Pytype。
+- 名称：PyType。
 - 语言：C++ ，最低兼容版本：C++17 。
 - 目标：实现一个像 Python 的内置类型一样好用的 C++ 库。
 - 模块：List, Set, Map, Integer, String, Tuple, Deque, Fraction.
@@ -36,7 +36,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 
 一共八个类，对标 Python 里面的八个常用的类：
 
-| Type in Pytype | Type in Python       |
+| Type in PyType | Type in Python       |
 | -------------- | -------------------- |
 | `List<T>`      | `list`               |
 | `Set<T>`       | `set`                |

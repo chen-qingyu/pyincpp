@@ -1,4 +1,4 @@
-# Pytype
+# PyType
 
 _A C++ type library that is as easy to use as Python built-in types._
 
@@ -6,7 +6,7 @@ _A C++ type library that is as easy to use as Python built-in types._
 
 ### 1. Attribute
 
-- Name: Pytype.
+- Name: PyType.
 - Language: C++, minimum compatible version: C++17.
 - Goal: Write a C++ type library that is as easy to use as Python built-in types.
 - Module: List, Set, Map, Integer, String, Tuple, Deque, Fraction
@@ -36,7 +36,7 @@ Alternatively, simply and roughly copy the entire sources directory to the proje
 
 There are a total of 8 classes, refer to the 8 commonly used classes in Python:
 
-| Type in Pytype | Type in Python       |
+| Type in PyType | Type in Python       |
 | -------------- | -------------------- |
 | `List<T>`      | `list`               |
 | `Set<T>`       | `set`                |

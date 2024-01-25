@@ -1,7 +1,7 @@
 /**
  * @file utility.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief Utility functions for Pytype.
+ * @brief Utility functions for PyType.
  * @date 2023.01.05
  *
  * @copyright Copyright (C) 2023
