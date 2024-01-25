@@ -1,6 +1,6 @@
 set_license("GPL-3.0")
-add_rules("mode.debug", "mode.release")
 set_languages("cxx17")
+add_rules("mode.debug", "mode.release")
 add_requires("catch2")
 add_requires("eigen")
 add_requires("pytype")
