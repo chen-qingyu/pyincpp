@@ -7,7 +7,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 ### 1. 属性
 
 - 名称：PyType。
-- 语言：C++ ，最低兼容版本：C++17 。
+- 语言：C++ ，要求 C++17 。
 - 目标：实现一个像 Python 的内置类型一样好用的 C++ 库。
 - 模块：List, Set, Map, Integer, String, Tuple, Deque, Fraction.
 - 风格：大部分遵循 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) ，小部分基于项目规模和源码简洁性的考虑采用自己的风格。
@@ -30,11 +30,10 @@ _像 Python 的内置类型一样好用的 C++ 库_
 
 使用非常方便：
 
-因为 pytype 已经进入 xmake 官方仓库，所以只需要在项目配置中 `add_requires("pytype")` 然后源码中就可以直接 `#include <pytype/pytype.hpp>`。
+- PyType 已经进入 XMake 官方仓库，所以只需要在 xmake.lua 中加上 `add_requires("pytype")` 然后源码中就可以 `#include <pytype/pytype.hpp>`。
+- 或者，简单粗暴地拷贝整个 sources 目录到项目源码目录下然后 `#include "pytype.hpp"`。
 
-或者，简单粗暴地直接拷贝整个 sources 目录到项目源码目录下然后直接 `#include "pytype.hpp"`。
-
-一共八个类，对标 Python 里面的八个常用的类：
+目前一共八个类，对标 Python 里面的八个常用的类：
 
 | Type in PyType | Type in Python       |
 | -------------- | -------------------- |
@@ -52,7 +51,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 ```cpp
 using namespace pytype;
 
-// 列表索引，支持负数
+// 列表索引，支持负数下标
 List<int>({1, 2, 3, 4, 5})[-1] // 5
 // 列表遍历
 List<int>({1, 2, 3, 4, 5}).map([](int& x) { x *= 2; }) // [2, 4, 6, 8, 10]
@@ -110,7 +109,7 @@ Fraction(1, 2) * Fraction(1, 2) // 1/4
 // 分数转字符串
 Fraction(3, -6).to_string() // "-1/2"
 
-// 任意嵌套多层容器
+// 任意嵌套多层类型
 Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {"12345678987654321", 5}}}
     // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
 map.size() // 3

@@ -7,7 +7,7 @@ _A C++ type library that is as easy to use as Python built-in types._
 ### 1. Attribute
 
 - Name: PyType.
-- Language: C++, minimum compatible version: C++17.
+- Language: C++, requires C++17.
 - Goal: Write a C++ type library that is as easy to use as Python built-in types.
 - Module: List, Set, Map, Integer, String, Tuple, Deque, Fraction
 - Style: Most follow the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html), a small portion adopt their own style based on project size and source code simplicity considerations.
@@ -19,7 +19,7 @@ _A C++ type library that is as easy to use as Python built-in types._
 ### 2. Feature
 
 - Simple: Stay simple, stay young. While ensuring usability and robustness, try to be concise and easy to maintain and read.
-- Friendly: Provides many convenient functions. For example, String class provides replace, split, find and other operations like Python's str, and List class and String class both support negative subscripts like python.
+- Friendly: Provides many convenient functions. For example, String class provides replace, split, find and other operations like Python's str, and List class and String class both support negative subscript like Python.
 - Robust: A secure expansion mechanism to prevent overflow. There are corresponding checks for the addition, deletion, modification, and inspection of containers. Checking will have an impact on performance, but this library is not pursuing performance, but simplicity, usability, and robustness.
 - Elegance: With my careful design, it can be used as conveniently as Python's built-in types.
 - Efficiency: Performance comparison was conducted on the parts that overlap with the standard library, and the [benchmark results](./tests/benchmark.cpp) showed that the performance was not poor.
@@ -30,11 +30,10 @@ Because C++ templates are used, they are all provided in the form of header file
 
 Very convenient to use:
 
-Since pytype has already entered the official xmake repository, you only need to add it in the project configuration: `add_requires("pytype")` and then you can directly `#include <pytype/pytype.hpp>` in the source code.
+- PyType has already in the official XMake repository, you only need to add it in the xmake.lua: `add_requires("pytype")` and then `#include <pytype/pytype.hpp>`.
+- Or, simply and roughly copy the entire sources directory to the project source directory and then `#include "pytype.hpp"`.
 
-Alternatively, simply and roughly copy the entire sources directory to the project source directory and then directly `#include "pytype.hpp"`.
-
-There are a total of 8 classes, refer to the 8 commonly used classes in Python:
+There are a total of 8 classes for now, refer to the 8 commonly used classes in Python:
 
 | Type in PyType | Type in Python       |
 | -------------- | -------------------- |
@@ -52,7 +51,7 @@ Some simple examples:
 ```cpp
 using namespace pytype;
 
-// List index, supports negative numbers
+// List index, supports negative subscript
 List<int>({1, 2, 3, 4, 5})[-1] // 5
 // List traversal
 List<int>({1, 2, 3, 4, 5}).map([](int& x) { x *= 2; }) // [2, 4, 6, 8, 10]
@@ -61,9 +60,9 @@ List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify() // [1, 2, 3]
 // List sorting, stable sorting, default from small to large, customizable comparator
 List<int>({1, 2, 3, 4, 5, 6, 7, 8, 9}).sort([](const int& e1, const int& e2) { return e1 > e2; }) // [9, 8, 7, 6, 5, 4, 3, 2, 1]
 
-// Adding Elements to Set
+// Adding elements to Set
 Set<int>({1, 2, 3, 4}) += 5 // {1, 2, 3, 4, 5}
-// Intersection of sets, supports intersection, union, difference, and symmetric difference
+// Intersection of Sets, supports intersection, union, difference, and symmetric difference
 Set<int>({1, 2, 3, 4, 5}) & Set<int>({1, 3, 5, 7, 9}) // {1, 3, 5}
 
 // Map assigns values
@@ -82,7 +81,7 @@ String(".1e-2").to_decimal() // 0.1e-2
 String("-0101").to_integer(2) // -5
 // String append
 String("hello") += " world!" // "hello world!"
-// String repetition
+// String repeat
 String("hello! ") *= 2 // "hello! hello! "
 // String replace
 String("hahaha").replace("a", "ooow~ ") // "hooow~ hooow~ hooow~ "
