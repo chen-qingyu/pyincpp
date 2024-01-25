@@ -164,7 +164,7 @@ private:
 
     // Format helper, see https://codereview.stackexchange.com/questions/269425/implementing-stdformat
     template <typename T>
-    static void format_helper(std::ostringstream& oss, std::string_view& str, const T& value)
+    static void format_helper(std::ostringstream& oss, std::string& str, const T& value)
     {
         std::size_t open_bracket = str.find('{');
         std::size_t close_bracket = str.find('}', open_bracket + 1);
@@ -1176,11 +1176,11 @@ public:
      * @return formatted string
      */
     template <typename... Args>
-    String format(Args&&... args) const
+    String format(const Args&... args) const
     {
         std::ostringstream oss;
         const char* s = get();
-        std::string_view str(s);
+        std::string str(s);
         (format_helper(oss, str, args), ...);
         oss << str;
         delete[] s;

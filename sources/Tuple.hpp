@@ -184,7 +184,7 @@ public:
  * @return a tuple object containing the given values
  */
 template <typename... Ts>
-decltype(auto) make_tuple(Ts&&... values)
+decltype(auto) make_tuple(const Ts&... values)
 {
     return Tuple<Ts...>(values...);
 }
