@@ -2,8 +2,6 @@
 
 _像 Python 的内置类型一样好用的 C++ 库_
 
-![](https://img.shields.io/badge/version-1.0-blue.svg)
-
 [English](./readme.md)
 
 ### 1. 属性

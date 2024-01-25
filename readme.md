@@ -2,8 +2,6 @@
 
 _A C++ type library that is as easy to use as Python built-in types._
 
-![](https://img.shields.io/badge/version-1.0-blue.svg)
-
 [中文](./readme_zh.md)
 
 ### 1. Attribute
