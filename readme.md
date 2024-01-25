@@ -63,12 +63,12 @@ List<int>({1, 2, 3, 4, 5, 6, 7, 8, 9}).sort([](const int& e1, const int& e2) { r
 
 // Adding Elements to Set
 Set<int>({1, 2, 3, 4}) += 5 // {1, 2, 3, 4, 5}
-// Intersection of sets, supported by intersection, union, difference, and symmetric difference (XOR)
+// Intersection of sets, supports intersection, union, difference, and symmetric difference
 Set<int>({1, 2, 3, 4, 5}) & Set<int>({1, 3, 5, 7, 9}) // {1, 3, 5}
 
-// Map assigns values based on keys
+// Map assigns values
 Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}})["one"] = 1111 // {"one": 1111, "two": 2, "three": 3}
-// The Set of Map values
+// Get Map values
 Map<int, String>({{"one", 1}, {"two", 2}, {"three", 3}}).values() // {1, 2, 3}
 
 // Modular Integer powers, very fast
@@ -100,7 +100,7 @@ Tuple<int, double, char>(1, 2.5, 'A').get<2>() // 'A'
 // Taking the remaining part of a Tuple, the underlying layer is pointer conversion, which is very fast
 Tuple<int, double, char>(1, 2.5, 'A').rest() // (2.5, 'A')
 
-// Deque tail push, supports both head and tail push, push, and element reference
+// Deque tail push, supports both head and tail push, pop, and element reference
 Deque<int>({1, 2, 3, 4}).push_back(5) // <1, 2, 3, 4, 5>
 // Deque shifts to the right, very vivid!
 Deque<int>({1, 2, 3, 4, 5}) >>= 1 // <5, 1, 2, 3, 4>
@@ -110,7 +110,7 @@ Fraction(1, 2) * Fraction(1, 2) // 1/4
 // Convert Fraction to String
 Fraction(3, -6).to_string() // "-1/2"
 
-// Arbitrarily nested multiple layers of containers
+// Arbitrarily nested multiple layers of types
 Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {"12345678987654321", 5}}}
     // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
 map.size() // 3
