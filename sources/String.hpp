@@ -27,8 +27,10 @@
 
 #include "List.hpp"
 
-#include <cmath>   // std::pow INFINITY NAN
-#include <istream> // std::istream
+#include <cmath>       // std::pow INFINITY NAN
+#include <istream>     // std::istream
+#include <sstream>     // std::ostringstream
+#include <string_view> // std::string_view
 
 namespace pytype
 {
@@ -164,7 +166,7 @@ private:
 
     // Format helper, see https://codereview.stackexchange.com/questions/269425/implementing-stdformat
     template <typename T>
-    static void format_helper(std::ostringstream& oss, std::string& str, const T& value)
+    static void format_helper(std::ostringstream& oss, std::string_view& str, const T& value)
     {
         std::size_t open_bracket = str.find('{');
         std::size_t close_bracket = str.find('}', open_bracket + 1);
@@ -1180,7 +1182,7 @@ public:
     {
         std::ostringstream oss;
         const char* s = get();
-        std::string str(s);
+        std::string_view str(s);
         (format_helper(oss, str, args), ...);
         oss << str;
         delete[] s;
