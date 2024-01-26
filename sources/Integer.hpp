@@ -42,25 +42,25 @@ private:
     // List of digits, represent absolute value of the integer.
     List<signed char> digits_; // base 10, little endian
 
-    // Sign of integer, '+' is positive, '-' is negative, and '0' is zero.
-    char sign_;
+    // Sign of integer, 1 is positive, -1 is negative, and 0 is zero.
+    signed char sign_;
 
     // Compare two integers.
     int compare(const Integer& that) const
     {
         if (sign_ != that.sign_)
         {
-            if (sign_ == '+') // this is +, that is - or 0
+            if (sign_ == 1) // this is +, that is - or 0
             {
                 return 1; // gt
             }
-            else if (sign_ == '-') // this is -, that is + or 0
+            else if (sign_ == -1) // this is -, that is + or 0
             {
                 return -1; // lt
             }
             else // this is 0, that is + or -
             {
-                return that.sign_ == '+' ? -1 : 1;
+                return that.sign_ == 1 ? -1 : 1;
             }
         }
 
@@ -68,7 +68,7 @@ private:
 
         if (digits_.size_ != that.digits_.size_)
         {
-            if (sign_ == '+')
+            if (sign_ == 1)
             {
                 return digits_.size_ > that.digits_.size_ ? 1 : -1;
             }
@@ -82,7 +82,7 @@ private:
         {
             if (digits_[i] != that.digits_[i])
             {
-                if (sign_ == '+')
+                if (sign_ == 1)
                 {
                     return digits_[i] > that.digits_[i] ? 1 : -1;
                 }
@@ -145,8 +145,8 @@ private:
             throw std::runtime_error("Error: Wrong integer literal.");
         }
 
-        int s = (chars[0] == '-' || chars[0] == '+');
-        sign_ = s ? chars[0] : '+';
+        sign_ = (chars[0] == '-' ? -1 : 1);
+        int s = (chars[0] == '-' || chars[0] == '+'); // skip symbol
         for (int i = len - 1; i >= s; i--)
         {
             digits_ += chars[i] - '0';
@@ -156,7 +156,7 @@ private:
 
         if (digits_.size_ == 1 && digits_[0] == 0)
         {
-            sign_ = '0';
+            sign_ = 0;
         }
     }
 
@@ -195,8 +195,8 @@ private:
 
         remove_leading_zeros();
 
-        // if result is zero, set sign to '0'
-        sign_ = (digits_.size_ == 1 && digits_[0] == 0) ? '0' : sign_;
+        // if result is zero, set sign to 0
+        sign_ = (digits_.size_ == 1 && digits_[0] == 0) ? 0 : sign_;
     }
 
 public:
@@ -209,7 +209,7 @@ public:
      */
     Integer()
         : digits_({0})
-        , sign_('0')
+        , sign_(0)
     {
     }
 
@@ -249,12 +249,12 @@ public:
         if (integer == 0)
         {
             digits_ += 0;
-            sign_ = '0';
+            sign_ = 0;
             return;
         }
 
         // integer != 0
-        sign_ = (integer > 0 ? '+' : '-');
+        sign_ = (integer > 0 ? 1 : -1);
         integer = std::abs(integer);
         while (integer > 0)
         {
@@ -284,7 +284,7 @@ public:
         , sign_(std::move(that.sign_))
     {
         that.digits_ += 0;
-        that.sign_ = '0';
+        that.sign_ = 0;
     }
 
     /**
@@ -394,7 +394,7 @@ public:
         sign_ = std::move(that.sign_);
 
         that.digits_ += 0;
-        that.sign_ = '0';
+        that.sign_ = 0;
 
         return *this;
     }
@@ -410,7 +410,7 @@ public:
      */
     int digits() const
     {
-        return sign_ == '0' ? 0 : digits_.size_;
+        return sign_ == 0 ? 0 : digits_.size_;
     }
 
     /**
@@ -420,7 +420,7 @@ public:
      */
     bool is_zero() const
     {
-        return sign_ == '0';
+        return sign_ == 0;
     }
 
     /**
@@ -430,7 +430,7 @@ public:
      */
     bool is_positive() const
     {
-        return sign_ == '+';
+        return sign_ == 1;
     }
 
     /**
@@ -440,7 +440,7 @@ public:
      */
     bool is_negative() const
     {
-        return sign_ == '-';
+        return sign_ == -1;
     }
 
     /**
@@ -529,17 +529,17 @@ public:
      */
     Integer& operator++()
     {
-        if (sign_ == '+')
+        if (sign_ == 1)
         {
             abs_inc();
         }
-        else if (sign_ == '-')
+        else if (sign_ == -1)
         {
             abs_dec();
         }
-        else // sign_=='0'
+        else // sign_ == 0
         {
-            sign_ = '+';
+            sign_ = 1;
             digits_[0] = 1;
         }
 
@@ -553,17 +553,17 @@ public:
      */
     Integer& operator--()
     {
-        if (sign_ == '+')
+        if (sign_ == 1)
         {
             abs_dec();
         }
-        else if (sign_ == '-')
+        else if (sign_ == -1)
         {
             abs_inc();
         }
-        else // sign_=='0'
+        else // sign_ == 0
         {
-            sign_ = '-';
+            sign_ = -1;
             digits_[0] = 1;
         }
 
@@ -592,10 +592,7 @@ public:
     Integer operator-() const
     {
         Integer num = *this;
-        if (num.sign_ != '0')
-        {
-            num.sign_ = num.sign_ == '+' ? '-' : '+';
-        }
+        num.sign_ = -num.sign_;
         return num;
     }
 
@@ -606,7 +603,7 @@ public:
      */
     Integer abs() const
     {
-        return sign_ == '-' ? -*this : *this;
+        return sign_ == -1 ? -*this : *this;
     }
 
     /**
@@ -618,17 +615,17 @@ public:
     Integer operator+(const Integer& rhs) const
     {
         // if one of the operands is zero, just return another one
-        if (sign_ == '0' || rhs.sign_ == '0')
+        if (sign_ == 0 || rhs.sign_ == 0)
         {
-            return sign_ == '0' ? rhs : *this;
+            return sign_ == 0 ? rhs : *this;
         }
 
         // if the operands are of opposite signs, perform subtraction
-        if (sign_ == '+' && rhs.sign_ == '-')
+        if (sign_ == 1 && rhs.sign_ == -1)
         {
             return *this - (-rhs);
         }
-        else if (sign_ == '-' && rhs.sign_ == '+')
+        else if (sign_ == -1 && rhs.sign_ == 1)
         {
             return rhs - (-*this);
         }
@@ -672,17 +669,17 @@ public:
     Integer operator-(const Integer& rhs) const
     {
         // if one of the operands is zero
-        if (sign_ == '0' || rhs.sign_ == '0')
+        if (sign_ == 0 || rhs.sign_ == 0)
         {
-            return sign_ == '0' ? -rhs : *this;
+            return sign_ == 0 ? -rhs : *this;
         }
 
         // if the operands are of opposite signs, perform addition
-        if (sign_ == '+' && rhs.sign_ == '-')
+        if (sign_ == 1 && rhs.sign_ == -1)
         {
             return *this + (-rhs);
         }
-        else if (sign_ == '-' && rhs.sign_ == '+')
+        else if (sign_ == -1 && rhs.sign_ == 1)
         {
             return *this + (-rhs);
         }
@@ -699,8 +696,8 @@ public:
         num2.add_leading_zeros(size - num2.digits_.size_);
 
         Integer result;
-        result.sign_ = sign_;                         // the signs are same
-        if (sign_ == '+' ? num1 < num2 : num1 > num2) // let num1.abs() >= num2.abs()
+        result.sign_ = sign_;                       // the signs are same
+        if (sign_ == 1 ? num1 < num2 : num1 > num2) // let num1.abs() >= num2.abs()
         {
             utility::swap(num1, num2);
             result = -result;
@@ -724,8 +721,8 @@ public:
         // remove leading zeros
         result.remove_leading_zeros();
 
-        // if result is zero, set sign to '0'
-        result.sign_ = (result.digits_.size_ == 1 && result.digits_[0] == 0) ? '0' : result.sign_;
+        // if result is zero, set sign to 0
+        result.sign_ = ((result.digits_.size_ == 1 && result.digits_[0] == 0) ? 0 : result.sign_);
 
         // return result
         return result;
@@ -740,7 +737,7 @@ public:
     Integer operator*(const Integer& rhs) const
     {
         // if one of the operands is zero, just return zero
-        if (sign_ == '0' || rhs.sign_ == '0')
+        if (sign_ == 0 || rhs.sign_ == 0)
         {
             return 0;
         }
@@ -751,8 +748,8 @@ public:
         int size = digits_.size_ + rhs.digits_.size_;
 
         Integer result;
-        result.sign_ = (sign_ == rhs.sign_ ? '+' : '-'); // the sign is depends on the sign of operands
-        result.add_leading_zeros(size - 1);              // result initially has a 0
+        result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
+        result.add_leading_zeros(size - 1);           // result initially has a 0
 
         // simulate the vertical calculation
         const auto& a = digits_;
@@ -781,13 +778,13 @@ public:
     Integer operator/(const Integer& rhs) const
     {
         // if rhs is zero, throw an exception
-        if (rhs.sign_ == '0')
+        if (rhs.sign_ == 0)
         {
             throw std::runtime_error("Error: Divide by zero.");
         }
 
         // if this is zero, just return zero
-        if (sign_ == '0')
+        if (sign_ == 0)
         {
             return 0;
         }
@@ -799,12 +796,12 @@ public:
 
         Integer num1 = (*this).abs();
 
-        Integer tmp;     // intermediate variable for rhs * 10^i
-        tmp.sign_ = '+'; // positive
+        Integer tmp;   // intermediate variable for rhs * 10^i
+        tmp.sign_ = 1; // positive
 
         Integer result;
-        result.sign_ = (sign_ == rhs.sign_ ? '+' : '-'); // the sign is depends on the sign of operands
-        result.add_leading_zeros(size - 1);              // result initially has a 0
+        result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
+        result.add_leading_zeros(size - 1);           // result initially has a 0
 
         // calculation
         const auto& b = rhs.digits_;
@@ -820,8 +817,8 @@ public:
             }
         }
 
-        // if result is zero, set sign to '0'
-        result.sign_ = (result.digits_.size_ == 1 && result.digits_[0] == 0) ? '0' : result.sign_;
+        // if result is zero, set sign to 0
+        result.sign_ = ((result.digits_.size_ == 1 && result.digits_[0] == 0) ? 0 : result.sign_);
 
         // remove leading zeros and return
         return result.remove_leading_zeros();
@@ -862,9 +859,9 @@ public:
         {
             if (n.is_odd())
             {
-                result = mod.is_zero() ? result * num : (result * num) % mod;
+                result = (mod.is_zero() ? result * num : (result * num) % mod);
             }
-            num = mod.is_zero() ? num * num : (num * num) % mod;
+            num = (mod.is_zero() ? num * num : (num * num) % mod);
             n /= 2; // integer divide
         }
         return result;
@@ -877,7 +874,7 @@ public:
      */
     Integer factorial() const
     {
-        if (sign_ == '-')
+        if (sign_ == -1)
         {
             throw std::runtime_error("Error: Negative integer have no factorial.");
         }
@@ -897,7 +894,7 @@ public:
      */
     Integer sqrt() const
     {
-        if (sign_ == '-')
+        if (sign_ == -1)
         {
             throw std::runtime_error("Error: Cannot compute square root of a negative integer.");
         }
@@ -933,7 +930,7 @@ public:
     {
         String str;
 
-        if (sign_ == '-')
+        if (sign_ == -1)
         {
             str += '-';
         }
@@ -999,7 +996,7 @@ inline Integer lcm(const Integer& int1, const Integer& int2)
  */
 inline std::ostream& operator<<(std::ostream& os, const Integer& integer)
 {
-    if (integer.sign_ == '-')
+    if (integer.sign_ == -1)
     {
         os << '-';
     }
