@@ -194,10 +194,10 @@ public:
     String(const char* chars)
         : list_()
     {
-        for (int i = 0; chars[i] != '\0'; i++)
-        {
-            list_ += chars[i];
-        }
+        const int size = int(std::strlen(chars));
+        list_.adjust_capacity(std::max(size, list_.INIT_CAPACITY));
+        list_.size_ = size;
+        std::memcpy(list_.data_, chars, size);
     }
 
     /**
