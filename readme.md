@@ -21,7 +21,7 @@ _A C++ type library that is as easy to use as Python built-in types._
 - Simple: Stay simple, stay young. While ensuring usability and robustness, try to be concise and easy to maintain and read.
 - Friendly: Provides many convenient functions. For example, String class provides replace, split, find and other operations like Python's str, and List class and String class both support negative subscript like Python.
 - Robust: A secure expansion mechanism to prevent overflow. There are corresponding checks for the addition, deletion, modification, and inspection of containers. Checking will have an impact on performance, but this library is not pursuing performance, but simplicity, usability, and robustness.
-- Elegance: With my careful design, it can be used as conveniently as Python's built-in types. Very pythonic.
+- Elegance: With my careful design, it can be used as conveniently as Python's built-in types. Very Pythonic.
 - Efficiency: Performance comparison was conducted on the parts that overlap with the standard library, and the [benchmark results](./tests/benchmark.cpp) showed that the performance was not poor.
 
 ### 3. Usage
