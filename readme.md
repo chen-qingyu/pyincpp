@@ -68,7 +68,7 @@ Set<int>({1, 2, 3, 4, 5}) & Set<int>({1, 3, 5, 7, 9}) // {1, 3, 5}
 // Map assigns values
 Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}})["one"] = 1111 // {"one": 1111, "two": 2, "three": 3}
 // Get Map values
-Map<int, String>({{"one", 1}, {"two", 2}, {"three", 3}}).values() // {1, 2, 3}
+Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}}).values() // {1, 2, 3}
 
 // Modular Integer powers, very fast
 Integer("1024").pow("1024", "100") // 76
