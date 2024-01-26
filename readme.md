@@ -1,4 +1,4 @@
-# PyType
+# PyInCpp
 
 _A C++ type library that is as easy to use as Python built-in types._
 
@@ -6,7 +6,7 @@ _A C++ type library that is as easy to use as Python built-in types._
 
 ### 1. Attribute
 
-- Name: PyType.
+- Name: PyInCpp.
 - Language: C++, requires C++17.
 - Goal: Write a C++ type library that is as easy to use as Python built-in types.
 - Module: List, Set, Map, Integer, String, Tuple, Deque, Fraction
@@ -30,26 +30,26 @@ Because C++ templates are used, they are all provided in the form of header file
 
 Very convenient to use:
 
-- PyType has already in the official XMake repository, you only need to add it in the xmake.lua: `add_requires("pytype")` and then `#include <pytype/pytype.hpp>`.
-- Or, simply and roughly copy the entire sources directory to the project source directory and then `#include "pytype.hpp"`.
+- PyInCpp has already in the official XMake repository, you only need to add it in the xmake.lua: `add_requires("pyincpp")` and then `#include <pyincpp/pyincpp.hpp>`.
+- Or, simply and roughly copy the entire sources directory to the project source directory and then `#include "pyincpp.hpp"`.
 
 There are a total of 8 classes for now, refer to the 8 commonly used classes in Python:
 
-| Type in PyType | Type in Python       |
-| -------------- | -------------------- |
-| `List<T>`      | `list`               |
-| `Set<T>`       | `set`                |
-| `Map<K, V>`    | `dict`               |
-| `Integer`      | `int`                |
-| `String`       | `str`                |
-| `Tuple<Ts...>` | `tuple`              |
-| `Deque<T>`     | `collections.deque`  |
-| `Fraction`     | `fractions.Fraction` |
+| Type in PyInCpp | Type in Python       |
+| --------------- | -------------------- |
+| `List<T>`       | `list`               |
+| `Set<T>`        | `set`                |
+| `Map<K, V>`     | `dict`               |
+| `Integer`       | `int`                |
+| `String`        | `str`                |
+| `Tuple<Ts...>`  | `tuple`              |
+| `Deque<T>`      | `collections.deque`  |
+| `Fraction`      | `fractions.Fraction` |
 
 Some simple examples:
 
 ```cpp
-using namespace pytype;
+using namespace pyincpp;
 
 // List index, supports negative subscript
 List<int>({1, 2, 3, 4, 5})[-1] // 5
@@ -119,13 +119,13 @@ map["third"][-1].factorial() // 120
 
 ### 4. Advantage
 
-The advantage of PyType is that it combines the high performance of C++ with the ease of use of Python, and can also be easily combined with other libraries, for example:
+The advantage of PyInCpp is that it combines the high performance of C++ with the ease of use of Python, and can also be easily combined with other libraries, for example:
 
 ```cpp
 /*
-Combining pytype::Fraction with Eigen library to display accurate matrix operation results.
+Combining pyincpp::Fraction with Eigen library to display accurate matrix operation results.
 */
-using Matrix = Eigen::Matrix<pytype::Fraction, 2, 2>; // compiling with boost::rational will fail
+using Matrix = Eigen::Matrix<pyincpp::Fraction, 2, 2>; // compiling with boost::rational will fail
 
 Matrix A;
 A << 1, 2, 3, 4;
@@ -140,10 +140,10 @@ std::cout << (((A + B) * (C + D)).inverse()) << std::endl;
 */
 
 /*
-boost::rational vs pytype::Fraction
+boost::rational vs pyincpp::Fraction
 */
 boost::rational<int> r1(1, 2), r2(1, 3), r3(1, 4), r4(1, 5);
-pytype::Fraction f1(1, 2), f2(1, 3), f3(1, 4), f4(1, 5);
+pyincpp::Fraction f1(1, 2), f2(1, 3), f3(1, 4), f4(1, 5);
 
 std::cout << ((r1 + r2) * r3 / r4) << std::endl; // 25/24
 // std::cout << ((r1 + r2) * r3 % r4) << std::endl; // boost::rational does not support operator%
@@ -151,11 +151,11 @@ std::cout << ((f1 + f2) * f3 / f4) << std::endl; // 25/24
 std::cout << ((f1 + f2) * f3 % f4) << std::endl; // 1/120
 
 /*
-std::tuple vs boost::tuple vs pytype::Tuple
+std::tuple vs boost::tuple vs pyincpp::Tuple
 */
 auto t1 = std::make_tuple(1, 1.5, 'A', "hello", std::tuple<std::tuple<>, std::tuple<>>({}, {}));
 auto t2 = boost::make_tuple(1, 1.5, 'A', "hello", boost::tuple<boost::tuple<>, boost::tuple<>>({}, {}));
-auto t3 = pytype::make_tuple(1, 1.5, 'A', "hello", pytype::Tuple<pytype::Tuple<>, pytype::Tuple<>>({}, {}));
+auto t3 = pyincpp::make_tuple(1, 1.5, 'A', "hello", pyincpp::Tuple<pyincpp::Tuple<>, pyincpp::Tuple<>>({}, {}));
 
 // std::cout << t1 << std::endl; // std::tuple does not support operator<<
 std::cout << t2 << std::endl; // (1 1.5 A hello (() ()))
@@ -168,6 +168,6 @@ It was originally developed in C to learn data structures. Then the 2021 started
 
 A word about inline: for the sake of source brevity, I finally decided to adopt the inline style. There is usually no problem unless there is a high requirement for program size. At first I wrote the declaration and the definition separately, but this is a template, so I can't split it into two files, so I'm going to write it in one file, and I'm going to put inline in front of some of the function definitions, but it ended up being a verbose bunch of "template typename inline". After reading the Java source code, I decided to write it all in the class, as the default inline. Inline is just a request to the compiler, not a requirement, and functions that can not be inline (such as recursive functions) are not executed by the compiler.
 
-After developing the Integer class, I compared it to [BigInt](https://github.com/faheel/BigInt), a big integer class on GitHub with more than 300 stars, and the conclusion is that pytype::Integer has a faster overall performance, while its ease of use is similar to BigInt, and the number of source code lines is almost half of BigInt, and the code is also cleaner.
+After developing the Integer class, I compared it to [BigInt](https://github.com/faheel/BigInt), a big integer class on GitHub with more than 300 stars, and the conclusion is that pyincpp::Integer has a faster overall performance, while its ease of use is similar to BigInt, and the number of source code lines is almost half of BigInt, and the code is also cleaner.
 
 In this project, I used the One-hot code idea in FPGA combined with the finite state machine. I also used template meta-programming to recursively implement any variable template parameters at compile time. It sounds great, but it doesn't make money, not many people really use, just belong to self-entertainment now, but creation is happiness, creation is meaning.

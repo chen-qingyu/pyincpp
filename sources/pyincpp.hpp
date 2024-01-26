@@ -1,5 +1,5 @@
 /**
- * @file pytype.hpp
+ * @file pyincpp.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
  * @brief Unified header file.
  * @date 2023.11.01
@@ -20,8 +20,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PYTYPE_HPP
-#define PYTYPE_HPP
+#ifndef PYINCPP_HPP
+#define PYINCPP_HPP
 
 #if ((defined(_MSVC_LANG) && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L)
 
@@ -39,4 +39,4 @@
 
 #endif // C++17
 
-#endif // PYTYPE_HPP
+#endif // PYINCPP_HPP

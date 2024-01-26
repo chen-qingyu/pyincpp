@@ -23,11 +23,11 @@
 #include <iostream>
 
 #include <Eigen/Dense>
-#include <pytype/Fraction.hpp>
+#include <pyincpp/Fraction.hpp>
 
 void fraction_in_eigen()
 {
-    using Matrix = Eigen::Matrix<pytype::Fraction, 2, 2>;
+    using Matrix = Eigen::Matrix<pyincpp::Fraction, 2, 2>;
 
     Matrix A;
     A << 1, 2, 3, 4;

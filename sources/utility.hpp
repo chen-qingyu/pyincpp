@@ -1,7 +1,7 @@
 /**
  * @file utility.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief Utility functions for PyType.
+ * @brief Utility functions for PyInCpp.
  * @date 2023.01.05
  *
  * @copyright Copyright (C) 2023
@@ -25,7 +25,7 @@
 
 #include <stdexcept>
 
-namespace pytype::utility
+namespace pyincpp::utility
 {
 
 // Check whether the index is valid (begin <= pos < end).
@@ -64,6 +64,6 @@ static inline void swap(T& e1, T& e2)
     e2 = std::move(tmp);
 }
 
-} // namespace pytype::utility
+} // namespace pyincpp::utility
 
 #endif // UTILITY_HPP

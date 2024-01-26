@@ -32,7 +32,7 @@
 #include <sstream>     // std::ostringstream
 #include <string_view> // std::string_view
 
-namespace pytype
+namespace pyincpp
 {
 
 /**
@@ -1271,6 +1271,6 @@ inline String operator*(int times, const String& string)
     return string * times;
 }
 
-} // namespace pytype
+} // namespace pyincpp
 
 #endif // STRING_HPP

@@ -28,7 +28,7 @@
 #include "Deque.hpp"
 #include "List.hpp"
 
-namespace pytype
+namespace pyincpp
 {
 
 template <typename T>
@@ -947,6 +947,6 @@ std::ostream& operator<<(std::ostream& os, const Set<T>& set)
     }
 }
 
-} // namespace pytype
+} // namespace pyincpp
 
 #endif // SET_HPP

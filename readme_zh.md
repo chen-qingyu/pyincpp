@@ -1,4 +1,4 @@
-# PyType
+# PyInCpp
 
 _像 Python 的内置类型一样好用的 C++ 库_
 
@@ -6,7 +6,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 
 ### 1. 属性
 
-- 名称：PyType。
+- 名称：PyInCpp。
 - 语言：C++ ，要求 C++17 。
 - 目标：实现一个像 Python 的内置类型一样好用的 C++ 库。
 - 模块：List, Set, Map, Integer, String, Tuple, Deque, Fraction.
@@ -30,26 +30,26 @@ _像 Python 的内置类型一样好用的 C++ 库_
 
 使用非常方便：
 
-- PyType 已经进入 XMake 官方仓库，所以只需要在 xmake.lua 中加上 `add_requires("pytype")` 然后源码中就可以 `#include <pytype/pytype.hpp>`。
-- 或者，简单粗暴地拷贝整个 sources 目录到项目源码目录下然后 `#include "pytype.hpp"`。
+- PyInCpp 已经进入 XMake 官方仓库，所以只需要在 xmake.lua 中加上 `add_requires("pyincpp")` 然后源码中就可以 `#include <pyincpp/pyincpp.hpp>`。
+- 或者，简单粗暴地拷贝整个 sources 目录到项目源码目录下然后 `#include "pyincpp.hpp"`。
 
 目前一共八个类，对标 Python 里面的八个常用的类：
 
-| Type in PyType | Type in Python       |
-| -------------- | -------------------- |
-| `List<T>`      | `list`               |
-| `Set<T>`       | `set`                |
-| `Map<K, V>`    | `dict`               |
-| `Integer`      | `int`                |
-| `String`       | `str`                |
-| `Tuple<Ts...>` | `tuple`              |
-| `Deque<T>`     | `collections.deque`  |
-| `Fraction`     | `fractions.Fraction` |
+| Type in PyInCpp | Type in Python       |
+| --------------- | -------------------- |
+| `List<T>`       | `list`               |
+| `Set<T>`        | `set`                |
+| `Map<K, V>`     | `dict`               |
+| `Integer`       | `int`                |
+| `String`        | `str`                |
+| `Tuple<Ts...>`  | `tuple`              |
+| `Deque<T>`      | `collections.deque`  |
+| `Fraction`      | `fractions.Fraction` |
 
 一些简单的例子：
 
 ```cpp
-using namespace pytype;
+using namespace pyincpp;
 
 // 列表索引，支持负数下标
 List<int>({1, 2, 3, 4, 5})[-1] // 5
@@ -119,13 +119,13 @@ map["third"][-1].factorial() // 120
 
 ### 4. 优势
 
-PyType 的优势在于把 C++ 的高性能和 Python 的易用性结合起来了，还可以方便地与其他库结合使用，比如：
+PyInCpp 的优势在于把 C++ 的高性能和 Python 的易用性结合起来了，还可以方便地与其他库结合使用，比如：
 
 ```cpp
 /*
-Combining pytype::Fraction with Eigen library to display accurate matrix operation results.
+Combining pyincpp::Fraction with Eigen library to display accurate matrix operation results.
 */
-using Matrix = Eigen::Matrix<pytype::Fraction, 2, 2>; // compiling with boost::rational will fail
+using Matrix = Eigen::Matrix<pyincpp::Fraction, 2, 2>; // compiling with boost::rational will fail
 
 Matrix A;
 A << 1, 2, 3, 4;
@@ -140,10 +140,10 @@ std::cout << (((A + B) * (C + D)).inverse()) << std::endl;
 */
 
 /*
-boost::rational vs pytype::Fraction
+boost::rational vs pyincpp::Fraction
 */
 boost::rational<int> r1(1, 2), r2(1, 3), r3(1, 4), r4(1, 5);
-pytype::Fraction f1(1, 2), f2(1, 3), f3(1, 4), f4(1, 5);
+pyincpp::Fraction f1(1, 2), f2(1, 3), f3(1, 4), f4(1, 5);
 
 std::cout << ((r1 + r2) * r3 / r4) << std::endl; // 25/24
 // std::cout << ((r1 + r2) * r3 % r4) << std::endl; // boost::rational does not support operator%
@@ -151,11 +151,11 @@ std::cout << ((f1 + f2) * f3 / f4) << std::endl; // 25/24
 std::cout << ((f1 + f2) * f3 % f4) << std::endl; // 1/120
 
 /*
-std::tuple vs boost::tuple vs pytype::Tuple
+std::tuple vs boost::tuple vs pyincpp::Tuple
 */
 auto t1 = std::make_tuple(1, 1.5, 'A', "hello", std::tuple<std::tuple<>, std::tuple<>>({}, {}));
 auto t2 = boost::make_tuple(1, 1.5, 'A', "hello", boost::tuple<boost::tuple<>, boost::tuple<>>({}, {}));
-auto t3 = pytype::make_tuple(1, 1.5, 'A', "hello", pytype::Tuple<pytype::Tuple<>, pytype::Tuple<>>({}, {}));
+auto t3 = pyincpp::make_tuple(1, 1.5, 'A', "hello", pyincpp::Tuple<pyincpp::Tuple<>, pyincpp::Tuple<>>({}, {}));
 
 // std::cout << t1 << std::endl; // std::tuple does not support operator<<
 std::cout << t2 << std::endl; // (1 1.5 A hello (() ()))
@@ -168,6 +168,6 @@ std::cout << t3 << std::endl; // (1, 1.5, A, hello, ((), ()))
 
 说明一下关于 inline：为了源码简洁性，我最后决定一律采用 inline 的风格。一般不会有问题，除非对程序体积有很高的要求。刚开始我是把声明和定义分开写的，但这是模板，没法分成两个文件，所以我在一个文件里分开写，一部分函数定义前面加上 inline，但是这样最后写完了看起来非常冗长，一大堆的 "template typename inline"，在看了 Java 源码后考虑再三决定全部写在类里面，也就是默认 inline 的形式。inline 只是对编译器的请求而非要求，不能 inline 的函数（比如有递归的函数）编译器是不会执行 inline 的。
 
-开发完了 Integer 类后和 GitHub 上一个有三百多 star 的大整数类 [BigInt](https://github.com/faheel/BigInt) 做了比较，结论是 pytype::Integer 的性能综合来看更快，同时易用性和 BigInt 差不多，而源码行数只有 BigInt 的几乎一半，并且代码也更加整洁。
+开发完了 Integer 类后和 GitHub 上一个有三百多 star 的大整数类 [BigInt](https://github.com/faheel/BigInt) 做了比较，结论是 pyincpp::Integer 的性能综合来看更快，同时易用性和 BigInt 差不多，而源码行数只有 BigInt 的几乎一半，并且代码也更加整洁。
 
 我这个项目用到了 FPGA 里面的独热码思想结合有限状态机，还用到了模板元编程在编译期递归实现任意可变模板参数，听着很厉害，但是不赚钱，也没多少人真的会用，属于自娱自乐，可我创造就是快乐，创造就是意义（反正我不缺钱——饿不死）。

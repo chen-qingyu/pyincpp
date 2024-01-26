@@ -27,7 +27,7 @@
 
 #include "Set.hpp"
 
-namespace pytype
+namespace pyincpp
 {
 
 /**
@@ -662,6 +662,6 @@ std::ostream& operator<<(std::ostream& os, const Map<K, V>& map)
     }
 }
 
-} // namespace pytype
+} // namespace pyincpp
 
 #endif // MAP_HPP

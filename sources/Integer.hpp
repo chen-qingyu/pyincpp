@@ -28,7 +28,7 @@
 #include "List.hpp"
 #include "String.hpp"
 
-namespace pytype
+namespace pyincpp
 {
 
 /**
@@ -1054,6 +1054,6 @@ inline std::istream& operator>>(std::istream& is, Integer& integer)
     return is;
 }
 
-} // namespace pytype
+} // namespace pyincpp
 
 #endif // INTEGER_HPP

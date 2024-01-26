@@ -2,7 +2,7 @@
 
 #include "tool.hpp"
 
-using namespace pytype;
+using namespace pyincpp;
 
 TEST_CASE("Tuple")
 {

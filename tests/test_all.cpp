@@ -1,8 +1,8 @@
-#include "../sources/pytype.hpp"
+#include "../sources/pyincpp.hpp"
 
 #include "tool.hpp"
 
-using namespace pytype;
+using namespace pyincpp;
 
 TEST_CASE("All")
 {

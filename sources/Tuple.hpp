@@ -27,7 +27,7 @@
 
 #include "utility.hpp"
 
-namespace pytype
+namespace pyincpp
 {
 
 // Empty tuple template class.
@@ -223,6 +223,6 @@ std::ostream& operator<<(std::ostream& os, const Tuple<Ts...>& tuple)
     return os;
 }
 
-} // namespace pytype
+} // namespace pyincpp
 
 #endif // TUPLE_HPP

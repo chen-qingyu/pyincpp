@@ -30,7 +30,7 @@
 #include "Integer.hpp"
 #include "String.hpp"
 
-namespace pytype
+namespace pyincpp
 {
 
 /**
@@ -477,6 +477,6 @@ inline std::ostream& operator<<(std::ostream& os, const Fraction& fraction)
     }
 }
 
-} // namespace pytype
+} // namespace pyincpp
 
 #endif // FRACTION_HPP
