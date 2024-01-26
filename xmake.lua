@@ -3,7 +3,7 @@ set_languages("cxx17")
 add_rules("mode.debug", "mode.release")
 add_requires("catch2")
 add_requires("eigen")
--- add_requires("pyincpp")
+add_requires("pyincpp")
 
 target("tests")
     set_kind("binary")
