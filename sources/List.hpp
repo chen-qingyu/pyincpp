@@ -23,10 +23,6 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
-#include <climits> // INT_MAX
-#include <ostream> // std::ostream
-#include <utility> // std::initializer_list std::move
-
 #include "utility.hpp"
 
 #include "Deque.hpp"

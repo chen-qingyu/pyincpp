@@ -23,7 +23,15 @@
 #ifndef UTILITY_HPP
 #define UTILITY_HPP
 
-#include <stdexcept>
+#include <climits>     // INT_MAX
+#include <cmath>       // std::abs std::pow INFINITY NAN
+#include <cstring>     // std::strlen
+#include <istream>     // std::istream
+#include <ostream>     // std::ostream
+#include <sstream>     // std::ostringstream
+#include <stdexcept>   // std::runtime_error
+#include <string_view> // std::string_view
+#include <utility>     // std::initializer_list std::move
 
 namespace pyincpp::utility
 {

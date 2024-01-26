@@ -137,17 +137,6 @@ private:
         return true;
     }
 
-    // Calculate the length of null-terminated characters.
-    static int length(const char* chars)
-    {
-        int len = 0;
-        while (chars[len] != '\0')
-        {
-            len++;
-        }
-        return len;
-    }
-
     // Construct an integer with given characters.
     void construct(const char* chars, int len)
     {
@@ -233,7 +222,7 @@ public:
         : digits_()
         , sign_()
     {
-        construct(chars, length(chars));
+        construct(chars, std::strlen(chars));
     }
 
     /**
@@ -257,31 +246,20 @@ public:
         : digits_()
         , sign_()
     {
-        if (integer < 0)
-        {
-            sign_ = '-';
-        }
-        else if (integer > 0)
-        {
-            sign_ = '+';
-        }
-        else
-        {
-            sign_ = '0';
-        }
-
-        if (integer != 0)
-        {
-            integer = std::abs(integer);
-            while (integer > 0)
-            {
-                digits_ += integer % 10;
-                integer /= 10;
-            }
-        }
-        else
+        if (integer == 0)
         {
             digits_ += 0;
+            sign_ = '0';
+            return;
+        }
+
+        // integer != 0
+        sign_ = (integer > 0 ? '+' : '-');
+        integer = std::abs(integer);
+        while (integer > 0)
+        {
+            digits_ += integer % 10;
+            integer /= 10;
         }
     }
 

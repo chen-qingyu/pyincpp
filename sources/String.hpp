@@ -27,11 +27,6 @@
 
 #include "List.hpp"
 
-#include <cmath>       // std::pow INFINITY NAN
-#include <istream>     // std::istream
-#include <sstream>     // std::ostringstream
-#include <string_view> // std::string_view
-
 namespace pyincpp
 {
 

@@ -23,8 +23,6 @@
 #ifndef FRACTION_HPP
 #define FRACTION_HPP
 
-#include <cmath> // std::abs
-
 #include "utility.hpp"
 
 #include "Integer.hpp"
