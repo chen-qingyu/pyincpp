@@ -497,9 +497,6 @@ TEST_CASE("List")
         REQUIRE(some * 0 == List<int>({}));
         REQUIRE(some * 1 == List<int>({1, 2, 3, 4, 5}));
         REQUIRE(some * 2 == List<int>({1, 2, 3, 4, 5, 1, 2, 3, 4, 5}));
-        REQUIRE(0 * some == List<int>({}));
-        REQUIRE(1 * some == List<int>({1, 2, 3, 4, 5}));
-        REQUIRE(2 * some == List<int>({1, 2, 3, 4, 5, 1, 2, 3, 4, 5}));
 
         // operator/
         REQUIRE(some / 5 == List<int>({1, 2, 3, 4}));

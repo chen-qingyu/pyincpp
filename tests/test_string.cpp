@@ -517,8 +517,6 @@ TEST_CASE("String")
         // operator+
         REQUIRE(some + '6' == "123456");
         REQUIRE(some + "67" == "1234567");
-        REQUIRE('0' + some == "012345");
-        REQUIRE("000" + some == "00012345");
 
         // operator-
         REQUIRE(some - '5' == "1234");
@@ -528,9 +526,6 @@ TEST_CASE("String")
         REQUIRE(some * 0 == "");
         REQUIRE(some * 1 == "12345");
         REQUIRE(some * 2 == "1234512345");
-        REQUIRE(0 * some == "");
-        REQUIRE(1 * some == "12345");
-        REQUIRE(2 * some == "1234512345");
     }
 
     // split()

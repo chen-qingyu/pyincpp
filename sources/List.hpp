@@ -1212,20 +1212,6 @@ std::ostream& operator<<(std::ostream& os, const List<T>& list)
     }
 }
 
-/**
- * @brief Generate a new list and add the list to itself a certain number of times.
- *
- * @tparam T the type of elements in the list
- * @param times times to repeat
- * @param list the list
- * @return the generated list
- */
-template <typename T>
-List<T> operator*(int times, const List<T>& list)
-{
-    return list * times;
-}
-
 } // namespace pyincpp
 
 #endif // LIST_HPP
