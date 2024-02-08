@@ -89,7 +89,7 @@ private:
     // Insert the given element at the given position.
     void insert(Node* pos, const T& element)
     {
-        utility::check_full(size_, INT_MAX);
+        internal::check_full(size_, INT_MAX);
 
         auto node = new Node(element, pos->pred_, pos);
         pos->pred_->succ_ = node;
@@ -101,7 +101,7 @@ private:
     // Remove and return an element at the given position.
     T remove(Node* pos)
     {
-        utility::check_empty(size_);
+        internal::check_empty(size_);
 
         T element = pos->data_;
 
@@ -397,7 +397,7 @@ public:
      */
     const T& back() const
     {
-        utility::check_empty(size_);
+        internal::check_empty(size_);
 
         return trailer_->pred_->data_;
     }
@@ -409,7 +409,7 @@ public:
      */
     const T& front() const
     {
-        utility::check_empty(size_);
+        internal::check_empty(size_);
 
         return header_->succ_->data_;
     }
@@ -421,7 +421,7 @@ public:
      */
     T& back()
     {
-        utility::check_empty(size_);
+        internal::check_empty(size_);
 
         return trailer_->pred_->data_;
     }
@@ -433,7 +433,7 @@ public:
      */
     T& front()
     {
-        utility::check_empty(size_);
+        internal::check_empty(size_);
 
         return header_->succ_->data_;
     }
@@ -596,10 +596,10 @@ public:
      */
     Deque& reverse()
     {
-        utility::swap(header_, trailer_);
+        internal::swap(header_, trailer_);
         for (Node* cur = trailer_; cur != nullptr; cur = cur->pred_)
         {
-            utility::swap(cur->pred_, cur->succ_);
+            internal::swap(cur->pred_, cur->succ_);
         }
 
         return *this;

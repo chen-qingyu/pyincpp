@@ -33,7 +33,7 @@
 #include <string_view> // std::string_view
 #include <utility>     // std::initializer_list std::move
 
-namespace pyincpp::utility
+namespace pyincpp::internal
 {
 
 // Check whether the index is valid (begin <= pos < end).
@@ -72,6 +72,6 @@ static inline void swap(T& e1, T& e2)
     e2 = std::move(tmp);
 }
 
-} // namespace pyincpp::utility
+} // namespace pyincpp::internal
 
 #endif // UTILITY_HPP

@@ -198,7 +198,7 @@ private:
     // Helper function for operator[]().
     T& access_helper(int index) const
     {
-        utility::check_bounds(index, -size_, size_);
+        internal::check_bounds(index, -size_, size_);
 
         return index >= 0 ? data_[index] : data_[size_ + index];
     }
@@ -554,7 +554,7 @@ public:
      */
     T min() const
     {
-        utility::check_empty(size_);
+        internal::check_empty(size_);
 
         T smallest = data_[0];
         for (int i = 0; i < size_; i++)
@@ -575,7 +575,7 @@ public:
      */
     T max() const
     {
-        utility::check_empty(size_);
+        internal::check_empty(size_);
 
         T largest = data_[0];
         for (int i = 0; i < size_; i++)
@@ -621,9 +621,9 @@ public:
     void insert(int index, const T& element)
     {
         // check
-        utility::check_full(size_, MAX_CAPACITY);
+        internal::check_full(size_, MAX_CAPACITY);
 
-        utility::check_bounds(index, -size_, size_ + 1);
+        internal::check_bounds(index, -size_, size_ + 1);
 
         // adjust capacity
         if (size_ == capacity_)
@@ -655,9 +655,9 @@ public:
     T remove(int index)
     {
         // check
-        utility::check_empty(size_);
+        internal::check_empty(size_);
 
-        utility::check_bounds(index, -size_, size_);
+        internal::check_bounds(index, -size_, size_);
 
         // get element
         index = index >= 0 ? index : index + size_;
@@ -812,7 +812,7 @@ public:
     {
         for (int i = 0, j = size_ - 1; i < j; ++i, --j)
         {
-            utility::swap(data_[i], data_[j]);
+            internal::swap(data_[i], data_[j]);
         }
 
         return *this;
@@ -860,7 +860,7 @@ public:
             {
                 if (comparator(data_[j + 1], data_[j]))
                 {
-                    utility::swap(data_[j], data_[j + 1]);
+                    internal::swap(data_[j], data_[j + 1]);
                     swapped = true;
                 }
             }
@@ -881,9 +881,9 @@ public:
      */
     List& swap(List& that)
     {
-        utility::swap(size_, that.size_);
-        utility::swap(capacity_, that.capacity_);
-        utility::swap(data_, that.data_);
+        internal::swap(size_, that.size_);
+        internal::swap(capacity_, that.capacity_);
+        internal::swap(data_, that.data_);
 
         return *this;
     }
@@ -1010,8 +1010,8 @@ public:
      */
     List& erase(int start, int stop)
     {
-        utility::check_bounds(start, 0, size_ + 1);
-        utility::check_bounds(stop, 0, size_ + 1);
+        internal::check_bounds(start, 0, size_ + 1);
+        internal::check_bounds(stop, 0, size_ + 1);
 
         for (int i = stop; i < size_; i++)
         {
@@ -1047,8 +1047,8 @@ public:
             throw std::runtime_error("Error: Slice step can not be zero.");
         }
 
-        utility::check_bounds(start, -size_, size_);
-        utility::check_bounds(stop, -size_ - 1, size_ + 1);
+        internal::check_bounds(start, -size_, size_);
+        internal::check_bounds(stop, -size_ - 1, size_ + 1);
 
         // convert
         start = start < 0 ? start + size_ : start;

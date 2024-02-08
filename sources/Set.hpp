@@ -699,7 +699,7 @@ public:
      */
     T min() const
     {
-        utility::check_empty(size_);
+        internal::check_empty(size_);
 
         return find_min(root_)->data_;
     }
@@ -711,7 +711,7 @@ public:
      */
     T max() const
     {
-        utility::check_empty(size_);
+        internal::check_empty(size_);
 
         return find_max(root_)->data_;
     }
@@ -728,7 +728,7 @@ public:
      */
     Set& operator+=(const T& element)
     {
-        utility::check_full(size_, INT_MAX);
+        internal::check_full(size_, INT_MAX);
 
         root_ = insert(root_, element);
         end_->link_left(root_);

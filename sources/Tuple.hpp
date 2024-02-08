@@ -187,12 +187,11 @@ decltype(auto) make_tuple(const Ts&... values)
     return Tuple<Ts...>(values...);
 }
 
-// Underlying implementation
-namespace impl
+namespace internal
 {
 
 template <typename... Ts>
-void print(std::ostream& os, const Tuple<Ts...>& tuple)
+static void print(std::ostream& os, const Tuple<Ts...>& tuple)
 {
     if constexpr (sizeof...(Ts) > 0)
     {
@@ -201,7 +200,7 @@ void print(std::ostream& os, const Tuple<Ts...>& tuple)
     }
 }
 
-} // namespace impl
+} // namespace internal
 
 /**
  * @brief Output tuple data to the specified output stream.
@@ -215,7 +214,7 @@ template <typename... Ts>
 std::ostream& operator<<(std::ostream& os, const Tuple<Ts...>& tuple)
 {
     os << "(";
-    impl::print(os, tuple);
+    internal::print(os, tuple);
     os << ")";
 
     return os;
