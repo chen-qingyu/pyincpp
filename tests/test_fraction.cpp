@@ -34,8 +34,14 @@ TEST_CASE("Fraction")
         REQUIRE(zero == zero);
         REQUIRE(Fraction(9, 6) == Fraction(3, 2));
 
+        REQUIRE(zero != positive);
+        REQUIRE(positive != negative);
+
         REQUIRE(zero > negative);
+        REQUIRE(Fraction(1, 2) > Fraction(1, 3));
+
         REQUIRE(zero < positive);
+        REQUIRE(Fraction(1, 4) < Fraction(1, 3));
 
         REQUIRE(zero >= zero);
         REQUIRE(zero >= negative);
