@@ -50,6 +50,11 @@ public:
         template <typename T>
         friend class Set;
 
+        friend std::ostream& operator<<(std::ostream& os, const Pair& pair)
+        {
+            return os << pair.key() << ": " << pair.value();
+        }
+
     private:
         // Pair key.
         K key_;
@@ -582,6 +587,19 @@ public:
         return values;
     }
 
+    /**
+     * @brief Return a new set of the map's items.
+     *
+     * @return a new set of the map's items
+     */
+    Set<Pair> items() const
+    {
+        Set<Pair> items;
+        set_.level_action(set_.root_, [&](const Pair& pair)
+                          { items += pair; });
+        return items;
+    }
+
     /*
      * Manipulation (will change the object itself)
      */
@@ -632,6 +650,12 @@ public:
  */
 
 /**
+ * @brief Export symbol `Pair`: `Pair<K, V> = Map<K, V>::Pair`.
+ */
+template <typename K, typename V>
+using Pair = typename Map<K, V>::Pair;
+
+/**
  * @brief Output map data to the specified output stream.
  *
  * @tparam K the key of pairs in the map, must be printable
@@ -652,8 +676,7 @@ std::ostream& operator<<(std::ostream& os, const Map<K, V>& map)
     os << "{";
     while (true)
     {
-        os << it->key() << ": " << it->value();
-        ++it;
+        os << *it++;
         if (it == map.end())
         {
             return os << "}";

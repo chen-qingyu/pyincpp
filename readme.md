@@ -99,9 +99,9 @@ Tuple<int, double, char>(1, 2.5, 'A').get<2>() // 'A'
 // Taking the remaining part of a Tuple, the underlying layer is pointer conversion, which is very fast
 Tuple<int, double, char>(1, 2.5, 'A').rest() // (2.5, 'A')
 
-// Deque tail push, supports both head and tail push, pop, and element reference
+// Deque push back, supports both back and front push, pop, and element reference
 Deque<int>({1, 2, 3, 4}).push_back(5) // <1, 2, 3, 4, 5>
-// Deque shifts to the right, very vivid!
+// Deque shifts to right (or left), very vivid!
 Deque<int>({1, 2, 3, 4, 5}) >>= 1 // <5, 1, 2, 3, 4>
 
 // Fraction multiplication, supports addition, subtraction, multiplication, division and modulo

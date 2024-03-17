@@ -153,11 +153,12 @@ TEST_CASE("Map")
         REQUIRE(some.max() == 3);
     }
 
-    // keys() values()
-    SECTION("keys_values")
+    // keys() values() items()
+    SECTION("keys_values_items")
     {
         REQUIRE(some.keys() == Set<int>({1, 2, 3}));
         REQUIRE(some.values() == Set<std::string>({"one", "two", "three"}));
+        REQUIRE(some.items() == Set<Pair<int, std::string>>({{1, "one"}, {2, "two"}, {3, "three"}}));
     }
 
     // operator+=()
