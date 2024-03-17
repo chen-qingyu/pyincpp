@@ -104,10 +104,10 @@ Deque<int>({1, 2, 3, 4}).push_back(5) // <1, 2, 3, 4, 5>
 // Deque shifts to right (or left), very vivid!
 Deque<int>({1, 2, 3, 4, 5}) >>= 1 // <5, 1, 2, 3, 4>
 
-// Fraction multiplication, supports addition, subtraction, multiplication, division and modulo
-Fraction(1, 2) * Fraction(1, 2) // 1/4
-// Convert Fraction to String
-Fraction(3, -6).to_string() // "-1/2"
+// Fraction addition
+Fraction(1, 2) + Fraction(1, 3) // 5/6
+// Fraction modulo
+Fraction(1, 2) % Fraction(1, 3) // 1/6
 
 // Arbitrarily nested multiple layers of types
 Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {"12345678987654321", 5}}}
