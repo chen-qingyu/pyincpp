@@ -783,8 +783,8 @@ public:
             throw std::runtime_error("Error: Divide by zero.");
         }
 
-        // if this is zero, just return zero
-        if (sign_ == 0)
+        // if this is zero or this.abs() < rhs.abs(), just return zero
+        if (sign_ == 0 || digits_.size_ < rhs.digits_.size_)
         {
             return 0;
         }
