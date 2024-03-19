@@ -675,11 +675,7 @@ public:
         }
 
         // if the operands are of opposite signs, perform addition
-        if (sign_ == 1 && rhs.sign_ == -1)
-        {
-            return *this + (-rhs);
-        }
-        else if (sign_ == -1 && rhs.sign_ == 1)
+        if (sign_ != rhs.sign_)
         {
             return *this + (-rhs);
         }
