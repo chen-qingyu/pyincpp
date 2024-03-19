@@ -104,10 +104,10 @@ Deque<int>({1, 2, 3, 4}).push_back(5) // <1, 2, 3, 4, 5>
 // 双端队列向右移位，很生动形象有木有！
 Deque<int>({1, 2, 3, 4, 5}) >>= 1 // <5, 1, 2, 3, 4>
 
-// 分数乘法，加、减、乘、除、模都支持
-Fraction(1, 2) * Fraction(1, 2) // 1/4
-// 分数转字符串
-Fraction(3, -6).to_string() // "-1/2"
+// 分数相加
+Fraction(1, 2) + Fraction(1, 3) // 5/6
+// 分数取模
+Fraction(1, 2) % Fraction(1, 3) // 1/6
 
 // 任意嵌套多层类型
 Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {"12345678987654321", 5}}}

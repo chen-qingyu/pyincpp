@@ -70,9 +70,9 @@ Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}})["one"] = 1111 // {"one"
 // Map get values
 Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}}).values() // {1, 2, 3}
 
-// Modular Integer powers, very fast
+// Integer modular power, very fast
 Integer("1024").pow("1024", "100") // 76
-// Factorial of Integer
+// Integer factorial
 Integer("5").factorial().factorial() // 668950291344912705758811805409037258675274633313802981029567135230163355...
 
 // Convert String to floating-point number, supports inf and nan
