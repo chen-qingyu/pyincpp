@@ -213,6 +213,11 @@ static void print(std::ostream& os, const Tuple<Ts...>& tuple)
 template <typename... Ts>
 std::ostream& operator<<(std::ostream& os, const Tuple<Ts...>& tuple)
 {
+    if constexpr (sizeof...(Ts) == 1)
+    {
+        return os << "(" << tuple.template get<0>() << ",)";
+    }
+
     os << "(";
     internal::print(os, tuple);
     os << ")";

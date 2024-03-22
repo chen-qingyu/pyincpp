@@ -83,7 +83,7 @@ TEST_CASE("Tuple")
         oss.str("");
 
         oss << one;
-        REQUIRE(oss.str() == "(1)");
+        REQUIRE(oss.str() == "(1,)");
         oss.str("");
 
         oss << some;
