@@ -234,14 +234,11 @@ public:
      * @param il initializer list
      */
     List(const std::initializer_list<T>& il)
-        : size_((int)il.size())
+        : size_(int(il.size()))
         , capacity_(size_ >= INIT_CAPACITY ? size_ : INIT_CAPACITY)
         , data_(new T[capacity_])
     {
-        for (int i = 0; i < size_; ++i)
-        {
-            data_[i] = *(il.begin() + i);
-        }
+        std::copy(il.begin(), il.end(), data_);
     }
 
     /**
@@ -254,10 +251,7 @@ public:
         , capacity_(that.capacity_)
         , data_(new T[capacity_])
     {
-        for (int i = 0; i < size_; ++i)
-        {
-            data_[i] = that.data_[i];
-        }
+        std::copy(that.data_, that.data_ + size_, data_);
     }
 
     /**
