@@ -235,7 +235,7 @@ public:
      */
     List(const std::initializer_list<T>& il)
         : size_(int(il.size()))
-        , capacity_(size_ >= INIT_CAPACITY ? size_ : INIT_CAPACITY)
+        , capacity_(size_ > INIT_CAPACITY ? size_ : INIT_CAPACITY)
         , data_(new T[capacity_])
     {
         std::copy(il.begin(), il.end(), data_);
@@ -379,10 +379,7 @@ public:
 
             delete[] data_;
             data_ = new T[capacity_];
-            for (int i = 0; i < size_; ++i)
-            {
-                data_[i] = that.data_[i];
-            }
+            std::copy(that.data_, that.data_ + size_, data_);
         }
 
         return *this;
@@ -684,11 +681,12 @@ public:
      */
     List& operator+=(const List& list)
     {
-        adjust_capacity(std::max(size_ + list.size_, INIT_CAPACITY));
-        for (int i = 0; i < list.size_; i++)
+        if (capacity_ < size_ + list.size_)
         {
-            data_[size_ + i] = list.data_[i];
+            adjust_capacity(std::max(size_ + list.size_, INIT_CAPACITY));
         }
+
+        std::copy(list.data_, list.data_ + list.size_, data_ + size_);
         size_ += list.size_;
 
         return *this;
@@ -930,18 +928,12 @@ public:
         }
 
         T* tmp = new T[n];
-        for (int i = 0; i < n; ++i)
-        {
-            tmp[i] = data_[size_ - n + i];
-        }
+        std::copy(data_ + size_ - n, data_ + size_, tmp);
         for (int i = 0; i < size_ - n; ++i)
         {
             data_[size_ - i - 1] = data_[size_ - i - 1 - n];
         }
-        for (int i = 0; i < n; ++i)
-        {
-            data_[i] = tmp[i];
-        }
+        std::copy(tmp, tmp + n, data_);
         delete[] tmp;
 
         return *this;
@@ -968,18 +960,12 @@ public:
         }
 
         T* tmp = new T[n];
-        for (int i = 0; i < n; ++i)
-        {
-            tmp[i] = data_[i];
-        }
+        std::copy(data_, data_ + n, tmp);
         for (int i = 0; i < size_ - n; ++i)
         {
             data_[i] = data_[i + n];
         }
-        for (int i = 0; i < n; ++i)
-        {
-            data_[size_ - n + i] = tmp[i];
-        }
+        std::copy(tmp, tmp + n, data_ + size_ - n);
         delete[] tmp;
 
         return *this;
@@ -1101,10 +1087,7 @@ public:
         buffer.adjust_capacity(std::max(size_ * times, INIT_CAPACITY));
         for (int part = 0; part < times; part++)
         {
-            for (int i = 0; i < size_; i++)
-            {
-                buffer.data_[part * size_ + i] = data_[i];
-            }
+            std::copy(data_, data_ + size_, buffer.data_ + part * size_);
         }
         buffer.size_ = size_ * times;
 
