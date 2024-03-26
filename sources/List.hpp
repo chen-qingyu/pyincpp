@@ -523,15 +523,8 @@ public:
     int find(const T& element, int start = 0, int stop = MAX_CAPACITY + 1) const
     {
         stop = stop > size_ ? size_ : stop;
-        for (int i = start; i < stop; ++i)
-        {
-            if (data_[i] == element)
-            {
-                return i;
-            }
-        }
-
-        return -1;
+        auto it = std::find(data_ + start, data_ + stop, element);
+        return it == data_ + stop ? -1 : it - data_;
     }
 
     /**
