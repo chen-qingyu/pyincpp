@@ -915,10 +915,7 @@ public:
 
         // move data
         T* tmp = new T[capacity_];
-        for (int i = 0; i < size_; ++i)
-        {
-            tmp[i] = data_[i];
-        }
+        std::copy(data_, data_ + size_, tmp);
         delete[] data_;
         data_ = tmp;
 
