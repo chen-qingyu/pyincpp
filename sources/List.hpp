@@ -606,7 +606,6 @@ public:
     {
         // check
         internal::check_full(size_, MAX_CAPACITY);
-
         internal::check_bounds(index, -size_, size_ + 1);
 
         // adjust capacity
@@ -616,7 +615,7 @@ public:
             adjust_capacity((capacity_ < MAX_CAPACITY / 2) ? capacity_ * 2 : MAX_CAPACITY);
         }
 
-        // index
+        // shift
         index = index >= 0 ? index : index + size_;
         for (int i = size_; i > index; --i)
         {
@@ -640,14 +639,13 @@ public:
     {
         // check
         internal::check_empty(size_);
-
         internal::check_bounds(index, -size_, size_);
 
-        // get element
+        // move element
         index = index >= 0 ? index : index + size_;
-        T element = data_[index];
+        T element = std::move(data_[index]);
 
-        // index and remove
+        // shift
         for (int i = index + 1; i < size_; ++i)
         {
             data_[i - 1] = data_[i];
