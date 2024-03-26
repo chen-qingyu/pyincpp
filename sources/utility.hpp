@@ -23,6 +23,7 @@
 #ifndef UTILITY_HPP
 #define UTILITY_HPP
 
+#include <algorithm>   // std::copy
 #include <climits>     // INT_MAX
 #include <cmath>       // std::abs std::pow INFINITY NAN
 #include <cstring>     // std::strlen
