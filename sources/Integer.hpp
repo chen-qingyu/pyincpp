@@ -400,7 +400,7 @@ public:
     }
 
     /*
-     * Examination (will not change the object itself)
+     * Examination
      */
 
     /**
@@ -464,7 +464,7 @@ public:
     }
 
     /*
-     * Manipulation (will change the object itself)
+     * Manipulation
      */
 
     /**

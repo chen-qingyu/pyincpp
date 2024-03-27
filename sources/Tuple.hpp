@@ -146,7 +146,7 @@ public:
     }
 
     /*
-     * Examination (will not change the object itself)
+     * Examination
      */
 
     /**
