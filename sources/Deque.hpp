@@ -50,14 +50,8 @@ class Deque
 
 private:
     // Node of linked list.
-    class Node
+    struct Node
     {
-        friend class Deque<T>;
-
-        template <typename X>
-        friend std::ostream& operator<<(std::ostream& os, const Deque<X>& deque);
-
-    private:
         // Data stored in the node.
         T data_;
 
@@ -76,7 +70,6 @@ private:
         }
     };
 
-private:
     // Number of elements.
     int size_;
 

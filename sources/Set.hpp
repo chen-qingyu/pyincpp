@@ -52,14 +52,8 @@ class Set
 
 private:
     // Tree node class.
-    class Node
+    struct Node
     {
-        friend class Set<T>;
-
-        template <typename K, typename V>
-        friend class Map;
-
-    private:
         // Data stored in the node.
         T data_;
 
