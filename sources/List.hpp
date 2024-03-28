@@ -736,12 +736,7 @@ public:
      */
     List& clear()
     {
-        if (size_ != 0)
-        {
-            size_ = 0;
-            delete[] data_;
-            data_ = new T[capacity_];
-        }
+        size_ = 0;
 
         return *this;
     }
