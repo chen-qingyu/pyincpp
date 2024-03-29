@@ -29,8 +29,7 @@ void fraction_in_eigen()
 {
     using Matrix = Eigen::Matrix<pyincpp::Fraction, 2, 2>;
 
-    Matrix A;
-    A << 1, 2, 3, 4;
+    Matrix A = Matrix{{1, 2}, {3, 4}};
     Matrix B = Matrix::Zero();
     Matrix C = Matrix::Ones();
     Matrix D = Matrix::Identity();

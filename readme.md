@@ -127,8 +127,7 @@ Combining pyincpp::Fraction with Eigen library to display accurate matrix operat
 */
 using Matrix = Eigen::Matrix<pyincpp::Fraction, 2, 2>; // compiling with boost::rational will fail
 
-Matrix A;
-A << 1, 2, 3, 4;
+Matrix A = Matrix{{1, 2}, {3, 4}};
 Matrix B = Matrix::Zero();
 Matrix C = Matrix::Ones();
 Matrix D = Matrix::Identity();
