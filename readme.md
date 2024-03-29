@@ -117,6 +117,8 @@ map.keys() // {"first", "second", "third"}
 map["third"][-1].factorial() // 120
 ```
 
+If you want to use a similar library in Rust, please see: [PyInRs](https://github.com/chen-qingyu/pyinrs).
+
 ### 4. Advantage
 
 The advantage of PyInCpp is that it combines the high performance of C++ with the ease of use of Python, and can also be easily combined with other libraries, for example:
