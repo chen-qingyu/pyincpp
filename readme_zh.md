@@ -117,6 +117,8 @@ map.keys() // {"first", "second", "third"}
 map["third"][-1].factorial() // 120
 ```
 
+如果您想在 Rust 中使用类似的库，请参阅：[PyInRs](https://github.com/chen-qingyu/pyinrs).
+
 ### 4. 优势
 
 PyInCpp 的优势在于把 C++ 的高性能和 Python 的易用性结合起来了，还可以方便地与其他库结合使用，比如：
