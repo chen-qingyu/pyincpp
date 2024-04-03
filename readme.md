@@ -134,7 +134,7 @@ Matrix B = Matrix::Zero();
 Matrix C = Matrix::Ones();
 Matrix D = Matrix::Identity();
 
-std::cout << (((A + B) * (C + D)).inverse()) << std::endl;
+std::cout << ((A + B) * (C + D)).inverse() << std::endl;
 /*
 -11/6     5/6
   5/3    -2/3
