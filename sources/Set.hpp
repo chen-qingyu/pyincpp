@@ -50,6 +50,33 @@ class Set
     template <typename K, typename V>
     friend class Map;
 
+    /**
+     * @brief Output set data to the specified output stream.
+     *
+     * @param os an output stream
+     * @param set the set to be printed to the output stream
+     * @return self reference of the output stream
+     */
+    friend std::ostream& operator<<(std::ostream& os, const Set& set)
+    {
+        if (set.is_empty())
+        {
+            return os << "{}";
+        }
+
+        auto it = set.begin();
+        os << "{";
+        while (true)
+        {
+            os << *it++;
+            if (it == set.end())
+            {
+                return os << "}";
+            }
+            os << ", ";
+        }
+    }
+
 private:
     // Tree node class.
     struct Node
@@ -907,39 +934,6 @@ public:
         return deque;
     }
 };
-
-/*
- * Non-member functions
- */
-
-/**
- * @brief Output set data to the specified output stream.
- *
- * @tparam T the type of elements in the set, must be printable
- * @param os an output stream
- * @param set the set to be printed to the output stream
- * @return self reference of the output stream
- */
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const Set<T>& set)
-{
-    if (set.is_empty())
-    {
-        return os << "{}";
-    }
-
-    auto it = set.begin();
-    os << "{";
-    while (true)
-    {
-        os << *it++;
-        if (it == set.end())
-        {
-            return os << "}";
-        }
-        os << ", ";
-    }
-}
 
 } // namespace pyincpp
 
