@@ -31,12 +31,6 @@
 namespace pyincpp
 {
 
-template <typename T>
-class List;
-
-template <typename T>
-class Set;
-
 /**
  * @brief Deque template class, implemented by doubly linked list.
  *
@@ -45,8 +39,22 @@ class Set;
 template <typename T>
 class Deque
 {
-    template <typename X>
-    friend std::ostream& operator<<(std::ostream& os, const Deque<X>& deque);
+    /**
+     * @brief Output deque data to the specified output stream.
+     *
+     * @param os an output stream
+     * @param deque the deque to be printed to the output stream
+     * @return self reference of the output stream
+     */
+    friend std::ostream& operator<<(std::ostream& os, const Deque& deque)
+    {
+        os << "<";
+        for (auto it = deque.header_->succ_; it != deque.trailer_; it = it->succ_)
+        {
+            os << ((it->pred_ == deque.header_) ? "" : ", ") << it->data_;
+        }
+        return os << ">";
+    }
 
 private:
     // Node of linked list.
@@ -632,40 +640,6 @@ public:
         return set;
     }
 };
-
-/*
- * Non-member functions
- */
-
-/**
- * @brief Output deque data to the specified output stream.
- *
- * @tparam T the type of elements in the deque, must be printable
- * @param os an output stream
- * @param deque the deque to be printed to the output stream
- * @return self reference of the output stream
- */
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const Deque<T>& deque)
-{
-    if (deque.is_empty())
-    {
-        return os << "<>";
-    }
-
-    auto it = deque.header_->succ_;
-    os << "<";
-    while (true)
-    {
-        os << it->data_;
-        it = it->succ_;
-        if (it == deque.trailer_)
-        {
-            return os << ">";
-        }
-        os << ", ";
-    }
-}
 
 } // namespace pyincpp
 
