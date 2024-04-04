@@ -48,6 +48,23 @@ class List
     friend class String;
     friend class Integer;
 
+    /**
+     * @brief Output list data to the specified output stream.
+     *
+     * @param os an output stream
+     * @param list the list to be printed to the output stream
+     * @return self reference of the output stream
+     */
+    friend std::ostream& operator<<(std::ostream& os, const List& list)
+    {
+        os << "[";
+        for (int i = 0; i != list.size_; ++i)
+        {
+            os << (i == 0 ? "" : ", ") << list.data_[i];
+        }
+        return os << "]";
+    }
+
 public:
     /**
      * @brief List iterator class.
@@ -1140,39 +1157,6 @@ public:
         return set;
     }
 };
-
-/*
- * Non-member functions
- */
-
-/**
- * @brief Output list data to the specified output stream.
- *
- * @tparam T the type of elements in the list, must be printable
- * @param os an output stream
- * @param list the list to be printed to the output stream
- * @return self reference of the output stream
- */
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const List<T>& list)
-{
-    if (list.is_empty())
-    {
-        return os << "[]";
-    }
-
-    auto it = list.begin();
-    os << "[";
-    while (true)
-    {
-        os << *it++;
-        if (it == list.end())
-        {
-            return os << "]";
-        }
-        os << ", ";
-    }
-}
 
 } // namespace pyincpp
 
