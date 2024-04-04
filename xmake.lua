@@ -10,12 +10,6 @@ target("tests")
     add_packages("catch2")
     add_files("tests/*.cpp|benchmark.cpp")
 
-target("examples")
-    set_kind("binary")
-    add_packages("eigen")
-    add_packages("pyincpp")
-    add_files("examples/*.cpp")
-
 target("benchmark")
     set_kind("binary")
     add_packages("catch2")
