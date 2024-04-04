@@ -36,7 +36,27 @@ namespace pyincpp
  */
 class Integer
 {
-    friend std::ostream& operator<<(std::ostream& os, const Integer& integer);
+    /**
+     * @brief Output integer to the specified output stream.
+     *
+     * @param os an output stream
+     * @param integer the integer to be printed to the output stream
+     * @return self reference of the output stream
+     */
+    friend std::ostream& operator<<(std::ostream& os, const Integer& integer)
+    {
+        if (integer.sign_ == -1)
+        {
+            os << '-';
+        }
+
+        for (int i = integer.digits_.size() - 1; i >= 0; i--)
+        {
+            os << (char)(integer.digits_[i] + '0');
+        }
+
+        return os;
+    }
 
 private:
     // List of digits, represent absolute value of the integer.
@@ -981,28 +1001,6 @@ inline Integer lcm(const Integer& int1, const Integer& int2)
     }
 
     return (int1 * int2) / gcd(int1, int2); // LCM = (int1 * int2) / GCD
-}
-
-/**
- * @brief Output integer to the specified output stream.
- *
- * @param os an output stream
- * @param integer the integer to be printed to the output stream
- * @return self reference of the output stream
- */
-inline std::ostream& operator<<(std::ostream& os, const Integer& integer)
-{
-    if (integer.sign_ == -1)
-    {
-        os << '-';
-    }
-
-    for (int i = integer.digits_.size() - 1; i >= 0; i--)
-    {
-        os << (char)(integer.digits_[i] + '0');
-    }
-
-    return os;
 }
 
 /**
