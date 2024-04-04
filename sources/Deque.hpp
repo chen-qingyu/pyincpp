@@ -51,7 +51,7 @@ class Deque
         os << "<";
         for (auto it = deque.header_->succ_; it != deque.trailer_; it = it->succ_)
         {
-            os << ((it->pred_ == deque.header_) ? "" : ", ") << it->data_;
+            os << (it->pred_ == deque.header_ ? "" : ", ") << it->data_;
         }
         return os << ">";
     }
