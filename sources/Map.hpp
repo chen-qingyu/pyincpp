@@ -39,6 +39,33 @@ namespace pyincpp
 template <typename K, typename V>
 class Map
 {
+    /**
+     * @brief Output map data to the specified output stream.
+     *
+     * @param os an output stream
+     * @param map the map to be printed to the output stream
+     * @return self reference of the output stream
+     */
+    friend std::ostream& operator<<(std::ostream& os, const Map& map)
+    {
+        if (map.is_empty())
+        {
+            return os << "{}";
+        }
+
+        auto it = map.begin();
+        os << "{";
+        while (true)
+        {
+            os << *it++;
+            if (it == map.end())
+            {
+                return os << "}";
+            }
+            os << ", ";
+        }
+    }
+
 public:
     /**
      * @brief Map key-value pair class.
@@ -645,45 +672,11 @@ public:
     }
 };
 
-/*
- * Non-member functions
- */
-
 /**
  * @brief Export symbol `Pair`: `Pair<K, V> = Map<K, V>::Pair`.
  */
 template <typename K, typename V>
 using Pair = typename Map<K, V>::Pair;
-
-/**
- * @brief Output map data to the specified output stream.
- *
- * @tparam K the key of pairs in the map, must be printable
- * @tparam V the value of pairs in the map, must be printable
- * @param os an output stream
- * @param map the map to be printed to the output stream
- * @return self reference of the output stream
- */
-template <typename K, typename V>
-std::ostream& operator<<(std::ostream& os, const Map<K, V>& map)
-{
-    if (map.is_empty())
-    {
-        return os << "{}";
-    }
-
-    auto it = map.begin();
-    os << "{";
-    while (true)
-    {
-        os << *it++;
-        if (it == map.end())
-        {
-            return os << "}";
-        }
-        os << ", ";
-    }
-}
 
 } // namespace pyincpp
 
