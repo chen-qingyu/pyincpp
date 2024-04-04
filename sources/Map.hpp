@@ -48,22 +48,7 @@ class Map
      */
     friend std::ostream& operator<<(std::ostream& os, const Map& map)
     {
-        if (map.is_empty())
-        {
-            return os << "{}";
-        }
-
-        auto it = map.begin();
-        os << "{";
-        while (true)
-        {
-            os << *it++;
-            if (it == map.end())
-            {
-                return os << "}";
-            }
-            os << ", ";
-        }
+        return os << map.set_;
     }
 
 public:
