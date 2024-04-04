@@ -37,6 +37,25 @@ class String
 {
     friend class Integer;
 
+    /**
+     * @brief Output string to the specified output stream.
+     *
+     * @param os an output stream
+     * @param string the string to be printed to the output stream
+     * @return self reference of the output stream
+     */
+    friend std::ostream& operator<<(std::ostream& os, const String& string)
+    {
+        os << "\"";
+        for (int i = 0; i < string.size(); i++)
+        {
+            os << string[i];
+        }
+        os << "\"";
+
+        return os;
+    }
+
 private:
     // List of characters.
     List<char> list_;
@@ -1188,25 +1207,6 @@ public:
 /*
  * Non-member functions
  */
-
-/**
- * @brief Output string to the specified output stream.
- *
- * @param os an output stream
- * @param string the string to be printed to the output stream
- * @return self reference of the output stream
- */
-inline std::ostream& operator<<(std::ostream& os, const String& string)
-{
-    os << "\"";
-    for (int i = 0; i < string.size(); i++)
-    {
-        os << string[i];
-    }
-    os << "\"";
-
-    return os;
-}
 
 /**
  * @brief Get a line of string from the specified input stream.
