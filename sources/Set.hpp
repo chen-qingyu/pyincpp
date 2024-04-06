@@ -888,8 +888,8 @@ public:
             return os << "{}";
         }
 
-        auto it = set.begin();
         os << "{";
+        auto it = set.begin();
         while (true)
         {
             os << *it++;
