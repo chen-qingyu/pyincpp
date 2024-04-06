@@ -503,14 +503,6 @@ TEST_CASE("List")
         REQUIRE(some / 6 == List<int>({1, 2, 3, 4, 5}));
     }
 
-    // to_deque() to_set()
-    SECTION("to_deque_set")
-    {
-        REQUIRE(List<int>({1, 2, 3, 4, 5}).to_deque() == Deque<int>({1, 2, 3, 4, 5}));
-
-        REQUIRE(List<int>({1, 2, 3, 4, 5}).to_set() == Set<int>({1, 2, 3, 4, 5}));
-    }
-
     // operator<<()
     SECTION("print")
     {

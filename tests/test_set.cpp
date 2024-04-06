@@ -216,14 +216,6 @@ TEST_CASE("Set")
         REQUIRE((set1 ^= set2) == Set<int>({2, 4, 7, 9}));
     }
 
-    // to_list() to_deque()
-    SECTION("to_list_deque")
-    {
-        REQUIRE(some.to_list() == List<int>({1, 2, 3, 4, 5}));
-
-        REQUIRE(some.to_deque() == Deque<int>({1, 2, 3, 4, 5}));
-    }
-
     // operator<<()
     SECTION("print")
     {

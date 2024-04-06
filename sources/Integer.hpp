@@ -26,7 +26,6 @@
 #include "utility.hpp"
 
 #include "List.hpp"
-#include "String.hpp"
 
 namespace pyincpp
 {
@@ -135,29 +134,6 @@ private:
         return true;
     }
 
-    // Construct an integer with given characters.
-    void construct(const char* chars, int len)
-    {
-        if (!is_integer(chars, len))
-        {
-            throw std::runtime_error("Error: Wrong integer literal.");
-        }
-
-        sign_ = (chars[0] == '-' ? -1 : 1);
-        int s = (chars[0] == '-' || chars[0] == '+'); // skip symbol
-        for (int i = len - 1; i >= s; i--)
-        {
-            digits_ += chars[i] - '0';
-        }
-
-        remove_leading_zeros();
-
-        if (digits_.size_ == 1 && digits_[0] == 0)
-        {
-            sign_ = 0;
-        }
-    }
-
     // Increment the absolute value by 1 quickly.
     void abs_inc()
     {
@@ -220,19 +196,25 @@ public:
         : digits_()
         , sign_()
     {
-        construct(chars, std::strlen(chars));
-    }
+        int len = std::strlen(chars);
+        if (!is_integer(chars, len))
+        {
+            throw std::runtime_error("Error: Wrong integer literal.");
+        }
 
-    /**
-     * @brief Construct a new integer object based on the given string.
-     *
-     * @param str string
-     */
-    Integer(const String& str)
-        : digits_()
-        , sign_()
-    {
-        construct(str.list_.data_, str.list_.size_);
+        sign_ = (chars[0] == '-' ? -1 : 1);
+        int s = (chars[0] == '-' || chars[0] == '+'); // skip symbol
+        for (int i = len - 1; i >= s; i--)
+        {
+            digits_ += chars[i] - '0';
+        }
+
+        remove_leading_zeros();
+
+        if (digits_.size_ == 1 && digits_[0] == 0)
+        {
+            sign_ = 0;
+        }
     }
 
     /**
@@ -915,28 +897,6 @@ public:
         return cur_sqrt;
     }
 
-    /**
-     * @brief Generate a string that represents the integer.
-     *
-     * @return a string that represents the integer
-     */
-    String to_string() const
-    {
-        String str;
-
-        if (sign_ == -1)
-        {
-            str += '-';
-        }
-
-        for (int i = digits_.size() - 1; i >= 0; i--)
-        {
-            str += (char)(digits_.data_[i] + '0');
-        }
-
-        return str;
-    }
-
     /*
      * Print
      */
@@ -1016,13 +976,9 @@ inline Integer lcm(const Integer& int1, const Integer& int2)
  */
 inline std::istream& operator>>(std::istream& is, Integer& integer)
 {
-    String str;
-    char ch;
-    while (is.get(ch) && !isspace(ch)) // isspace() wider than isblank()
-    {
-        str += ch;
-    }
-    integer = str;
+    std::string str;
+    is >> str;
+    integer = str.c_str();
 
     return is;
 }

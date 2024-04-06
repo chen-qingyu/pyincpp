@@ -183,14 +183,6 @@ TEST_CASE("Fraction")
         REQUIRE(zero % negative == Fraction(0));
     }
 
-    // to_string()
-    SECTION("to_string")
-    {
-        REQUIRE(Fraction(0).to_string() == "0");
-        REQUIRE(Fraction(3, 6).to_string() == "1/2");
-        REQUIRE(Fraction(3, -6).to_string() == "-1/2");
-    }
-
     // operator<<()
     SECTION("print")
     {

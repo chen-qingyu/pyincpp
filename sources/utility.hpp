@@ -31,6 +31,7 @@
 #include <ostream>     // std::ostream
 #include <sstream>     // std::ostringstream
 #include <stdexcept>   // std::runtime_error
+#include <string>      // std::string
 #include <string_view> // std::string_view
 #include <utility>     // std::initializer_list std::move
 

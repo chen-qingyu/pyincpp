@@ -26,16 +26,9 @@
 #include "utility.hpp"
 
 #include "Deque.hpp"
-#include "List.hpp"
 
 namespace pyincpp
 {
-
-template <typename T>
-class List;
-
-template <typename T>
-class Deque;
 
 // TODO: use red-black tree.
 
@@ -875,36 +868,6 @@ public:
     Set operator^(const Set& that) const
     {
         return (*this | that) - (*this & that);
-    }
-
-    /**
-     * @brief Generate a list with the same elements.
-     *
-     * @return a list with the same elements
-     */
-    List<T> to_list() const
-    {
-        List<T> list;
-        for (Iterator it = begin(); it != end(); ++it)
-        {
-            list += *it;
-        }
-        return list;
-    }
-
-    /**
-     * @brief Generate a deque with the same elements.
-     *
-     * @return a deque with the same elements
-     */
-    Deque<T> to_deque() const
-    {
-        Deque<T> deque;
-        for (Iterator it = begin(); it != end(); ++it)
-        {
-            deque.push_back(*it);
-        }
-        return deque;
     }
 
     /*

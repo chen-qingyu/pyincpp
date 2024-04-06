@@ -16,18 +16,14 @@ TEST_CASE("Integer")
         Integer int2("123456789000");
         REQUIRE_THROWS_MATCHES(Integer("hello"), std::runtime_error, Message("Error: Wrong integer literal."));
 
-        // Integer(const String& str)
-        Integer int3(String("123456789000"));
-        REQUIRE_THROWS_MATCHES(Integer(String("hello")), std::runtime_error, Message("Error: Wrong integer literal."));
-
         // Integer(int integer)
-        Integer int4 = 123456789;
+        Integer int3 = 123456789;
 
         // Integer(const Integer &that)
-        Integer int5(int4);
+        Integer int4(int3);
 
         // Integer(Integer &&that)
-        Integer int6(std::move(int5));
+        Integer int5(std::move(int4));
 
         // ~Integer()
     }
@@ -298,14 +294,6 @@ TEST_CASE("Integer")
         REQUIRE(Integer("5").sqrt() == "2");
         REQUIRE(Integer("9").sqrt() == "3");
         REQUIRE(Integer("9801").sqrt() == "99");
-    }
-
-    // to_string()
-    SECTION("to_string")
-    {
-        REQUIRE(zero.to_string() == "0");
-        REQUIRE(positive.to_string() == "18446744073709551617");
-        REQUIRE(negative.to_string() == "-18446744073709551617");
     }
 
     // operator<<()

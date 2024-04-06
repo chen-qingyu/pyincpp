@@ -25,9 +25,6 @@
 
 #include "utility.hpp"
 
-#include "List.hpp"
-#include "Set.hpp"
-
 namespace pyincpp
 {
 
@@ -587,40 +584,6 @@ public:
         }
 
         return *this;
-    }
-
-    /*
-     * Production (will produce new object)
-     */
-
-    /**
-     * @brief Generate a list with the same elements.
-     *
-     * @return a list with the same elements
-     */
-    List<T> to_list() const
-    {
-        List<T> list;
-        for (Node* it = header_->succ_; it != trailer_; it = it->succ_)
-        {
-            list += it->data_;
-        }
-        return list;
-    }
-
-    /**
-     * @brief Generate a set with the same elements.
-     *
-     * @return a set with the same elements
-     */
-    Set<T> to_set() const
-    {
-        Set<T> set;
-        for (Node* it = header_->succ_; it != trailer_; it = it->succ_)
-        {
-            set += it->data_;
-        }
-        return set;
     }
 
     /*

@@ -25,9 +25,6 @@
 
 #include "utility.hpp"
 
-#include "Integer.hpp"
-#include "String.hpp"
-
 namespace pyincpp
 {
 
@@ -424,29 +421,6 @@ public:
         }
 
         return Fraction((numerator_ * rhs.denominator_) % (rhs.numerator_ * denominator_), denominator_ * rhs.denominator_);
-    }
-
-    /**
-     * @brief Generate a string that represents the fraction.
-     *
-     * @return a string that represents the fraction
-     */
-    String to_string() const
-    {
-        String str;
-
-        if (denominator_ == 1)
-        {
-            str += Integer(numerator_).to_string();
-        }
-        else
-        {
-            str += Integer(numerator_).to_string();
-            str += "/";
-            str += Integer(denominator_).to_string();
-        }
-
-        return str;
     }
 
     /*
