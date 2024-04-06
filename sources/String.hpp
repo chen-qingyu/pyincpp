@@ -1221,12 +1221,9 @@ public:
  */
 inline std::istream& operator>>(std::istream& is, String& string)
 {
-    string.clear();
-    char ch;
-    while (is.get(ch) && ch != '\n') // "is >> ch" can't read '\n'
-    {
-        string += ch;
-    }
+    std::string str;
+    std::getline(is, str);
+    string = str.c_str();
 
     return is;
 }
