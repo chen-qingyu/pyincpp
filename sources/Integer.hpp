@@ -36,28 +36,6 @@ namespace pyincpp
  */
 class Integer
 {
-    /**
-     * @brief Output integer to the specified output stream.
-     *
-     * @param os an output stream
-     * @param integer the integer to be printed to the output stream
-     * @return self reference of the output stream
-     */
-    friend std::ostream& operator<<(std::ostream& os, const Integer& integer)
-    {
-        if (integer.sign_ == -1)
-        {
-            os << '-';
-        }
-
-        for (int i = integer.digits_.size() - 1; i >= 0; i--)
-        {
-            os << (char)(integer.digits_[i] + '0');
-        }
-
-        return os;
-    }
-
 private:
     // List of digits, represent absolute value of the integer.
     List<signed char> digits_; // base 10, little endian
@@ -957,6 +935,32 @@ public:
         }
 
         return str;
+    }
+
+    /*
+     * Print
+     */
+
+    /**
+     * @brief Output integer to the specified output stream.
+     *
+     * @param os an output stream
+     * @param integer the integer to be printed to the output stream
+     * @return self reference of the output stream
+     */
+    friend std::ostream& operator<<(std::ostream& os, const Integer& integer)
+    {
+        if (integer.sign_ == -1)
+        {
+            os << '-';
+        }
+
+        for (int i = integer.digits_.size() - 1; i >= 0; i--)
+        {
+            os << (char)(integer.digits_[i] + '0');
+        }
+
+        return os;
     }
 };
 

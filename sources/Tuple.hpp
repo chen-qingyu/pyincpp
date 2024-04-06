@@ -202,6 +202,10 @@ static void print(std::ostream& os, const Tuple<Ts...>& tuple)
 
 } // namespace internal
 
+/*
+ * Print
+ */
+
 /**
  * @brief Output tuple data to the specified output stream.
  *

@@ -36,25 +36,6 @@ namespace pyincpp
  */
 class Fraction
 {
-    /**
-     * @brief Output fraction to the specified output stream.
-     *
-     * @param os an output stream
-     * @param fraction the fraction to be printed to the output stream
-     * @return self reference of the output stream
-     */
-    friend std::ostream& operator<<(std::ostream& os, const Fraction& fraction)
-    {
-        if (fraction.denominator_ == 1)
-        {
-            return os << fraction.numerator_;
-        }
-        else
-        {
-            return os << fraction.numerator_ << "/" << fraction.denominator_;
-        }
-    }
-
 private:
     // Numerator.
     int numerator_;
@@ -466,6 +447,29 @@ public:
         }
 
         return str;
+    }
+
+    /*
+     * Print
+     */
+
+    /**
+     * @brief Output fraction to the specified output stream.
+     *
+     * @param os an output stream
+     * @param fraction the fraction to be printed to the output stream
+     * @return self reference of the output stream
+     */
+    friend std::ostream& operator<<(std::ostream& os, const Fraction& fraction)
+    {
+        if (fraction.denominator_ == 1)
+        {
+            return os << fraction.numerator_;
+        }
+        else
+        {
+            return os << fraction.numerator_ << "/" << fraction.denominator_;
+        }
     }
 };
 

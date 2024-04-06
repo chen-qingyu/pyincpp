@@ -39,23 +39,6 @@ namespace pyincpp
 template <typename T>
 class Deque
 {
-    /**
-     * @brief Output deque data to the specified output stream.
-     *
-     * @param os an output stream
-     * @param deque the deque to be printed to the output stream
-     * @return self reference of the output stream
-     */
-    friend std::ostream& operator<<(std::ostream& os, const Deque& deque)
-    {
-        os << "<";
-        for (auto it = deque.header_->succ_; it != deque.trailer_; it = it->succ_)
-        {
-            os << (it->pred_ == deque.header_ ? "" : ", ") << it->data_;
-        }
-        return os << ">";
-    }
-
 private:
     // Node of linked list.
     struct Node
@@ -638,6 +621,27 @@ public:
             set += it->data_;
         }
         return set;
+    }
+
+    /*
+     * Print
+     */
+
+    /**
+     * @brief Output deque data to the specified output stream.
+     *
+     * @param os an output stream
+     * @param deque the deque to be printed to the output stream
+     * @return self reference of the output stream
+     */
+    friend std::ostream& operator<<(std::ostream& os, const Deque& deque)
+    {
+        os << "<";
+        for (auto it = deque.header_->succ_; it != deque.trailer_; it = it->succ_)
+        {
+            os << (it->pred_ == deque.header_ ? "" : ", ") << it->data_;
+        }
+        return os << ">";
     }
 };
 

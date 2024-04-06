@@ -39,18 +39,6 @@ namespace pyincpp
 template <typename K, typename V>
 class Map
 {
-    /**
-     * @brief Output map data to the specified output stream.
-     *
-     * @param os an output stream
-     * @param map the map to be printed to the output stream
-     * @return self reference of the output stream
-     */
-    friend std::ostream& operator<<(std::ostream& os, const Map& map)
-    {
-        return os << map.set_;
-    }
-
 public:
     /**
      * @brief Map key-value pair class.
@@ -654,6 +642,22 @@ public:
         set_.clear();
 
         return *this;
+    }
+
+    /*
+     * Print
+     */
+
+    /**
+     * @brief Output map data to the specified output stream.
+     *
+     * @param os an output stream
+     * @param map the map to be printed to the output stream
+     * @return self reference of the output stream
+     */
+    friend std::ostream& operator<<(std::ostream& os, const Map& map)
+    {
+        return os << map.set_;
     }
 };
 
