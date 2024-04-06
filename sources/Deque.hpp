@@ -636,12 +636,23 @@ public:
      */
     friend std::ostream& operator<<(std::ostream& os, const Deque& deque)
     {
-        os << "<";
-        for (auto it = deque.header_->succ_; it != deque.trailer_; it = it->succ_)
+        if (deque.is_empty())
         {
-            os << (it->pred_ == deque.header_ ? "" : ", ") << it->data_;
+            return os << "<>";
         }
-        return os << ">";
+
+        os << "<";
+        auto it = deque.header_->succ_;
+        while (true)
+        {
+            os << it->data_;
+            it = it->succ_;
+            if (it == deque.trailer_)
+            {
+                return os << ">";
+            }
+            os << ", ";
+        }
     }
 };
 
