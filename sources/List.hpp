@@ -48,37 +48,6 @@ class List
     friend class String;
     friend class Integer;
 
-    /**
-     * @brief Output list data to the specified output stream.
-     *
-     * @param os an output stream
-     * @param list the list to be printed to the output stream
-     * @return self reference of the output stream
-     */
-    friend std::ostream& operator<<(std::ostream& os, const List& list)
-    {
-        if (list.is_empty())
-        {
-            return os << "[]";
-        }
-
-        // This form looks complex, but there is only one judgment in the loop.
-        // At the Assembly level (see https://godbolt.org/z/qT9n7GKf8), this is more efficient
-        // than the usual short form of the generated machine code under O3-level optimization.
-        // The inspiration comes from Java source code.
-        os << "[";
-        auto it = list.begin();
-        while (true)
-        {
-            os << *it++;
-            if (it == list.end())
-            {
-                return os << "]";
-            }
-            os << ", ";
-        }
-    }
-
 public:
     /**
      * @brief List iterator class.
@@ -1169,6 +1138,41 @@ public:
             set += data_[i];
         }
         return set;
+    }
+
+    /*
+     * Print
+     */
+
+    /**
+     * @brief Output list data to the specified output stream.
+     *
+     * @param os an output stream
+     * @param list the list to be printed to the output stream
+     * @return self reference of the output stream
+     */
+    friend std::ostream& operator<<(std::ostream& os, const List& list)
+    {
+        if (list.is_empty())
+        {
+            return os << "[]";
+        }
+
+        // This form looks complex, but there is only one judgment in the loop.
+        // At the Assembly level (see https://godbolt.org/z/qT9n7GKf8), this is more efficient
+        // than the usual short form of the generated machine code under O3-level optimization.
+        // The inspiration comes from Java source code.
+        os << "[";
+        auto it = list.begin();
+        while (true)
+        {
+            os << *it++;
+            if (it == list.end())
+            {
+                return os << "]";
+            }
+            os << ", ";
+        }
     }
 };
 
