@@ -740,6 +740,32 @@ public:
     }
 
     /**
+     * @brief Adds a value to the set. Returns whether the value was newly inserted.
+     *
+     * @param element element to be added to the set
+     * @return true if the value was newly inserted
+     */
+    bool insert(const T& element)
+    {
+        int old_size = size_;
+        *this += element;
+        return old_size != size_;
+    }
+
+    /**
+     * @brief Removes a value from the set. Returns whether such an element was present.
+     *
+     * @param element element to be removed
+     * @return true if such an element was present
+     */
+    bool remove(const T& element)
+    {
+        int old_size = size_;
+        *this -= element;
+        return old_size != size_;
+    }
+
+    /**
      * @brief Remove all of the elements from the set.
      *
      * @return self reference

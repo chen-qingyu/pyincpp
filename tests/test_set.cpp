@@ -141,6 +141,9 @@ TEST_CASE("Set")
         empty += 3;
 
         REQUIRE(empty == Set<int>({1, 2, 3, 4, 5}));
+
+        REQUIRE(one.insert(2) == true);
+        REQUIRE(one.insert(2) == false);
     }
 
     // operator-=()
@@ -161,6 +164,9 @@ TEST_CASE("Set")
         some -= 3;
 
         REQUIRE(some == Set<int>());
+
+        REQUIRE(one.remove(1) == true);
+        REQUIRE(one.remove(1) == false);
     }
 
     // clear()
