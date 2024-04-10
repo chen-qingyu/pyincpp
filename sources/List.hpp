@@ -554,15 +554,8 @@ public:
      */
     int count(const T& element) const
     {
-        int counter = 0;
-        for (int i = 0; i < size_; i++)
-        {
-            if (data_[i] == element)
-            {
-                counter++;
-            }
-        }
-        return counter;
+        return std::count_if(data_, data_ + size_, [&](const T& e)
+                             { return e == element; });
     }
 
     /*
