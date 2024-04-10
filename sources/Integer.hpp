@@ -107,10 +107,7 @@ private:
     // Add leading zeros.
     Integer& add_leading_zeros(int n)
     {
-        while (n-- > 0)
-        {
-            digits_ += 0;
-        }
+        digits_ += List<signed char>({0}) * n;
 
         return *this;
     }
