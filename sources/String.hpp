@@ -1146,11 +1146,9 @@ public:
     String format(const Args&... args) const
     {
         std::ostringstream oss;
-        const char* s = get();
-        std::string_view str(s);
+        std::string_view str(list_.data_, list_.size_);
         (format_helper(oss, str, args), ...);
         oss << str;
-        delete[] s;
         return oss.str().c_str();
     }
 
