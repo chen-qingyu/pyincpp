@@ -787,24 +787,7 @@ public:
     List& sort(bool (*comparator)(const T& e1, const T& e2) = [](const T& e1, const T& e2)
                { return e1 < e2; })
     {
-        // for simplicity, bubble sort is usually enough
-
-        for (int i = 0; i < size_ - 1; i++)
-        {
-            bool swapped = false;
-            for (int j = 0; j < size_ - i - 1; j++)
-            {
-                if (comparator(data_[j + 1], data_[j]))
-                {
-                    internal::swap(data_[j], data_[j + 1]);
-                    swapped = true;
-                }
-            }
-            if (swapped == false)
-            {
-                break;
-            }
-        }
+        std::stable_sort(data_, data_ + size_, comparator);
 
         return *this;
     }
