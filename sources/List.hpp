@@ -749,10 +749,7 @@ public:
      */
     List& reverse()
     {
-        for (int i = 0, j = size_ - 1; i < j; ++i, --j)
-        {
-            internal::swap(data_[i], data_[j]);
-        }
+        std::reverse(data_, data_ + size_);
 
         return *this;
     }
