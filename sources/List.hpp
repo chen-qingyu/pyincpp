@@ -608,10 +608,7 @@ public:
 
         // shift
         index = index >= 0 ? index : index + size_;
-        for (int i = size_; i > index; --i)
-        {
-            data_[i] = data_[i - 1];
-        }
+        std::copy_backward(data_ + index, data_ + size_, data_ + size_ + 1);
 
         // insert
         data_[index] = element; // copy assignment on T
@@ -637,10 +634,7 @@ public:
         T element = std::move(data_[index]);
 
         // shift
-        for (int i = index + 1; i < size_; ++i)
-        {
-            data_[i - 1] = data_[i];
-        }
+        std::copy(data_ + index + 1, data_ + size_, data_ + index);
 
         // resize
         --size_;
@@ -915,10 +909,7 @@ public:
 
         T* tmp = new T[n];
         std::copy(data_ + size_ - n, data_ + size_, tmp);
-        for (int i = 0; i < size_ - n; ++i)
-        {
-            data_[size_ - i - 1] = data_[size_ - i - 1 - n];
-        }
+        std::copy_backward(data_, data_ + size_ - n, data_ + size_);
         std::copy(tmp, tmp + n, data_);
         delete[] tmp;
 
@@ -947,10 +938,7 @@ public:
 
         T* tmp = new T[n];
         std::copy(data_, data_ + n, tmp);
-        for (int i = 0; i < size_ - n; ++i)
-        {
-            data_[i] = data_[i + n];
-        }
+        std::copy(data_ + n, data_ + size_, data_);
         std::copy(tmp, tmp + n, data_ + size_ - n);
         delete[] tmp;
 
@@ -969,10 +957,7 @@ public:
         internal::check_bounds(start, 0, size_ + 1);
         internal::check_bounds(stop, 0, size_ + 1);
 
-        for (int i = stop; i < size_; i++)
-        {
-            data_[i - (stop - start)] = data_[i];
-        }
+        std::copy(data_ + stop, data_ + size_, data_ + start);
         size_ -= (stop - start);
 
         return *this;
