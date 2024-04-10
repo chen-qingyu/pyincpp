@@ -907,11 +907,7 @@ public:
             return *this <<= -n;
         }
 
-        T* tmp = new T[n];
-        std::copy(data_ + size_ - n, data_ + size_, tmp);
-        std::copy_backward(data_, data_ + size_ - n, data_ + size_);
-        std::copy(tmp, tmp + n, data_);
-        delete[] tmp;
+        std::rotate(data_, data_ + size_ - n, data_ + size_);
 
         return *this;
     }
@@ -936,11 +932,7 @@ public:
             return *this >>= -n;
         }
 
-        T* tmp = new T[n];
-        std::copy(data_, data_ + n, tmp);
-        std::copy(data_ + n, data_ + size_, data_);
-        std::copy(tmp, tmp + n, data_ + size_ - n);
-        delete[] tmp;
+        std::rotate(data_, data_ + n, data_ + size_);
 
         return *this;
     }
