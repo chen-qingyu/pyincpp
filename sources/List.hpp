@@ -953,8 +953,7 @@ public:
      */
     List operator+(const T& element) const
     {
-        List new_list = *this;
-        return new_list += element;
+        return List(*this) += element;
     }
 
     /**
@@ -965,8 +964,7 @@ public:
      */
     List operator+(const List& list) const
     {
-        List new_list = *this;
-        return new_list += list;
+        return List(*this) += list;
     }
 
     /**
@@ -977,8 +975,7 @@ public:
      */
     List operator-(const T& element) const
     {
-        List new_list = *this;
-        return new_list -= element;
+        return List(*this) -= element;
     }
 
     /**
@@ -1013,8 +1010,7 @@ public:
      */
     List operator/(const T& element) const
     {
-        List new_list = *this;
-        return new_list /= element;
+        return List(*this) /= element;
     }
 
     /*
