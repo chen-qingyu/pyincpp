@@ -800,9 +800,9 @@ public:
      */
     List& swap(List& that)
     {
-        internal::swap(size_, that.size_);
-        internal::swap(capacity_, that.capacity_);
-        internal::swap(data_, that.data_);
+        std::swap(size_, that.size_);
+        std::swap(capacity_, that.capacity_);
+        std::swap(data_, that.data_);
 
         return *this;
     }

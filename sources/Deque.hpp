@@ -577,10 +577,10 @@ public:
      */
     Deque& reverse()
     {
-        internal::swap(header_, trailer_);
+        std::swap(header_, trailer_);
         for (Node* cur = trailer_; cur != nullptr; cur = cur->pred_)
         {
-            internal::swap(cur->pred_, cur->succ_);
+            std::swap(cur->pred_, cur->succ_);
         }
 
         return *this;

@@ -64,15 +64,6 @@ static inline void check_full(int size, int capacity)
     }
 }
 
-// Swap the content of the two elements.
-template <typename T>
-static inline void swap(T& e1, T& e2)
-{
-    auto tmp = std::move(e1);
-    e1 = std::move(e2);
-    e2 = std::move(tmp);
-}
-
 } // namespace pyincpp::internal
 
 #endif // UTILITY_HPP

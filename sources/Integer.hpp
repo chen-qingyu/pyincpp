@@ -675,7 +675,7 @@ public:
         result.sign_ = sign_;                       // the signs are same
         if (sign_ == 1 ? num1 < num2 : num1 > num2) // let num1.abs() >= num2.abs()
         {
-            internal::swap(num1, num2);
+            std::swap(num1, num2);
             result = -result;
         }
         result.add_leading_zeros(size - 1); // result initially has a 0
