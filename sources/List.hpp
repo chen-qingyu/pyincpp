@@ -677,7 +677,9 @@ public:
      */
     List& operator/=(const T& element)
     {
-        return *this = std::move((*this) / element);
+        T* it = std::remove(data_, data_ + size_, element);
+        size_ -= (data_ + size_) - it;
+        return *this;
     }
 
     /**
@@ -1011,17 +1013,8 @@ public:
      */
     List operator/(const T& element) const
     {
-        List buffer;
-        buffer.adjust_capacity(std::max(size_, INIT_CAPACITY));
-        for (int i = 0; i < size_; i++)
-        {
-            if (data_[i] != element)
-            {
-                buffer.data_[buffer.size_++] = data_[i];
-            }
-        }
-
-        return buffer;
+        List new_list = *this;
+        return new_list /= element;
     }
 
     /*
