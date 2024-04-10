@@ -531,16 +531,7 @@ public:
     {
         internal::check_empty(size_);
 
-        T smallest = data_[0];
-        for (int i = 0; i < size_; i++)
-        {
-            if (smallest > data_[i])
-            {
-                smallest = data_[i];
-            }
-        }
-
-        return smallest;
+        return *std::min_element(data_, data_ + size_);
     }
 
     /**
@@ -552,16 +543,7 @@ public:
     {
         internal::check_empty(size_);
 
-        T largest = data_[0];
-        for (int i = 0; i < size_; i++)
-        {
-            if (largest < data_[i])
-            {
-                largest = data_[i];
-            }
-        }
-
-        return largest;
+        return *std::max_element(data_, data_ + size_);
     }
 
     /**
