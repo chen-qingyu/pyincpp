@@ -285,15 +285,7 @@ public:
             return false;
         }
 
-        for (int i = 0; i < size_; ++i)
-        {
-            if (data_[i] != that.data_[i])
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return std::equal(data_, data_ + size_, that.data_);
     }
 
     /**
