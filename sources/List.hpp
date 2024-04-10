@@ -630,6 +630,8 @@ public:
      */
     List& operator+=(const List& list)
     {
+        internal::check_full(size_ / 2 + list.size_ / 2, MAX_CAPACITY / 2);
+
         if (capacity_ < size_ + list.size_)
         {
             adjust_capacity(std::max(size_ + list.size_, INIT_CAPACITY));
