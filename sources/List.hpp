@@ -574,10 +574,9 @@ public:
         internal::check_full(size_, MAX_CAPACITY);
         internal::check_bounds(index, -size_, size_ + 1);
 
-        // adjust capacity
+        // if need, double capacity until MAX_CAPACITY
         if (size_ == capacity_)
         {
-            // double capacity until MAX_CAPACITY
             adjust_capacity((capacity_ < MAX_CAPACITY / 2) ? capacity_ * 2 : MAX_CAPACITY);
         }
 
