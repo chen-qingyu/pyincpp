@@ -1034,8 +1034,7 @@ public:
      */
     String operator+(const char& element) const
     {
-        String new_string = *this;
-        return new_string += element;
+        return String(*this) += element;
     }
 
     /**
@@ -1046,8 +1045,7 @@ public:
      */
     String operator+(const String& string) const
     {
-        String new_string = *this;
-        return new_string += string;
+        return String(*this) += string;
     }
 
     /**
@@ -1058,8 +1056,7 @@ public:
      */
     String operator-(const char& element) const
     {
-        String new_string = *this;
-        return new_string -= element;
+        return String(*this) -= element;
     }
 
     /**
@@ -1070,8 +1067,7 @@ public:
      */
     String operator*(int times) const
     {
-        String new_string = *this;
-        return new_string *= times;
+        return String(*this) *= times;
     }
 
     /**
