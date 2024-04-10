@@ -194,10 +194,10 @@ public:
     String(const char* chars)
         : list_()
     {
-        const int size = int(std::strlen(chars));
+        int size = std::strlen(chars);
         list_.adjust_capacity(std::max(size, list_.INIT_CAPACITY));
         list_.size_ = size;
-        std::memcpy(list_.data_, chars, size);
+        std::copy(chars, chars + size, list_.data_);
     }
 
     /**
@@ -369,11 +369,7 @@ public:
     char* get() const
     {
         char* chars = new char[list_.size_ + 1]; // add '\0'
-
-        for (int i = 0; i < list_.size_; i++)
-        {
-            chars[i] = list_.data_[i];
-        }
+        std::copy(list_.data_, list_.data_ + list_.size_, chars);
         chars[list_.size_] = '\0';
 
         return chars;
@@ -386,11 +382,9 @@ public:
      */
     void set(const char* chars)
     {
-        list_.clear();
-        for (int i = 0; chars[i] != '\0'; i++)
-        {
-            list_ += chars[i];
-        }
+        int size = std::strlen(chars);
+        list_.size_ = size;
+        std::copy(chars, chars + size, list_.data_);
     }
 
     /*
@@ -703,15 +697,7 @@ public:
             return false;
         }
 
-        for (int i = 0; i < str.size(); i++)
-        {
-            if (str.list_[i] != list_[i])
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return std::equal(list_.data_, list_.data_ + str.list_.size_, str.list_.data_);
     }
 
     /**
@@ -727,15 +713,7 @@ public:
             return false;
         }
 
-        for (int i = 0; i < str.size(); i++)
-        {
-            if (str.list_[str.size() - 1 - i] != list_[size() - 1 - i])
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return std::equal(list_.data_ + list_.size_ - str.list_.size_, list_.data_ + list_.size_, str.list_.data_);
     }
 
     /*
@@ -920,10 +898,8 @@ public:
      */
     String& lower()
     {
-        for (int i = 0; i < list_.size_; ++i)
-        {
-            list_.data_[i] = (list_.data_[i] >= 'A' && list_.data_[i] <= 'Z' ? list_.data_[i] + ('a' - 'A') : list_.data_[i]);
-        }
+        list_.map([](char& c)
+                  { c = (c >= 'A' && c <= 'Z' ? c + ('a' - 'A') : c); });
 
         return *this;
     }
@@ -935,10 +911,8 @@ public:
      */
     String& upper()
     {
-        for (int i = 0; i < list_.size_; ++i)
-        {
-            list_.data_[i] = (list_.data_[i] >= 'a' && list_.data_[i] <= 'z' ? list_.data_[i] - ('a' - 'A') : list_.data_[i]);
-        }
+        list_.map([](char& c)
+                  { c = (c >= 'a' && c <= 'z' ? c - ('a' - 'A') : c); });
 
         return *this;
     }
