@@ -296,6 +296,22 @@ TEST_CASE("Integer")
         REQUIRE(Integer("9801").sqrt() == "99");
     }
 
+    // to_integer()
+    SECTION("to_integer")
+    {
+        REQUIRE(zero.to_integer<int>() == 0);
+        REQUIRE(std::is_same<decltype(zero.to_integer<int>()), int>::value);
+
+        REQUIRE(zero.to_integer<long>() == 0);
+        REQUIRE(std::is_same<decltype(zero.to_integer<long>()), long>::value);
+
+        REQUIRE(zero.to_integer<signed char>() == 0);
+        REQUIRE(std::is_same<decltype(zero.to_integer<signed char>()), signed char>::value);
+
+        REQUIRE(Integer("1024").to_integer<int>() == 1024);
+        REQUIRE(Integer("-1024").to_integer<int>() == -1024);
+    }
+
     // operator<<()
     SECTION("print")
     {

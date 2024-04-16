@@ -894,6 +894,23 @@ public:
         return cur_sqrt;
     }
 
+    /**
+     * @brief Convert this integer object to some integer of type T.
+     *
+     * @tparam T integer type: int, long, and any custom type that support basic arithmetic operations
+     * @return an integer of type T represents this integer
+     */
+    template <typename T>
+    T to_integer() const
+    {
+        T result = 0;
+        for (int i = digits_.size_ - 1; i >= 0; i--)
+        {
+            result = result * 10 + digits_.data_[i];
+        }
+        return result * sign_;
+    }
+
     /*
      * Print
      */
