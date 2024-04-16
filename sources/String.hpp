@@ -25,6 +25,7 @@
 
 #include "utility.hpp"
 
+#include "Integer.hpp"
 #include "List.hpp"
 
 namespace pyincpp
@@ -617,7 +618,7 @@ public:
     }
 
     /**
-     * @brief Convert the string to an integer number based on 2-36 base.
+     * @brief Convert the string to an Integer object based on 2-36 base.
      *
      * Numeric character in 36 base: 0, 1, ..., 9, A(10), ..., F(15), G(16), ..., Y(34), Z(35).
      *
@@ -629,9 +630,9 @@ public:
      * ```
      *
      * @param base the base of an integer (2 <= base <= 36, default 10)
-     * @return an integer number that can represent the string
+     * @return an Integer object that can represent the string
      */
-    long long to_integer(int base = 10) const
+    Integer to_integer(int base = 10) const
     {
         // check base
         if (base < 2 || base > 36)
@@ -639,8 +640,8 @@ public:
             throw std::runtime_error("Error: Invalid base for to_integer().");
         }
 
-        long long sign = 1; // default '+'
-        long long integer_part = 0;
+        bool non_negative = true; // default '+'
+        Integer integer_part;
 
         // FSM
         state st = S_BEGIN_BLANK;
@@ -654,7 +655,7 @@ public:
                     break;
 
                 case S_BEGIN_BLANK | E_SIGN:
-                    sign = (list_.data_[i] == '+') ? 1 : -1;
+                    non_negative = (list_.data_[i] == '+') ? true : false;
                     st = S_SIGN;
                     break;
 
@@ -681,7 +682,7 @@ public:
             throw std::runtime_error("Error: Invalid literal for to_integer().");
         }
 
-        return sign * integer_part;
+        return non_negative ? integer_part : -integer_part;
     }
 
     /**

@@ -235,7 +235,7 @@ TEST_CASE("String")
     {
         // example
         REQUIRE(String("233").to_integer() == 233);
-        REQUIRE(String("cafebabe").to_integer(16) == 3405691582);
+        REQUIRE(String("cafebabe").to_integer(16) == Integer("3405691582"));
         REQUIRE(String("z").to_integer(36) == 35);
 
         // other
