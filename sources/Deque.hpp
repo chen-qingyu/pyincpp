@@ -196,7 +196,7 @@ public:
      *
      * @param that another deque
      */
-    Deque(const Deque<T>& that)
+    Deque(const Deque& that)
         : Deque()
     {
         for (Node* it = that.header_->succ_; it != that.trailer_; it = it->succ_)
@@ -210,7 +210,7 @@ public:
      *
      * @param that another deque
      */
-    Deque(Deque<T>&& that)
+    Deque(Deque&& that)
         : size_(that.size_)
         , header_(that.header_)
         , trailer_(that.trailer_)
@@ -243,7 +243,7 @@ public:
      * @param that another deque
      * @return true if two deques are equal
      */
-    bool operator==(const Deque<T>& that) const
+    bool operator==(const Deque& that) const
     {
         if (size_ != that.size_)
         {
@@ -267,7 +267,7 @@ public:
      * @param that another deque
      * @return true if two deques are not equal
      */
-    bool operator!=(const Deque<T>& that) const
+    bool operator!=(const Deque& that) const
     {
         return !(*this == that);
     }
@@ -278,7 +278,7 @@ public:
      * @param that another deque
      * @return true if this < that
      */
-    bool operator<(const Deque<T>& that) const
+    bool operator<(const Deque& that) const
     {
         return compare(that) < 0;
     }
@@ -289,7 +289,7 @@ public:
      * @param that another deque
      * @return true if this <= that
      */
-    bool operator<=(const Deque<T>& that) const
+    bool operator<=(const Deque& that) const
     {
         return compare(that) <= 0;
     }
@@ -300,7 +300,7 @@ public:
      * @param that another deque
      * @return true if this > that
      */
-    bool operator>(const Deque<T>& that) const
+    bool operator>(const Deque& that) const
     {
         return compare(that) > 0;
     }
@@ -311,7 +311,7 @@ public:
      * @param that another deque
      * @return true if this >= that
      */
-    bool operator>=(const Deque<T>& that) const
+    bool operator>=(const Deque& that) const
     {
         return compare(that) >= 0;
     }
@@ -326,7 +326,7 @@ public:
      * @param that another deque
      * @return self reference
      */
-    Deque& operator=(const Deque<T>& that)
+    Deque& operator=(const Deque& that)
     {
         if (this != &that)
         {
@@ -347,7 +347,7 @@ public:
      * @param that another deque
      * @return self reference
      */
-    Deque& operator=(Deque<T>&& that)
+    Deque& operator=(Deque&& that)
     {
         if (this != &that)
         {

@@ -45,7 +45,7 @@ public:
      */
     class Iterator
     {
-        friend class List<T>;
+        friend class List;
 
     private:
         // Current data pointer.
@@ -237,7 +237,7 @@ public:
      *
      * @param that another list
      */
-    List(const List<T>& that)
+    List(const List& that)
         : size_(that.size_)
         , capacity_(that.capacity_)
         , data_(new T[capacity_])
@@ -250,7 +250,7 @@ public:
      *
      * @param that another list
      */
-    List(List<T>&& that)
+    List(List&& that)
         : size_(that.size_)
         , capacity_(that.capacity_)
         , data_(that.data_)
@@ -278,7 +278,7 @@ public:
      * @param that another list
      * @return true if two lists are equal
      */
-    bool operator==(const List<T>& that) const
+    bool operator==(const List& that) const
     {
         if (size_ != that.size_)
         {
@@ -294,7 +294,7 @@ public:
      * @param that another list
      * @return true if two lists are not equal
      */
-    bool operator!=(const List<T>& that) const
+    bool operator!=(const List& that) const
     {
         return !(*this == that);
     }
@@ -305,7 +305,7 @@ public:
      * @param that another list
      * @return true if this < that
      */
-    bool operator<(const List<T>& that) const
+    bool operator<(const List& that) const
     {
         return compare(that) < 0;
     }
@@ -316,7 +316,7 @@ public:
      * @param that another list
      * @return true if this <= that
      */
-    bool operator<=(const List<T>& that) const
+    bool operator<=(const List& that) const
     {
         return compare(that) <= 0;
     }
@@ -327,7 +327,7 @@ public:
      * @param that another list
      * @return true if this > that
      */
-    bool operator>(const List<T>& that) const
+    bool operator>(const List& that) const
     {
         return compare(that) > 0;
     }
@@ -338,7 +338,7 @@ public:
      * @param that another list
      * @return true if this >= that
      */
-    bool operator>=(const List<T>& that) const
+    bool operator>=(const List& that) const
     {
         return compare(that) >= 0;
     }
@@ -353,7 +353,7 @@ public:
      * @param that another list
      * @return self reference
      */
-    List& operator=(const List<T>& that)
+    List& operator=(const List& that)
     {
         if (this != &that)
         {
@@ -374,7 +374,7 @@ public:
      * @param that another list
      * @return self reference
      */
-    List& operator=(List<T>&& that)
+    List& operator=(List&& that)
     {
         if (this != &that)
         {

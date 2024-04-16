@@ -100,7 +100,7 @@ public:
      */
     class Iterator
     {
-        friend class Set<T>;
+        friend class Set;
 
         template <typename K, typename V>
         friend class Map;
@@ -412,7 +412,7 @@ public:
      *
      * @param that another set
      */
-    Set(const Set<T>& that)
+    Set(const Set& that)
         : Set()
     {
         // level copy
@@ -425,7 +425,7 @@ public:
      *
      * @param that another set
      */
-    Set(Set<T>&& that)
+    Set(Set&& that)
         : size_(that.size_)
         , root_(that.root_)
         , end_(that.end_)
@@ -453,7 +453,7 @@ public:
      * @param that another set
      * @return true if two sets are equal
      */
-    bool operator==(const Set<T>& that) const
+    bool operator==(const Set& that) const
     {
         if (size_ != that.size_)
         {
@@ -477,7 +477,7 @@ public:
      * @param that another set
      * @return true if two sets are not equal
      */
-    bool operator!=(const Set<T>& that) const
+    bool operator!=(const Set& that) const
     {
         return !(*this == that);
     }
@@ -488,7 +488,7 @@ public:
      * @param that another set
      * @return true if the set is a proper subset of another set
      */
-    bool operator<(const Set<T>& that) const
+    bool operator<(const Set& that) const
     {
         for (auto it = begin(); it != end(); ++it)
         {
@@ -507,7 +507,7 @@ public:
      * @param that another set
      * @return true if every element in the set is in another set
      */
-    bool operator<=(const Set<T>& that) const
+    bool operator<=(const Set& that) const
     {
         return *this < that || *this == that;
     }
@@ -518,7 +518,7 @@ public:
      * @param that another set
      * @return true if the set is a proper superset of another set
      */
-    bool operator>(const Set<T>& that) const
+    bool operator>(const Set& that) const
     {
         return that < *this;
     }
@@ -529,7 +529,7 @@ public:
      * @param that another set
      * @return true if every element in another set is in the set
      */
-    bool operator>=(const Set<T>& that) const
+    bool operator>=(const Set& that) const
     {
         return *this > that || *this == that;
     }
@@ -544,7 +544,7 @@ public:
      * @param that another set
      * @return self reference
      */
-    Set& operator=(const Set<T>& that)
+    Set& operator=(const Set& that)
     {
         if (this != &that)
         {
@@ -567,7 +567,7 @@ public:
      * @param that another set
      * @return self reference
      */
-    Set& operator=(Set<T>&& that)
+    Set& operator=(Set&& that)
     {
         if (this != &that)
         {

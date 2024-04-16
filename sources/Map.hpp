@@ -45,7 +45,7 @@ public:
      */
     class Pair
     {
-        friend class Map<K, V>;
+        friend class Map;
 
         template <typename T>
         friend class Set;
@@ -149,7 +149,7 @@ public:
      */
     class Iterator
     {
-        friend class Map<K, V>;
+        friend class Map;
 
     private:
         // Current node pointer.
