@@ -207,7 +207,7 @@ static void print(std::ostream& os, const Tuple<Ts...>& tuple)
  */
 
 /**
- * @brief Output tuple data to the specified output stream.
+ * @brief Output the tuple to the specified output stream.
  *
  * @tparam Ts the type of elements in the tuple, must be printable
  * @param os an output stream

@@ -166,7 +166,7 @@ public:
      */
 
     /**
-     * @brief Construct a new deque object.
+     * @brief Construct a new empty deque object.
      */
     Deque()
         : size_(0)
@@ -591,7 +591,7 @@ public:
      */
 
     /**
-     * @brief Output deque data to the specified output stream.
+     * @brief Output the deque to the specified output stream.
      *
      * @param os an output stream
      * @param deque the deque to be printed to the output stream

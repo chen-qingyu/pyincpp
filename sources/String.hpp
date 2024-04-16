@@ -180,7 +180,7 @@ public:
      */
 
     /**
-     * @brief Construct a new string object.
+     * @brief Construct a new empty string object.
      */
     String()
         : list_()
@@ -618,7 +618,7 @@ public:
     }
 
     /**
-     * @brief Convert the string to an Integer object based on 2-36 base.
+     * @brief Convert the string to an integer object based on 2-36 base.
      *
      * Numeric character in 36 base: 0, 1, ..., 9, A(10), ..., F(15), G(16), ..., Y(34), Z(35).
      *
@@ -630,7 +630,7 @@ public:
      * ```
      *
      * @param base the base of an integer (2 <= base <= 36, default 10)
-     * @return an Integer object that can represent the string
+     * @return an integer object that can represent the string
      */
     Integer to_integer(int base = 10) const
     {
@@ -919,7 +919,7 @@ public:
     }
 
     /**
-     * @brief Erase the contents of a range of string.
+     * @brief Erase the contents of a range of the string.
      *
      * @param start start range subscript (included)
      * @param stop stop range subscript (excluded)
@@ -1072,7 +1072,7 @@ public:
     }
 
     /**
-     * @brief Split string with separator.
+     * @brief Split the string with separator.
      *
      * Example:
      * ```
@@ -1158,7 +1158,7 @@ public:
      */
 
     /**
-     * @brief Output string to the specified output stream.
+     * @brief Output the string to the specified output stream.
      *
      * @param os an output stream
      * @param string the string to be printed to the output stream

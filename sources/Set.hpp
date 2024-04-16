@@ -384,7 +384,7 @@ public:
      */
 
     /**
-     * @brief Construct a new set object.
+     * @brief Construct a new empty set object.
      */
     Set()
         : size_(0)
@@ -901,7 +901,7 @@ public:
      */
 
     /**
-     * @brief Output set data to the specified output stream.
+     * @brief Output the set to the specified output stream.
      *
      * @param os an output stream
      * @param set the set to be printed to the output stream

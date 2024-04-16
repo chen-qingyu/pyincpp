@@ -273,7 +273,7 @@ public:
      */
 
     /**
-     * @brief Construct a new map object.
+     * @brief Construct a new empty map object.
      */
     Map()
         : set_()
@@ -649,7 +649,7 @@ public:
      */
 
     /**
-     * @brief Output map data to the specified output stream.
+     * @brief Output the map to the specified output stream.
      *
      * @param os an output stream
      * @param map the map to be printed to the output stream

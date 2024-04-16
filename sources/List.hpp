@@ -210,7 +210,7 @@ public:
      */
 
     /**
-     * @brief Construct a new list object.
+     * @brief Construct a new empty list object.
      */
     List()
         : size_(0)
@@ -888,7 +888,7 @@ public:
     }
 
     /**
-     * @brief Erase the contents of a range of list.
+     * @brief Erase the contents of a range of the list.
      *
      * @param start start range subscript (included)
      * @param stop stop range subscript (excluded)
@@ -1020,7 +1020,7 @@ public:
      */
 
     /**
-     * @brief Output list data to the specified output stream.
+     * @brief Output the list to the specified output stream.
      *
      * @param os an output stream
      * @param list the list to be printed to the output stream

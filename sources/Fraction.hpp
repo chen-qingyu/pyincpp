@@ -83,7 +83,7 @@ public:
      */
 
     /**
-     * @brief Construct a new fraction object.
+     * @brief Construct a new zero fraction object.
      */
     Fraction(int numerator = 0, int denominator = 1)
     {
@@ -239,7 +239,7 @@ public:
      */
 
     /**
-     * @brief Convert this fraction to double type.
+     * @brief Convert the fraction to double type.
      *
      * @return a double represents the fraction
      */
@@ -288,7 +288,7 @@ public:
     /**
      * @brief this /= rhs
      *
-     * @param rhs right-hand-side value
+     * @param rhs right-hand-side value (not zero)
      * @return self reference
      */
     Fraction& operator/=(const Fraction& rhs)
@@ -299,7 +299,7 @@ public:
     /**
      * @brief this %= rhs
      *
-     * @param rhs right-hand-side value
+     * @param rhs right-hand-side value (not zero)
      * @return self reference
      */
     Fraction& operator%=(const Fraction& rhs)
@@ -342,9 +342,9 @@ public:
     }
 
     /**
-     * @brief Return the opposite value of the copy of this.
+     * @brief Return the opposite value of this.
      *
-     * @return the opposite value of the copy of this.
+     * @return the opposite value of this.
      */
     Fraction operator-() const
     {
@@ -354,9 +354,9 @@ public:
     }
 
     /**
-     * @brief Return the absolute value of the copy of this.
+     * @brief Return the absolute value of this.
      *
-     * @return the absolute value of the copy of this
+     * @return the absolute value of this
      */
     Fraction abs() const
     {
@@ -428,7 +428,7 @@ public:
      */
 
     /**
-     * @brief Output fraction to the specified output stream.
+     * @brief Output the fraction to the specified output stream.
      *
      * @param os an output stream
      * @param fraction the fraction to be printed to the output stream

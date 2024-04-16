@@ -176,7 +176,7 @@ public:
      */
 
     /**
-     * @brief Construct a new integer object.
+     * @brief Construct a new zero integer object.
      */
     Integer()
         : digits_({0})
@@ -185,7 +185,7 @@ public:
     }
 
     /**
-     * @brief Construct a new Integer object based on the given null-terminated characters.
+     * @brief Construct a new integer object based on the given null-terminated characters.
      *
      * @param chars null-terminated characters
      */
@@ -381,7 +381,7 @@ public:
      */
 
     /**
-     * @brief Count the number of digits in an integer (based 10).
+     * @brief Count the number of digits in the integer (based 10).
      *
      * @return the number of digits
      */
@@ -391,7 +391,7 @@ public:
     }
 
     /**
-     * @brief Determine whether this integer is zero quickly.
+     * @brief Determine whether the integer is zero quickly.
      *
      * @return true if this == 0
      */
@@ -401,7 +401,7 @@ public:
     }
 
     /**
-     * @brief Determine whether this integer is positive quickly.
+     * @brief Determine whether the integer is positive quickly.
      *
      * @return true if this > 0
      */
@@ -411,7 +411,7 @@ public:
     }
 
     /**
-     * @brief Determine whether this integer is negative quickly.
+     * @brief Determine whether the integer is negative quickly.
      *
      * @return true if this < 0
      */
@@ -421,7 +421,7 @@ public:
     }
 
     /**
-     * @brief Determine whether this integer is even quickly.
+     * @brief Determine whether the integer is even quickly.
      *
      * @return true if this % 2 == 0
      */
@@ -431,7 +431,7 @@ public:
     }
 
     /**
-     * @brief Determine whether this integer is odd quickly.
+     * @brief Determine whether the integer is odd quickly.
      *
      * @return true if this % 2 == 1
      */
@@ -480,7 +480,7 @@ public:
     /**
      * @brief this /= rhs
      *
-     * @param rhs right-hand-side value
+     * @param rhs right-hand-side value (not zero)
      * @return self reference
      */
     Integer& operator/=(const Integer& rhs)
@@ -491,7 +491,7 @@ public:
     /**
      * @brief this %= rhs
      *
-     * @param rhs right-hand-side value
+     * @param rhs right-hand-side value (not zero)
      * @return self reference
      */
     Integer& operator%=(const Integer& rhs)
@@ -562,9 +562,9 @@ public:
     }
 
     /**
-     * @brief Return the opposite value of the copy of this.
+     * @brief Return the opposite value of this.
      *
-     * @return the opposite value of the copy of this.
+     * @return the opposite value of this.
      */
     Integer operator-() const
     {
@@ -574,9 +574,9 @@ public:
     }
 
     /**
-     * @brief Return the absolute value of the copy of this.
+     * @brief Return the absolute value of this.
      *
-     * @return the absolute value of the copy of this
+     * @return the absolute value of this
      */
     Integer abs() const
     {
@@ -895,10 +895,10 @@ public:
     }
 
     /**
-     * @brief Convert this integer object to some integer of type T.
+     * @brief Convert the integer object to some integer of type T.
      *
      * @tparam T integer type: int, long, and any custom type that support basic arithmetic operations
-     * @return an integer of type T represents this integer
+     * @return an integer of type T represents the integer object
      */
     template <typename T>
     T to_integer() const
@@ -916,7 +916,7 @@ public:
      */
 
     /**
-     * @brief Output integer to the specified output stream.
+     * @brief Output the integer to the specified output stream.
      *
      * @param os an output stream
      * @param integer the integer to be printed to the output stream
