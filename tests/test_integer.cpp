@@ -299,14 +299,13 @@ TEST_CASE("Integer")
     // to_integer()
     SECTION("to_integer")
     {
-        REQUIRE(zero.to_integer<int>() == 0);
-        REQUIRE(std::is_same<decltype(zero.to_integer<int>()), int>::value);
-
-        REQUIRE(zero.to_integer<long>() == 0);
-        REQUIRE(std::is_same<decltype(zero.to_integer<long>()), long>::value);
-
         REQUIRE(zero.to_integer<signed char>() == 0);
+        REQUIRE(!std::is_same<decltype(zero.to_integer<signed char>()), unsigned char>::value);
         REQUIRE(std::is_same<decltype(zero.to_integer<signed char>()), signed char>::value);
+
+        REQUIRE(zero.to_integer<long long>() == 0);
+        REQUIRE(!std::is_same<decltype(zero.to_integer<long long>()), long>::value);
+        REQUIRE(std::is_same<decltype(zero.to_integer<long long>()), long long>::value);
 
         REQUIRE(Integer("1024").to_integer<int>() == 1024);
         REQUIRE(Integer("-1024").to_integer<int>() == -1024);
