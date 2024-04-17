@@ -25,12 +25,10 @@
 
 #include "utility.hpp"
 
-#include "Deque.hpp"
+#include <set>
 
 namespace pyincpp
 {
-
-// TODO: use red-black tree.
 
 /**
  * @brief Set template class, implemented by red-black tree.
@@ -40,343 +38,9 @@ namespace pyincpp
 template <typename T>
 class Set
 {
-    template <typename K, typename V>
-    friend class Map;
-
 private:
-    // Tree node class.
-    struct Node
-    {
-        // Data stored in the node.
-        T data_;
-
-        // Pointer to the left child.
-        Node* left_;
-
-        // Pointer to the right child.
-        Node* right_;
-
-        // Pointer to the parent.
-        Node* parent_;
-
-        // Constructor.
-        Node(const T& data, Node* left = nullptr, Node* right = nullptr, Node* parent = nullptr)
-            : data_(data)
-            , left_(left)
-            , right_(right)
-            , parent_(parent)
-        {
-        }
-
-        // Link left child.
-        void link_left(Node* child)
-        {
-            left_ = child;
-            if (child != nullptr)
-            {
-                child->parent_ = this;
-            }
-        }
-
-        // Link right child.
-        void link_right(Node* child)
-        {
-            right_ = child;
-            if (child != nullptr)
-            {
-                child->parent_ = this;
-            }
-        }
-    };
-
-public:
-    /**
-     * @brief Set iterator class.
-     *
-     * Walk the set in ascending order. This means that begin() is the smallest element.
-     *
-     * Because the internal elements of the set have a fixed order,
-     * thus the iterator of the set only supports access and does not support modification.
-     */
-    class Iterator
-    {
-        friend class Set;
-
-        template <typename K, typename V>
-        friend class Map;
-
-    private:
-        // Current node pointer.
-        Node* current_;
-
-        // Constructor.
-        Iterator(Node* current)
-            : current_(current)
-        {
-        }
-
-        // Iterator to next ascending node.
-        void next()
-        {
-            if (current_->right_) // have right sub tree
-            {
-                current_ = current_->right_;
-                while (current_->left_) // find min in right sub tree
-                {
-                    current_ = current_->left_;
-                }
-            }
-            else // back to the next ascending node
-            {
-                while (current_->parent_->right_ == current_)
-                {
-                    current_ = current_->parent_;
-                }
-                current_ = current_->parent_;
-            }
-        }
-
-        // Iterator to previous ascending node.
-        void previous()
-        {
-            if (current_->left_) // have left sub tree
-            {
-                current_ = current_->left_;
-                while (current_->right_) // find max in left sub tree
-                {
-                    current_ = current_->right_;
-                }
-            }
-            else // back to the previous ascending node
-            {
-                while (current_->parent_->left_ == current_)
-                {
-                    current_ = current_->parent_;
-                }
-                current_ = current_->parent_;
-            }
-        }
-
-    public:
-        /**
-         * @brief Dereference.
-         *
-         * @return reference of the data
-         */
-        const T& operator*() const
-        {
-            return current_->data_;
-        }
-
-        /**
-         * @brief Get current pointer.
-         *
-         * @return current pointer
-         */
-        const T* operator->() const
-        {
-            return &current_->data_;
-        }
-
-        /**
-         * @brief Check if two iterators are same.
-         *
-         * @param that another iterator
-         * @return ture if two iterators are same, false otherwise.
-         */
-        bool operator==(const Iterator& that) const
-        {
-            return current_ == that.current_;
-        }
-
-        /**
-         * @brief Check if two iterators are different.
-         *
-         * @param that another iterator
-         * @return ture if two iterators are different, false otherwise.
-         */
-        bool operator!=(const Iterator& that) const
-        {
-            return !(*this == that);
-        }
-
-        /**
-         * @brief Increment the iterator: ++it.
-         *
-         * @return reference of this iterator that point to next data
-         */
-        Iterator& operator++()
-        {
-            next();
-            return *this;
-        }
-
-        /**
-         * @brief Increment the iterator: it++.
-         *
-         * @return const reference of this iterator that point to current data
-         */
-        Iterator operator++(int)
-        {
-            auto tmp = *this;
-            next();
-            return tmp;
-        }
-
-        /**
-         * @brief Decrement the iterator: --it.
-         *
-         * @return reference of this iterator that point to previous data
-         */
-        Iterator& operator--()
-        {
-            previous();
-            return *this;
-        }
-
-        /**
-         * @brief Decrement the iterator: it--.
-         *
-         * @return const reference of this iterator that point to current data
-         */
-        Iterator operator--(int)
-        {
-            auto tmp = *this;
-            previous();
-            return tmp;
-        }
-    };
-
-private:
-    // Number of elements.
-    int size_;
-
-    // Pointer to the root.
-    Node* root_;
-
-    // Virtual maximum node.
-    Node* end_;
-
-    // Find subtree minimum node.
-    Node* find_min(Node* pos) const
-    {
-        if (pos)
-        {
-            while (pos->left_)
-            {
-                pos = pos->left_;
-            }
-        }
-
-        return pos == nullptr ? end_ : pos;
-    }
-
-    // Find subtree maximum node.
-    Node* find_max(Node* pos) const
-    {
-        if (pos)
-        {
-            while (pos->right_)
-            {
-                pos = pos->right_;
-            }
-        }
-
-        return pos == nullptr ? end_ : pos;
-    }
-
-    // Insert node.
-    Node* insert(Node* pos, const T& element)
-    {
-        if (pos == nullptr)
-        {
-            pos = new Node(element);
-            size_++;
-        }
-        else
-        {
-            if (element < pos->data_)
-            {
-                pos->link_left(insert(pos->left_, element));
-            }
-            else if (pos->data_ < element)
-            {
-                pos->link_right(insert(pos->right_, element));
-            }
-        }
-
-        return pos;
-    }
-
-    // Remove node.
-    Node* remove(Node* pos, const T& element)
-    {
-        if (pos)
-        {
-            if (element < pos->data_)
-            {
-                pos->link_left(remove(pos->left_, element));
-            }
-            else if (pos->data_ < element)
-            {
-                pos->link_right(remove(pos->right_, element));
-            }
-            else // element == pos->data_
-            {
-                if (pos->left_ && pos->right_)
-                {
-                    Node* tmp = find_min(pos->right_);
-                    pos->data_ = tmp->data_;
-                    pos->link_right(remove(pos->right_, tmp->data_));
-                }
-                else
-                {
-                    Node* tmp = pos;
-                    pos = pos->left_ ? pos->left_ : pos->right_;
-                    delete tmp;
-                    size_--;
-                }
-            }
-        }
-
-        return pos;
-    }
-
-    // Destroy the subtree rooted at the specified node.
-    static void destroy(Node* node)
-    {
-        if (node)
-        {
-            destroy(node->left_);
-            destroy(node->right_);
-            delete node;
-        }
-    }
-
-    // Traverse the subtree rooted at the specified node.
-    template <typename F>
-    static void level_action(Node* node, const F& action)
-    {
-        // level order
-        if (node != nullptr)
-        {
-            Deque<Node*> queue;
-            queue.push_back(node);
-            while (!queue.is_empty())
-            {
-                node = queue.pop_front();
-                action(node->data_);
-                if (node->left_)
-                {
-                    queue.push_back(node->left_);
-                }
-                if (node->right_)
-                {
-                    queue.push_back(node->right_);
-                }
-            }
-        }
-    }
+    // Set.
+    std::set<T> set_;
 
 public:
     /*
@@ -387,9 +51,7 @@ public:
      * @brief Construct a new empty set object.
      */
     Set()
-        : size_(0)
-        , root_(nullptr)
-        , end_(new Node(T()))
+        : set_()
     {
     }
 
@@ -399,12 +61,8 @@ public:
      * @param il initializer list
      */
     Set(const std::initializer_list<T>& il)
-        : Set()
+        : set_(il)
     {
-        for (auto it = il.begin(); it != il.end(); ++it)
-        {
-            *this += *it;
-        }
     }
 
     /**
@@ -413,11 +71,8 @@ public:
      * @param that another set
      */
     Set(const Set& that)
-        : Set()
+        : set_(that.set_)
     {
-        // level copy
-        level_action(that.root_, [&](const T& e)
-                     { *this += e; });
     }
 
     /**
@@ -426,21 +81,8 @@ public:
      * @param that another set
      */
     Set(Set&& that)
-        : size_(that.size_)
-        , root_(that.root_)
-        , end_(that.end_)
+        : set_(std::move(that.set_))
     {
-        that.size_ = 0;
-        that.root_ = nullptr;
-        that.end_ = new Node(T());
-    }
-
-    /**
-     * @brief Destroy the set object.
-     */
-    ~Set()
-    {
-        destroy(end_);
     }
 
     /*
@@ -455,20 +97,7 @@ public:
      */
     bool operator==(const Set& that) const
     {
-        if (size_ != that.size_)
-        {
-            return false;
-        }
-
-        for (auto this_it = begin(), that_it = that.begin(); this_it != end(); ++this_it, ++that_it)
-        {
-            if (*this_it != *that_it)
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return set_ == that.set_;
     }
 
     /**
@@ -498,7 +127,7 @@ public:
             }
         }
 
-        return size_ < that.size_;
+        return size() < that.size();
     }
 
     /**
@@ -548,14 +177,7 @@ public:
     {
         if (this != &that)
         {
-            destroy(root_);
-
-            size_ = 0;
-            root_ = nullptr;
-
-            // level copy
-            level_action(that.root_, [&](const T& e)
-                         { *this += e; });
+            set_ = that.set_;
         }
 
         return *this;
@@ -571,15 +193,7 @@ public:
     {
         if (this != &that)
         {
-            destroy(end_);
-
-            size_ = that.size_;
-            root_ = that.root_;
-            end_ = that.end_;
-
-            that.size_ = 0;
-            that.root_ = nullptr;
-            that.end_ = new Node(T());
+            set_ = std::move(that.set_);
         }
 
         return *this;
@@ -596,9 +210,9 @@ public:
      *
      * @return iterator to the first element
      */
-    Iterator begin() const
+    auto begin() const
     {
-        return Iterator(find_min(root_));
+        return set_.begin();
     }
 
     /**
@@ -608,9 +222,9 @@ public:
      *
      * @return iterator to the element following the last element
      */
-    Iterator end() const
+    auto end() const
     {
-        return Iterator(end_);
+        return set_.end();
     }
 
     /*
@@ -624,7 +238,7 @@ public:
      */
     int size() const
     {
-        return size_;
+        return set_.size();
     }
 
     /**
@@ -634,7 +248,7 @@ public:
      */
     bool is_empty() const
     {
-        return size_ == 0;
+        return set_.empty();
     }
 
     /**
@@ -645,27 +259,9 @@ public:
      * @param element element to search for
      * @return the iterator of the specified element in the set, or end() if the set does not contain the element
      */
-    Iterator find(const T& element) const
+    auto find(const T& element) const
     {
-        Node* current = root_;
-
-        while (current)
-        {
-            if (current->data_ < element)
-            {
-                current = current->right_;
-            }
-            else if (element < current->data_)
-            {
-                current = current->left_;
-            }
-            else // element == current->data_
-            {
-                return Iterator(current);
-            }
-        }
-
-        return end();
+        return set_.find(element);
     }
 
     /**
@@ -686,9 +282,9 @@ public:
      */
     T min() const
     {
-        internal::check_empty(size_);
+        internal::check_empty(size());
 
-        return find_min(root_)->data_;
+        return *set_.cbegin();
     }
 
     /**
@@ -698,9 +294,9 @@ public:
      */
     T max() const
     {
-        internal::check_empty(size_);
+        internal::check_empty(size());
 
-        return find_max(root_)->data_;
+        return *set_.crbegin();
     }
 
     /*
@@ -715,10 +311,9 @@ public:
      */
     Set& operator+=(const T& element)
     {
-        internal::check_full(size_, INT_MAX);
+        internal::check_full(size(), INT_MAX);
 
-        root_ = insert(root_, element);
-        end_->link_left(root_);
+        set_.insert(element);
 
         return *this;
     }
@@ -733,8 +328,7 @@ public:
      */
     Set& operator-=(const T& element)
     {
-        root_ = remove(root_, element);
-        end_->link_left(root_);
+        set_.erase(element);
 
         return *this;
     }
@@ -747,9 +341,7 @@ public:
      */
     bool insert(const T& element)
     {
-        int old_size = size_;
-        *this += element;
-        return old_size != size_;
+        return set_.insert(element).second;
     }
 
     /**
@@ -760,9 +352,7 @@ public:
      */
     bool remove(const T& element)
     {
-        int old_size = size_;
-        *this -= element;
-        return old_size != size_;
+        return set_.erase(element) == 1;
     }
 
     /**
@@ -772,14 +362,7 @@ public:
      */
     Set& clear()
     {
-        if (size_ != 0)
-        {
-            destroy(root_);
-
-            size_ = 0;
-            root_ = nullptr;
-            end_->link_left(root_);
-        }
+        set_.clear();
 
         return *this;
     }
@@ -807,10 +390,7 @@ public:
      */
     Set& operator|=(const Set& that)
     {
-        level_action(that.root_, [&](const T& e)
-                     { *this += e; });
-
-        return *this;
+        return *this = std::move(*this | that);
     }
 
     /**
@@ -852,9 +432,7 @@ public:
     Set operator&(const Set& that) const
     {
         Set new_set;
-        level_action(root_, [&](const T& e)
-                     { if (that.contains(e)) { new_set += e; } });
-
+        std::set_intersection(set_.cbegin(), set_.cend(), that.set_.cbegin(), that.set_.cend(), std::inserter(new_set.set_, new_set.set_.begin()));
         return new_set;
     }
 
@@ -866,8 +444,9 @@ public:
      */
     Set operator|(const Set& that) const
     {
-        Set new_set = *this;
-        return new_set |= that;
+        Set new_set;
+        std::set_union(set_.cbegin(), set_.cend(), that.set_.cbegin(), that.set_.cend(), std::inserter(new_set.set_, new_set.set_.begin()));
+        return new_set;
     }
 
     /**
@@ -879,9 +458,7 @@ public:
     Set operator-(const Set& that) const
     {
         Set new_set;
-        level_action(root_, [&](const T& e)
-                     { if (!that.contains(e)) { new_set += e; } });
-
+        std::set_difference(set_.cbegin(), set_.cend(), that.set_.cbegin(), that.set_.cend(), std::inserter(new_set.set_, new_set.set_.begin()));
         return new_set;
     }
 
@@ -893,7 +470,9 @@ public:
      */
     Set operator^(const Set& that) const
     {
-        return (*this | that) - (*this & that);
+        Set new_set;
+        std::set_symmetric_difference(set_.cbegin(), set_.cend(), that.set_.cbegin(), that.set_.cend(), std::inserter(new_set.set_, new_set.set_.begin()));
+        return new_set;
     }
 
     /*

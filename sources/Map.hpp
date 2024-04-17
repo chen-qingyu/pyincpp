@@ -1,7 +1,7 @@
 /**
  * @file Map.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief Map template class, implemented by Set of Pair.
+ * @brief Map template class.
  * @date 2023.01.18
  *
  * @copyright Copyright (C) 2023
@@ -23,15 +23,15 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include "utility.hpp"
-
 #include "Set.hpp"
+
+#include <map>
 
 namespace pyincpp
 {
 
 /**
- * @brief Map template class, implemented by Set of Pair.
+ * @brief Map template class.
  *
  * @tparam K the type of keys in the map, require support operator<
  * @tparam V the type of values in the map
@@ -39,233 +39,9 @@ namespace pyincpp
 template <typename K, typename V>
 class Map
 {
-public:
-    /**
-     * @brief Map key-value pair class.
-     */
-    class Pair
-    {
-        friend class Map;
-
-        template <typename T>
-        friend class Set;
-
-        friend std::ostream& operator<<(std::ostream& os, const Pair& pair)
-        {
-            return os << pair.key() << ": " << pair.value();
-        }
-
-    private:
-        // Pair key.
-        K key_;
-
-        // Pair value.
-        V value_;
-
-        // Default constructor.
-        Pair()
-            : key_(K())
-            , value_(V())
-        {
-        }
-
-        // Operator equal.
-        bool operator==(const Pair& that) const
-        {
-            return key_ == that.key_;
-        }
-
-        // Operator not equal.
-        bool operator!=(const Pair& that) const
-        {
-            return key_ != that.key_;
-        }
-
-        // Operator less than.
-        bool operator<(const Pair& that) const
-        {
-            return key_ < that.key_;
-        }
-
-        // Operator less than or equal.
-        bool operator<=(const Pair& that) const
-        {
-            return key_ <= that.key_;
-        }
-
-        // Operator greater than.
-        bool operator>(const Pair& that) const
-        {
-            return key_ > that.key_;
-        }
-
-        // Operator greater than or equal.
-        bool operator>=(const Pair& that) const
-        {
-            return key_ >= that.key_;
-        }
-
-    public:
-        /**
-         * @brief Construct a new pair object.
-         *
-         * @param key the key
-         * @param value the value
-         */
-        Pair(const K& key, const V& value)
-            : key_(key)
-            , value_(value)
-        {
-        }
-
-        /**
-         * @brief Get the key.
-         *
-         * @return key of the pair
-         */
-        K key() const
-        {
-            return key_;
-        }
-
-        /**
-         * @brief Get the value.
-         *
-         * @return value of the pair
-         */
-        V value() const
-        {
-            return value_;
-        }
-    };
-
-    /**
-     * @brief Map iterator class.
-     *
-     * Walk the map in ascending order. This means that begin() is the smallest pair.
-     *
-     * Because the internal pairs of the map have a fixed order,
-     * thus the iterator of the map only supports access and does not support modification.
-     */
-    class Iterator
-    {
-        friend class Map;
-
-    private:
-        // Current node pointer.
-        typename Set<Pair>::Iterator it_;
-
-        // Constructor.
-        Iterator(typename Set<Pair>::Node* current)
-            : it_(current)
-        {
-        }
-
-    public:
-        /**
-         * @brief Dereference.
-         *
-         * @return reference of the data
-         */
-        const Pair& operator*() const
-        {
-            return *it_;
-        }
-
-        /**
-         * @brief Get current pointer.
-         *
-         * @return current pointer
-         */
-        const Pair* operator->() const
-        {
-            return it_.operator->();
-        }
-
-        /**
-         * @brief Check if two iterators are same.
-         *
-         * @param that another iterator
-         * @return ture if two iterators are same, false otherwise.
-         */
-        bool operator==(const Iterator& that) const
-        {
-            return it_ == that.it_;
-        }
-
-        /**
-         * @brief Check if two iterators are different.
-         *
-         * @param that another iterator
-         * @return ture if two iterators are different, false otherwise.
-         */
-        bool operator!=(const Iterator& that) const
-        {
-            return !(*this == that);
-        }
-
-        /**
-         * @brief Increment the iterator: ++it.
-         *
-         * @return reference of this iterator that point to next data
-         */
-        Iterator& operator++()
-        {
-            ++it_;
-            return *this;
-        }
-
-        /**
-         * @brief Increment the iterator: it++.
-         *
-         * @return const reference of this iterator that point to current data
-         */
-        Iterator operator++(int)
-        {
-            auto tmp = *this;
-            ++it_;
-            return tmp;
-        }
-
-        /**
-         * @brief Decrement the iterator: --it.
-         *
-         * @return reference of this iterator that point to previous data
-         */
-        Iterator& operator--()
-        {
-            --it_;
-            return *this;
-        }
-
-        /**
-         * @brief Decrement the iterator: it--.
-         *
-         * @return const reference of this iterator that point to current data
-         */
-        Iterator operator--(int)
-        {
-            auto tmp = *this;
-            --it_;
-            return tmp;
-        }
-    };
-
 private:
     // Set of pairs.
-    Set<Pair> set_;
-
-    // Access.
-    V& access(const K& key) const
-    {
-        auto it = set_.find(Pair(key, V()));
-        if (it == set_.end())
-        {
-            throw std::runtime_error("Error: Key is not found in the map.");
-        }
-
-        return it.current_->data_.value_;
-    }
+    std::map<K, V> map_;
 
 public:
     /*
@@ -276,7 +52,7 @@ public:
      * @brief Construct a new empty map object.
      */
     Map()
-        : set_()
+        : map_()
     {
     }
 
@@ -285,13 +61,9 @@ public:
      *
      * @param il initializer list
      */
-    Map(const std::initializer_list<Pair>& il)
-        : set_()
+    Map(const std::initializer_list<std::pair<const K, V>>& il)
+        : map_(il)
     {
-        for (auto it = il.begin(); it != il.end(); ++it)
-        {
-            set_ += *it;
-        }
     }
 
     /**
@@ -300,7 +72,7 @@ public:
      * @param that another map
      */
     Map(const Map& that)
-        : set_(that.set_)
+        : map_(that.map_)
     {
     }
 
@@ -310,14 +82,7 @@ public:
      * @param that another map
      */
     Map(Map&& that)
-        : set_(std::move(that.set_))
-    {
-    }
-
-    /**
-     * @brief Destroy the map object.
-     */
-    ~Map()
+        : map_(std::move(that.map_))
     {
     }
 
@@ -333,7 +98,7 @@ public:
      */
     bool operator==(const Map& that) const
     {
-        return set_ == that.set_;
+        return map_ == that.map_;
     }
 
     /**
@@ -344,7 +109,7 @@ public:
      */
     bool operator!=(const Map& that) const
     {
-        return set_ != that.set_;
+        return map_ != that.map_;
     }
 
     /**
@@ -355,7 +120,15 @@ public:
      */
     bool operator<(const Map& that) const
     {
-        return set_ < that.set_;
+        for (auto it = begin(); it != end(); ++it)
+        {
+            if (!that.contains(it->first))
+            {
+                return false;
+            }
+        }
+
+        return size() < that.size();
     }
 
     /**
@@ -366,7 +139,7 @@ public:
      */
     bool operator<=(const Map& that) const
     {
-        return set_ <= that.set_;
+        return *this < that || *this == that;
     }
 
     /**
@@ -377,7 +150,7 @@ public:
      */
     bool operator>(const Map& that) const
     {
-        return set_ > that.set_;
+        return that < *this;
     }
 
     /**
@@ -388,7 +161,7 @@ public:
      */
     bool operator>=(const Map& that) const
     {
-        return set_ >= that.set_;
+        return *this > that || *this == that;
     }
 
     /*
@@ -403,7 +176,7 @@ public:
      */
     Map& operator=(const Map& that)
     {
-        set_ = that.set_;
+        map_ = that.map_;
 
         return *this;
     }
@@ -416,7 +189,7 @@ public:
      */
     Map& operator=(Map&& that)
     {
-        set_ = std::move(that.set_);
+        map_ = std::move(that.map_);
 
         return *this;
     }
@@ -433,7 +206,13 @@ public:
      */
     V& operator[](const K& key)
     {
-        return access(key);
+        auto it = map_.find(key);
+        if (it == map_.end())
+        {
+            throw std::runtime_error("Error: Key is not found in the map.");
+        }
+
+        return it->second;
     }
 
     /**
@@ -444,7 +223,7 @@ public:
      */
     const V& operator[](const K& key) const
     {
-        return access(key);
+        return const_cast<Map&>(*this)[key];
     }
 
     /**
@@ -458,7 +237,7 @@ public:
      */
     V get(const K& key, const V& defaults = V()) const
     {
-        return contains(key) ? access(key) : defaults;
+        return contains(key) ? map_.at(key) : defaults;
     }
 
     /*
@@ -472,9 +251,9 @@ public:
      *
      * @return iterator to the first element
      */
-    Iterator begin() const
+    auto begin() const
     {
-        return Iterator(set_.find_min(set_.root_));
+        return map_.begin();
     }
 
     /**
@@ -484,9 +263,9 @@ public:
      *
      * @return iterator to the element following the last element
      */
-    Iterator end() const
+    auto end() const
     {
-        return Iterator(set_.end_);
+        return map_.end();
     }
 
     /*
@@ -500,7 +279,7 @@ public:
      */
     int size() const
     {
-        return set_.size_;
+        return map_.size();
     }
 
     /**
@@ -510,7 +289,7 @@ public:
      */
     bool is_empty() const
     {
-        return set_.size_ == 0;
+        return map_.empty();
     }
 
     /**
@@ -521,11 +300,9 @@ public:
      * @param key key to search for
      * @return the iterator of the specified key in the map, or end() if the map does not contain the key
      */
-    Iterator find(const K& key) const
+    auto find(const K& key) const
     {
-        auto it = set_.find(Pair(key, V()));
-
-        return it == set_.end() ? end() : Iterator(it.current_);
+        return map_.find(key);
     }
 
     /**
@@ -536,7 +313,7 @@ public:
      */
     bool contains(const K& key) const
     {
-        return set_.contains(Pair(key, V()));
+        return map_.find(key) != map_.end();
     }
 
     /**
@@ -546,7 +323,7 @@ public:
      */
     K min() const
     {
-        return set_.min().key_;
+        return map_.cbegin()->first;
     }
 
     /**
@@ -556,7 +333,7 @@ public:
      */
     K max() const
     {
-        return set_.max().key_;
+        return map_.crbegin()->first;
     }
 
     /**
@@ -567,8 +344,8 @@ public:
     Set<K> keys() const
     {
         Set<K> keys;
-        set_.level_action(set_.root_, [&](const Pair& pair)
-                          { keys += pair.key_; });
+        std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
+                      { keys += pair.first; });
 
         return keys;
     }
@@ -581,8 +358,8 @@ public:
     Set<V> values() const
     {
         Set<V> values;
-        set_.level_action(set_.root_, [&](const Pair& pair)
-                          { values += pair.value_; });
+        std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
+                      { values += pair.second; });
 
         return values;
     }
@@ -592,11 +369,12 @@ public:
      *
      * @return a new set of the map's items
      */
-    Set<Pair> items() const
+    Set<std::pair<K, V>> items() const
     {
-        Set<Pair> items;
-        set_.level_action(set_.root_, [&](const Pair& pair)
-                          { items += pair; });
+        Set<std::pair<K, V>> items;
+        std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
+                      { items += pair; });
+
         return items;
     }
 
@@ -610,9 +388,9 @@ public:
      * @param pair pair to be added to the map
      * @return self reference
      */
-    Map& operator+=(const Pair& pair)
+    Map& operator+=(const std::pair<K, V>& pair)
     {
-        set_ += pair;
+        map_.insert(pair);
 
         return *this;
     }
@@ -627,7 +405,7 @@ public:
      */
     Map& operator-=(const K& key)
     {
-        set_ -= Pair(key, V());
+        map_.erase(key);
 
         return *this;
     }
@@ -639,7 +417,7 @@ public:
      */
     Map& clear()
     {
-        set_.clear();
+        map_.clear();
 
         return *this;
     }
@@ -657,15 +435,30 @@ public:
      */
     friend std::ostream& operator<<(std::ostream& os, const Map& map)
     {
-        return os << map.set_;
+        if (map.is_empty())
+        {
+            return os << "{}";
+        }
+
+        os << "{";
+        auto it = map.begin();
+        while (true)
+        {
+            os << *it++;
+            if (it == map.end())
+            {
+                return os << "}";
+            }
+            os << ", ";
+        }
     }
 };
 
-/**
- * @brief Export symbol `Pair`: `Pair<K, V> = Map<K, V>::Pair`.
- */
 template <typename K, typename V>
-using Pair = typename Map<K, V>::Pair;
+std::ostream& operator<<(std::ostream& os, const std::pair<K, V>& pair)
+{
+    return os << pair.first << ": " << pair.second;
+}
 
 } // namespace pyincpp
 

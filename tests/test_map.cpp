@@ -118,8 +118,8 @@ TEST_CASE("Map")
         int k = 1;
         for (auto it = map.begin(); it != map.end(); ++it)
         {
-            REQUIRE(it->key() == k);
-            REQUIRE(it->value() == k * k);
+            REQUIRE(it->first == k);
+            REQUIRE(it->second == k * k);
             ++k;
         }
 
@@ -127,8 +127,8 @@ TEST_CASE("Map")
         k = 1;
         for (const auto& e : map)
         {
-            REQUIRE(e.key() == k);
-            REQUIRE(e.value() == k * k);
+            REQUIRE(e.first == k);
+            REQUIRE(e.second == k * k);
             ++k;
         }
     }
@@ -158,7 +158,7 @@ TEST_CASE("Map")
     {
         REQUIRE(some.keys() == Set<int>({1, 2, 3}));
         REQUIRE(some.values() == Set<std::string>({"one", "two", "three"}));
-        REQUIRE(some.items() == Set<Pair<int, std::string>>({{1, "one"}, {2, "two"}, {3, "three"}}));
+        REQUIRE(some.items() == Set<std::pair<int, std::string>>({{1, "one"}, {2, "two"}, {3, "three"}}));
     }
 
     // operator+=()
