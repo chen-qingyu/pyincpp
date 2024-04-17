@@ -120,15 +120,7 @@ public:
      */
     bool operator<(const Map& that) const
     {
-        for (auto it = begin(); it != end(); ++it)
-        {
-            if (!that.contains(it->first))
-            {
-                return false;
-            }
-        }
-
-        return size() < that.size();
+        return (*this) <= that && size() != that.size();
     }
 
     /**
@@ -139,7 +131,7 @@ public:
      */
     bool operator<=(const Map& that) const
     {
-        return *this < that || *this == that;
+        return std::includes(that.map_.cbegin(), that.map_.cend(), map_.cbegin(), map_.cend());
     }
 
     /**
@@ -161,7 +153,7 @@ public:
      */
     bool operator>=(const Map& that) const
     {
-        return *this > that || *this == that;
+        return that <= *this;
     }
 
     /*

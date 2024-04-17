@@ -46,12 +46,13 @@ TEST_CASE("Set")
         REQUIRE(eq_set == some);
 
         // operator!=
-        Set<int> ne_set = {1, 3, 5};
+        Set<int> ne_set = {1, 3, 5, 7, 9};
         REQUIRE(ne_set != some);
 
         // operator<
-        Set<int> lt_set = {1, 2, 3};
+        Set<int> lt_set = {5, 1};
         REQUIRE(lt_set < some);
+        REQUIRE_FALSE(ne_set < some);
 
         // operator<=
         REQUIRE(lt_set <= some);
@@ -60,6 +61,7 @@ TEST_CASE("Set")
         // operator>
         Set<int> gt_set = {1, 2, 3, 4, 5, 6};
         REQUIRE(gt_set > some);
+        REQUIRE_FALSE(ne_set > some);
 
         // operator>=
         REQUIRE(eq_set >= some);

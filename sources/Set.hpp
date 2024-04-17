@@ -108,7 +108,7 @@ public:
      */
     bool operator!=(const Set& that) const
     {
-        return !(*this == that);
+        return set_ != that.set_;
     }
 
     /**
@@ -119,15 +119,7 @@ public:
      */
     bool operator<(const Set& that) const
     {
-        for (auto it = begin(); it != end(); ++it)
-        {
-            if (!that.contains(*it))
-            {
-                return false;
-            }
-        }
-
-        return size() < that.size();
+        return (*this) <= that && size() != that.size();
     }
 
     /**
@@ -138,7 +130,7 @@ public:
      */
     bool operator<=(const Set& that) const
     {
-        return *this < that || *this == that;
+        return std::includes(that.set_.cbegin(), that.set_.cend(), set_.cbegin(), set_.cend());
     }
 
     /**
@@ -160,7 +152,7 @@ public:
      */
     bool operator>=(const Set& that) const
     {
-        return *this > that || *this == that;
+        return that <= *this;
     }
 
     /*
