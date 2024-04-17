@@ -103,6 +103,10 @@ TEST_CASE("Map")
 
         // check key
         REQUIRE_THROWS_MATCHES(map["four"], std::runtime_error, Message("Error: Key is not found in the map."));
+
+        // const access
+        const Map<std::string, int> const_map({{"one", 1}, {"two", 2}, {"three", 3}});
+        REQUIRE(const_map["one"] == 1);
     }
 
     // begin() end()
