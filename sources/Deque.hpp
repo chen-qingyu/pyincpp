@@ -1,7 +1,7 @@
 /**
  * @file Deque.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief Deque template class, implemented by doubly linked list.
+ * @brief Deque template class.
  * @date 2023.01.10
  *
  * @copyright Copyright (C) 2023
@@ -25,11 +25,13 @@
 
 #include "utility.hpp"
 
+#include <deque>
+
 namespace pyincpp
 {
 
 /**
- * @brief Deque template class, implemented by doubly linked list.
+ * @brief Deque template class.
  *
  * @tparam T the type of elements in the deque
  */
@@ -37,128 +39,8 @@ template <typename T>
 class Deque
 {
 private:
-    // Node of linked list.
-    struct Node
-    {
-        // Data stored in the node.
-        T data_;
-
-        // Predecessor.
-        Node* pred_;
-
-        // Successor.
-        Node* succ_;
-
-        // Create a node with given element.
-        Node(const T& data, Node* pred = nullptr, Node* succ = nullptr)
-            : data_(data)
-            , pred_(pred)
-            , succ_(succ)
-        {
-        }
-    };
-
-    // Number of elements.
-    int size_;
-
-    // Pointer to the header.
-    Node* header_;
-
-    // Pointer to the trailer.
-    Node* trailer_;
-
-    // Insert the given element at the given position.
-    void insert(Node* pos, const T& element)
-    {
-        internal::check_full(size_, INT_MAX);
-
-        auto node = new Node(element, pos->pred_, pos);
-        pos->pred_->succ_ = node;
-        pos->pred_ = node;
-
-        ++size_;
-    }
-
-    // Remove and return an element at the given position.
-    T remove(Node* pos)
-    {
-        internal::check_empty(size_);
-
-        T element = pos->data_;
-
-        pos->pred_->succ_ = pos->succ_;
-        pos->succ_->pred_ = pos->pred_;
-        delete pos;
-
-        --size_;
-
-        return element;
-    }
-
-    // Clear the stored node of data.
-    void clear_data()
-    {
-        while (header_->succ_ != trailer_)
-        {
-            auto node = header_->succ_->succ_;
-            delete header_->succ_;
-            header_->succ_ = node;
-        }
-
-        size_ = 0;
-        header_->succ_ = trailer_;
-        trailer_->pred_ = header_;
-    }
-
-    // Compare two deques.
-    int compare(const Deque& that) const
-    {
-        for (Node *it1 = header_->succ_, *it2 = that.header_->succ_; it1 != trailer_ && it2 != that.trailer_; it1 = it1->succ_, it2 = it2->succ_)
-        {
-            if (it1->data_ > it2->data_)
-            {
-                return 1;
-            }
-            else if (it1->data_ < it2->data_)
-            {
-                return -1;
-            }
-        }
-
-        if (size_ > that.size_)
-        {
-            return 1;
-        }
-        else if (size_ < that.size_)
-        {
-            return -1;
-        }
-        else // size_ == that.size_
-        {
-            return 0;
-        }
-    }
-
-    // Set the node to the first visible node.
-    void set_first(Node* node)
-    {
-        if (node == header_->succ_)
-        {
-            return;
-        }
-
-        // link origin last node and origin first node
-        trailer_->pred_->succ_ = header_->succ_;
-        header_->succ_->pred_ = trailer_->pred_;
-
-        // link new last node and trailer
-        node->pred_->succ_ = trailer_;
-        trailer_->pred_ = node->pred_;
-
-        // then, link new first node and header
-        node->pred_ = header_;
-        header_->succ_ = node;
-    }
+    // Deque.
+    std::deque<T> deque_;
 
 public:
     /*
@@ -169,12 +51,8 @@ public:
      * @brief Construct a new empty deque object.
      */
     Deque()
-        : size_(0)
-        , header_(new Node(T()))
-        , trailer_(new Node(T()))
+        : deque_()
     {
-        header_->succ_ = trailer_;
-        trailer_->pred_ = header_;
     }
 
     /**
@@ -183,12 +61,8 @@ public:
      * @param il initializer list
      */
     Deque(const std::initializer_list<T>& il)
-        : Deque()
+        : deque_(il)
     {
-        for (auto it = il.begin(); it != il.end(); ++it)
-        {
-            push_back(*it);
-        }
     }
 
     /**
@@ -197,12 +71,8 @@ public:
      * @param that another deque
      */
     Deque(const Deque& that)
-        : Deque()
+        : deque_(that.deque_)
     {
-        for (Node* it = that.header_->succ_; it != that.trailer_; it = it->succ_)
-        {
-            push_back(it->data_);
-        }
     }
 
     /**
@@ -211,26 +81,8 @@ public:
      * @param that another deque
      */
     Deque(Deque&& that)
-        : size_(that.size_)
-        , header_(that.header_)
-        , trailer_(that.trailer_)
+        : deque_(std::move(that.deque_))
     {
-        that.size_ = 0;
-        that.header_ = new Node(T());
-        that.trailer_ = new Node(T());
-        that.header_->succ_ = that.trailer_;
-        that.trailer_->pred_ = that.header_;
-    }
-
-    /**
-     * @brief Destroy the deque object.
-     */
-    ~Deque()
-    {
-        clear_data();
-
-        delete header_;
-        delete trailer_;
     }
 
     /*
@@ -245,20 +97,7 @@ public:
      */
     bool operator==(const Deque& that) const
     {
-        if (size_ != that.size_)
-        {
-            return false;
-        }
-
-        for (Node *it1 = header_->succ_, *it2 = that.header_->succ_; it1 != trailer_; it1 = it1->succ_, it2 = it2->succ_)
-        {
-            if (it1->data_ != it2->data_)
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return deque_ == that.deque_;
     }
 
     /**
@@ -269,7 +108,7 @@ public:
      */
     bool operator!=(const Deque& that) const
     {
-        return !(*this == that);
+        return deque_ != that.deque_;
     }
 
     /**
@@ -280,7 +119,7 @@ public:
      */
     bool operator<(const Deque& that) const
     {
-        return compare(that) < 0;
+        return deque_ < that.deque_;
     }
 
     /**
@@ -291,7 +130,7 @@ public:
      */
     bool operator<=(const Deque& that) const
     {
-        return compare(that) <= 0;
+        return deque_ <= that.deque_;
     }
 
     /**
@@ -302,7 +141,7 @@ public:
      */
     bool operator>(const Deque& that) const
     {
-        return compare(that) > 0;
+        return deque_ > that.deque_;
     }
 
     /**
@@ -313,7 +152,7 @@ public:
      */
     bool operator>=(const Deque& that) const
     {
-        return compare(that) >= 0;
+        return deque_ >= that.deque_;
     }
 
     /*
@@ -330,12 +169,7 @@ public:
     {
         if (this != &that)
         {
-            clear_data();
-
-            for (Node* it = that.header_->succ_; it != that.trailer_; it = it->succ_)
-            {
-                push_back(it->data_);
-            }
+            deque_ = that.deque_;
         }
 
         return *this;
@@ -351,17 +185,7 @@ public:
     {
         if (this != &that)
         {
-            clear_data();
-
-            size_ = that.size_;
-            header_ = that.header_;
-            trailer_ = that.trailer_;
-
-            that.size_ = 0;
-            that.header_ = new Node(T());
-            that.trailer_ = new Node(T());
-            that.header_->succ_ = that.trailer_;
-            that.trailer_->pred_ = that.header_;
+            deque_ = std::move(that.deque_);
         }
 
         return *this;
@@ -378,9 +202,9 @@ public:
      */
     const T& back() const
     {
-        internal::check_empty(size_);
+        internal::check_empty(size());
 
-        return trailer_->pred_->data_;
+        return deque_.back();
     }
 
     /**
@@ -390,9 +214,9 @@ public:
      */
     const T& front() const
     {
-        internal::check_empty(size_);
+        internal::check_empty(size());
 
-        return header_->succ_->data_;
+        return deque_.front();
     }
 
     /**
@@ -402,9 +226,9 @@ public:
      */
     T& back()
     {
-        internal::check_empty(size_);
+        internal::check_empty(size());
 
-        return trailer_->pred_->data_;
+        return deque_.back();
     }
 
     /**
@@ -414,9 +238,9 @@ public:
      */
     T& front()
     {
-        internal::check_empty(size_);
+        internal::check_empty(size());
 
-        return header_->succ_->data_;
+        return deque_.front();
     }
 
     /*
@@ -430,7 +254,7 @@ public:
      */
     int size() const
     {
-        return size_;
+        return deque_.size();
     }
 
     /**
@@ -440,7 +264,7 @@ public:
      */
     bool is_empty() const
     {
-        return size_ == 0;
+        return deque_.empty();
     }
 
     /*
@@ -454,7 +278,7 @@ public:
      */
     void push_back(const T& element)
     {
-        insert(trailer_, element);
+        deque_.push_back(element);
     }
 
     /**
@@ -464,7 +288,7 @@ public:
      */
     void push_front(const T& element)
     {
-        insert(header_->succ_, element);
+        deque_.push_front(element);
     }
 
     /**
@@ -474,7 +298,11 @@ public:
      */
     T pop_back()
     {
-        return remove(trailer_->pred_);
+        internal::check_empty(size());
+
+        T data = std::move(deque_.back());
+        deque_.pop_back();
+        return data;
     }
 
     /**
@@ -484,7 +312,11 @@ public:
      */
     T pop_front()
     {
-        return remove(header_->succ_);
+        internal::check_empty(size());
+
+        T data = std::move(deque_.front());
+        deque_.pop_front();
+        return data;
     }
 
     /**
@@ -494,10 +326,7 @@ public:
      */
     Deque& clear()
     {
-        if (size_ != 0)
-        {
-            clear_data();
-        }
+        deque_.clear();
 
         return *this;
     }
@@ -510,7 +339,7 @@ public:
      */
     Deque& operator>>=(int n)
     {
-        if (size_ <= 1 || n == 0)
+        if (size() <= 1 || n == 0)
         {
             return *this;
         }
@@ -520,18 +349,9 @@ public:
             return *this <<= -n;
         }
 
-        n %= size_;
-        if (n > size_ / 2)
-        {
-            return *this <<= (size_ - n);
-        }
+        n %= size();
 
-        Node* it = trailer_;
-        while (n--)
-        {
-            it = it->pred_;
-        }
-        set_first(it);
+        std::rotate(deque_.begin(), deque_.begin() + size() - n, deque_.end());
 
         return *this;
     }
@@ -544,7 +364,7 @@ public:
      */
     Deque& operator<<=(int n)
     {
-        if (size_ <= 1 || n == 0)
+        if (size() <= 1 || n == 0)
         {
             return *this;
         }
@@ -554,18 +374,9 @@ public:
             return *this >>= -n;
         }
 
-        n %= size_;
-        if (n > size_ / 2)
-        {
-            return *this >>= (size_ - n);
-        }
+        n %= size();
 
-        Node* it = header_->succ_;
-        while (n--)
-        {
-            it = it->succ_;
-        }
-        set_first(it);
+        std::rotate(deque_.begin(), deque_.begin() + n, deque_.end());
 
         return *this;
     }
@@ -577,11 +388,7 @@ public:
      */
     Deque& reverse()
     {
-        std::swap(header_, trailer_);
-        for (Node* cur = trailer_; cur != nullptr; cur = cur->pred_)
-        {
-            std::swap(cur->pred_, cur->succ_);
-        }
+        std::reverse(deque_.begin(), deque_.end());
 
         return *this;
     }
@@ -605,12 +412,11 @@ public:
         }
 
         os << "<";
-        auto it = deque.header_->succ_;
+        auto it = deque.deque_.begin();
         while (true)
         {
-            os << it->data_;
-            it = it->succ_;
-            if (it == deque.trailer_)
+            os << *it++;
+            if (it == deque.deque_.end())
             {
                 return os << ">";
             }
