@@ -47,6 +47,13 @@ public:
     {
         friend class List;
 
+    public:
+        using iterator_category = std::input_iterator_tag;
+        using value_type = T;
+        using difference_type = int;
+        using pointer = value_type*;
+        using reference = value_type&;
+
     private:
         // Current data pointer.
         T* current_;
@@ -479,6 +486,19 @@ public:
     }
 
     /**
+     * @brief Return the iterator of the specified element in the list.
+     *
+     * Or end() if the list does not contain the element.
+     *
+     * @param element element to search for
+     * @return the iterator of the specified element in the list, or end() if the list does not contain the element
+     */
+    Iterator find(const T& element) const
+    {
+        return std::find(begin(), end(), element);
+    }
+
+    /**
      * @brief Return the index of the first occurrence of the specified element in the list (at or after index start and before index stop).
      *
      * Or -1 if the list does not contain the element (in the specified range).
@@ -488,7 +508,7 @@ public:
      * @param stop before index stop (default size())
      * @return the index of the first occurrence of the specified element in the list, or -1 if the list does not contain the element
      */
-    int find(const T& element, int start = 0, int stop = MAX_CAPACITY + 1) const
+    int index(const T& element, int start = 0, int stop = MAX_CAPACITY + 1) const
     {
         stop = stop > size_ ? size_ : stop;
         auto it = std::find(data_ + start, data_ + stop, element);
@@ -505,7 +525,7 @@ public:
      */
     bool contains(const T& element, int start = 0, int stop = MAX_CAPACITY + 1) const
     {
-        return find(element, start, stop) != -1;
+        return index(element, start, stop) != -1;
     }
 
     /**
@@ -645,10 +665,10 @@ public:
      */
     List& operator-=(const T& element)
     {
-        int index = find(element);
-        if (index != -1)
+        int idx = index(element);
+        if (idx != -1)
         {
-            remove(index);
+            remove(idx);
         }
 
         return *this;

@@ -157,16 +157,21 @@ TEST_CASE("List")
         }
     }
 
-    // find() contains() min() max() count()
+    // find() index() contains() min() max() count()
     SECTION("examination")
     {
         // find
-        REQUIRE(some.find(1) == 0);
-        REQUIRE(some.find(5) == 4);
-        REQUIRE(some.find(0) == -1);
-        REQUIRE(some.find(1, 1, 99) == -1);
-        REQUIRE(some.find(5, 1, 99) == 4);
-        REQUIRE(some.find(0, 1, 99) == -1);
+        REQUIRE(*some.find(1) == 1);
+        REQUIRE(*some.find(5) == 5);
+        REQUIRE(some.find(0) == some.end());
+
+        // index
+        REQUIRE(some.index(1) == 0);
+        REQUIRE(some.index(5) == 4);
+        REQUIRE(some.index(0) == -1);
+        REQUIRE(some.index(1, 1, 99) == -1);
+        REQUIRE(some.index(5, 1, 99) == 4);
+        REQUIRE(some.index(0, 1, 99) == -1);
 
         // contains
         REQUIRE(some.contains(1) == true);
