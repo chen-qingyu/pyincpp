@@ -722,10 +722,7 @@ public:
     template <typename F>
     List& map(const F& action)
     {
-        for (int i = 0; i < size_; ++i)
-        {
-            action(data_[i]);
-        }
+        std::for_each(begin(), end(), action);
 
         return *this;
     }
