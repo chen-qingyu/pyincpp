@@ -279,12 +279,7 @@ public:
      */
     bool operator==(const List& that) const
     {
-        if (size_ != that.size_)
-        {
-            return false;
-        }
-
-        return std::equal(data_, data_ + size_, that.data_);
+        return size_ == that.size_ && std::equal(data_, data_ + size_, that.data_);
     }
 
     /**
@@ -682,7 +677,7 @@ public:
      */
     List& operator*=(int times)
     {
-        return *this = std::move((*this) * times);
+        return *this = std::move(*this * times);
     }
 
     /**
@@ -737,16 +732,10 @@ public:
     template <typename F>
     List& filter(const F& predicate)
     {
-        List list;
-        for (int i = 0; i < size_; i++)
-        {
-            if (predicate(data_[i]))
-            {
-                list += data_[i];
-            }
-        }
+        auto it = std::copy_if(data_, data_ + size_, data_, predicate);
+        size_ = it - data_;
 
-        return *this = std::move(list);
+        return *this;
     }
 
     /**
