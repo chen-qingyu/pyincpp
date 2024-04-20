@@ -227,9 +227,9 @@ public:
      * @param defaults default value
      * @return copy of the value for key if key is in the map, else default value
      */
-    V get(const K& key, const V& defaults = V()) const
+    V& get(const K& key, const V& defaults) const
     {
-        return contains(key) ? map_.at(key) : defaults;
+        return contains(key) ? const_cast<Map&>(*this)[key] : defaults;
     }
 
     /*

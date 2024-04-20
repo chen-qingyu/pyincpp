@@ -90,8 +90,7 @@ TEST_CASE("Map")
         Map<std::string, int> map({{"one", 1}, {"two", 2}, {"three", 3}});
 
         // get
-        REQUIRE(map.get("one") == 1);
-        REQUIRE(map.get("not exist") == 0);
+        REQUIRE(map.get("one", 233) == 1);
         REQUIRE(map.get("not exist", 233) == 233);
 
         // access
