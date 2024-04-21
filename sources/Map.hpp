@@ -52,7 +52,7 @@ public:
 
     private:
         // Pair key.
-        K key_;
+        const K key_;
 
         // Pair value.
         V value_;
@@ -119,6 +119,16 @@ public:
         {
             return value_;
         }
+
+        /**
+         * @brief Get the value.
+         *
+         * @return value of the pair
+         */
+        V& value()
+        {
+            return value_;
+        }
     };
 
 public:
@@ -141,12 +151,12 @@ public:
         using pointer = value_type*;
         using reference = value_type&;
 
-        const Pair& operator*()
+        Pair& operator*()
         {
-            return *it_;
+            return const_cast<Pair&>(*it_);
         }
 
-        const Pair* operator->()
+        Pair* operator->()
         {
             return &(operator*());
         }

@@ -118,6 +118,11 @@ TEST_CASE("Map")
             REQUIRE(e.value() == k * k);
             ++k;
         }
+
+        map.begin()->value() = 233;
+        REQUIRE(map.begin()->value() == 233);
+        (*map.begin()).value() = 999;
+        REQUIRE(map.begin()->value() == 999);
     }
 
     // find() contains() min() max()
