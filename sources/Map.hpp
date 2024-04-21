@@ -25,8 +25,6 @@
 
 #include "Set.hpp"
 
-#include <map>
-
 namespace pyincpp
 {
 
@@ -39,9 +37,215 @@ namespace pyincpp
 template <typename K, typename V>
 class Map
 {
+public:
+    /**
+     * @brief Map key-value pair class.
+     */
+    class Pair
+    {
+        friend class Map;
+
+        friend std::ostream& operator<<(std::ostream& os, const Pair& pair)
+        {
+            return os << pair.key() << ": " << pair.value();
+        }
+
+    private:
+        // Pair key.
+        K key_;
+
+        // Pair value.
+        V value_;
+
+    public:
+        bool operator==(const Pair& that) const
+        {
+            return key_ == that.key_;
+        }
+
+        bool operator!=(const Pair& that) const
+        {
+            return key_ != that.key_;
+        }
+
+        bool operator<(const Pair& that) const
+        {
+            return key_ < that.key_;
+        }
+
+        bool operator<=(const Pair& that) const
+        {
+            return key_ <= that.key_;
+        }
+
+        bool operator>(const Pair& that) const
+        {
+            return key_ > that.key_;
+        }
+
+        bool operator>=(const Pair& that) const
+        {
+            return key_ >= that.key_;
+        }
+
+        /**
+         * @brief Construct a new pair object.
+         *
+         * @param key the key
+         * @param value the value
+         */
+        Pair(const K& key, const V& value)
+            : key_(key)
+            , value_(value)
+        {
+        }
+
+        /**
+         * @brief Get the key.
+         *
+         * @return key of the pair
+         */
+        const K& key() const
+        {
+            return key_;
+        }
+
+        /**
+         * @brief Get the value.
+         *
+         * @return value of the pair
+         */
+        const V& value() const
+        {
+            return value_;
+        }
+    };
+
+public:
+    class Iterator
+    {
+        friend class Map;
+
+    private:
+        typename std::set<Pair>::iterator it_;
+
+        Iterator(const typename std::set<Pair>::iterator& it)
+            : it_(it)
+        {
+        }
+
+    public:
+        const Pair& operator*()
+        {
+            return *it_;
+        }
+
+        const Pair* operator->()
+        {
+            return &(operator*());
+        }
+
+        Iterator& operator++()
+        {
+            ++it_;
+            return *this;
+        }
+
+        Iterator& operator--()
+        {
+            --it_;
+            return *this;
+        }
+
+        Iterator operator++(int)
+        {
+            Iterator tmp = *this;
+            ++it_;
+            return tmp;
+        }
+
+        Iterator operator--(int)
+        {
+            Iterator tmp = *this;
+            --it_;
+            return tmp;
+        }
+
+        bool operator==(const Iterator& other) const
+        {
+            return it_ == other.it_;
+        }
+
+        bool operator!=(const Iterator& other) const
+        {
+            return it_ != other.it_;
+        }
+    };
+
+public:
+    class ConstIterator
+    {
+        friend class Map;
+
+    private:
+        typename std::set<Pair>::const_iterator it_;
+
+        ConstIterator(const typename std::set<Pair>::const_iterator& it)
+            : it_(it)
+        {
+        }
+
+    public:
+        const Pair& operator*() const
+        {
+            return *it_;
+        }
+
+        const Pair* operator->() const
+        {
+            return &(operator*());
+        }
+
+        ConstIterator& operator++()
+        {
+            ++it_;
+            return *this;
+        }
+
+        ConstIterator& operator--()
+        {
+            --it_;
+            return *this;
+        }
+
+        ConstIterator operator++(int)
+        {
+            ConstIterator tmp = *this;
+            ++it_;
+            return tmp;
+        }
+
+        ConstIterator operator--(int)
+        {
+            ConstIterator tmp = *this;
+            --it_;
+            return tmp;
+        }
+
+        bool operator==(const ConstIterator& other) const
+        {
+            return it_ == other.it_;
+        }
+
+        bool operator!=(const ConstIterator& other) const
+        {
+            return it_ != other.it_;
+        }
+    };
+
 private:
     // Set of pairs.
-    std::map<K, V> map_;
+    std::set<Pair> map_;
 
 public:
     /*
@@ -61,7 +265,7 @@ public:
      *
      * @param il initializer list
      */
-    Map(const std::initializer_list<std::pair<const K, V>>& il)
+    Map(const std::initializer_list<Pair>& il)
         : map_(il)
     {
     }
@@ -198,13 +402,13 @@ public:
      */
     V& operator[](const K& key)
     {
-        auto it = map_.find(key);
+        auto it = map_.find(Pair(key, V()));
         if (it == map_.end())
         {
             throw std::runtime_error("Error: Key is not found in the map.");
         }
 
-        return it->second;
+        return const_cast<V&>(it->value());
     }
 
     /**
@@ -243,9 +447,14 @@ public:
      *
      * @return iterator to the first element
      */
-    auto begin() const
+    Iterator begin()
     {
-        return map_.begin();
+        return Iterator(map_.begin());
+    }
+
+    ConstIterator begin() const
+    {
+        return ConstIterator(map_.begin());
     }
 
     /**
@@ -255,9 +464,14 @@ public:
      *
      * @return iterator to the element following the last element
      */
-    auto end() const
+    Iterator end()
     {
-        return map_.end();
+        return Iterator(map_.end());
+    }
+
+    ConstIterator end() const
+    {
+        return ConstIterator(map_.end());
     }
 
     /*
@@ -292,9 +506,9 @@ public:
      * @param key key to search for
      * @return the iterator of the specified key in the map, or end() if the map does not contain the key
      */
-    auto find(const K& key) const
+    Iterator find(const K& key) const
     {
-        return map_.find(key);
+        return Iterator(const_cast<std::set<Pair>&>(map_).find(Pair(key, V())));
     }
 
     /**
@@ -305,7 +519,7 @@ public:
      */
     bool contains(const K& key) const
     {
-        return map_.find(key) != map_.end();
+        return map_.find(Pair(key, V())) != map_.end();
     }
 
     /**
@@ -315,7 +529,7 @@ public:
      */
     K min() const
     {
-        return map_.cbegin()->first;
+        return map_.cbegin()->key();
     }
 
     /**
@@ -325,7 +539,7 @@ public:
      */
     K max() const
     {
-        return map_.crbegin()->first;
+        return map_.crbegin()->key();
     }
 
     /**
@@ -337,7 +551,7 @@ public:
     {
         Set<K> keys;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
-                      { keys += pair.first; });
+                      { keys += pair.key_; });
 
         return keys;
     }
@@ -351,7 +565,7 @@ public:
     {
         Set<V> values;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
-                      { values += pair.second; });
+                      { values += pair.value_; });
 
         return values;
     }
@@ -361,11 +575,10 @@ public:
      *
      * @return a new set of the map's items
      */
-    Set<std::pair<K, V>> items() const
+    Set<Pair> items() const
     {
-        Set<std::pair<K, V>> items;
-        std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
-                      { items += pair; });
+        Set<Pair> items;
+        items.set_ = map_;
 
         return items;
     }
@@ -380,7 +593,7 @@ public:
      * @param pair pair to be added to the map
      * @return self reference
      */
-    Map& operator+=(const std::pair<K, V>& pair)
+    Map& operator+=(const Pair& pair)
     {
         map_.insert(pair);
 
@@ -397,7 +610,7 @@ public:
      */
     Map& operator-=(const K& key)
     {
-        map_.erase(key);
+        map_.erase(Pair(key, V()));
 
         return *this;
     }
@@ -446,11 +659,11 @@ public:
     }
 };
 
+/**
+ * @brief Export symbol `Pair`: `Pair<K, V> = Map<K, V>::Pair`.
+ */
 template <typename K, typename V>
-std::ostream& operator<<(std::ostream& os, const std::pair<K, V>& pair)
-{
-    return os << pair.first << ": " << pair.second;
-}
+using Pair = typename Map<K, V>::Pair;
 
 } // namespace pyincpp
 

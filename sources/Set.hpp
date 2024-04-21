@@ -38,6 +38,9 @@ namespace pyincpp
 template <typename T>
 class Set
 {
+    template <typename K, typename V>
+    friend class Map;
+
 private:
     // Set.
     std::set<T> set_;
