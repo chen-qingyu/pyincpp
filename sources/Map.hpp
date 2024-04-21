@@ -135,6 +135,12 @@ public:
         }
 
     public:
+        using iterator_category = std::input_iterator_tag;
+        using value_type = Pair;
+        using difference_type = int;
+        using pointer = value_type*;
+        using reference = value_type&;
+
         const Pair& operator*()
         {
             return *it_;
@@ -196,6 +202,12 @@ public:
         }
 
     public:
+        using iterator_category = std::input_iterator_tag;
+        using value_type = Pair;
+        using difference_type = int;
+        using pointer = value_type*;
+        using reference = value_type&;
+
         const Pair& operator*() const
         {
             return *it_;
@@ -302,7 +314,8 @@ public:
      */
     bool operator==(const Map& that) const
     {
-        return map_ == that.map_;
+        return size() == that.size() && std::equal(begin(), end(), that.begin(), [](const Pair& p1, const Pair& p2)
+                                                   { return p1.key_ == p2.key_ && p1.value_ == p2.value_; });
     }
 
     /**
@@ -313,51 +326,7 @@ public:
      */
     bool operator!=(const Map& that) const
     {
-        return map_ != that.map_;
-    }
-
-    /**
-     * @brief Compare two maps.
-     *
-     * @param that another map
-     * @return true if this < that
-     */
-    bool operator<(const Map& that) const
-    {
-        return (*this) <= that && size() != that.size();
-    }
-
-    /**
-     * @brief Compare two maps.
-     *
-     * @param that another map
-     * @return true if this <= that
-     */
-    bool operator<=(const Map& that) const
-    {
-        return std::includes(that.map_.cbegin(), that.map_.cend(), map_.cbegin(), map_.cend());
-    }
-
-    /**
-     * @brief Compare two maps.
-     *
-     * @param that another map
-     * @return true if this > that
-     */
-    bool operator>(const Map& that) const
-    {
-        return that < *this;
-    }
-
-    /**
-     * @brief Compare two maps.
-     *
-     * @param that another map
-     * @return true if this >= that
-     */
-    bool operator>=(const Map& that) const
-    {
-        return that <= *this;
+        return !(*this == that);
     }
 
     /*
@@ -370,7 +339,8 @@ public:
      * @param that another map
      * @return self reference
      */
-    Map& operator=(const Map& that)
+    Map&
+    operator=(const Map& that)
     {
         map_ = that.map_;
 

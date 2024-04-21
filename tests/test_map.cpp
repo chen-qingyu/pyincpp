@@ -38,7 +38,7 @@ TEST_CASE("Map")
     Map<int, std::string> one = {{1, "one"}};
     Map<int, std::string> some = {{1, "one"}, {2, "two"}, {3, "three"}};
 
-    // operator==() operator!=() operator<=() operator<() operator>=() operator>()
+    // operator==() operator!=()
     SECTION("compare")
     {
         // operator==
@@ -46,26 +46,8 @@ TEST_CASE("Map")
         REQUIRE(eq_map == some);
 
         // operator!=
-        Map<int, std::string> ne_map = {{1, "one"}, {3, "three"}, {5, "five"}};
+        Map<int, std::string> ne_map = {{1, "one"}, {2, "two"}, {3, "three!"}};
         REQUIRE(ne_map != some);
-
-        // operator<
-        Map<int, std::string> lt_map = {{3, "three"}, {1, "one"}};
-        REQUIRE(lt_map < some);
-        REQUIRE_FALSE(ne_map < some);
-
-        // operator<=
-        REQUIRE(lt_map <= some);
-        REQUIRE(eq_map <= some);
-
-        // operator>
-        Map<int, std::string> gt_map = {{1, "one"}, {2, "two"}, {3, "three"}, {4, "four"}};
-        REQUIRE(gt_map > some);
-        REQUIRE_FALSE(ne_map > some);
-
-        // operator>=
-        REQUIRE(eq_map >= some);
-        REQUIRE(gt_map >= some);
     }
 
     // operator=()
