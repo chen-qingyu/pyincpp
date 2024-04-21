@@ -349,8 +349,7 @@ public:
      * @param that another map
      * @return self reference
      */
-    Map&
-    operator=(const Map& that)
+    Map& operator=(const Map& that)
     {
         map_ = that.map_;
 
@@ -411,9 +410,9 @@ public:
      * @param defaults default value
      * @return copy of the value for key if key is in the map, else default value
      */
-    V& get(const K& key, const V& defaults) const
+    const V& get(const K& key, const V& defaults) const
     {
-        return contains(key) ? const_cast<Map&>(*this)[key] : defaults;
+        return contains(key) ? (*this)[key] : defaults;
     }
 
     /*
@@ -488,7 +487,7 @@ public:
      */
     Iterator find(const K& key) const
     {
-        return Iterator(const_cast<std::set<Pair>&>(map_).find(Pair(key, V())));
+        return Iterator(map_.find(Pair(key, V())));
     }
 
     /**
