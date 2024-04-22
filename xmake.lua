@@ -1,5 +1,5 @@
 set_license("GPL-3.0")
-set_languages("cxx17")
+set_languages("cxx20")
 add_rules("mode.debug", "mode.release")
 add_requires("catch2")
 

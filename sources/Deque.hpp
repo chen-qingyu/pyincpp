@@ -50,10 +50,7 @@ public:
     /**
      * @brief Construct a new empty deque object.
      */
-    Deque()
-        : deque_()
-    {
-    }
+    Deque() = default;
 
     /**
      * @brief Create a deque based on the given range.
@@ -82,90 +79,25 @@ public:
      *
      * @param that another deque
      */
-    Deque(const Deque& that)
-        : deque_(that.deque_)
-    {
-    }
+    Deque(const Deque& that) = default;
 
     /**
      * @brief Move constructor.
      *
      * @param that another deque
      */
-    Deque(Deque&& that)
-        : deque_(std::move(that.deque_))
-    {
-    }
+    Deque(Deque&& that) = default;
 
     /*
      * Comparison
      */
 
     /**
-     * @brief Check whether two deques are equal.
-     *
-     * @param that another deque
-     * @return true if two deques are equal
-     */
-    bool operator==(const Deque& that) const
-    {
-        return deque_ == that.deque_;
-    }
-
-    /**
-     * @brief Check whether two deques are not equal.
-     *
-     * @param that another deque
-     * @return true if two deques are not equal
-     */
-    bool operator!=(const Deque& that) const
-    {
-        return deque_ != that.deque_;
-    }
-
-    /**
      * @brief Compare two deques.
      *
      * @param that another deque
-     * @return true if this < that
      */
-    bool operator<(const Deque& that) const
-    {
-        return deque_ < that.deque_;
-    }
-
-    /**
-     * @brief Compare two deques.
-     *
-     * @param that another deque
-     * @return true if this <= that
-     */
-    bool operator<=(const Deque& that) const
-    {
-        return deque_ <= that.deque_;
-    }
-
-    /**
-     * @brief Compare two deques.
-     *
-     * @param that another deque
-     * @return true if this > that
-     */
-    bool operator>(const Deque& that) const
-    {
-        return deque_ > that.deque_;
-    }
-
-    /**
-     * @brief Compare two deques.
-     *
-     * @param that another deque
-     * @return true if this >= that
-     */
-    bool operator>=(const Deque& that) const
-    {
-        return deque_ >= that.deque_;
-    }
+    auto operator<=>(const Deque& that) const = default;
 
     /*
      * Assignment
@@ -177,15 +109,7 @@ public:
      * @param that another deque
      * @return self reference
      */
-    Deque& operator=(const Deque& that)
-    {
-        if (this != &that)
-        {
-            deque_ = that.deque_;
-        }
-
-        return *this;
-    }
+    Deque& operator=(const Deque& that) = default;
 
     /**
      * @brief Move assignment operator.
@@ -193,15 +117,7 @@ public:
      * @param that another deque
      * @return self reference
      */
-    Deque& operator=(Deque&& that)
-    {
-        if (this != &that)
-        {
-            deque_ = std::move(that.deque_);
-        }
-
-        return *this;
-    }
+    Deque& operator=(Deque&& that) = default;
 
     /*
      * Access
