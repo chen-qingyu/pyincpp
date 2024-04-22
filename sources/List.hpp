@@ -219,16 +219,28 @@ public:
     }
 
     /**
+     * @brief Create a list based on the given range.
+     *
+     * @tparam InputIt must meet the requirements of LegacyInputIterator
+     * @param first, last the range of elements to examine
+     */
+    template <typename InputIt>
+    List(InputIt first, InputIt last)
+        : size_(int(last - first))
+        , capacity_(size_ > INIT_CAPACITY ? size_ : INIT_CAPACITY)
+        , data_(new T[capacity_])
+    {
+        std::copy(first, last, data_);
+    }
+
+    /**
      * @brief Create a list based on the given initializer list.
      *
      * @param il initializer list
      */
     List(const std::initializer_list<T>& il)
-        : size_(int(il.size()))
-        , capacity_(size_ > INIT_CAPACITY ? size_ : INIT_CAPACITY)
-        , data_(new T[capacity_])
+        : List(il.begin(), il.end())
     {
-        std::copy(il.begin(), il.end(), data_);
     }
 
     /**

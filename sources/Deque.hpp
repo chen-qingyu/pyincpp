@@ -56,12 +56,24 @@ public:
     }
 
     /**
+     * @brief Create a deque based on the given range.
+     *
+     * @tparam InputIt must meet the requirements of LegacyInputIterator
+     * @param first, last the range of elements to examine
+     */
+    template <typename InputIt>
+    Deque(InputIt first, InputIt last)
+        : deque_(first, last)
+    {
+    }
+
+    /**
      * @brief Create a deque based on the given initializer list.
      *
      * @param il initializer list
      */
     Deque(const std::initializer_list<T>& il)
-        : deque_(il)
+        : Deque(il.begin(), il.end())
     {
     }
 

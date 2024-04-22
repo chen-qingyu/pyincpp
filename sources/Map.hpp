@@ -216,12 +216,24 @@ public:
     }
 
     /**
+     * @brief Create a map based on the given range.
+     *
+     * @tparam InputIt must meet the requirements of LegacyInputIterator
+     * @param first, last the range of elements to examine
+     */
+    template <typename InputIt>
+    Map(InputIt first, InputIt last)
+        : map_(first, last)
+    {
+    }
+
+    /**
      * @brief Create a map based on the given initializer list.
      *
      * @param il initializer list
      */
     Map(const std::initializer_list<Pair>& il)
-        : map_(il)
+        : Map(il.begin(), il.end())
     {
     }
 

@@ -59,12 +59,24 @@ public:
     }
 
     /**
+     * @brief Create a set based on the given range.
+     *
+     * @tparam InputIt must meet the requirements of LegacyInputIterator
+     * @param first, last the range of elements to examine
+     */
+    template <typename InputIt>
+    Set(InputIt first, InputIt last)
+        : set_(first, last)
+    {
+    }
+
+    /**
      * @brief Create a set based on the given initializer list.
      *
      * @param il initializer list
      */
     Set(const std::initializer_list<T>& il)
-        : set_(il)
+        : Set(il.begin(), il.end())
     {
     }
 
