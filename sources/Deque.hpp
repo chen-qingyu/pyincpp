@@ -120,6 +120,22 @@ public:
     Deque& operator=(Deque&& that) = default;
 
     /*
+     * Iterator
+     */
+
+    /// Return an iterator to the first element of the deque.
+    auto begin() const
+    {
+        return deque_.begin();
+    }
+
+    /// Return an iterator to the element following the last element of the deque.
+    auto end() const
+    {
+        return deque_.end();
+    }
+
+    /*
      * Access
      */
 
@@ -340,11 +356,11 @@ public:
         }
 
         os << "<";
-        auto it = deque.deque_.begin();
+        auto it = deque.begin();
         while (true)
         {
             os << *it++;
-            if (it == deque.deque_.end())
+            if (it == deque.end())
             {
                 return os << ">";
             }

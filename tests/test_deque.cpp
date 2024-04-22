@@ -88,6 +88,19 @@ TEST_CASE("Deque")
         REQUIRE(one == Deque<int>());
     }
 
+    // begin() end()
+    SECTION("iterator")
+    {
+        // empty
+        REQUIRE(empty.begin() == empty.end());
+
+        // for in
+        for (int i = 1; const auto& e : some)
+        {
+            REQUIRE(e == i++);
+        }
+    }
+
     // back() front()
     SECTION("peek")
     {
