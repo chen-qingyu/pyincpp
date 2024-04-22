@@ -198,73 +198,6 @@ public:
         }
     };
 
-public:
-    class ConstIterator
-    {
-        friend class Map;
-
-    private:
-        typename std::set<Pair>::const_iterator it_;
-
-        ConstIterator(const typename std::set<Pair>::const_iterator& it)
-            : it_(it)
-        {
-        }
-
-    public:
-        using iterator_category = std::input_iterator_tag;
-        using value_type = Pair;
-        using difference_type = int;
-        using pointer = value_type*;
-        using reference = value_type&;
-
-        const Pair& operator*() const
-        {
-            return *it_;
-        }
-
-        const Pair* operator->() const
-        {
-            return &(operator*());
-        }
-
-        ConstIterator& operator++()
-        {
-            ++it_;
-            return *this;
-        }
-
-        ConstIterator& operator--()
-        {
-            --it_;
-            return *this;
-        }
-
-        ConstIterator operator++(int)
-        {
-            ConstIterator tmp = *this;
-            ++it_;
-            return tmp;
-        }
-
-        ConstIterator operator--(int)
-        {
-            ConstIterator tmp = *this;
-            --it_;
-            return tmp;
-        }
-
-        bool operator==(const ConstIterator& other) const
-        {
-            return it_ == other.it_;
-        }
-
-        bool operator!=(const ConstIterator& other) const
-        {
-            return it_ != other.it_;
-        }
-    };
-
 private:
     // Set of pairs.
     std::set<Pair> map_;
@@ -426,14 +359,9 @@ public:
      *
      * @return iterator to the first element
      */
-    Iterator begin()
+    Iterator begin() const
     {
         return Iterator(map_.begin());
-    }
-
-    ConstIterator begin() const
-    {
-        return ConstIterator(map_.begin());
     }
 
     /**
@@ -443,14 +371,9 @@ public:
      *
      * @return iterator to the element following the last element
      */
-    Iterator end()
+    Iterator end() const
     {
         return Iterator(map_.end());
-    }
-
-    ConstIterator end() const
-    {
-        return ConstIterator(map_.end());
     }
 
     /*
