@@ -53,24 +53,24 @@ public:
     Deque() = default;
 
     /**
+     * @brief Create a deque based on the given initializer list.
+     *
+     * @param il initializer list
+     */
+    Deque(const std::initializer_list<T>& il)
+        : deque_(il)
+    {
+    }
+
+    /**
      * @brief Create a deque based on the given range.
      *
      * @tparam InputIt must meet the requirements of LegacyInputIterator
      * @param first, last the range of elements to examine
      */
     template <typename InputIt>
-    Deque(InputIt first, InputIt last)
+    Deque(const InputIt& first, const InputIt& last)
         : deque_(first, last)
-    {
-    }
-
-    /**
-     * @brief Create a deque based on the given initializer list.
-     *
-     * @param il initializer list
-     */
-    Deque(const std::initializer_list<T>& il)
-        : Deque(il.begin(), il.end())
     {
     }
 
@@ -293,11 +293,7 @@ public:
             return *this <<= -n;
         }
 
-        n %= size();
-
-        std::rotate(deque_.begin(), deque_.begin() + size() - n, deque_.end());
-
-        return *this;
+        return *this <<= size() - n;
     }
 
     /**
