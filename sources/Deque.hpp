@@ -30,11 +30,8 @@
 namespace pyincpp
 {
 
-/**
- * @brief Deque template class.
- *
- * @tparam T the type of elements in the deque
- */
+/// Deques are a generalization of stacks and queues.
+/// Deques support memory efficient pushes and pops from either side of the deque with approximately the same O(1) performance in either direction.
 template <typename T>
 class Deque
 {
@@ -47,97 +44,56 @@ public:
      * Constructor / Destructor
      */
 
-    /**
-     * @brief Construct a new empty deque object.
-     */
+    /// Default constructor. Construct an empty deque.
     Deque() = default;
 
-    /**
-     * @brief Create a deque based on the given initializer list.
-     *
-     * @param il initializer list
-     */
-    Deque(const std::initializer_list<T>& il)
-        : deque_(il)
+    /// Construct the deque with the contents of the initializer list `init`.
+    Deque(const std::initializer_list<T>& init)
+        : deque_(init)
     {
     }
 
-    /**
-     * @brief Create a deque based on the given range.
-     *
-     * @tparam InputIt must meet the requirements of LegacyInputIterator
-     * @param first, last the range of elements to examine
-     */
+    /// Construct the deque with the contents of the range [`first`, `last`).
     template <typename InputIt>
     Deque(const InputIt& first, const InputIt& last)
         : deque_(first, last)
     {
     }
 
-    /**
-     * @brief Copy constructor.
-     *
-     * @param that another deque
-     */
+    /// Copy constructor.
     Deque(const Deque& that) = default;
 
-    /**
-     * @brief Move constructor.
-     *
-     * @param that another deque
-     */
+    /// Move constructor.
     Deque(Deque&& that) = default;
 
     /*
      * Comparison
      */
 
-    /**
-     * @brief Compare two deques.
-     *
-     * @param that another deque
-     */
+    /// Compare two deques.
     auto operator<=>(const Deque& that) const = default;
 
     /*
      * Assignment
      */
 
-    /**
-     * @brief Copy assignment operator.
-     *
-     * @param that another deque
-     * @return self reference
-     */
+    /// Copy assignment operator.
     Deque& operator=(const Deque& that) = default;
 
-    /**
-     * @brief Move assignment operator.
-     *
-     * @param that another deque
-     * @return self reference
-     */
+    /// Move assignment operator.
     Deque& operator=(Deque&& that) = default;
 
     /*
      * Iterator
      */
 
-    /**
-     * @brief Return an iterator to the first element of the deque.
-     *
-     * @return an iterator to the first element of the deque
-     */
+    /// Return an iterator to the first element of the deque.
     auto begin() const
     {
         return deque_.begin();
     }
 
-    /**
-     * @brief Return an iterator to the element following the last element of the deque.
-     *
-     * @return an iterator to the element following the last element of the deque
-     */
+    /// Return an iterator to the element following the last element of the deque.
     auto end() const
     {
         return deque_.end();
@@ -147,11 +103,7 @@ public:
      * Access
      */
 
-    /**
-     * @brief Get the back element.
-     *
-     * @return the back element
-     */
+    /// Get the last element.
     T& back()
     {
         internal::check_empty(size());
@@ -159,21 +111,13 @@ public:
         return deque_.back();
     }
 
-    /**
-     * @brief Peek the back element.
-     *
-     * @return the back element
-     */
+    /// Peek the last element.
     const T& back() const
     {
         return const_cast<Deque&>(*this).back();
     }
 
-    /**
-     * @brief Get the front element.
-     *
-     * @return the front element
-     */
+    /// Get the first element.
     T& front()
     {
         internal::check_empty(size());
@@ -181,16 +125,13 @@ public:
         return deque_.front();
     }
 
-    /**
-     * @brief Peek the front element.
-     *
-     * @return the front element
-     */
+    /// Peek the first element.
     const T& front() const
     {
         return const_cast<Deque&>(*this).front();
     }
 
+    /// Return a reference to the element at specified `index`.
     T& operator[](int index)
     {
         internal::check_bounds(index, -size(), size());
@@ -198,6 +139,7 @@ public:
         return index >= 0 ? deque_[index] : deque_[index + size()];
     }
 
+    /// Return a const reference to the element at specified `index`.
     const T& operator[](int index) const
     {
         return const_cast<Deque&>(*this)[index];
@@ -207,21 +149,13 @@ public:
      * Examination
      */
 
-    /**
-     * @brief Return the number of elements in the deque.
-     *
-     * @return the number of elements in the deque
-     */
+    /// Return the number of elements in the deque.
     int size() const
     {
         return deque_.size();
     }
 
-    /**
-     * @brief Return true if the deque contains no elements.
-     *
-     * @return true if the deque contains no elements
-     */
+    /// Return `true` if the deque contains no elements.
     bool is_empty() const
     {
         return deque_.empty();
@@ -231,31 +165,20 @@ public:
      * Manipulation
      */
 
-    /**
-     * @brief Push an element to the end of the deque.
-     *
-     * @param element element to be pushed
-     */
+    /// Append the given `element` to the end of the deque.
     void push_back(const T& element)
     {
         deque_.push_back(element);
     }
 
-    /**
-     * @brief Push an element to the front of the deque.
-     *
-     * @param element element to be pushed
-     */
+    /// Prepend the given `element` to the beginning of the deque.
     void push_front(const T& element)
     {
         deque_.push_front(element);
     }
 
-    /**
-     * @brief Pop an element of the end of the deque.
-     *
-     * @return poped element
-     */
+    /// Remove and return the last element of the deque.
+    /// If no elements are present, throws an error.
     T pop_back()
     {
         internal::check_empty(size());
@@ -265,11 +188,8 @@ public:
         return data;
     }
 
-    /**
-     * @brief Pop an element of the front of the deque.
-     *
-     * @return poped element
-     */
+    /// Remove and return the first element of the deque.
+    /// If no elements are present, throws an error.
     T pop_front()
     {
         internal::check_empty(size());
@@ -279,11 +199,7 @@ public:
         return data;
     }
 
-    /**
-     * @brief Clear data.
-     *
-     * @return self reference
-     */
+    /// Remove all elements from the deque.
     Deque& clear()
     {
         deque_.clear();
@@ -291,12 +207,7 @@ public:
         return *this;
     }
 
-    /**
-     * @brief Rotate n elements to the right.
-     *
-     * @param n number of rotate elements
-     * @return self reference
-     */
+    /// Rotate `n` elements to the right.
     Deque& operator>>=(int n)
     {
         if (size() <= 1 || n == 0)
@@ -312,12 +223,7 @@ public:
         return *this <<= size() - n;
     }
 
-    /**
-     * @brief Rotate n elements to the left.
-     *
-     * @param n number of rotate elements
-     * @return self reference
-     */
+    /// Rotate `n` elements to the left.
     Deque& operator<<=(int n)
     {
         if (size() <= 1 || n == 0)
@@ -337,11 +243,7 @@ public:
         return *this;
     }
 
-    /**
-     * @brief Reverse the deque in place.
-     *
-     * @return self reference
-     */
+    /// Reverse the deque in place.
     Deque& reverse()
     {
         std::reverse(deque_.begin(), deque_.end());
@@ -353,13 +255,7 @@ public:
      * Print
      */
 
-    /**
-     * @brief Output the deque to the specified output stream.
-     *
-     * @param os an output stream
-     * @param deque the deque to be printed to the output stream
-     * @return self reference of the output stream
-     */
+    /// Output the deque to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Deque& deque)
     {
         if (deque.is_empty())
