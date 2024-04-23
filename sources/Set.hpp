@@ -76,7 +76,7 @@ public:
     /// Test whether the set is a proper subset of another set.
     bool operator<(const Set& that) const
     {
-        return (*this) <= that && size() != that.size();
+        return size() != that.size() && *this <= that;
     }
 
     /// Test whether every element in the set is in another set.
