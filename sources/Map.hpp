@@ -25,8 +25,16 @@
 
 #include "Set.hpp"
 
+#include <map>
+
 namespace pyincpp
 {
+
+/**
+ * @brief Alias symbol `Pair<K, V>` = `std::pair<const K, V>`.
+ */
+template <typename K, typename V>
+using Pair = std::pair<const K, V>;
 
 /**
  * @brief Map template class.
@@ -37,136 +45,9 @@ namespace pyincpp
 template <typename K, typename V>
 class Map
 {
-public:
-    /**
-     * @brief Map key-value pair class.
-     */
-    struct Pair
-    {
-        friend std::ostream& operator<<(std::ostream& os, const Pair& pair)
-        {
-            return os << pair.key << ": " << pair.value;
-        }
-
-        // Pair key.
-        const K key;
-
-        // Pair value.
-        V value;
-
-        bool operator==(const Pair& that) const
-        {
-            return key == that.key;
-        }
-
-        bool operator!=(const Pair& that) const
-        {
-            return key != that.key;
-        }
-
-        bool operator<(const Pair& that) const
-        {
-            return key < that.key;
-        }
-
-        bool operator<=(const Pair& that) const
-        {
-            return key <= that.key;
-        }
-
-        bool operator>(const Pair& that) const
-        {
-            return key > that.key;
-        }
-
-        bool operator>=(const Pair& that) const
-        {
-            return key >= that.key;
-        }
-
-        /**
-         * @brief Construct a new pair object.
-         *
-         * @param key the key
-         * @param value the value
-         */
-        Pair(const K& key, const V& value)
-            : key(key)
-            , value(value)
-        {
-        }
-    };
-
-public:
-    class Iterator
-    {
-        friend class Map;
-
-    private:
-        typename std::set<Pair>::iterator it_;
-
-        Iterator(const typename std::set<Pair>::iterator& it)
-            : it_(it)
-        {
-        }
-
-    public:
-        using iterator_category = std::input_iterator_tag;
-        using value_type = Pair;
-        using difference_type = int;
-        using pointer = value_type*;
-        using reference = value_type&;
-
-        Pair& operator*()
-        {
-            return const_cast<Pair&>(*it_);
-        }
-
-        Pair* operator->()
-        {
-            return &(operator*());
-        }
-
-        Iterator& operator++()
-        {
-            ++it_;
-            return *this;
-        }
-
-        Iterator& operator--()
-        {
-            --it_;
-            return *this;
-        }
-
-        Iterator operator++(int)
-        {
-            Iterator tmp = *this;
-            ++it_;
-            return tmp;
-        }
-
-        Iterator operator--(int)
-        {
-            Iterator tmp = *this;
-            --it_;
-            return tmp;
-        }
-
-        bool operator==(const Iterator& other) const
-        {
-            return it_ == other.it_;
-        }
-
-        bool operator!=(const Iterator& other) const
-        {
-            return it_ != other.it_;
-        }
-    };
-
 private:
-    // Set of pairs.
-    std::set<Pair> map_;
+    // Map of key-value pairs.
+    std::map<const K, V> map_;
 
 public:
     /*
@@ -182,24 +63,12 @@ public:
     }
 
     /**
-     * @brief Create a map based on the given range.
-     *
-     * @tparam InputIt must meet the requirements of LegacyInputIterator
-     * @param first, last the range of elements to examine
-     */
-    template <typename InputIt>
-    Map(InputIt first, InputIt last)
-        : map_(first, last)
-    {
-    }
-
-    /**
      * @brief Create a map based on the given initializer list.
      *
      * @param il initializer list
      */
-    Map(const std::initializer_list<Pair>& il)
-        : Map(il.begin(), il.end())
+    Map(const std::initializer_list<Pair<K, V>>& il)
+        : map_(il)
     {
     }
 
@@ -235,8 +104,7 @@ public:
      */
     bool operator==(const Map& that) const
     {
-        return size() == that.size() && std::equal(begin(), end(), that.begin(), [](const Pair& p1, const Pair& p2)
-                                                   { return p1.key == p2.key && p1.value == p2.value; });
+        return map_ == that.map_;
     }
 
     /**
@@ -247,7 +115,7 @@ public:
      */
     bool operator!=(const Map& that) const
     {
-        return !(*this == that);
+        return map_ != that.map_;
     }
 
     /*
@@ -292,13 +160,13 @@ public:
      */
     V& operator[](const K& key)
     {
-        auto it = map_.find(Pair(key, V()));
+        auto it = map_.find(key);
         if (it == map_.end())
         {
             throw std::runtime_error("Error: Key is not found in the map.");
         }
 
-        return const_cast<V&>(it->value);
+        return it->second;
     }
 
     /**
@@ -337,9 +205,9 @@ public:
      *
      * @return iterator to the first element
      */
-    Iterator begin() const
+    auto begin() const
     {
-        return Iterator(map_.begin());
+        return map_.begin();
     }
 
     /**
@@ -349,9 +217,9 @@ public:
      *
      * @return iterator to the element following the last element
      */
-    Iterator end() const
+    auto end() const
     {
-        return Iterator(map_.end());
+        return map_.end();
     }
 
     /*
@@ -386,9 +254,9 @@ public:
      * @param key key to search for
      * @return the iterator of the specified key in the map, or end() if the map does not contain the key
      */
-    Iterator find(const K& key) const
+    auto find(const K& key) const
     {
-        return Iterator(map_.find(Pair(key, V())));
+        return map_.find(key);
     }
 
     /**
@@ -399,7 +267,7 @@ public:
      */
     bool contains(const K& key) const
     {
-        return map_.find(Pair(key, V())) != map_.end();
+        return map_.find(key) != map_.end();
     }
 
     /**
@@ -409,7 +277,7 @@ public:
      */
     K min() const
     {
-        return map_.cbegin()->key;
+        return map_.cbegin()->first;
     }
 
     /**
@@ -419,7 +287,7 @@ public:
      */
     K max() const
     {
-        return map_.crbegin()->key;
+        return map_.crbegin()->first;
     }
 
     /**
@@ -431,7 +299,7 @@ public:
     {
         Set<K> keys;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
-                      { keys += pair.key; });
+                      { keys += pair.first; });
 
         return keys;
     }
@@ -445,7 +313,7 @@ public:
     {
         Set<V> values;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
-                      { values += pair.value; });
+                      { values += pair.second; });
 
         return values;
     }
@@ -455,10 +323,11 @@ public:
      *
      * @return a new set of the map's items
      */
-    Set<Pair> items() const
+    Set<Pair<K, V>> items() const
     {
-        Set<Pair> items;
-        items.set_ = map_;
+        Set<Pair<K, V>> items;
+        std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
+                      { items += pair; });
 
         return items;
     }
@@ -473,7 +342,7 @@ public:
      * @param pair pair to be added to the map
      * @return self reference
      */
-    Map& operator+=(const Pair& pair)
+    Map& operator+=(const Pair<K, V>& pair)
     {
         map_.insert(pair);
 
@@ -490,7 +359,7 @@ public:
      */
     Map& operator-=(const K& key)
     {
-        map_.erase(Pair(key, V()));
+        map_.erase(key);
 
         return *this;
     }
@@ -524,11 +393,11 @@ public:
     }
 };
 
-/**
- * @brief Export symbol `Pair`: `Pair<K, V> = Map<K, V>::Pair`.
- */
 template <typename K, typename V>
-using Pair = typename Map<K, V>::Pair;
+std::ostream& operator<<(std::ostream& os, const Pair<K, V>& pair)
+{
+    return os << pair.first << ": " << pair.second;
+}
 
 } // namespace pyincpp
 
