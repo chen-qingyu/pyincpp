@@ -142,6 +142,21 @@ TEST_CASE("Deque")
         REQUIRE(empty.size() == 0);
     }
 
+    SECTION("extend")
+    {
+        empty.extend_back(some);
+        REQUIRE(empty == Deque<int>({1, 2, 3, 4, 5}));
+
+        empty.extend_back(one);
+        REQUIRE(empty == Deque<int>({1, 2, 3, 4, 5, 1}));
+
+        empty.extend_front(some);
+        REQUIRE(empty == Deque<int>({1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1}));
+
+        empty.extend_front(one);
+        REQUIRE(empty == Deque<int>({1, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1}));
+    }
+
     SECTION("rotate")
     {
         REQUIRE((empty >>= 1) == Deque<int>());

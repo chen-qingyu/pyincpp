@@ -199,6 +199,20 @@ public:
         return data;
     }
 
+    /// Extend the right side of the deque by appending elements from the iterable.
+    template <typename Iterable>
+    void extend_back(const Iterable& iterable)
+    {
+        deque_.insert(deque_.end(), iterable.begin(), iterable.end());
+    }
+
+    /// Extend the left side of the deque by prepending elements from the iterable.
+    template <typename Iterable>
+    void extend_front(const Iterable& iterable)
+    {
+        deque_.insert(deque_.begin(), iterable.begin(), iterable.end());
+    }
+
     /// Rotate `n` elements to the right.
     Deque& operator>>=(int n)
     {
