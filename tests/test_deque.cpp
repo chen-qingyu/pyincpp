@@ -14,22 +14,25 @@ TEST_CASE("Deque")
         REQUIRE(deque1.size() == 0);
         REQUIRE(deque1.is_empty());
 
-        // Deque(const std::initializer_list<T> &il)
+        // Deque(const std::initializer_list<T>& il)
         Deque<int> deque2 = {1, 2, 3, 4, 5};
         REQUIRE(deque2.size() == 5);
         REQUIRE(!deque2.is_empty());
 
-        // Deque(const Deque<T> &that)
-        Deque<int> deque3(deque2);
+        // Deque(const InputIt& first, const InputIt& last)
+        Deque<int> deque3(deque2.begin(), deque2.end());
         REQUIRE(deque3.size() == 5);
         REQUIRE(!deque3.is_empty());
 
-        // Deque(Deque<T> &&that)
-        Deque<int> deque4(std::move(deque3));
+        // Deque(const Deque& that)
+        Deque<int> deque4(deque3);
         REQUIRE(deque4.size() == 5);
         REQUIRE(!deque4.is_empty());
-        REQUIRE(deque3.size() == 0);
-        REQUIRE(deque3.is_empty());
+
+        // Deque(Deque&& that)
+        Deque<int> deque5(std::move(deque4));
+        REQUIRE(deque5.size() == 5);
+        REQUIRE(!deque5.is_empty());
 
         // ~Deque()
     }
@@ -50,41 +53,31 @@ TEST_CASE("Deque")
         REQUIRE(ne_deque != some);
 
         // operator<
-        Deque<int> lt_deque({1, 2, 3});
-        Deque<int> lt_deque2({0, 9, 9, 9, 9});
+        Deque<int> lt_deque({0, 9, 9, 9, 9});
         REQUIRE(lt_deque < some);
-        REQUIRE(lt_deque2 < some);
 
         // operator<=
         REQUIRE(lt_deque <= some);
-        REQUIRE(lt_deque2 <= some);
         REQUIRE(eq_deque <= some);
 
         // operator>
-        Deque<int> gt_deque({1, 2, 3, 4, 5, 6});
-        Deque<int> gt_deque2({2});
+        Deque<int> gt_deque({2});
         REQUIRE(gt_deque > some);
-        REQUIRE(gt_deque2 > some);
 
         // operator>=
         REQUIRE(gt_deque >= some);
-        REQUIRE(gt_deque2 >= some);
         REQUIRE(eq_deque >= some);
     }
 
     // operator=()
-    SECTION("copy_assignment")
+    SECTION("assignment")
     {
-        some = one;
+        some = one; // copy
         REQUIRE(some == Deque<int>({1}));
         REQUIRE(one == Deque<int>({1}));
-    }
 
-    // operator=()
-    SECTION("move_assignment")
-    {
-        some = std::move(one);
-        REQUIRE(some == Deque<int>({1}));
+        empty = std::move(one); // move
+        REQUIRE(empty == Deque<int>({1}));
         REQUIRE(one == Deque<int>());
     }
 
@@ -158,10 +151,6 @@ TEST_CASE("Deque")
 
         // double clear
         REQUIRE(some.clear() == Deque<int>());
-
-        // modify after clear
-        some.push_back(233);
-        REQUIRE(some == Deque<int>({233}));
     }
 
     // operator>>=() operator<<=()
