@@ -495,22 +495,7 @@ public:
      */
     friend std::ostream& operator<<(std::ostream& os, const Set& set)
     {
-        if (set.is_empty())
-        {
-            return os << "{}";
-        }
-
-        os << "{";
-        auto it = set.begin();
-        while (true)
-        {
-            os << *it++;
-            if (it == set.end())
-            {
-                return os << "}";
-            }
-            os << ", ";
-        }
+        return internal::print(os, set, '{', '}');
     }
 };
 

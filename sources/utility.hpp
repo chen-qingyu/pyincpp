@@ -64,6 +64,33 @@ static inline void check_full(int size, int capacity)
     }
 }
 
+// Print function template for iterable container.
+template <typename Iterable>
+static inline std::ostream& print(std::ostream& os, const Iterable& iterable, char open, char close)
+{
+    // This form looks complex, but there is only one judgment in the loop.
+    // At the Assembly level (see https://godbolt.org/z/qT9n7GKf8), this is more efficient
+    // than the usual short form of the generated machine code under O3-level optimization.
+    // The inspiration comes from Java source code.
+
+    if (iterable.is_empty())
+    {
+        return os << open << close;
+    }
+
+    os << open;
+    auto it = iterable.begin();
+    while (true)
+    {
+        os << *it++;
+        if (it == iterable.end())
+        {
+            return os << close;
+        }
+        os << ", ";
+    }
+}
+
 } // namespace pyincpp::internal
 
 #endif // UTILITY_HPP

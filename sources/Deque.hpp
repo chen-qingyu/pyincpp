@@ -254,22 +254,7 @@ public:
     /// Output the deque to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Deque& deque)
     {
-        if (deque.is_empty())
-        {
-            return os << "<>";
-        }
-
-        os << "<";
-        auto it = deque.begin();
-        while (true)
-        {
-            os << *it++;
-            if (it == deque.end())
-            {
-                return os << ">";
-            }
-            os << ", ";
-        }
+        return internal::print(os, deque, '<', '>');
     }
 };
 

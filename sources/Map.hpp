@@ -554,22 +554,7 @@ public:
      */
     friend std::ostream& operator<<(std::ostream& os, const Map& map)
     {
-        if (map.is_empty())
-        {
-            return os << "{}";
-        }
-
-        os << "{";
-        auto it = map.begin();
-        while (true)
-        {
-            os << *it++;
-            if (it == map.end())
-            {
-                return os << "}";
-            }
-            os << ", ";
-        }
+        return internal::print(os, map, '{', '}');
     }
 };
 

@@ -1040,26 +1040,7 @@ public:
      */
     friend std::ostream& operator<<(std::ostream& os, const List& list)
     {
-        if (list.is_empty())
-        {
-            return os << "[]";
-        }
-
-        // This form looks complex, but there is only one judgment in the loop.
-        // At the Assembly level (see https://godbolt.org/z/qT9n7GKf8), this is more efficient
-        // than the usual short form of the generated machine code under O3-level optimization.
-        // The inspiration comes from Java source code.
-        os << "[";
-        auto it = list.begin();
-        while (true)
-        {
-            os << *it++;
-            if (it == list.end())
-            {
-                return os << "]";
-            }
-            os << ", ";
-        }
+        return internal::print(os, list, '[', ']');
     }
 };
 
