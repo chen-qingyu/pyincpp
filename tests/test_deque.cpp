@@ -6,7 +6,6 @@ using namespace pyincpp;
 
 TEST_CASE("Deque")
 {
-    // constructor destructor size() is_empty()
     SECTION("basics")
     {
         // Deque()
@@ -41,7 +40,6 @@ TEST_CASE("Deque")
     Deque<int> one({1});
     Deque<int> some({1, 2, 3, 4, 5});
 
-    // operator==() operator!=() operator<() operator<=() operator>() operator>=()
     SECTION("compare")
     {
         // operator==
@@ -69,7 +67,6 @@ TEST_CASE("Deque")
         REQUIRE(eq_deque >= some);
     }
 
-    // operator=()
     SECTION("assignment")
     {
         some = one; // copy
@@ -81,7 +78,6 @@ TEST_CASE("Deque")
         REQUIRE(one == Deque<int>());
     }
 
-    // begin() end()
     SECTION("iterator")
     {
         // empty
@@ -94,7 +90,6 @@ TEST_CASE("Deque")
         }
     }
 
-    // back() front()
     SECTION("access")
     {
         REQUIRE_THROWS_MATCHES(empty.back(), std::runtime_error, Message("Error: The container is empty."));
@@ -111,7 +106,6 @@ TEST_CASE("Deque")
         REQUIRE(some[0] == 0);
     }
 
-    // push_back() push_front() pop_back() pop_front()
     SECTION("push_pop")
     {
         REQUIRE_THROWS_MATCHES(empty.pop_back(), std::runtime_error, Message("Error: The container is empty."));
@@ -148,14 +142,12 @@ TEST_CASE("Deque")
         REQUIRE(empty.size() == 0);
     }
 
-    // clear()
     SECTION("clear")
     {
         REQUIRE(some.clear() == Deque<int>());
         REQUIRE(some.clear() == Deque<int>()); // double clear
     }
 
-    // operator>>=() operator<<=()
     SECTION("rotate")
     {
         REQUIRE((empty >>= 1) == Deque<int>());
@@ -187,7 +179,6 @@ TEST_CASE("Deque")
         REQUIRE((empty <<= -233) == Deque<int>({1, 2, 3, 4, 5}));
     }
 
-    // reverse()
     SECTION("reverse")
     {
         REQUIRE(Deque<int>().reverse() == Deque<int>());
@@ -195,7 +186,6 @@ TEST_CASE("Deque")
         REQUIRE(Deque<int>({1, 2, 3, 4, 5}).reverse() == Deque<int>({5, 4, 3, 2, 1}));
     }
 
-    // operator<<()
     SECTION("print")
     {
         std::ostringstream oss;
