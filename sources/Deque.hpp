@@ -123,13 +123,21 @@ public:
      * Iterator
      */
 
-    /// Return an iterator to the first element of the deque.
+    /**
+     * @brief Return an iterator to the first element of the deque.
+     *
+     * @return an iterator to the first element of the deque
+     */
     auto begin() const
     {
         return deque_.begin();
     }
 
-    /// Return an iterator to the element following the last element of the deque.
+    /**
+     * @brief Return an iterator to the element following the last element of the deque.
+     *
+     * @return an iterator to the element following the last element of the deque
+     */
     auto end() const
     {
         return deque_.end();
@@ -138,30 +146,6 @@ public:
     /*
      * Access
      */
-
-    /**
-     * @brief Peek the back element.
-     *
-     * @return the back element
-     */
-    const T& back() const
-    {
-        internal::check_empty(size());
-
-        return deque_.back();
-    }
-
-    /**
-     * @brief Peek the front element.
-     *
-     * @return the front element
-     */
-    const T& front() const
-    {
-        internal::check_empty(size());
-
-        return deque_.front();
-    }
 
     /**
      * @brief Get the back element.
@@ -176,6 +160,16 @@ public:
     }
 
     /**
+     * @brief Peek the back element.
+     *
+     * @return the back element
+     */
+    const T& back() const
+    {
+        return const_cast<Deque&>(*this).back();
+    }
+
+    /**
      * @brief Get the front element.
      *
      * @return the front element
@@ -185,6 +179,28 @@ public:
         internal::check_empty(size());
 
         return deque_.front();
+    }
+
+    /**
+     * @brief Peek the front element.
+     *
+     * @return the front element
+     */
+    const T& front() const
+    {
+        return const_cast<Deque&>(*this).front();
+    }
+
+    T& operator[](int index)
+    {
+        internal::check_bounds(index, -size(), size());
+
+        return index >= 0 ? deque_[index] : deque_[index + size()];
+    }
+
+    const T& operator[](int index) const
+    {
+        return const_cast<Deque&>(*this)[index];
     }
 
     /*

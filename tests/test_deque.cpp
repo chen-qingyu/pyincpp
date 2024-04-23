@@ -95,16 +95,20 @@ TEST_CASE("Deque")
     }
 
     // back() front()
-    SECTION("peek")
+    SECTION("access")
     {
         REQUIRE_THROWS_MATCHES(empty.back(), std::runtime_error, Message("Error: The container is empty."));
         REQUIRE_THROWS_MATCHES(empty.front(), std::runtime_error, Message("Error: The container is empty."));
+        REQUIRE_THROWS_MATCHES(empty[0], std::runtime_error, Message("Error: Index out of range."));
 
         REQUIRE(some.back() == 5);
         REQUIRE(some.front() == 1);
 
         REQUIRE(++some.back() == 6);
         REQUIRE(--some.front() == 0);
+
+        REQUIRE(some[-1] == 6);
+        REQUIRE(some[0] == 0);
     }
 
     // push_back() push_front() pop_back() pop_front()
