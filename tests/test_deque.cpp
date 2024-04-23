@@ -148,9 +148,7 @@ TEST_CASE("Deque")
     SECTION("clear")
     {
         REQUIRE(some.clear() == Deque<int>());
-
-        // double clear
-        REQUIRE(some.clear() == Deque<int>());
+        REQUIRE(some.clear() == Deque<int>()); // double clear
     }
 
     // operator>>=() operator<<=()
