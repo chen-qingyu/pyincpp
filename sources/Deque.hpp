@@ -30,8 +30,8 @@
 namespace pyincpp
 {
 
-/// Deques are a generalization of stacks and queues.
-/// Deques support memory efficient pushes and pops from either side of the deque with approximately the same O(1) performance in either direction.
+/// Deque is a generalization of stack and queue.
+/// Deque supports memory efficient pushes and pops from either side of the deque with approximately the same O(1) performance in either direction.
 template <typename T>
 class Deque
 {
@@ -47,13 +47,13 @@ public:
     /// Default constructor. Construct an empty deque.
     Deque() = default;
 
-    /// Construct the deque with the contents of the initializer list `init`.
+    /// Construct a deque with the contents of the initializer list `init`.
     Deque(const std::initializer_list<T>& init)
         : deque_(init)
     {
     }
 
-    /// Construct the deque with the contents of the range [`first`, `last`).
+    /// Construct a deque with the contents of the range [`first`, `last`).
     template <typename InputIt>
     Deque(const InputIt& first, const InputIt& last)
         : deque_(first, last)
@@ -70,7 +70,7 @@ public:
      * Comparison
      */
 
-    /// Compare two deques.
+    /// Compare the deque with another deque.
     auto operator<=>(const Deque& that) const = default;
 
     /*
