@@ -36,9 +36,9 @@ TEST_CASE("Deque")
         // ~Deque()
     }
 
-    Deque<int> empty({});
-    Deque<int> one({1});
-    Deque<int> some({1, 2, 3, 4, 5});
+    Deque<int> empty;
+    Deque<int> one = {1};
+    Deque<int> some = {1, 2, 3, 4, 5};
 
     SECTION("compare")
     {

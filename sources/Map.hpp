@@ -299,7 +299,7 @@ public:
     {
         Set<K> keys;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
-                      { keys += pair.first; });
+                      { keys.add(pair.first); });
 
         return keys;
     }
@@ -313,7 +313,7 @@ public:
     {
         Set<V> values;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
-                      { values += pair.second; });
+                      { values.add(pair.second); });
 
         return values;
     }
@@ -327,7 +327,7 @@ public:
     {
         Set<Pair<K, V>> items;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
-                      { items += pair; });
+                      { items.add(pair); });
 
         return items;
     }

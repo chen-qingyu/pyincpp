@@ -918,7 +918,7 @@ public:
     }
 
     /*
-     * Production (will produce new object)
+     * Production
      */
 
     /**
