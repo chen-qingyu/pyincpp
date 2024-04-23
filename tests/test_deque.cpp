@@ -142,12 +142,6 @@ TEST_CASE("Deque")
         REQUIRE(empty.size() == 0);
     }
 
-    SECTION("clear")
-    {
-        REQUIRE(some.clear() == Deque<int>());
-        REQUIRE(some.clear() == Deque<int>()); // double clear
-    }
-
     SECTION("rotate")
     {
         REQUIRE((empty >>= 1) == Deque<int>());
@@ -181,9 +175,22 @@ TEST_CASE("Deque")
 
     SECTION("reverse")
     {
-        REQUIRE(Deque<int>().reverse() == Deque<int>());
-        REQUIRE(Deque<int>({1}).reverse() == Deque<int>({1}));
-        REQUIRE(Deque<int>({1, 2, 3, 4, 5}).reverse() == Deque<int>({5, 4, 3, 2, 1}));
+        empty.reverse();
+        REQUIRE(empty == Deque<int>());
+
+        one.reverse();
+        REQUIRE(one == Deque<int>({1}));
+
+        some.reverse();
+        REQUIRE(some == Deque<int>({5, 4, 3, 2, 1}));
+    }
+
+    SECTION("clear")
+    {
+        some.clear();
+        REQUIRE(some == Deque<int>());
+        some.clear(); // double clear
+        REQUIRE(some == Deque<int>());
     }
 
     SECTION("print")

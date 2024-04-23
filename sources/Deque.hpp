@@ -199,14 +199,6 @@ public:
         return data;
     }
 
-    /// Remove all elements from the deque.
-    Deque& clear()
-    {
-        deque_.clear();
-
-        return *this;
-    }
-
     /// Rotate `n` elements to the right.
     Deque& operator>>=(int n)
     {
@@ -244,11 +236,15 @@ public:
     }
 
     /// Reverse the deque in place.
-    Deque& reverse()
+    void reverse()
     {
         std::reverse(deque_.begin(), deque_.end());
+    }
 
-        return *this;
+    /// Remove all elements from the deque.
+    void clear()
+    {
+        deque_.clear();
     }
 
     /*
