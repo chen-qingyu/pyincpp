@@ -24,7 +24,7 @@
 #define SET_HPP
 
 #include "utility.hpp"
-#include <compare>
+
 #include <set>
 
 namespace pyincpp
