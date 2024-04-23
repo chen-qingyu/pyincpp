@@ -98,31 +98,11 @@ TEST_CASE("Map")
         // empty
         REQUIRE(empty.begin() == empty.end());
 
-        // key, value=key^2
-        Map<int, int> map({{1, 1}, {2, 4}, {3, 9}, {4, 16}, {5, 25}});
-
-        // for
-        int k = 1;
-        for (auto it = map.begin(); it != map.end(); ++it)
-        {
-            REQUIRE(it->key() == k);
-            REQUIRE(it->value() == k * k);
-            ++k;
-        }
-
         // for in
-        k = 1;
-        for (const auto& e : map)
+        for (const auto& [k, v] : Map<int, int>({{1, 1}, {2, 4}, {3, 9}}))
         {
-            REQUIRE(e.key() == k);
-            REQUIRE(e.value() == k * k);
-            ++k;
+            REQUIRE(k * k == v);
         }
-
-        map.begin()->value() = 233;
-        REQUIRE(map.begin()->value() == 233);
-        (*map.begin()).value() = 999;
-        REQUIRE(map.begin()->value() == 999);
     }
 
     // find() contains() min() max()

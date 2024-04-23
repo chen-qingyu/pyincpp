@@ -41,51 +41,47 @@ public:
     /**
      * @brief Map key-value pair class.
      */
-    class Pair
+    struct Pair
     {
-        friend class Map;
-
         friend std::ostream& operator<<(std::ostream& os, const Pair& pair)
         {
-            return os << pair.key() << ": " << pair.value();
+            return os << pair.key << ": " << pair.value;
         }
 
-    private:
         // Pair key.
-        const K key_;
+        const K key;
 
         // Pair value.
-        V value_;
+        V value;
 
-    public:
         bool operator==(const Pair& that) const
         {
-            return key_ == that.key_;
+            return key == that.key;
         }
 
         bool operator!=(const Pair& that) const
         {
-            return key_ != that.key_;
+            return key != that.key;
         }
 
         bool operator<(const Pair& that) const
         {
-            return key_ < that.key_;
+            return key < that.key;
         }
 
         bool operator<=(const Pair& that) const
         {
-            return key_ <= that.key_;
+            return key <= that.key;
         }
 
         bool operator>(const Pair& that) const
         {
-            return key_ > that.key_;
+            return key > that.key;
         }
 
         bool operator>=(const Pair& that) const
         {
-            return key_ >= that.key_;
+            return key >= that.key;
         }
 
         /**
@@ -95,39 +91,9 @@ public:
          * @param value the value
          */
         Pair(const K& key, const V& value)
-            : key_(key)
-            , value_(value)
+            : key(key)
+            , value(value)
         {
-        }
-
-        /**
-         * @brief Get the key.
-         *
-         * @return key of the pair
-         */
-        const K& key() const
-        {
-            return key_;
-        }
-
-        /**
-         * @brief Get the value.
-         *
-         * @return value of the pair
-         */
-        const V& value() const
-        {
-            return value_;
-        }
-
-        /**
-         * @brief Get the value.
-         *
-         * @return value of the pair
-         */
-        V& value()
-        {
-            return value_;
         }
     };
 
@@ -270,7 +236,7 @@ public:
     bool operator==(const Map& that) const
     {
         return size() == that.size() && std::equal(begin(), end(), that.begin(), [](const Pair& p1, const Pair& p2)
-                                                   { return p1.key_ == p2.key_ && p1.value_ == p2.value_; });
+                                                   { return p1.key == p2.key && p1.value == p2.value; });
     }
 
     /**
@@ -332,7 +298,7 @@ public:
             throw std::runtime_error("Error: Key is not found in the map.");
         }
 
-        return const_cast<V&>(it->value());
+        return const_cast<V&>(it->value);
     }
 
     /**
@@ -443,7 +409,7 @@ public:
      */
     K min() const
     {
-        return map_.cbegin()->key();
+        return map_.cbegin()->key;
     }
 
     /**
@@ -453,7 +419,7 @@ public:
      */
     K max() const
     {
-        return map_.crbegin()->key();
+        return map_.crbegin()->key;
     }
 
     /**
@@ -465,7 +431,7 @@ public:
     {
         Set<K> keys;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
-                      { keys += pair.key_; });
+                      { keys += pair.key; });
 
         return keys;
     }
@@ -479,7 +445,7 @@ public:
     {
         Set<V> values;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
-                      { values += pair.value_; });
+                      { values += pair.value; });
 
         return values;
     }
