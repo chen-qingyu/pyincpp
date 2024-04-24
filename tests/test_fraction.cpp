@@ -6,7 +6,6 @@ using namespace pyincpp;
 
 TEST_CASE("Fraction")
 {
-    // constructor destructor
     SECTION("basics")
     {
         // Fraction(int numerator = 0, int denominator = 1)
@@ -28,7 +27,6 @@ TEST_CASE("Fraction")
     Fraction positive(1, 2);
     Fraction negative(-1, 2);
 
-    // operator==() operator!=() operator<() operator<=() operator>() operator>=()
     SECTION("compare")
     {
         REQUIRE(zero == zero);
@@ -50,23 +48,17 @@ TEST_CASE("Fraction")
         REQUIRE(zero <= positive);
     }
 
-    // operator=()
-    SECTION("copy_assignment")
+    SECTION("assignment")
     {
-        positive = negative;
+        positive = negative; // copy
         REQUIRE(positive == Fraction(-1, 2));
         REQUIRE(negative == Fraction(-1, 2));
-    }
 
-    // operator=()
-    SECTION("move_assignment")
-    {
-        positive = std::move(negative);
-        REQUIRE(positive == Fraction(-1, 2));
+        zero = std::move(negative); // move
+        REQUIRE(zero == Fraction(-1, 2));
         REQUIRE(negative == Fraction());
     }
 
-    // operator double()
     SECTION("examination")
     {
         REQUIRE(double(Fraction(0, 2)) == Approx(0.0));
@@ -75,7 +67,6 @@ TEST_CASE("Fraction")
         REQUIRE(double(Fraction(1, -2)) == Approx(-0.5));
     }
 
-    // operator++() operator--()
     SECTION("inc_dec")
     {
         // operator++()
@@ -91,7 +82,6 @@ TEST_CASE("Fraction")
         REQUIRE(--Fraction(100000) == Fraction(99999));
     }
 
-    // operator+() operator-() abs()
     SECTION("unary")
     {
         REQUIRE(+positive == Fraction(1, 2));
@@ -103,7 +93,6 @@ TEST_CASE("Fraction")
         REQUIRE(negative.abs() == Fraction(1, 2));
     }
 
-    // operator+()
     SECTION("plus")
     {
         REQUIRE(positive + positive == Fraction(1));
@@ -119,7 +108,6 @@ TEST_CASE("Fraction")
         REQUIRE(zero + negative == Fraction(-1, 2));
     }
 
-    // operator-()
     SECTION("minus")
     {
         REQUIRE(positive - positive == Fraction(0));
@@ -135,7 +123,6 @@ TEST_CASE("Fraction")
         REQUIRE(zero - negative == Fraction(1, 2));
     }
 
-    // operator*()
     SECTION("times")
     {
         REQUIRE(positive * positive == Fraction(1, 4));
@@ -151,7 +138,6 @@ TEST_CASE("Fraction")
         REQUIRE(zero * negative == Fraction(0));
     }
 
-    // operator/()
     SECTION("divide")
     {
         REQUIRE(positive / positive == Fraction(1));
@@ -167,7 +153,6 @@ TEST_CASE("Fraction")
         REQUIRE(zero / negative == Fraction(0));
     }
 
-    // operator%()
     SECTION("mod")
     {
         REQUIRE(positive % positive == Fraction(0));
@@ -183,7 +168,6 @@ TEST_CASE("Fraction")
         REQUIRE(zero % negative == Fraction(0));
     }
 
-    // operator<<()
     SECTION("print")
     {
         std::ostringstream oss;
