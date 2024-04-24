@@ -682,7 +682,7 @@ public:
     }
 
     /// Convert the integer object to some integer of type T.
-    /// `T` is an integer type : int, long, and any custom type that support basic arithmetic operations.
+    /// @tparam T an integer type : int, long, and any custom type that support basic arithmetic operations.
     template <typename T>
     T to_integer() const
     {
