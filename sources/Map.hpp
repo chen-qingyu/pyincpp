@@ -87,6 +87,22 @@ public:
     Map& operator=(Map&& that) = default;
 
     /*
+     * Iterator
+     */
+
+    /// Return an iterator to the first element of the map.
+    auto begin() const
+    {
+        return map_.begin();
+    }
+
+    /// Return an iterator to the element following the last element of the map.
+    auto end() const
+    {
+        return map_.end();
+    }
+
+    /*
      * Access
      */
 
@@ -112,22 +128,6 @@ public:
     const V& get(const K& key, const V& defaults) const
     {
         return contains(key) ? (*this)[key] : defaults;
-    }
-
-    /*
-     * Iterator
-     */
-
-    /// Return an iterator to the first element of the map.
-    auto begin() const
-    {
-        return map_.begin();
-    }
-
-    /// Return an iterator to the element following the last element of the map.
-    auto end() const
-    {
-        return map_.end();
     }
 
     /*
