@@ -14,10 +14,10 @@ TEST_CASE("Fraction")
         Fraction f3(2, 3);
         REQUIRE_THROWS_MATCHES(Fraction(1, 0), std::runtime_error, Message("Error: Zero denominator."));
 
-        // Fraction(const Fraction &that)
+        // Fraction(const Fraction& that)
         Fraction f4(f3);
 
-        // Fraction(Fraction &&that)
+        // Fraction(Fraction&& that)
         Fraction f5(std::move(f4));
 
         // ~Fraction()
