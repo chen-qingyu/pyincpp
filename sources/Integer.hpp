@@ -1,7 +1,7 @@
 /**
  * @file Integer.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief Integer class, implemented by List of signed char.
+ * @brief Integer class.
  * @date 2023.01.21
  *
  * @copyright Copyright (C) 2023
@@ -30,9 +30,7 @@
 namespace pyincpp
 {
 
-/**
- * @brief Integer class, implemented by List of signed char.
- */
+/// Integer class provides support for big integer arithmetic.
 class Integer
 {
 private:
@@ -41,57 +39,6 @@ private:
 
     // Sign of integer, 1 is positive, -1 is negative, and 0 is zero.
     signed char sign_;
-
-    // Compare two integers.
-    int compare(const Integer& that) const
-    {
-        if (sign_ != that.sign_)
-        {
-            if (sign_ == 1) // this is +, that is - or 0
-            {
-                return 1; // gt
-            }
-            else if (sign_ == -1) // this is -, that is + or 0
-            {
-                return -1; // lt
-            }
-            else // this is 0, that is + or -
-            {
-                return that.sign_ == 1 ? -1 : 1;
-            }
-        }
-
-        // the sign of two integers is the same
-
-        if (digits_.size_ != that.digits_.size_)
-        {
-            if (sign_ == 1)
-            {
-                return digits_.size_ > that.digits_.size_ ? 1 : -1;
-            }
-            else
-            {
-                return digits_.size_ > that.digits_.size_ ? -1 : 1;
-            }
-        }
-
-        for (int i = digits_.size_ - 1; i >= 0; i--)
-        {
-            if (digits_[i] != that.digits_[i])
-            {
-                if (sign_ == 1)
-                {
-                    return digits_[i] > that.digits_[i] ? 1 : -1;
-                }
-                else
-                {
-                    return digits_[i] > that.digits_[i] ? -1 : 1;
-                }
-            }
-        }
-
-        return 0; // eq
-    }
 
     // Remove leading zeros.
     Integer& remove_leading_zeros()
@@ -175,20 +122,14 @@ public:
      * Constructor / Destructor
      */
 
-    /**
-     * @brief Construct a new zero integer object.
-     */
+    /// Construct a new zero integer object.
     Integer()
         : digits_({0})
         , sign_(0)
     {
     }
 
-    /**
-     * @brief Construct a new integer object based on the given null-terminated characters.
-     *
-     * @param chars null-terminated characters
-     */
+    /// Construct a new integer object based on the given null-terminated characters.
     Integer(const char* chars)
         : digits_()
         , sign_()
@@ -214,11 +155,7 @@ public:
         }
     }
 
-    /**
-     * @brief Construct a new integer object based on the given int.
-     *
-     * @param integer int
-     */
+    /// Construct a new integer object based on the given int.
     Integer(int integer)
         : digits_()
         , sign_()
@@ -240,22 +177,10 @@ public:
         }
     }
 
-    /**
-     * @brief Copy constructor.
-     *
-     * @param that another integer
-     */
-    Integer(const Integer& that)
-        : digits_(that.digits_)
-        , sign_(that.sign_)
-    {
-    }
+    /// Copy constructor.
+    Integer(const Integer& that) = default;
 
-    /**
-     * @brief Move constructor.
-     *
-     * @param that another integer
-     */
+    /// Move constructor.
     Integer(Integer&& that)
         : digits_(std::move(that.digits_))
         , sign_(std::move(that.sign_))
@@ -264,107 +189,75 @@ public:
         that.sign_ = 0;
     }
 
-    /**
-     * @brief Destroy the integer object.
-     */
-    ~Integer()
-    {
-    }
-
     /*
      * Comparison
      */
 
-    /**
-     * @brief Compare two integers.
-     *
-     * @param that another integer
-     * @return true if this == that
-     */
+    /// Determines whether this integer is equal to another integer.
     bool operator==(const Integer& that) const
     {
-        return compare(that) == 0;
+        return sign_ == that.sign_ && digits_ == that.digits_;
     }
 
-    /**
-     * @brief Compare two integers.
-     *
-     * @param that another integer
-     * @return true if this != that
-     */
-    bool operator!=(const Integer& that) const
+    /// Compare the integer with another integer.
+    auto operator<=>(const Integer& that) const
     {
-        return compare(that) != 0;
-    }
+        if (sign_ != that.sign_)
+        {
+            if (sign_ == 1) // this is +, that is - or 0
+            {
+                return 1; // gt
+            }
+            else if (sign_ == -1) // this is -, that is + or 0
+            {
+                return -1; // lt
+            }
+            else // this is 0, that is + or -
+            {
+                return that.sign_ == 1 ? -1 : 1;
+            }
+        }
 
-    /**
-     * @brief Compare two integers.
-     *
-     * @param that another integer
-     * @return true if this < that
-     */
-    bool operator<(const Integer& that) const
-    {
-        return compare(that) < 0;
-    }
+        // the sign of two integers is the same
 
-    /**
-     * @brief Compare two integers.
-     *
-     * @param that another integer
-     * @return true if this <= that
-     */
-    bool operator<=(const Integer& that) const
-    {
-        return compare(that) <= 0;
-    }
+        if (digits_.size_ != that.digits_.size_)
+        {
+            if (sign_ == 1)
+            {
+                return digits_.size_ > that.digits_.size_ ? 1 : -1;
+            }
+            else
+            {
+                return digits_.size_ > that.digits_.size_ ? -1 : 1;
+            }
+        }
 
-    /**
-     * @brief Compare two integers.
-     *
-     * @param that another integer
-     * @return true if this > that
-     */
-    bool operator>(const Integer& that) const
-    {
-        return compare(that) > 0;
-    }
+        for (int i = digits_.size_ - 1; i >= 0; i--)
+        {
+            if (digits_[i] != that.digits_[i])
+            {
+                if (sign_ == 1)
+                {
+                    return digits_[i] > that.digits_[i] ? 1 : -1;
+                }
+                else
+                {
+                    return digits_[i] > that.digits_[i] ? -1 : 1;
+                }
+            }
+        }
 
-    /**
-     * @brief Compare two integers.
-     *
-     * @param that another integer
-     * @return true if this >= that
-     */
-    bool operator>=(const Integer& that) const
-    {
-        return compare(that) >= 0;
+        return 0; // eq
     }
 
     /*
      * Assignment
      */
 
-    /**
-     * @brief Copy assignment operator.
-     *
-     * @param that another integer
-     * @return self reference
-     */
-    Integer& operator=(const Integer& that)
-    {
-        digits_ = that.digits_;
-        sign_ = that.sign_;
+    /// Copy assignment operator.
+    Integer& operator=(const Integer& that) = default;
 
-        return *this;
-    }
-
-    /**
-     * @brief Move assignment operator.
-     *
-     * @param that another integer
-     * @return self reference
-     */
+    /// Move assignment operator.
     Integer& operator=(Integer&& that)
     {
         digits_ = std::move(that.digits_);
@@ -380,61 +273,38 @@ public:
      * Examination
      */
 
-    /**
-     * @brief Count the number of digits in the integer (based 10).
-     *
-     * @return the number of digits
-     */
+    /// Return the number of digits in the integer (based 10).
     int digits() const
     {
         return sign_ == 0 ? 0 : digits_.size_;
     }
 
-    /**
-     * @brief Determine whether the integer is zero quickly.
-     *
-     * @return true if this == 0
-     */
+    /// Determine whether the integer is zero quickly.
     bool is_zero() const
     {
         return sign_ == 0;
     }
 
-    /**
-     * @brief Determine whether the integer is positive quickly.
-     *
-     * @return true if this > 0
-     */
+    /// Determine whether the integer is positive quickly.
     bool is_positive() const
     {
         return sign_ == 1;
     }
 
-    /**
-     * @brief Determine whether the integer is negative quickly.
-     *
-     * @return true if this < 0
-     */
+    /// Determine whether the integer is negative quickly.
+
     bool is_negative() const
     {
         return sign_ == -1;
     }
 
-    /**
-     * @brief Determine whether the integer is even quickly.
-     *
-     * @return true if this % 2 == 0
-     */
+    /// Determine whether the integer is even quickly.
     bool is_even() const
     {
         return digits_.data_[0] % 2 == 0;
     }
 
-    /**
-     * @brief Determine whether the integer is odd quickly.
-     *
-     * @return true if this % 2 == 1
-     */
+    /// Determine whether the integer is odd quickly.
     bool is_odd() const
     {
         return digits_.data_[0] % 2 == 1;
@@ -444,66 +314,37 @@ public:
      * Manipulation
      */
 
-    /**
-     * @brief this += rhs
-     *
-     * @param rhs right-hand-side value
-     * @return self reference
-     */
+    /// Return this += `rhs`.
     Integer& operator+=(const Integer& rhs)
     {
         return *this = *this + rhs;
     }
 
-    /**
-     * @brief this -= rhs
-     *
-     * @param rhs right-hand-side value
-     * @return self reference
-     */
+    /// Return this -= `rhs`.
     Integer& operator-=(const Integer& rhs)
     {
         return *this = *this - rhs;
     }
 
-    /**
-     * @brief this *= rhs
-     *
-     * @param rhs right-hand-side value
-     * @return self reference
-     */
+    /// Return this *= `rhs`.
     Integer& operator*=(const Integer& rhs)
     {
         return *this = *this * rhs;
     }
 
-    /**
-     * @brief this /= rhs
-     *
-     * @param rhs right-hand-side value (not zero)
-     * @return self reference
-     */
+    /// Return this /= `rhs` (not zero).
     Integer& operator/=(const Integer& rhs)
     {
         return *this = *this / rhs;
     }
 
-    /**
-     * @brief this %= rhs
-     *
-     * @param rhs right-hand-side value (not zero)
-     * @return self reference
-     */
+    /// Return this %= `rhs` (not zero).
     Integer& operator%=(const Integer& rhs)
     {
         return *this = *this % rhs;
     }
 
-    /**
-     * @brief Increment the value by 1 quickly.
-     *
-     * @return this += 1 faster
-     */
+    /// Increment the value by 1 quickly.
     Integer& operator++()
     {
         if (sign_ == 1)
@@ -523,11 +364,7 @@ public:
         return *this;
     }
 
-    /**
-     * @brief Decrement the value by 1 quickly.
-     *
-     * @return this -= 1 faster
-     */
+    /// Decrement the value by 1 quickly.
     Integer& operator--()
     {
         if (sign_ == 1)
@@ -551,21 +388,13 @@ public:
      * Production
      */
 
-    /**
-     * @brief Return the copy of this.
-     *
-     * @return the copy of this.
-     */
+    /// Return the copy of this.
     Integer operator+() const
     {
         return *this;
     }
 
-    /**
-     * @brief Return the opposite value of this.
-     *
-     * @return the opposite value of this.
-     */
+    /// Return the opposite value of this.
     Integer operator-() const
     {
         Integer num = *this;
@@ -573,22 +402,13 @@ public:
         return num;
     }
 
-    /**
-     * @brief Return the absolute value of this.
-     *
-     * @return the absolute value of this
-     */
+    /// Return the absolute value of this.
     Integer abs() const
     {
         return sign_ == -1 ? -*this : *this;
     }
 
-    /**
-     * @brief Return this + rhs.
-     *
-     * @param rhs right-hand-side value
-     * @return this + rhs
-     */
+    /// Return this + `rhs`.
     Integer operator+(const Integer& rhs) const
     {
         // if one of the operands is zero, just return another one
@@ -637,12 +457,7 @@ public:
         return result.remove_leading_zeros();
     }
 
-    /**
-     * @brief Return this - rhs.
-     *
-     * @param rhs right-hand-side value
-     * @return this - rhs
-     */
+    /// Return this - `rhs`.
     Integer operator-(const Integer& rhs) const
     {
         // if one of the operands is zero
@@ -701,12 +516,7 @@ public:
         return result;
     }
 
-    /**
-     * @brief Return this * rhs.
-     *
-     * @param rhs right-hand-side value
-     * @return this * rhs
-     */
+    /// Return this * `rhs`.
     Integer operator*(const Integer& rhs) const
     {
         // if one of the operands is zero, just return zero
@@ -742,12 +552,7 @@ public:
         return result.remove_leading_zeros();
     }
 
-    /**
-     * @brief Return this / rhs.
-     *
-     * @param rhs right-hand-side value (not zero)
-     * @return this / rhs
-     */
+    /// Return this / `rhs` (not zero).
     Integer operator/(const Integer& rhs) const
     {
         // if rhs is zero, throw an exception
@@ -797,24 +602,13 @@ public:
         return result.remove_leading_zeros();
     }
 
-    /**
-     * @brief Return this % rhs.
-     *
-     * @param rhs right-hand-side value (not zero)
-     * @return this % rhs
-     */
+    /// Return this % `rhs` (not zero).
     Integer operator%(const Integer& rhs) const
     {
         return *this - (*this / rhs) * rhs;
     }
 
-    /**
-     * @brief Return (this**exp) % mod (mod default = 0 means does not perform module).
-     *
-     * @param exp the power of this
-     * @param mod module (default = 0 means does not perform module)
-     * @return (this**exp) % mod
-     */
+    /// Return `(this**exp) % mod` (`mod` default = 0 means does not perform module).
     Integer pow(const Integer& exp, const Integer& mod = 0) const
     {
         if (exp.is_negative())
@@ -840,11 +634,7 @@ public:
         return result;
     }
 
-    /**
-     * @brief Return the factorial of this.
-     *
-     * @return the factorial of this
-     */
+    /// Return the factorial of this.
     Integer factorial() const
     {
         if (sign_ == -1)
@@ -860,11 +650,7 @@ public:
         return result;
     }
 
-    /**
-     * @brief Return the square root of this using Newton's method.
-     *
-     * @return the square root of this
-     */
+    /// Return the square root of this.
     Integer sqrt() const
     {
         if (sign_ == -1)
@@ -881,6 +667,7 @@ public:
             return 1;
         }
 
+        // using Newton's method
         // as far as possible to reduce the number of iterations
         Integer cur_sqrt = *this / 2;
         Integer pre_sqrt = 2;
@@ -894,12 +681,8 @@ public:
         return cur_sqrt;
     }
 
-    /**
-     * @brief Convert the integer object to some integer of type T.
-     *
-     * @tparam T integer type: int, long, and any custom type that support basic arithmetic operations
-     * @return an integer of type T represents the integer object
-     */
+    /// Convert the integer object to some integer of type T.
+    /// `T` is an integer type : int, long, and any custom type that support basic arithmetic operations.
     template <typename T>
     T to_integer() const
     {
@@ -915,13 +698,7 @@ public:
      * Print
      */
 
-    /**
-     * @brief Output the integer to the specified output stream.
-     *
-     * @param os an output stream
-     * @param integer the integer to be printed to the output stream
-     * @return self reference of the output stream
-     */
+    /// Output the integer to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Integer& integer)
     {
         if (integer.sign_ == -1)
@@ -942,13 +719,7 @@ public:
  * Non-member functions
  */
 
-/**
- * @brief Calculate the greatest common divisor of two integers using Euclidean algorithm.
- *
- * @param int1 integer 1
- * @param int2 integer 2
- * @return the greatest common divisor of two integers
- */
+/// Calculate the greatest common divisor of two integers using Euclidean algorithm.
 inline Integer gcd(const Integer& int1, const Integer& int2)
 {
     Integer a = int1;
@@ -964,13 +735,7 @@ inline Integer gcd(const Integer& int1, const Integer& int2)
     return a; // a is GCD
 }
 
-/**
- * @brief Calculate the least common multiple of two integers.
- *
- * @param int1 integer 1
- * @param int2 integer 2
- * @return the least common multiple of two integers
- */
+/// Calculate the least common multiple of two integers.
 inline Integer lcm(const Integer& int1, const Integer& int2)
 {
     if (int1.is_zero() || int2.is_zero())
@@ -981,13 +746,7 @@ inline Integer lcm(const Integer& int1, const Integer& int2)
     return (int1 * int2) / gcd(int1, int2); // LCM = (int1 * int2) / GCD
 }
 
-/**
- * @brief Get an integer from the specified input stream.
- *
- * @param is an input stream
- * @param integer the integer
- * @return self reference of the input stream
- */
+/// Get an integer from the specified input stream.
 inline std::istream& operator>>(std::istream& is, Integer& integer)
 {
     std::string str;
