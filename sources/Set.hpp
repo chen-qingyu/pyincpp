@@ -171,7 +171,7 @@ public:
      * Manipulation
      */
 
-    /// Add `element` to the set. Return `true` if the value was newly inserted.
+    /// Add `element` to the set. Return `true` if the `element` was newly inserted.
     bool add(const T& element)
     {
         internal::check_full(size(), INT_MAX);
@@ -179,7 +179,7 @@ public:
         return set_.insert(element).second;
     }
 
-    /// Remove `element` from the set. Return `true` if such an element was present.
+    /// Remove `element` from the set. Return `true` if such an `element` was present.
     bool remove(const T& element)
     {
         return set_.erase(element) == 1;
