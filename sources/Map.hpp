@@ -204,28 +204,24 @@ public:
      * Manipulation
      */
 
-    /// Add the specified pair to the map.
-    Map& operator+=(const Pair<K, V>& pair)
+    /// Add the specified `key` and `value` to the map. Return `true` if the `key` and `value` was newly inserted.
+    bool add(const K& key, const V& value)
     {
-        map_.insert(pair);
+        internal::check_full(size(), INT_MAX);
 
-        return *this;
+        return map_.insert({key, value}).second;
     }
 
-    /// Remove the specified key-value pair from the map, if it is present.
-    Map& operator-=(const K& key)
+    /// Remove `key` from the map. Return `true` if such an `key` was present.
+    bool remove(const K& key)
     {
-        map_.erase(key);
-
-        return *this;
+        return map_.erase(key) == 1;
     }
 
     /// Remove all of the elements from the map.
-    Map& clear()
+    void clear()
     {
         map_.clear();
-
-        return *this;
     }
 
     /*

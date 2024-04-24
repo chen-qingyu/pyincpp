@@ -54,12 +54,12 @@ TEST_CASE("Map")
     SECTION("assignment")
     {
         some = one; // copy
-        REQUIRE(some == (Map<int, std::string>({{1, "one"}})));
-        REQUIRE(one == (Map<int, std::string>({{1, "one"}})));
+        REQUIRE(some == Map<int, std::string>({{1, "one"}}));
+        REQUIRE(one == Map<int, std::string>({{1, "one"}}));
 
         empty = std::move(one); // move
-        REQUIRE(empty == (Map<int, std::string>({{1, "one"}})));
-        REQUIRE(one == (Map<int, std::string>()));
+        REQUIRE(empty == Map<int, std::string>({{1, "one"}}));
+        REQUIRE(one == Map<int, std::string>());
     }
 
     SECTION("access")
@@ -125,42 +125,42 @@ TEST_CASE("Map")
         REQUIRE(some.items() == Set<Pair<int, std::string>>({{1, "one"}, {2, "two"}, {3, "three"}}));
     }
 
-    SECTION("insert")
+    SECTION("add")
     {
-        empty += {3, "three"};
-        empty += {1, "one"};
-        empty += {2, "two"};
+        REQUIRE(empty.add(3, "three") == true);
+        REQUIRE(empty.add(1, "one") == true);
+        REQUIRE(empty.add(2, "two") == true);
 
-        REQUIRE(empty == (Map<int, std::string>({{1, "one"}, {2, "two"}, {3, "three"}})));
+        REQUIRE(empty == Map<int, std::string>({{1, "one"}, {2, "two"}, {3, "three"}}));
 
-        empty += {3, "three"};
-        empty += {1, "one"};
-        empty += {2, "two"};
+        REQUIRE(empty.add(3, "three") == false);
+        REQUIRE(empty.add(1, "one") == false);
+        REQUIRE(empty.add(2, "two") == false);
 
-        REQUIRE(empty == (Map<int, std::string>({{1, "one"}, {2, "two"}, {3, "three"}})));
+        REQUIRE(empty == Map<int, std::string>({{1, "one"}, {2, "two"}, {3, "three"}}));
     }
 
     SECTION("remove")
     {
-        some -= 3;
-        some -= 1;
-        some -= 2;
+        REQUIRE(some.remove(3) == true);
+        REQUIRE(some.remove(1) == true);
+        REQUIRE(some.remove(2) == true);
 
-        REQUIRE(some == (Map<int, std::string>()));
+        REQUIRE(some == Map<int, std::string>());
 
-        some -= 2;
-        some -= 1;
-        some -= 3;
+        REQUIRE(some.remove(2) == false);
+        REQUIRE(some.remove(1) == false);
+        REQUIRE(some.remove(3) == false);
 
-        REQUIRE(some == (Map<int, std::string>()));
+        REQUIRE(some == Map<int, std::string>());
     }
 
     SECTION("clear")
     {
-        REQUIRE(some.clear() == (Map<int, std::string>()));
-
-        // double clear
-        REQUIRE(some.clear() == (Map<int, std::string>()));
+        some.clear();
+        REQUIRE(some == Map<int, std::string>());
+        some.clear(); // double clear
+        REQUIRE(some == Map<int, std::string>());
     }
 
     SECTION("print")
