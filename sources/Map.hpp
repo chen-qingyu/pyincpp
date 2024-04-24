@@ -30,18 +30,11 @@
 namespace pyincpp
 {
 
-/**
- * @brief Alias symbol `Pair<K, V>` = `std::pair<const K, V>`.
- */
+/// Alias symbol `Pair<K, V>` = `std::pair<const K, V>`.
 template <typename K, typename V>
 using Pair = std::pair<const K, V>;
 
-/**
- * @brief Map template class.
- *
- * @tparam K the type of keys in the map, require support operator<
- * @tparam V the type of values in the map
- */
+/// A Map object maps keys to arbitrary values.
 template <typename K, typename V>
 class Map
 {
@@ -54,110 +47,50 @@ public:
      * Constructor / Destructor
      */
 
-    /**
-     * @brief Construct a new empty map object.
-     */
-    Map()
-        : map_()
+    /// Default constructor. Construct an empty map.
+    Map() = default;
+
+    /// Construct a map with the contents of the initializer list `init`.
+    Map(const std::initializer_list<Pair<K, V>>& init)
+        : map_(init)
     {
     }
 
-    /**
-     * @brief Create a map based on the given initializer list.
-     *
-     * @param il initializer list
-     */
-    Map(const std::initializer_list<Pair<K, V>>& il)
-        : map_(il)
+    /// Construct a map with the contents of the range [`first`, `last`).
+    template <typename InputIt>
+    Map(const InputIt& first, const InputIt& last)
+        : map_(first, last)
     {
     }
 
-    /**
-     * @brief Copy constructor.
-     *
-     * @param that another map
-     */
-    Map(const Map& that)
-        : map_(that.map_)
-    {
-    }
+    /// Copy constructor.
+    Map(const Map& that) = default;
 
-    /**
-     * @brief Move constructor.
-     *
-     * @param that another map
-     */
-    Map(Map&& that)
-        : map_(std::move(that.map_))
-    {
-    }
+    /// Move constructor.
+    Map(Map&& that) = default;
 
     /*
      * Comparison
      */
 
-    /**
-     * @brief Check whether two maps are equal.
-     *
-     * @param that another map
-     * @return true if two maps are equal
-     */
-    bool operator==(const Map& that) const
-    {
-        return map_ == that.map_;
-    }
-
-    /**
-     * @brief Check whether two maps are not equal.
-     *
-     * @param that another map
-     * @return true if two maps are not equal
-     */
-    bool operator!=(const Map& that) const
-    {
-        return map_ != that.map_;
-    }
+    /// Determine whether this map is equal to another map.
+    bool operator==(const Map& that) const = default;
 
     /*
      * Assignment
      */
 
-    /**
-     * @brief Copy assignment operator.
-     *
-     * @param that another map
-     * @return self reference
-     */
-    Map& operator=(const Map& that)
-    {
-        map_ = that.map_;
+    /// Copy assignment operator.
+    Map& operator=(const Map& that) = default;
 
-        return *this;
-    }
-
-    /**
-     * @brief Move assignment operator.
-     *
-     * @param that another map
-     * @return self reference
-     */
-    Map& operator=(Map&& that)
-    {
-        map_ = std::move(that.map_);
-
-        return *this;
-    }
+    /// Move assignment operator.
+    Map& operator=(Map&& that) = default;
 
     /*
      * Access
      */
 
-    /**
-     * @brief Return the reference to the value of the key in the map.
-     *
-     * @param key key of the key-value pair
-     * @return reference to the value of the key in the map
-     */
+    /// Return the reference to the value of the `key` in the map.
     V& operator[](const K& key)
     {
         auto it = map_.find(key);
@@ -169,26 +102,13 @@ public:
         return it->second;
     }
 
-    /**
-     * @brief Return the const reference to value of the key in the map.
-     *
-     * @param key key of the key-value pair
-     * @return const reference to the value of the key in the map
-     */
+    /// Return the const reference to value of the `key` in the map.
     const V& operator[](const K& key) const
     {
         return const_cast<Map&>(*this)[key];
     }
 
-    /**
-     * @brief Return copy of the value for key if key is in the map, else default value.
-     *
-     * If default value is not given, it defaults to the default value of type V.
-     *
-     * @param key key of the key-value pair
-     * @param defaults default value
-     * @return copy of the value for key if key is in the map, else default value
-     */
+    /// Return copy of the value for `key` if `key` is in the map, else `defaults` value.
     const V& get(const K& key, const V& defaults) const
     {
         return contains(key) ? (*this)[key] : defaults;
@@ -198,25 +118,13 @@ public:
      * Iterator
      */
 
-    /**
-     * @brief Return an iterator to the first element of the map.
-     *
-     * If the map is empty, the returned iterator will be equal to end().
-     *
-     * @return iterator to the first element
-     */
+    /// Return an iterator to the first element of the map.
     auto begin() const
     {
         return map_.begin();
     }
 
-    /**
-     * @brief Return an iterator to the element following the last element of the map.
-     *
-     * This element acts as a placeholder, attempting to access it results in undefined behavior.
-     *
-     * @return iterator to the element following the last element
-     */
+    /// Return an iterator to the element following the last element of the map.
     auto end() const
     {
         return map_.end();
@@ -226,75 +134,43 @@ public:
      * Examination
      */
 
-    /**
-     * @brief Return the number of elements in the map.
-     *
-     * @return the number of elements in the map
-     */
+    /// Return the number of elements in the map.
     int size() const
     {
         return map_.size();
     }
 
-    /**
-     * @brief Return true if the map contains no elements.
-     *
-     * @return true if the map contains no elements
-     */
+    /// Return `true` if the map contains no elements.
     bool is_empty() const
     {
         return map_.empty();
     }
 
-    /**
-     * @brief Return the iterator of the specified key in the map.
-     *
-     * Or end() if the map does not contain the key.
-     *
-     * @param key key to search for
-     * @return the iterator of the specified key in the map, or end() if the map does not contain the key
-     */
+    /// Return the iterator of the specified key in the map, or end() if the map does not contain the key.
     auto find(const K& key) const
     {
         return map_.find(key);
     }
 
-    /**
-     * @brief Return true if the map contains the specified key.
-     *
-     * @param key key whose presence in the map is to be tested
-     * @return true if the map contains the specified key
-     */
+    /// Return `true` if the map contains the specified `key`.
     bool contains(const K& key) const
     {
         return map_.find(key) != map_.end();
     }
 
-    /**
-     * @brief Get the smallest key of the map.
-     *
-     * @return the smallest key
-     */
+    /// Get the smallest key of the map.
     K min() const
     {
         return map_.cbegin()->first;
     }
 
-    /**
-     * @brief Get the largest key of the map.
-     *
-     * @return the largest key
-     */
+    /// Get the largest key of the map.
     K max() const
     {
         return map_.crbegin()->first;
     }
 
-    /**
-     * @brief Return a new set of the map's keys.
-     *
-     * @return a new set of the map's keys
-     */
+    /// Return a new set of the map's keys.
     Set<K> keys() const
     {
         Set<K> keys;
@@ -304,11 +180,7 @@ public:
         return keys;
     }
 
-    /**
-     * @brief Return a new set of the map's values.
-     *
-     * @return a new set of the map's values
-     */
+    /// Return a new set of the map's values.
     Set<V> values() const
     {
         Set<V> values;
@@ -318,11 +190,7 @@ public:
         return values;
     }
 
-    /**
-     * @brief Return a new set of the map's items.
-     *
-     * @return a new set of the map's items
-     */
+    /// Return a new set of the map's items.
     Set<Pair<K, V>> items() const
     {
         Set<Pair<K, V>> items;
@@ -336,12 +204,7 @@ public:
      * Manipulation
      */
 
-    /**
-     * @brief Add the specified pair to the map.
-     *
-     * @param pair pair to be added to the map
-     * @return self reference
-     */
+    /// Add the specified pair to the map.
     Map& operator+=(const Pair<K, V>& pair)
     {
         map_.insert(pair);
@@ -349,14 +212,7 @@ public:
         return *this;
     }
 
-    /**
-     * @brief Remove the specified key-value pair from the map, if it is present.
-     *
-     * If the map does not contain the key-value pair, it is unchanged.
-     *
-     * @param key key of the key-value pair to be removed
-     * @return self reference
-     */
+    /// Remove the specified key-value pair from the map, if it is present.
     Map& operator-=(const K& key)
     {
         map_.erase(key);
@@ -364,11 +220,7 @@ public:
         return *this;
     }
 
-    /**
-     * @brief Remove all of the elements from the map.
-     *
-     * @return self reference
-     */
+    /// Remove all of the elements from the map.
     Map& clear()
     {
         map_.clear();
@@ -380,13 +232,7 @@ public:
      * Print
      */
 
-    /**
-     * @brief Output the map to the specified output stream.
-     *
-     * @param os an output stream
-     * @param map the map to be printed to the output stream
-     * @return self reference of the output stream
-     */
+    /// Output the map to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Map& map)
     {
         return internal::print(os, map, '{', '}');
