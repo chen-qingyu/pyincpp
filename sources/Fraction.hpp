@@ -28,9 +28,7 @@
 namespace pyincpp
 {
 
-/**
- * @brief Fraction class.
- */
+/// Fraction class provides support for rational number arithmetic.
 class Fraction
 {
 private:
@@ -63,28 +61,12 @@ private:
         denominator_ /= a;
     }
 
-    // Compare two fractions.
-    int compare(const Fraction& that) const
-    {
-        // this = a/b; that = c/d;
-        // so, this - that = a/b - c/d = (ad - bc)/(bd)
-        // since bd is always positive, compute (ad-bc) only
-        int a = this->numerator_;
-        int b = this->denominator_;
-        int c = that.numerator_;
-        int d = that.denominator_;
-
-        return a * d - b * c;
-    }
-
 public:
     /*
      * Constructor / Destructor
      */
 
-    /**
-     * @brief Construct a new zero fraction object.
-     */
+    /// Construct a new fraction object with value `numerator/denominator`.
     Fraction(int numerator = 0, int denominator = 1)
     {
         if (denominator == 0)
@@ -98,22 +80,10 @@ public:
         simplify();
     }
 
-    /**
-     * @brief Copy constructor.
-     *
-     * @param that another fraction
-     */
-    Fraction(const Fraction& that)
-        : numerator_(that.numerator_)
-        , denominator_(that.denominator_)
-    {
-    }
+    /// Copy constructor.
+    Fraction(const Fraction& that) = default;
 
-    /**
-     * @brief Move constructor.
-     *
-     * @param that another fraction
-     */
+    /// Move constructor.
     Fraction(Fraction&& that)
         : numerator_(std::move(that.numerator_))
         , denominator_(std::move(that.denominator_))
@@ -122,114 +92,39 @@ public:
         that.denominator_ = 1;
     }
 
-    /**
-     * @brief Destroy the fraction object.
-     */
-    ~Fraction()
-    {
-    }
-
     /*
      * Comparison
      */
 
-    /**
-     * @brief Compare two fractions.
-     *
-     * @param that another fraction
-     * @return true if this == that
-     */
-    bool operator==(const Fraction& that) const
+    /// Compare the fraction with another fraction.
+    auto operator<=>(const Fraction& that) const
     {
-        return compare(that) == 0;
-    }
+        // this = a/b; that = c/d;
+        // so, this - that = a/b - c/d = (ad - bc)/(bd)
+        // since bd is always positive, compute (ad-bc) only
+        int a = this->numerator_;
+        int b = this->denominator_;
+        int c = that.numerator_;
+        int d = that.denominator_;
 
-    /**
-     * @brief Compare two fractions.
-     *
-     * @param that another fraction
-     * @return true if this != that
-     */
-    bool operator!=(const Fraction& that) const
-    {
-        return compare(that) != 0;
-    }
-
-    /**
-     * @brief Compare two fractions.
-     *
-     * @param that another fraction
-     * @return true if this < that
-     */
-    bool operator<(const Fraction& that) const
-    {
-        return compare(that) < 0;
-    }
-
-    /**
-     * @brief Compare two fractions.
-     *
-     * @param that another fraction
-     * @return true if this <= that
-     */
-    bool operator<=(const Fraction& that) const
-    {
-        return compare(that) <= 0;
-    }
-
-    /**
-     * @brief Compare two fractions.
-     *
-     * @param that another fraction
-     * @return true if this > that
-     */
-    bool operator>(const Fraction& that) const
-    {
-        return compare(that) > 0;
-    }
-
-    /**
-     * @brief Compare two fractions.
-     *
-     * @param that another fraction
-     * @return true if this >= that
-     */
-    bool operator>=(const Fraction& that) const
-    {
-        return compare(that) >= 0;
+        return a * d - b * c;
     }
 
     /*
      * Assignment
      */
 
-    /**
-     * @brief Copy assignment operator.
-     *
-     * @param that another fraction
-     * @return self reference
-     */
-    Fraction& operator=(const Fraction& that)
-    {
-        numerator_ = that.numerator_;
-        denominator_ = that.denominator_;
+    /// Copy assignment operator.
+    Fraction& operator=(const Fraction& that) = default;
 
-        return *this;
-    }
-
-    /**
-     * @brief Move assignment operator.
-     *
-     * @param that another fraction
-     * @return self reference
-     */
+    /// Move assignment operator.
     Fraction& operator=(Fraction&& that)
     {
         numerator_ = std::move(that.numerator_);
         denominator_ = std::move(that.denominator_);
 
         that.numerator_ = 0;
-        that.denominator_ = 0;
+        that.denominator_ = 1;
 
         return *this;
     }
@@ -238,11 +133,7 @@ public:
      * Examination
      */
 
-    /**
-     * @brief Convert the fraction to double type.
-     *
-     * @return a double represents the fraction
-     */
+    /// Convert the fraction to double type.
     operator double() const
     {
         return (double)numerator_ / denominator_;
@@ -252,76 +143,43 @@ public:
      * Manipulation
      */
 
-    /**
-     * @brief this += rhs
-     *
-     * @param rhs right-hand-side value
-     * @return self reference
-     */
+    /// Return this += `rhs`.
     Fraction& operator+=(const Fraction& rhs)
     {
         return *this = *this + rhs;
     }
 
-    /**
-     * @brief this -= rhs
-     *
-     * @param rhs right-hand-side value
-     * @return self reference
-     */
+    /// Return this -= `rhs`.
     Fraction& operator-=(const Fraction& rhs)
     {
         return *this = *this - rhs;
     }
 
-    /**
-     * @brief this *= rhs
-     *
-     * @param rhs right-hand-side value
-     * @return self reference
-     */
+    /// Return this *= `rhs`.
     Fraction& operator*=(const Fraction& rhs)
     {
         return *this = *this * rhs;
     }
 
-    /**
-     * @brief this /= rhs
-     *
-     * @param rhs right-hand-side value (not zero)
-     * @return self reference
-     */
+    /// Return this /= `rhs` (not zero).
     Fraction& operator/=(const Fraction& rhs)
     {
         return *this = *this / rhs;
     }
 
-    /**
-     * @brief this %= rhs
-     *
-     * @param rhs right-hand-side value (not zero)
-     * @return self reference
-     */
+    /// Return this %= `rhs` (not zero).
     Fraction& operator%=(const Fraction& rhs)
     {
         return *this = *this % rhs;
     }
 
-    /**
-     * @brief Increment the value by 1.
-     *
-     * @return this += 1
-     */
+    /// Increment the value by 1.
     Fraction& operator++()
     {
         return *this += 1;
     }
 
-    /**
-     * @brief Decrement the value by 1.
-     *
-     * @return this -= 1
-     */
+    /// Decrement the value by 1.
     Fraction& operator--()
     {
         return *this -= 1;
@@ -331,21 +189,13 @@ public:
      * Production
      */
 
-    /**
-     * @brief Return the copy of this.
-     *
-     * @return the copy of this.
-     */
+    /// Return the copy of this.
     Fraction operator+() const
     {
         return *this;
     }
 
-    /**
-     * @brief Return the opposite value of this.
-     *
-     * @return the opposite value of this.
-     */
+    /// Return the opposite value of this.
     Fraction operator-() const
     {
         Fraction fraction = *this;
@@ -353,66 +203,37 @@ public:
         return fraction;
     }
 
-    /**
-     * @brief Return the absolute value of this.
-     *
-     * @return the absolute value of this
-     */
+    /// Return the absolute value of this.
     Fraction abs() const
     {
         return numerator_ >= 0 ? *this : -(*this);
     }
 
-    /**
-     * @brief Return this + rhs.
-     *
-     * @param rhs right-hand-side value
-     * @return this + rhs
-     */
+    /// Return this + `rhs`.
     Fraction operator+(const Fraction& rhs) const
     {
         return Fraction(numerator_ * rhs.denominator_ + denominator_ * rhs.numerator_, denominator_ * rhs.denominator_);
     }
 
-    /**
-     * @brief Return this - rhs.
-     *
-     * @param rhs right-hand-side value
-     * @return this - rhs
-     */
+    /// Return this - `rhs`.
     Fraction operator-(const Fraction& rhs) const
     {
         return Fraction(numerator_ * rhs.denominator_ - denominator_ * rhs.numerator_, denominator_ * rhs.denominator_);
     }
 
-    /**
-     * @brief Return this * rhs.
-     *
-     * @param rhs right-hand-side value
-     * @return this * rhs
-     */
+    /// Return this * `rhs`.
     Fraction operator*(const Fraction& rhs) const
     {
         return Fraction(numerator_ * rhs.numerator_, denominator_ * rhs.denominator_);
     }
 
-    /**
-     * @brief Return this / rhs.
-     *
-     * @param rhs right-hand-side value (not zero)
-     * @return this / rhs
-     */
+    /// Return this / `rhs` (not zero).
     Fraction operator/(const Fraction& rhs) const
     {
         return Fraction(numerator_ * rhs.denominator_, denominator_ * rhs.numerator_);
     }
 
-    /**
-     * @brief Return this % rhs.
-     *
-     * @param rhs right-hand-side value (not zero)
-     * @return this % rhs
-     */
+    /// Return this % `rhs` (not zero).
     Fraction operator%(const Fraction& rhs) const
     {
         if (rhs.numerator_ == 0)
@@ -427,13 +248,7 @@ public:
      * Print
      */
 
-    /**
-     * @brief Output the fraction to the specified output stream.
-     *
-     * @param os an output stream
-     * @param fraction the fraction to be printed to the output stream
-     * @return self reference of the output stream
-     */
+    /// Output the fraction to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Fraction& fraction)
     {
         if (fraction.denominator_ == 1)
