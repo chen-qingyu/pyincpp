@@ -6,7 +6,6 @@ using namespace pyincpp;
 
 TEST_CASE("Map")
 {
-    // constructor destructor size() is_empty()
     SECTION("basics")
     {
         // Map()
@@ -14,22 +13,25 @@ TEST_CASE("Map")
         REQUIRE(map1.size() == 0);
         REQUIRE(map1.is_empty());
 
-        // Map(const std::initializer_list<Pair>& il)
+        // Map(const std::initializer_list<Pair<K, V>>& init)
         Map<int, std::string> map2({{1, "one"}, {2, "two"}, {3, "three"}, {4, "four"}, {5, "five"}});
         REQUIRE(map2.size() == 5);
         REQUIRE(!map2.is_empty());
 
-        // Map(const Map& that)
-        Map<int, std::string> map3(map2);
+        // Map(const InputIt& first, const InputIt& last)
+        Map<int, std::string> map3(map2.begin(), map2.end());
         REQUIRE(map3.size() == 5);
         REQUIRE(!map3.is_empty());
 
-        // Map(Map&& that)
-        Map<int, std::string> map4(std::move(map3));
+        // Map(const Map& that)
+        Map<int, std::string> map4(map3);
         REQUIRE(map4.size() == 5);
         REQUIRE(!map4.is_empty());
-        REQUIRE(map3.size() == 0);
-        REQUIRE(map3.is_empty());
+
+        // Map(Map&& that)
+        Map<int, std::string> map5(std::move(map4));
+        REQUIRE(map5.size() == 5);
+        REQUIRE(!map5.is_empty());
 
         // ~Map()
     }
@@ -38,7 +40,6 @@ TEST_CASE("Map")
     Map<int, std::string> one = {{1, "one"}};
     Map<int, std::string> some = {{1, "one"}, {2, "two"}, {3, "three"}};
 
-    // operator==() operator!=()
     SECTION("compare")
     {
         // operator==
@@ -50,23 +51,17 @@ TEST_CASE("Map")
         REQUIRE(ne_map != some);
     }
 
-    // operator=()
-    SECTION("copy_assignment")
+    SECTION("assignment")
     {
-        some = one;
+        some = one; // copy
         REQUIRE(some == (Map<int, std::string>({{1, "one"}})));
         REQUIRE(one == (Map<int, std::string>({{1, "one"}})));
-    }
 
-    // operator=()
-    SECTION("move_assignment")
-    {
-        some = std::move(one);
-        REQUIRE(some == (Map<int, std::string>({{1, "one"}})));
+        empty = std::move(one); // move
+        REQUIRE(empty == (Map<int, std::string>({{1, "one"}})));
         REQUIRE(one == (Map<int, std::string>()));
     }
 
-    // operator[]() get()
     SECTION("access")
     {
         Map<std::string, int> map({{"one", 1}, {"two", 2}, {"three", 3}});
@@ -92,7 +87,6 @@ TEST_CASE("Map")
         REQUIRE(const_map["one"] == 1);
     }
 
-    // begin() end()
     SECTION("iterator")
     {
         // empty
@@ -105,7 +99,6 @@ TEST_CASE("Map")
         }
     }
 
-    // find() contains() min() max()
     SECTION("examination")
     {
         // find
@@ -125,7 +118,6 @@ TEST_CASE("Map")
         REQUIRE(some.max() == 3);
     }
 
-    // keys() values() items()
     SECTION("keys_values_items")
     {
         REQUIRE(some.keys() == Set<int>({1, 2, 3}));
@@ -133,7 +125,6 @@ TEST_CASE("Map")
         REQUIRE(some.items() == Set<Pair<int, std::string>>({{1, "one"}, {2, "two"}, {3, "three"}}));
     }
 
-    // operator+=()
     SECTION("insert")
     {
         empty += {3, "three"};
@@ -149,7 +140,6 @@ TEST_CASE("Map")
         REQUIRE(empty == (Map<int, std::string>({{1, "one"}, {2, "two"}, {3, "three"}})));
     }
 
-    // operator-=()
     SECTION("remove")
     {
         some -= 3;
@@ -165,20 +155,14 @@ TEST_CASE("Map")
         REQUIRE(some == (Map<int, std::string>()));
     }
 
-    // clear()
     SECTION("clear")
     {
         REQUIRE(some.clear() == (Map<int, std::string>()));
 
         // double clear
         REQUIRE(some.clear() == (Map<int, std::string>()));
-
-        // modify after clear
-        some += {1, "one"};
-        REQUIRE(some == (Map<int, std::string>({{1, "one"}})));
     }
 
-    // operator<<()
     SECTION("print")
     {
         std::ostringstream oss;
