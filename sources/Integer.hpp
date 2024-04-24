@@ -193,7 +193,7 @@ public:
      * Comparison
      */
 
-    /// Determines whether this integer is equal to another integer.
+    /// Determine whether this integer is equal to another integer.
     bool operator==(const Integer& that) const
     {
         return sign_ == that.sign_ && digits_ == that.digits_;
