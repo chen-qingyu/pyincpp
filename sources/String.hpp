@@ -499,7 +499,7 @@ public:
         std::string buffer(size(), 0);
         std::rotate_copy(begin(), begin() + n, end(), buffer.begin());
 
-        return String(buffer);
+        return buffer;
     }
 
     /// Rerurn the reversed string.
