@@ -24,7 +24,6 @@
 #define PYINCPP_HPP
 
 #if ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
-
 #include "Deque.hpp"
 #include "Fraction.hpp"
 #include "Integer.hpp"
@@ -37,6 +36,6 @@
 #else
 #error "Require at least C++20."
 
-#endif // C++17
+#endif
 
 #endif // PYINCPP_HPP
