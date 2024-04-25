@@ -101,11 +101,11 @@ TEST_CASE("String")
 
     SECTION("find")
     {
-        const String s1("");
-        const String s2("a");
-        const String s3("g");
-        const String s4("cde");
-        const String s5("abcdefg");
+        String s1("");
+        String s2("a");
+        String s3("g");
+        String s4("cde");
+        String s5("abcdefg");
 
         REQUIRE(s1.find(s1) == 0);
         REQUIRE(s5.find(s1) == 0);
