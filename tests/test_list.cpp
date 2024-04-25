@@ -187,11 +187,11 @@ TEST_CASE("List")
         // check full
         // The test was successful! But the testing time is too long, and comment it out.
         // List<bool> big_list;
-        // for (int i = 0; i < List<bool>::MAX_CAPACITY; i++)
+        // for (int i = 0; i < INT_MAX; i++)
         // {
         //     big_list.insert(big_list.size(), true);
         // }
-        // REQUIRE(big_list.size() == List<bool>::MAX_CAPACITY);
+        // REQUIRE(big_list.size() == INT_MAX);
         // REQUIRE_THROWS_MATCHES(big_list.insert(big_list.size(), true), std::runtime_error, Message("Error: The container has reached the maximum size."));
 
         // modify after inserted
