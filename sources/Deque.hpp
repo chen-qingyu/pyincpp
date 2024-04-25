@@ -250,9 +250,11 @@ public:
     }
 
     /// Reverse the deque in place.
-    void reverse()
+    Deque& reverse()
     {
         std::reverse(deque_.begin(), deque_.end());
+
+        return *this;
     }
 
     /// Remove all elements from the deque.

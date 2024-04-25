@@ -190,14 +190,9 @@ TEST_CASE("Deque")
 
     SECTION("reverse")
     {
-        empty.reverse();
-        REQUIRE(empty == Deque<int>());
-
-        one.reverse();
-        REQUIRE(one == Deque<int>({1}));
-
-        some.reverse();
-        REQUIRE(some == Deque<int>({5, 4, 3, 2, 1}));
+        REQUIRE(empty.reverse() == Deque<int>());
+        REQUIRE(one.reverse() == Deque<int>({1}));
+        REQUIRE(some.reverse() == Deque<int>({5, 4, 3, 2, 1}));
     }
 
     SECTION("clear")
