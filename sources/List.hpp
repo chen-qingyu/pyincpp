@@ -39,7 +39,7 @@ private:
     std::vector<T> vector_;
 
     // Create a list from std::vector.
-    List(const std::vector<T>& vector)
+    List(std::vector<T>&& vector)
         : vector_(vector)
     {
     }

@@ -121,7 +121,7 @@ private:
     }
 
     // Create a string from std::string.
-    String(const std::string& string)
+    String(std::string&& string)
         : str_(string)
     {
     }
