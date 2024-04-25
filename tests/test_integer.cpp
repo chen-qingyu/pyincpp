@@ -6,7 +6,6 @@ using namespace pyincpp;
 
 TEST_CASE("Integer")
 {
-    // constructor destructor
     SECTION("basics")
     {
         // Integer()
@@ -32,7 +31,6 @@ TEST_CASE("Integer")
     Integer positive = "18446744073709551617";  // 2^64+1
     Integer negative = "-18446744073709551617"; // -(2^64+1)
 
-    // operator==() operator!=() operator<() operator<=() operator>() operator>=()
     SECTION("compare")
     {
         // operator==
@@ -63,23 +61,17 @@ TEST_CASE("Integer")
         REQUIRE(positive >= positive);
     }
 
-    // operator=()
-    SECTION("copy_assignment")
+    SECTION("assignment")
     {
-        positive = negative;
+        positive = negative; // copy
         REQUIRE(positive == Integer("-18446744073709551617"));
         REQUIRE(negative == Integer("-18446744073709551617"));
-    }
 
-    // operator=()
-    SECTION("move_assignment")
-    {
-        positive = std::move(negative);
-        REQUIRE(positive == Integer("-18446744073709551617"));
+        zero = std::move(negative); // move
+        REQUIRE(zero == Integer("-18446744073709551617"));
         REQUIRE(negative == Integer());
     }
 
-    // digits() is_zero() is_positive() is_negative() is_even() is_odd()
     SECTION("examination")
     {
         // digits()
@@ -113,7 +105,6 @@ TEST_CASE("Integer")
         REQUIRE(negative.is_odd());
     }
 
-    // operator++() operator--()
     SECTION("inc_dec")
     {
         // operator++()
@@ -129,7 +120,6 @@ TEST_CASE("Integer")
         REQUIRE(--Integer("100000000000000") == "99999999999999");
     }
 
-    // operator+()
     SECTION("plus")
     {
         REQUIRE(positive + positive == "36893488147419103234");
@@ -145,7 +135,6 @@ TEST_CASE("Integer")
         REQUIRE(zero + negative == "-18446744073709551617");
     }
 
-    // operator-()
     SECTION("minus")
     {
         REQUIRE(positive - positive == "0");
@@ -161,7 +150,6 @@ TEST_CASE("Integer")
         REQUIRE(zero - negative == "18446744073709551617");
     }
 
-    // operator*()
     SECTION("times")
     {
         REQUIRE(positive * positive == "340282366920938463500268095579187314689");
@@ -177,7 +165,6 @@ TEST_CASE("Integer")
         REQUIRE(zero * negative == "0");
     }
 
-    // operator/()
     SECTION("divide")
     {
         REQUIRE(positive / positive == "1");
@@ -193,7 +180,6 @@ TEST_CASE("Integer")
         REQUIRE(zero / negative == "0");
     }
 
-    // operator%()
     SECTION("mod")
     {
         REQUIRE(positive % positive == "0");
@@ -209,7 +195,6 @@ TEST_CASE("Integer")
         REQUIRE(zero % negative == "0");
     }
 
-    // pow()
     SECTION("pow")
     {
         // 0^0 == 1
@@ -240,7 +225,6 @@ TEST_CASE("Integer")
         REQUIRE(Integer("9999").pow("1001", "100") == "99");
     }
 
-    // factorial()
     SECTION("factorial")
     {
         // (negative)! throws exception
@@ -265,7 +249,6 @@ TEST_CASE("Integer")
         REQUIRE(Integer("5").factorial().factorial() == "6689502913449127057588118054090372586752746333138029810295671352301633557244962989366874165271984981308157637893214090552534408589408121859898481114389650005964960521256960000000000000000000000000000");
     }
 
-    // gcd() lcm()
     SECTION("gcd_lcm")
     {
         // gcd()
@@ -281,7 +264,6 @@ TEST_CASE("Integer")
         REQUIRE(lcm("12345", "54321") == "223530915");
     }
 
-    // sqrt()
     SECTION("sqrt")
     {
         REQUIRE_THROWS_MATCHES(Integer("-1").sqrt(), std::runtime_error, Message("Error: Cannot compute square root of a negative integer."));
@@ -296,7 +278,6 @@ TEST_CASE("Integer")
         REQUIRE(Integer("9801").sqrt() == "99");
     }
 
-    // to_integer()
     SECTION("to_integer")
     {
         REQUIRE(zero.to_integer<signed char>() == 0);
@@ -311,7 +292,6 @@ TEST_CASE("Integer")
         REQUIRE(Integer("-1024").to_integer<int>() == -1024);
     }
 
-    // operator<<()
     SECTION("print")
     {
         std::ostringstream oss;
@@ -329,7 +309,6 @@ TEST_CASE("Integer")
         oss.str("");
     }
 
-    // operator>>()
     SECTION("input")
     {
         Integer int1, int2, int3, int4;
