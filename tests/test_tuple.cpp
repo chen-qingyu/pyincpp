@@ -6,7 +6,6 @@ using namespace pyincpp;
 
 TEST_CASE("Tuple")
 {
-    // constructor destructor size()
     SECTION("basics")
     {
         // Tuple()
@@ -32,7 +31,6 @@ TEST_CASE("Tuple")
     Tuple<int> one(1);
     Tuple<int, double, char> some(1, 2.5, 'A');
 
-    // operator==() operator!=()
     SECTION("compare")
     {
         REQUIRE(empty == empty);
@@ -48,7 +46,6 @@ TEST_CASE("Tuple")
         REQUIRE(some == some);
     }
 
-    // rest()
     SECTION("rest")
     {
         REQUIRE(some.rest() == (Tuple<double, char>(2.5, 'A')));
@@ -56,7 +53,6 @@ TEST_CASE("Tuple")
         REQUIRE(some.rest().rest().rest() == empty);
     }
 
-    // get<>()
     SECTION("get")
     {
         REQUIRE(some.get<0>() == 1);
@@ -64,16 +60,14 @@ TEST_CASE("Tuple")
         REQUIRE(some.get<2>() == 'A');
     }
 
-    // make_tuple()
     SECTION("make_tuple")
     {
         REQUIRE(make_tuple() == empty);
         REQUIRE(make_tuple(1) == one);
-        REQUIRE(make_tuple(1, 2, 3) == (Tuple<int, int, int>(1, 2, 3)));
-        REQUIRE(make_tuple(1, 2.33, 'A', Tuple<>()) == (Tuple<int, double, char, Tuple<>>(1, 2.33, 'A', {})));
+        REQUIRE(make_tuple(1, 2.5, 'A') == some);
+        REQUIRE(make_tuple(1, 2.33, 'Z', Tuple<>()) == Tuple<int, double, char, Tuple<>>(1, 2.33, 'Z', {}));
     }
 
-    // operator<<()
     SECTION("print")
     {
         std::ostringstream oss;

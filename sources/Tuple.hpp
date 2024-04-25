@@ -28,38 +28,33 @@
 namespace pyincpp
 {
 
-// Empty tuple template class.
+/// Empty tuple template class.
 template <typename... _>
 class Tuple
 {
 public:
-    // Check whether two tuples are equal.
+    /// Check whether two tuples are equal.
     template <typename... X>
     constexpr bool operator==(const Tuple<X...>& that) const
     {
         return that.size() == 0;
     }
 
-    // Check whether two tuples are not equal.
+    /// Check whether two tuples are not equal.
     template <typename... X>
     constexpr bool operator!=(const Tuple<X...>& that) const
     {
         return that.size() != 0;
     }
 
-    // Empty tuple have no element.
+    /// Empty tuple have no element.
     constexpr int size() const
     {
         return 0;
     }
 };
 
-/**
- * @brief Tuple template class.
- *
- * @tparam T the type of first element
- * @tparam Ts the type of rest elements
- */
+/// Tuple template class.
 template <typename T, typename... Ts>
 class Tuple<T, Ts...> : public Tuple<Ts...>
 {
@@ -74,12 +69,7 @@ public:
      * Constructor / Destructor
      */
 
-    /**
-     * @brief Construct a new tuple object.
-     *
-     * @param value the first element
-     * @param values the rest elements
-     */
+    /// Construct a new tuple object.
     Tuple<T, Ts...>(const T& value, const Ts&... values)
         : Tuple<Ts...>(values...)
         , value_(value)
@@ -90,12 +80,7 @@ public:
      * Comparison
      */
 
-    /**
-     * @brief Check whether two tuples are equal.
-     *
-     * @param that another tuple
-     * @return true if two tuples are equal
-     */
+    /// Check whether two tuples are equal.
     template <typename... X>
     bool operator==(const Tuple<X...>& that) const
     {
@@ -109,39 +94,22 @@ public:
         }
     }
 
-    /**
-     * @brief Check whether two tuples are not equal.
-     *
-     * @param that another tuple
-     * @return true if two tuples are not equal
-     */
-    template <typename... X>
-    bool operator!=(const Tuple<X...>& that) const
-    {
-        return !(*this == that);
-    }
-
     /*
      * Access
      */
 
-    /**
-     * @brief Get the i-th element of the tuple.
-     *
-     * @tparam N the index
-     * @return the i-th element
-     */
-    template <int N>
+    /// Get the i-th element of the tuple.
+    template <int I>
     decltype(auto) get() const
     {
-        static_assert(N < 1 + sizeof...(Ts));
-        if constexpr (N == 0)
+        static_assert(I < 1 + sizeof...(Ts));
+        if constexpr (I == 0)
         {
             return value_;
         }
         else
         {
-            return Tuple<Ts...>::template get<N - 1>();
+            return Tuple<Ts...>::template get<I - 1>();
         }
     }
 
@@ -149,21 +117,13 @@ public:
      * Examination
      */
 
-    /**
-     * @brief Return the number of elements in the tuple.
-     *
-     * @return the number of elements in the tuple
-     */
+    /// Return the number of elements in the tuple.
     constexpr int size() const
     {
         return 1 + sizeof...(Ts);
     }
 
-    /**
-     * @brief Return the rest of the tuple.
-     *
-     * @return the rest of the tuple
-     */
+    /// Return the rest of the tuple.
     const Tuple<Ts...>& rest() const
     {
         return *((Tuple<Ts...>*)this);
@@ -174,13 +134,7 @@ public:
  * Non-member functions
  */
 
-/**
- * @brief Creates a tuple object, deducing the target type from the types of arguments.
- *
- * @tparam Ts the type of elements in the tuple
- * @param values zero or more arguments to construct the tuple from
- * @return a tuple object containing the given values
- */
+/// Creates a tuple object, deducing the target type from the types of arguments.
 template <typename... Ts>
 decltype(auto) make_tuple(const Ts&... values)
 {
@@ -206,14 +160,7 @@ static void print(std::ostream& os, const Tuple<Ts...>& tuple)
  * Print
  */
 
-/**
- * @brief Output the tuple to the specified output stream.
- *
- * @tparam Ts the type of elements in the tuple, must be printable
- * @param os an output stream
- * @param tuple the tuple to be printed to the output stream
- * @return self reference of the output stream
- */
+/// Output the tuple to the specified output stream.
 template <typename... Ts>
 std::ostream& operator<<(std::ostream& os, const Tuple<Ts...>& tuple)
 {
