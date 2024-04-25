@@ -1,7 +1,7 @@
 /**
  * @file String.hpp
  * @author 青羽 (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
- * @brief String class, implemented by List of char.
+ * @brief String class.
  * @date 2023.01.08
  *
  * @copyright Copyright (C) 2023
@@ -31,16 +31,12 @@
 namespace pyincpp
 {
 
-/**
- * @brief String class, implemented by List of char.
- */
+/// String class.
 class String
 {
-    friend class Integer;
-
 private:
-    // List of characters.
-    List<char> list_;
+    // String.
+    const std::string str_;
 
     // Used for FSM.
     enum state
@@ -68,56 +64,6 @@ private:
         E_EXP = 1 << 15,       // scientific notation identifier: 'e', 'E'
         E_OTHER = 1 << 16,     // other
     };
-
-    // Use the KMP algorithm to find the position of the pattern.
-    static int kmp(const char* this_str, const char* patt_str, int n, int m)
-    {
-        if (n < m)
-        {
-            return -1;
-        }
-
-        if (m == 0) // "" is in any string at index 0.
-        {
-            return 0;
-        }
-
-        int* match = new int[m];
-        match[0] = -1;
-
-        for (int j = 1; j < m; j++)
-        {
-            int i = match[j - 1];
-            while ((i >= 0) && (patt_str[i + 1] != patt_str[j]))
-            {
-                i = match[i];
-            }
-            match[j] = (patt_str[i + 1] == patt_str[j]) ? i + 1 : -1;
-        }
-
-        int s = 0;
-        int p = 0;
-        while (s < n && p < m)
-        {
-            if (this_str[s] == patt_str[p])
-            {
-                s++;
-                p++;
-            }
-            else if (p > 0)
-            {
-                p = match[p - 1] + 1;
-            }
-            else
-            {
-                s++;
-            }
-        }
-
-        delete[] match;
-
-        return (p == m) ? (s - m) : -1;
-    }
 
     // Try to transform a character to an event.
     static event get_event(const char ch, const int base)
@@ -174,57 +120,32 @@ private:
         str = str.substr(close_bracket + 1);
     }
 
+    // Create a string from std::string.
+    String(const std::string& string)
+        : str_(string)
+    {
+    }
+
 public:
     /*
      * Constructor / Destructor
      */
 
-    /**
-     * @brief Construct a new empty string object.
-     */
-    String()
-        : list_()
-    {
-    }
+    /// Default constructor. Construct an empty deque.
+    String() = default;
 
-    /**
-     * @brief Create a string from null-terminated characters.
-     *
-     * @param chars a pointer to the null-terminated characters
-     */
+    /// Create a string from null-terminated characters.
     String(const char* chars)
-        : list_()
-    {
-        int size = std::strlen(chars);
-        list_.adjust_capacity(std::max(size, list_.INIT_CAPACITY));
-        list_.size_ = size;
-        std::copy(chars, chars + size, list_.data_);
-    }
-
-    /**
-     * @brief Copy constructor.
-     *
-     * @param that another string
-     */
-    String(const String& that)
-        : list_(that.list_)
+        : str_(chars)
     {
     }
 
-    /**
-     * @brief Move constructor.
-     *
-     * @param that another string
-     */
+    /// Copy constructor.
+    String(const String& that) = default;
+
+    /// Move constructor.
     String(String&& that)
-        : list_(std::move(that.list_))
-    {
-    }
-
-    /**
-     * @brief Destroy the string object.
-     */
-    ~String()
+        : str_(std::move(const_cast<std::string&>(that.str_)))
     {
     }
 
@@ -232,274 +153,122 @@ public:
      * Comparison
      */
 
-    /**
-     * @brief Check whether two strings are equal.
-     *
-     * @param that another string
-     * @return true if two strings are equal
-     */
-    bool operator==(const String& that) const
-    {
-        return list_ == that.list_;
-    }
-
-    /**
-     * @brief Check whether two strings are not equal.
-     *
-     * @param that another string
-     * @return true if two strings are not equal
-     */
-    bool operator!=(const String& that) const
-    {
-        return list_ != that.list_;
-    }
-
-    /**
-     * @brief Compare two strings lexicographically.
-     *
-     * @param that another string
-     * @return true if this < that
-     */
-    bool operator<(const String& that) const
-    {
-        return list_ < that.list_;
-    }
-
-    /**
-     * @brief Compare two strings lexicographically.
-     *
-     * @param that another string
-     * @return true if this <= that
-     */
-    bool operator<=(const String& that) const
-    {
-        return list_ <= that.list_;
-    }
-
-    /**
-     * @brief Compare two strings lexicographically.
-     *
-     * @param that another string
-     * @return true if this > that
-     */
-    bool operator>(const String& that) const
-    {
-        return list_ > that.list_;
-    }
-
-    /**
-     * @brief Compare two strings lexicographically.
-     *
-     * @param that another string
-     * @return true if this >= that
-     */
-    bool operator>=(const String& that) const
-    {
-        return list_ >= that.list_;
-    }
+    /// Compare the string with another string.
+    auto operator<=>(const String& that) const = default;
 
     /*
      * Assignment
      */
 
-    /**
-     * @brief Copy assignment operator.
-     *
-     * @param that another string
-     * @return self reference
-     */
+    /// Copy assignment operator.
     String& operator=(const String& that)
     {
-        list_ = that.list_;
+        if (this != &that)
+        {
+            const_cast<std::string&>(str_) = that.str_;
+        }
 
         return *this;
     }
 
-    /**
-     * @brief Move assignment operator.
-     *
-     * @param that another string
-     * @return self reference
-     */
+    /// Move assignment operator.
     String& operator=(String&& that)
     {
-        list_ = std::move(that.list_);
+        if (this != &that)
+        {
+            const_cast<std::string&>(str_) = std::move(const_cast<std::string&>(that.str_));
+        }
 
         return *this;
+    }
+
+    /*
+     * Iterator
+     */
+
+    /// Return an iterator to the first char of the string.
+    auto begin() const
+    {
+        return str_.begin();
+    }
+
+    /// Return an iterator to the char following the last char of the string.
+    auto end() const
+    {
+        return str_.end();
     }
 
     /*
      * Access
      */
 
-    /**
-     * @brief Return the reference to the element at the specified position in the string.
-     *
-     * Index can be negative, like Python's string: string[-1] gets the last element.
-     *
-     * @param index index of the element to return (-size() <= index < size())
-     * @return reference to the element at the specified position in the string
-     */
-    char& operator[](int index)
-    {
-        return list_[index];
-    }
-
-    /**
-     * @brief Return the const reference to element at the specified position in the string.
-     *
-     * Index can be negative, like Python's string: string[-1] gets the last element.
-     *
-     * @param index index of the element to return (-size() <= index < size())
-     * @return const reference to the element at the specified position in the string
-     */
+    /// Return the const reference to element at the specified position in the string.
+    /// Index can be negative, like Python's string: string[-1] gets the last element.
     const char& operator[](int index) const
     {
-        return list_[index];
-    }
+        internal::check_bounds(index, -size(), size());
 
-    /*
-     * Getter / Setter
-     */
-
-    /**
-     * @brief Get the copy of the contents of the string.
-     *
-     * @return a pointer to null-terminated characters
-     */
-    char* get() const
-    {
-        char* chars = new char[list_.size_ + 1]; // add '\0'
-        std::copy(list_.data_, list_.data_ + list_.size_, chars);
-        chars[list_.size_] = '\0';
-
-        return chars;
-    }
-
-    /**
-     * @brief Set the contents of the string using null-terminated characters.
-     *
-     * @param chars a pointer to null-terminated characters
-     */
-    void set(const char* chars)
-    {
-        int size = std::strlen(chars);
-        list_.size_ = size;
-        std::copy(chars, chars + size, list_.data_);
+        return str_[index >= 0 ? index : index + size()];
     }
 
     /*
      * Examination
      */
 
-    /**
-     * @brief Return the number of elements in the string.
-     *
-     * @return the number of elements in the string
-     */
+    /// Return the number of elements in the string.
     int size() const
     {
-        return list_.size_; // no '\0'
+        return str_.size(); // no '\0'
     }
 
-    /**
-     * @brief Return true if the string contains no elements.
-     *
-     * @return true if the string contains no elements
-     */
+    /// Return true if the string contains no elements.
     bool is_empty() const
     {
-        return list_.size_ == 0;
+        return str_.empty();
     }
 
-    /**
-     * @brief Return the index of the first occurrence of the specified pattern in the string (at or after index start and before index stop).
-     *
-     * Or -1 if the string does not contain the pattern (in the specified range).
-     *
-     * @param pattern the pattern string
-     * @param start at or after index start (default 0)
-     * @param stop before index stop (default size())
-     * @return the index of the first occurrence of the specified pattern in the string, or -1 if the string does not contain the pattern
-     */
+    /// Return the index of the first occurrence of the specified pattern in the specified range [`start`, `stop`).
+    /// Or -1 if the string does not contain the pattern (in the specified range).
     int find(const String& pattern, int start = 0, int stop = INT_MAX) const
     {
-        stop = stop > list_.size_ ? list_.size_ : stop;
+        if (start > size())
+        {
+            return -1;
+        }
 
-        char* this_str = list_.data_ + start;
-        char* patt_str = pattern.list_.data_;
-        int n = stop - start;
-        int m = pattern.list_.size_;
+        stop = stop > str_.size() ? str_.size() : stop;
+        std::string_view view(begin() + start, begin() + stop);
+        auto pos = view.find(pattern.str_.data());
 
-        int pos = kmp(this_str, patt_str, n, m);
-
-        return pos == -1 ? -1 : pos + start;
+        return pos == std::string::npos ? -1 : start + int(pos);
     }
 
-    /**
-     * @brief Return true if the string contains the specified pattern.
-     *
-     * @param pattern pattern whose presence in the string is to be tested
-     * @param start at or after index start (default 0)
-     * @param stop before index stop (default size())
-     * @return true if the string contains the specified pattern
-     */
+    /// Return `true` if the string contains the specified `pattern` in the specified range [`start`, `stop`).
     bool contains(const String& pattern, int start = 0, int stop = INT_MAX) const
     {
         return find(pattern, start, stop) != -1;
     }
 
-    /**
-     * @brief Get the smallest item of the string.
-     *
-     * @return the smallest item
-     */
-    char min() const
-    {
-        return list_.min();
-    }
-
-    /**
-     * @brief Get the largest item of the string.
-     *
-     * @return the largest item
-     */
-    char max() const
-    {
-        return list_.max();
-    }
-
-    /**
-     * @brief Count the total number of occurrences of the specified element in the string.
-     *
-     * @param element the specified element
-     * @return the total number of occurrences of the specified element in the string
-     */
+    /// Count the total number of occurrences of the specified element in the string.
     int count(const char& element) const
     {
-        return list_.count(element);
+        return std::count(begin(), end(), element);
     }
 
-    /**
-     * @brief Convert the string to a double-precision floating-point decimal number.
-     *
-     * If the string is too big to be representable will return `HUGE_VAL`.
-     *
-     * If the string represents NaN will return `NAN`.
-     *
-     * If the string represents Infinity will return `(+-)INFINITY`.
-     *
-     * Example:
-     * ```
-     * String("233.33").to_decimal(); // 233.33
-     * String("123.456e-3").to_decimal(); // 0.123456
-     * String("1e+600").to_decimal(); // HUGE_VAL
-     * String("nan").to_decimal(); // NAN
-     * String("inf").to_decimal(); // INFINITY
-     * ```
-     *
-     * @return a number that can represent the string or `HUGE_VAL` or `NAN` or `(+-)INFINITY`.
-     */
+    /// Convert the string to a double-precision floating-point decimal number.
+    ///
+    /// If the string is too big to be representable will return `HUGE_VAL`.
+    /// If the string represents NaN will return `NAN`.
+    /// If the string represents Infinity will return `(+-)INFINITY`.
+    ///
+    /// ### Example:
+    /// ```
+    /// String("233.33").to_decimal(); // 233.33
+    /// String("123.456e-3").to_decimal(); // 0.123456
+    /// String("1e+600").to_decimal(); // HUGE_VAL
+    /// String("nan").to_decimal(); // NAN
+    /// String("inf").to_decimal(); // INFINITY
+    /// ```
     double to_decimal() const
     {
         // check infinity or nan
@@ -539,9 +308,9 @@ public:
 
         // FSM
         state st = S_BEGIN_BLANK;
-        for (int i = 0; i < list_.size_; ++i)
+        for (int i = 0; i < str_.size(); ++i)
         {
-            event ev = get_event(list_.data_[i], 10);
+            event ev = get_event(str_[i], 10);
             switch (st | ev)
             {
                 case S_BEGIN_BLANK | E_BLANK:
@@ -549,7 +318,7 @@ public:
                     break;
 
                 case S_BEGIN_BLANK | E_SIGN:
-                    sign = (list_.data_[i] == '+') ? 1 : -1;
+                    sign = (str_[i] == '+') ? 1 : -1;
                     st = S_SIGN;
                     break;
 
@@ -561,7 +330,7 @@ public:
                 case S_BEGIN_BLANK | E_NUMBER:
                 case S_SIGN | E_NUMBER:
                 case S_INT_PART | E_NUMBER:
-                    decimal_part = decimal_part * 10 + char_to_integer(list_.data_[i], 10);
+                    decimal_part = decimal_part * 10 + char_to_integer(str_[i], 10);
                     st = S_INT_PART;
                     break;
 
@@ -572,7 +341,7 @@ public:
                 case S_DEC_POINT_NOT_LEFT | E_NUMBER:
                 case S_DEC_PART | E_NUMBER:
                 case S_DEC_POINT_HAS_LEFT | E_NUMBER:
-                    decimal_part = decimal_part * 10 + char_to_integer(list_.data_[i], 10);
+                    decimal_part = decimal_part * 10 + char_to_integer(str_[i], 10);
                     decimal_cnt++;
                     st = S_DEC_PART;
                     break;
@@ -584,14 +353,14 @@ public:
                     break;
 
                 case S_EXP | E_SIGN:
-                    exp_sign = (list_.data_[i] == '+') ? 1 : -1;
+                    exp_sign = (str_[i] == '+') ? 1 : -1;
                     st = S_EXP_SIGN;
                     break;
 
                 case S_EXP | E_NUMBER:
                 case S_EXP_SIGN | E_NUMBER:
                 case S_EXP_PART | E_NUMBER:
-                    exp_part = exp_part * 10 + char_to_integer(list_.data_[i], 10);
+                    exp_part = exp_part * 10 + char_to_integer(str_[i], 10);
                     st = S_EXP_PART;
                     break;
 
@@ -605,7 +374,7 @@ public:
 
                 default:
                     st = S_OTHER;
-                    i = list_.size_; // exit loop
+                    i = str_.size(); // exit loop
                     break;
             }
         }
@@ -617,21 +386,16 @@ public:
         return sign * ((decimal_part / std::pow(10, decimal_cnt)) * std::pow(10, exp_sign * exp_part));
     }
 
-    /**
-     * @brief Convert the string to an integer object based on 2-36 base.
-     *
-     * Numeric character in 36 base: 0, 1, ..., 9, A(10), ..., F(15), G(16), ..., Y(34), Z(35).
-     *
-     * Example:
-     * ```
-     * String("233").to_integer(); // 233
-     * String("cafebabe").to_integer(16); // 3405691582
-     * String("z").to_integer(36); // 35
-     * ```
-     *
-     * @param base the base of an integer (2 <= base <= 36, default 10)
-     * @return an integer object that can represent the string
-     */
+    /// Convert the string to an integer object based on 2-36 `base`.
+    ///
+    /// Numeric character in 36 base: 0, 1, ..., 9, A(10), ..., F(15), G(16), ..., Y(34), Z(35).
+    ///
+    /// ### Example:
+    /// ```
+    /// String("233").to_integer(); // 233
+    /// String("cafebabe").to_integer(16); // 3405691582
+    /// String("z").to_integer(36); // 35
+    /// ```
     Integer to_integer(int base = 10) const
     {
         // check base
@@ -645,9 +409,9 @@ public:
 
         // FSM
         state st = S_BEGIN_BLANK;
-        for (int i = 0; i < list_.size_; ++i)
+        for (int i = 0; i < str_.size(); ++i)
         {
-            event ev = get_event(list_.data_[i], base);
+            event ev = get_event(str_[i], base);
             switch (st | ev)
             {
                 case S_BEGIN_BLANK | E_BLANK:
@@ -655,14 +419,14 @@ public:
                     break;
 
                 case S_BEGIN_BLANK | E_SIGN:
-                    non_negative = (list_.data_[i] == '+') ? true : false;
+                    non_negative = (str_[i] == '+') ? true : false;
                     st = S_SIGN;
                     break;
 
                 case S_BEGIN_BLANK | E_NUMBER:
                 case S_SIGN | E_NUMBER:
                 case S_INT_PART | E_NUMBER:
-                    integer_part = integer_part * base + char_to_integer(list_.data_[i], base);
+                    integer_part = integer_part * base + char_to_integer(str_[i], base);
                     st = S_INT_PART;
                     break;
 
@@ -673,7 +437,7 @@ public:
 
                 default:
                     st = S_OTHER;
-                    i = list_.size_; // exit loop
+                    i = str_.size(); // exit loop
                     break;
             }
         }
@@ -685,403 +449,202 @@ public:
         return non_negative ? integer_part : -integer_part;
     }
 
-    /**
-     * @brief Return true if the string begins with the specified string, otherwise return false.
-     *
-     * @param str the specified string
-     * @return true if the string begins with the specified string
-     */
-    bool begin_with(const String& str) const
+    /// Return `true` if the string begins with the specified string, otherwise return `false`.
+    bool starts_with(const String& str) const
     {
-        if (size() < str.size())
-        {
-            return false;
-        }
-
-        return std::equal(list_.data_, list_.data_ + str.list_.size_, str.list_.data_);
+        return str_.starts_with(str.str_);
     }
 
-    /**
-     * @brief Return true if the string ends with the specified string, otherwise return false.
-     *
-     * @param str the specified string
-     * @return true if the string ends with the specified string
-     */
-    bool end_with(const String& str) const
+    /// Return `true` if the string ends with the specified string, otherwise return `false`.
+    bool ends_with(const String& str) const
     {
-        if (size() < str.size())
-        {
-            return false;
-        }
-
-        return std::equal(list_.data_ + list_.size_ - str.list_.size_, list_.data_ + list_.size_, str.list_.data_);
-    }
-
-    /*
-     * Manipulation
-     */
-
-    /**
-     * @brief Insert the specified element at the specified position in the string.
-     *
-     * @param index index at which the specified element is to be inserted (-size() <= index <= size())
-     * @param element element to be inserted
-     */
-    void insert(int index, const char& element)
-    {
-        list_.insert(index, element);
-    }
-
-    /**
-     * @brief Remove the element at the specified position in the string.
-     *
-     * @param index the index of the element to be removed (-size() <= index < size())
-     * @return the removed element
-     */
-    char remove(int index)
-    {
-        return list_.remove(index);
-    }
-
-    /**
-     * @brief Append the specified element to the end of the string.
-     *
-     * @param element element to be appended to the string
-     * @return self reference
-     */
-    String& operator+=(const char& element)
-    {
-        list_ += element;
-
-        return *this;
-    }
-
-    /**
-     * @brief Append the specified string to the end of the string.
-     *
-     * @param string string to be appended to the string
-     * @return self reference
-     */
-    String& operator+=(const String& string)
-    {
-        list_ += string.list_;
-
-        return *this;
-    }
-
-    /**
-     * @brief Remove the first occurrence of the specified element from the string.
-     *
-     * @param element element to be removed
-     * @return self reference
-     */
-    String& operator-=(const char& element)
-    {
-        list_ -= element;
-
-        return *this;
-    }
-
-    /**
-     * @brief Add the string to itself a certain number of times.
-     *
-     * @param times times to repeat
-     * @return self reference
-     */
-    String& operator*=(int times)
-    {
-        list_ *= times;
-
-        return *this;
-    }
-
-    /**
-     * @brief Remove all of the elements from the string.
-     *
-     * @return self reference
-     */
-    String& clear()
-    {
-        list_.clear();
-
-        return *this;
-    }
-
-    /**
-     * @brief Perform the given action for each element of the string.
-     *
-     * @tparam F function
-     * @param action a function that to be performed for each element
-     * @return self reference
-     */
-    template <typename F>
-    String& map(const F& action)
-    {
-        list_.map(action);
-
-        return *this;
-    }
-
-    /**
-     * @brief Filter the elements in the string so that the elements that meet the predicate are retained.
-     *
-     * @tparam F function
-     * @param predicate a predicate function that to be performed for each element
-     * @return self reference
-     */
-    template <typename F>
-    String& filter(const F& predicate)
-    {
-        list_.filter(predicate);
-
-        return *this;
-    }
-
-    /**
-     * @brief Reverse the string in place.
-     *
-     * @return self reference
-     */
-    String& reverse()
-    {
-        list_.reverse();
-
-        return *this;
-    }
-
-    /**
-     * @brief Eliminate duplicate elements of the string.
-     *
-     * Will not change the original relative order of elements.
-     *
-     * @return self reference
-     */
-    String& uniquify()
-    {
-        list_.uniquify();
-
-        return *this;
-    }
-
-    /**
-     * @brief Sort the string according to the order induced by the specified comparator.
-     *
-     * The sort is stable: the method must not reorder equal elements.
-     *
-     * @param comparator a function that performs compare
-     * @return self reference
-     */
-    String& sort(bool (*comparator)(const char& e1, const char& e2) = [](const char& e1, const char& e2)
-                 { return e1 < e2; })
-    {
-        list_.sort(comparator);
-
-        return *this;
-    }
-
-    /**
-     * @brief Swap the contents of two strings.
-     *
-     * @param that second string
-     * @return self reference
-     */
-    String& swap(String& that)
-    {
-        list_.swap(that.list_);
-
-        return *this;
-    }
-
-    /**
-     * @brief Convert the string to lowercase.
-     *
-     * @return self reference
-     */
-    String& lower()
-    {
-        list_.map([](char& c)
-                  { c = (c >= 'A' && c <= 'Z' ? c + ('a' - 'A') : c); });
-
-        return *this;
-    }
-
-    /**
-     * @brief Convert the string to uppercase.
-     *
-     * @return self reference
-     */
-    String& upper()
-    {
-        list_.map([](char& c)
-                  { c = (c >= 'a' && c <= 'z' ? c - ('a' - 'A') : c); });
-
-        return *this;
-    }
-
-    /**
-     * @brief Erase the contents of a range of the string.
-     *
-     * @param start start range subscript (included)
-     * @param stop stop range subscript (excluded)
-     * @return self reference
-     */
-    String& erase(int start, int stop)
-    {
-        list_.erase(start, stop);
-
-        return *this;
-    }
-
-    /**
-     * @brief Replace the string.
-     *
-     * @param old_str old substring
-     * @param new_str new substring
-     * @return self reference
-     */
-    String& replace(const String& old_str, const String& new_str)
-    {
-        String buffer;
-
-        int this_start = 0;
-        for (int patt_start = 0; (patt_start = find(old_str, this_start)) != -1; this_start = patt_start + old_str.size())
-        {
-            buffer += slice(this_start, patt_start);
-            buffer += new_str;
-        }
-        if (this_start != size())
-        {
-            buffer += slice(this_start, size());
-        }
-
-        return *this = std::move(buffer);
-    }
-
-    /**
-     * @brief Remove leading and trailing characters of the string.
-     *
-     * @param ch specified character to remove (default is blank character)
-     * @return self reference
-     */
-    String& strip(const signed char& ch = -1)
-    {
-        int i = 0;
-        while (i < list_.size_ && (ch == -1 ? list_.data_[i] <= 0x20 : list_.data_[i] == ch))
-        {
-            ++i;
-        }
-        erase(0, i);
-
-        i = list_.size_ - 1;
-        while (i >= 0 && (ch == -1 ? list_.data_[i] <= 0x20 : list_.data_[i] == ch))
-        {
-            --i;
-        }
-        erase(i + 1, list_.size_);
-
-        return *this;
-    }
-
-    /**
-     * @brief Shift the string to right n characters.
-     *
-     * @param n length of shifted characters
-     * @return self reference
-     */
-    String& operator>>=(int n)
-    {
-        list_ >>= n;
-        return *this;
-    }
-
-    /**
-     * @brief Shift the string to left n characters.
-     *
-     * @param n length of shifted characters
-     * @return self reference
-     */
-    String& operator<<=(int n)
-    {
-        list_ <<= n;
-        return *this;
+        return str_.ends_with(str.str_);
     }
 
     /*
      * Production
      */
 
-    /**
-     * @brief Return slice of the string from start to stop with certain step.
-     *
-     * Index and step length can be negative.
-     *
-     * @param start start index (included)
-     * @param stop stop index (excluded)
-     * @param step step length (default 1)
-     * @return the slice of the string
-     */
+    /// Shift the string to right `n` characters.
+    String operator>>(int n) const
+    {
+        if (size() <= 1 || n == 0)
+        {
+            return *this;
+        }
+
+        if (n < 0)
+        {
+            return *this << -n;
+        }
+
+        return *this << size() - n;
+    }
+
+    /// Shift the string to left n characters.
+    String operator<<(int n) const
+    {
+        if (size() <= 1 || n == 0)
+        {
+            return *this;
+        }
+
+        n %= size();
+
+        if (n < 0)
+        {
+            return *this >> -n;
+        }
+
+        std::string buffer(size(), 0);
+        std::rotate_copy(begin(), begin() + n, end(), buffer.begin());
+
+        return String(buffer);
+    }
+
+    /// Rerurn the reversed string.
+    String reverse() const
+    {
+        std::string buffer = str_;
+        std::reverse(buffer.begin(), buffer.end());
+
+        return buffer;
+    }
+
+    /// Return a copy of the string with all the characters converted to lowercase.
+    String lower() const
+    {
+        std::string buffer = str_;
+        std::for_each(buffer.begin(), buffer.end(), [](char& c)
+                      { c = (c >= 'A' && c <= 'Z' ? c + ('a' - 'A') : c); });
+
+        return buffer;
+    }
+
+    /// Return a copy of the string with all the characters converted to uppercase.
+    String upper() const
+    {
+        std::string buffer = str_;
+        std::for_each(buffer.begin(), buffer.end(), [](char& c)
+                      { c = (c >= 'a' && c <= 'z' ? c - ('a' - 'A') : c); });
+
+        return buffer;
+    }
+
+    /// Return a copy of the string and erase the contents of the string in the range [`start`, `stop`).
+    String erase(int start, int stop) const
+    {
+        internal::check_bounds(start, 0, size() + 1);
+        internal::check_bounds(stop, 0, size() + 1);
+
+        std::string buffer = str_;
+        buffer.erase(buffer.begin() + start, buffer.begin() + stop);
+
+        return buffer;
+    }
+
+    /// Replace the string.
+    String replace(const String& old_str, const String& new_str) const
+    {
+        std::string buffer;
+
+        int this_start = 0;
+        for (int patt_start = 0; (patt_start = find(old_str, this_start)) != -1; this_start = patt_start + old_str.size())
+        {
+            buffer += slice(this_start, patt_start).str_;
+            buffer += new_str.str_;
+        }
+        if (this_start != size())
+        {
+            buffer += slice(this_start, size()).str_;
+        }
+
+        return buffer;
+    }
+
+    /// Remove leading and trailing characters (default is blank character) of the string.
+    String strip(const signed char& ch = -1) const
+    {
+        std::string buffer = str_;
+
+        int i = 0;
+        while (i < buffer.size() && (ch == -1 ? buffer[i] <= 0x20 : buffer[i] == ch))
+        {
+            ++i;
+        }
+        buffer.erase(buffer.begin(), buffer.begin() + i);
+
+        i = buffer.size() - 1;
+        while (i >= 0 && (ch == -1 ? buffer[i] <= 0x20 : buffer[i] == ch))
+        {
+            --i;
+        }
+        buffer.erase(buffer.begin() + i + 1, buffer.end());
+
+        return buffer;
+    }
+
+    /// Return slice of the string from `start` to `stop` with certain `step`.
+    /// Index and step length can be negative.
     String slice(int start, int stop, int step = 1) const
     {
-        String string;
-        string.list_ = list_.slice(start, stop, step);
-        return string;
+        if (step == 0)
+        {
+            throw std::runtime_error("Error: Slice step can not be zero.");
+        }
+
+        internal::check_bounds(start, -size(), size());
+        internal::check_bounds(stop, -size() - 1, size() + 1);
+
+        // convert
+        start = start < 0 ? start + size() : start;
+        stop = stop < 0 ? stop + size() : stop;
+
+        // copy
+        std::string buffer;
+        for (int i = start; (step > 0) ? (i < stop) : (i > stop); i += step)
+        {
+            buffer += str_[i];
+        }
+
+        return buffer;
     }
 
-    /**
-     * @brief Generate a new string and append the specified element to the end of the string.
-     *
-     * @param element element to be appended to the string
-     * @return the generated string
-     */
+    /// Generate a new string and append the specified `element` to the end of the string.
     String operator+(const char& element) const
     {
-        return String(*this) += element;
+        return str_ + element;
     }
 
-    /**
-     * @brief Generate a new string and append the specified string to the end of the string.
-     *
-     * @param string string to be appended to the string
-     * @return the generated string
-     */
+    /// Generate a new string and append the specified `string` to the end of the string.
     String operator+(const String& string) const
     {
-        return String(*this) += string;
+        return str_ + string.str_;
     }
 
-    /**
-     * @brief Generate a new string and remove the first occurrence of the specified element from the string.
-     *
-     * @param element element to be removed
-     * @return the generated string
-     */
-    String operator-(const char& element) const
-    {
-        return String(*this) -= element;
-    }
-
-    /**
-     * @brief Generate a new string and add the string to itself a certain number of times.
-     *
-     * @param times times to repeat
-     * @return the generated string
-     */
+    /// Generate a new string and add the string to itself a certain number of `times`.
     String operator*(int times) const
     {
-        return String(*this) *= times;
+        if (times < 0)
+        {
+            throw std::runtime_error("Error: Times to repeat can not be less than zero.");
+        }
+
+        std::string buffer(size() * times, 0);
+        for (int part = 0; part < times; part++)
+        {
+            std::copy(begin(), end(), buffer.begin() + size() * part);
+        }
+
+        return buffer;
     }
 
-    /**
-     * @brief Split the string with separator.
-     *
-     * Example:
-     * ```
-     * String("one, two, three").split(", "); // ["one", "two", "three"]
-     * ```
-     *
-     * @param sep separator string (default = " ")
-     * @return a list of split strings
-     */
+    /// Split the string with separator (default = " ").
+    ///
+    /// ### Example:
+    /// ```
+    /// String("one, two, three").split(", "); // ["one", "two", "three"]
+    /// ```
     List<String> split(const String& sep = " ") const
     {
         if (sep.size() == 0)
@@ -1103,99 +666,68 @@ public:
         return str_list;
     }
 
-    /**
-     * @brief Return a string which is the concatenation of the strings in str_list.
-     *
-     * Example:
-     * ```
-     * String(".").join({"192", "168", "0", "1"}) // "192.168.0.1"
-     * ```
-     *
-     * @param str_list a list of strings
-     * @return a string which is the concatenation of the strings in str_list
-     */
+    /// Return a string which is the concatenation of the strings in `str_list`.
+    ///
+    /// ### Example:
+    /// ```
+    /// String(".").join({"192", "168", "0", "1"}) // "192.168.0.1"
+    /// ```
     String join(const List<String>& str_list) const
     {
-        if (str_list.size_ == 0)
+        if (str_list.size() == 0)
         {
             return String();
         }
 
-        if (str_list.size_ == 1)
+        if (str_list.size() == 1)
         {
-            return str_list.data_[0];
+            return str_list[0];
         }
 
-        String str;
-        for (int i = 0; i < str_list.size_ - 1; i++)
+        std::string buffer;
+        for (int i = 0; i < str_list.size() - 1; i++)
         {
-            str += str_list.data_[i];
-            str += *this;
+            buffer += str_list[i].str_;
+            buffer += str_;
         }
-        str += str_list.data_[str_list.size_ - 1];
-        return str;
+        buffer += str_list[str_list.size() - 1].str_;
+        return buffer;
     }
 
-    /**
-     * @brief Format args according to the format string, and return the result as a string.
-     *
-     * @tparam Args types of arguments
-     * @param args arguments to be formatted
-     * @return formatted string
-     */
+    /// Format `args` according to the format string, and return the result as a string.
     template <typename... Args>
     String format(const Args&... args) const
     {
         std::ostringstream oss;
-        std::string_view str(list_.data_, list_.size_);
+        std::string_view str(str_);
         (format_helper(oss, str, args), ...);
         oss << str;
         return oss.str().c_str();
     }
 
     /*
-     * Print
+     * Print / Input
      */
 
-    /**
-     * @brief Output the string to the specified output stream.
-     *
-     * @param os an output stream
-     * @param string the string to be printed to the output stream
-     * @return self reference of the output stream
-     */
+    /// Output the string to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const String& string)
     {
         os << "\"";
         for (int i = 0; i < string.size(); i++)
         {
-            os << string[i];
+            os << string.str_[i];
         }
         os << "\"";
 
         return os;
     }
+
+    /// Get a line of string from the specified input stream.
+    friend std::istream& operator>>(std::istream& is, String& string)
+    {
+        return std::getline(is, const_cast<std::string&>(string.str_));
+    }
 };
-
-/*
- * Non-member functions
- */
-
-/**
- * @brief Get a line of string from the specified input stream.
- *
- * @param is an input stream
- * @param string the string
- * @return self reference of the input stream
- */
-inline std::istream& operator>>(std::istream& is, String& string)
-{
-    std::string str;
-    std::getline(is, str);
-    string = str.c_str();
-
-    return is;
-}
 
 } // namespace pyincpp
 

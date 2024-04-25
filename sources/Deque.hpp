@@ -237,12 +237,12 @@ public:
             return *this;
         }
 
+        n %= size();
+
         if (n < 0)
         {
             return *this >>= -n;
         }
-
-        n %= size();
 
         std::rotate(deque_.begin(), deque_.begin() + n, deque_.end());
 

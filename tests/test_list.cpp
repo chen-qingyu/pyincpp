@@ -10,15 +10,7 @@ struct Person
     std::string name;
     int age;
 
-    bool operator==(const Person& that)
-    {
-        return age == that.age && name == that.name;
-    }
-
-    bool operator!=(const Person& that)
-    {
-        return !(*this == that);
-    }
+    bool operator==(const Person& that) const = default;
 
     friend std::ostream& operator<<(std::ostream& os, const Person& person)
     {
@@ -28,7 +20,6 @@ struct Person
 
 TEST_CASE("List")
 {
-    // constructor destructor size() is_empty()
     SECTION("basics")
     {
         // List()
@@ -60,7 +51,6 @@ TEST_CASE("List")
     List<int> one = {1};
     List<int> some = {1, 2, 3, 4, 5};
 
-    // operator==() operator!=() operator<() operator<=() operator>() operator>=()
     SECTION("compare")
     {
         // operator==
@@ -94,23 +84,17 @@ TEST_CASE("List")
         REQUIRE(eq_list >= some);
     }
 
-    // operator=()
-    SECTION("copy_assignment")
+    SECTION("assignment")
     {
-        some = one;
+        some = one; // copy
         REQUIRE(some == List<int>({1}));
         REQUIRE(one == List<int>({1}));
-    }
 
-    // operator=()
-    SECTION("move_assignment")
-    {
-        some = std::move(one);
-        REQUIRE(some == List<int>({1}));
+        empty = std::move(one); // move
+        REQUIRE(empty == List<int>({1}));
         REQUIRE(one == List<int>());
     }
 
-    // operator[]()
     SECTION("access")
     {
         // forward
@@ -136,7 +120,6 @@ TEST_CASE("List")
         REQUIRE_THROWS_MATCHES(some[5], std::runtime_error, Message("Error: Index out of range."));
     }
 
-    // begin() end()
     SECTION("iterator")
     {
         // empty
@@ -150,14 +133,12 @@ TEST_CASE("List")
         }
 
         // for in
-        i = 1;
-        for (const auto& e : some)
+        for (i = 1; const auto& e : some)
         {
             REQUIRE(e == i++);
         }
     }
 
-    // find() index() contains() min() max() count()
     SECTION("examination")
     {
         // find
@@ -181,18 +162,11 @@ TEST_CASE("List")
         REQUIRE(some.contains(5, 1, 99) == true);
         REQUIRE(some.contains(0, 1, 99) == false);
 
-        // min
-        REQUIRE(some.min() == 1);
-
-        // max
-        REQUIRE(some.max() == 5);
-
         // count
         REQUIRE(some.count(0) == 0);
         REQUIRE(some.count(1) == 1);
     }
 
-    // insert()
     SECTION("insert")
     {
         // check bounds
@@ -207,7 +181,7 @@ TEST_CASE("List")
         REQUIRE(empty == List<int>({1, 233, 999}));
         empty.insert(1, 5);
         REQUIRE(empty == List<int>({1, 5, 233, 999}));
-        empty.insert(-1, -1); // expand capacity
+        empty.insert(-1, -1);
         REQUIRE(empty == List<int>({1, 5, 233, -1, 999}));
 
         // check full
@@ -229,7 +203,6 @@ TEST_CASE("List")
         REQUIRE(str_list[0] == "test string");
     }
 
-    // remove()
     SECTION("remove")
     {
         // check bounds
@@ -246,7 +219,6 @@ TEST_CASE("List")
         REQUIRE_THROWS_MATCHES(some.remove(0), std::runtime_error, Message("Error: The container is empty."));
     }
 
-    // operator+=()
     SECTION("append")
     {
         // append element
@@ -262,7 +234,6 @@ TEST_CASE("List")
         REQUIRE((empty += List<int>({0, 0})) == List<int>({2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 0, 0}));
     }
 
-    // operator-=()
     SECTION("remove_element")
     {
         REQUIRE((some -= 1) == List<int>({2, 3, 4, 5}));
@@ -275,7 +246,6 @@ TEST_CASE("List")
         REQUIRE((some -= 6) == List<int>({}));
     }
 
-    // operator*=()
     SECTION("repeat")
     {
         REQUIRE_THROWS_MATCHES(some *= -1, std::runtime_error, Message("Error: Times to repeat can not be less than zero."));
@@ -285,7 +255,6 @@ TEST_CASE("List")
         REQUIRE((some *= 0) == List<int>({}));
     }
 
-    // operator/=()
     SECTION("remove_all_element")
     {
         List<int> list = {1, 2, 3, 4, 5, 4, 3, 2, 1};
@@ -300,20 +269,14 @@ TEST_CASE("List")
         REQUIRE((list /= 6) == List<int>({}));
     }
 
-    // clear()
     SECTION("clear")
     {
-        REQUIRE(some.clear() == List<int>());
-
-        // double clear
-        REQUIRE(some.clear() == List<int>());
-
-        // modify after clear
-        some += 233;
-        REQUIRE(some == List<int>({233}));
+        some.clear();
+        REQUIRE(some == List<int>());
+        some.clear(); // double clear
+        REQUIRE(some == List<int>());
     }
 
-    // map()
     SECTION("map")
     {
         some.map([](int& x)
@@ -330,7 +293,6 @@ TEST_CASE("List")
         REQUIRE(str == "1 1 1 1 1 ");
     }
 
-    // filter()
     SECTION("filter")
     {
         some.filter([](int& x)
@@ -342,7 +304,6 @@ TEST_CASE("List")
         REQUIRE(some == List<int>());
     }
 
-    // reverse()
     SECTION("reverse")
     {
         REQUIRE(empty.reverse() == empty);
@@ -350,21 +311,15 @@ TEST_CASE("List")
         REQUIRE(some.reverse() == List<int>({5, 4, 3, 2, 1}));
     }
 
-    // uniquify()
     SECTION("uniquify")
     {
         REQUIRE(List<int>({1, 2, 2, 3, 3, 3}).uniquify() == List<int>({1, 2, 3}));
         REQUIRE(List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify() == List<int>({1, 2, 3}));
 
-        List<int> many;
-        for (int i = 0; i < 10000; i++)
-        {
-            many += 0;
-        }
+        List<int> many = List<int>{0} * 10000;
         REQUIRE(many.uniquify() == List<int>({0}));
     }
 
-    // sort()
     SECTION("sort")
     {
         List<int> list = {1, 3, 5, 7, 9, 8, 6, 4, 2, 0};
@@ -403,36 +358,6 @@ TEST_CASE("List")
                                          {"Yuzu", 18}}));
     }
 
-    // swap()
-    SECTION("swap")
-    {
-        REQUIRE(one.swap(some) == List<int>({1, 2, 3, 4, 5}));
-
-        REQUIRE(one == List<int>({1, 2, 3, 4, 5}));
-        REQUIRE(some == List<int>({1}));
-    }
-
-    // adjust_capacity()
-    SECTION("adjust_capacity")
-    {
-        REQUIRE(empty.capacity() == List<int>::INIT_CAPACITY);
-        REQUIRE(empty.adjust_capacity(empty.capacity() * 2).capacity() == 8);
-        REQUIRE(empty.adjust_capacity(empty.capacity() * 2).capacity() == 16);
-        REQUIRE(empty.adjust_capacity(1).capacity() == 1);
-        REQUIRE(empty.adjust_capacity(empty.capacity() * 2).capacity() == 2);
-        REQUIRE(empty.adjust_capacity(empty.capacity() * 2).capacity() == 4);
-
-        empty += List<int>({1, 2, 3, 4, 5});
-        REQUIRE(empty.capacity() == 5);
-
-        REQUIRE_THROWS_MATCHES(empty.adjust_capacity(0), std::runtime_error, Message("Error: Capacity can not be zero."));
-
-        REQUIRE_THROWS_MATCHES(empty.adjust_capacity(2), std::runtime_error, Message("Error: Capacity can not be smaller than the size."));
-
-        REQUIRE_THROWS_MATCHES(empty.adjust_capacity(INT_MAX), std::runtime_error, Message("Error: Capacity can not be larger than the maximum capacity."));
-    }
-
-    // operator>>=() operator<<=()
     SECTION("shift")
     {
         REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= -1) == List<int>({2, 3, 4, 5, 1}));
@@ -448,7 +373,6 @@ TEST_CASE("List")
         REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= 5) == List<int>({1, 2, 3, 4, 5}));
     }
 
-    // erase()
     SECTION("erase")
     {
         REQUIRE(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(0, 1) == List<int>({2, 3, 4, 5, 6, 7}));
@@ -459,7 +383,6 @@ TEST_CASE("List")
         REQUIRE_THROWS_MATCHES(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(-1, 99), std::runtime_error, Message("Error: Index out of range."));
     }
 
-    // slice()
     SECTION("slice")
     {
         REQUIRE(some.slice(-1, 1) == List<int>({}));
@@ -487,7 +410,6 @@ TEST_CASE("List")
         REQUIRE_THROWS_MATCHES(some.slice(-7, -6), std::runtime_error, Message("Error: Index out of range."));
     }
 
-    // operator+() operator-() operator*() operator/()
     SECTION("production")
     {
         // operator+
@@ -508,7 +430,6 @@ TEST_CASE("List")
         REQUIRE(some / 6 == List<int>({1, 2, 3, 4, 5}));
     }
 
-    // operator<<()
     SECTION("print")
     {
         std::ostringstream oss;

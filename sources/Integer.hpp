@@ -43,7 +43,7 @@ private:
     // Remove leading zeros.
     Integer& remove_leading_zeros()
     {
-        while (digits_[-1] == 0 && digits_.size_ > 1)
+        while (digits_[-1] == 0 && digits_.size() > 1)
         {
             digits_.remove(-1);
         }
@@ -114,7 +114,7 @@ private:
         remove_leading_zeros();
 
         // if result is zero, set sign to 0
-        sign_ = (digits_.size_ == 1 && digits_[0] == 0) ? 0 : sign_;
+        sign_ = (digits_.size() == 1 && digits_[0] == 0) ? 0 : sign_;
     }
 
 public:
@@ -149,7 +149,7 @@ public:
 
         remove_leading_zeros();
 
-        if (digits_.size_ == 1 && digits_[0] == 0)
+        if (digits_.size() == 1 && digits_[0] == 0)
         {
             sign_ = 0;
         }
@@ -220,19 +220,19 @@ public:
 
         // the sign of two integers is the same
 
-        if (digits_.size_ != that.digits_.size_)
+        if (digits_.size() != that.digits_.size())
         {
             if (sign_ == 1)
             {
-                return digits_.size_ > that.digits_.size_ ? 1 : -1;
+                return digits_.size() > that.digits_.size() ? 1 : -1;
             }
             else
             {
-                return digits_.size_ > that.digits_.size_ ? -1 : 1;
+                return digits_.size() > that.digits_.size() ? -1 : 1;
             }
         }
 
-        for (int i = digits_.size_ - 1; i >= 0; i--)
+        for (int i = digits_.size() - 1; i >= 0; i--)
         {
             if (digits_[i] != that.digits_[i])
             {
@@ -276,7 +276,7 @@ public:
     /// Return the number of digits in the integer (based 10).
     int digits() const
     {
-        return sign_ == 0 ? 0 : digits_.size_;
+        return sign_ == 0 ? 0 : digits_.size();
     }
 
     /// Determine whether the integer is zero quickly.
@@ -301,13 +301,13 @@ public:
     /// Determine whether the integer is even quickly.
     bool is_even() const
     {
-        return digits_.data_[0] % 2 == 0;
+        return digits_[0] % 2 == 0;
     }
 
     /// Determine whether the integer is odd quickly.
     bool is_odd() const
     {
-        return digits_.data_[0] % 2 == 1;
+        return digits_[0] % 2 == 1;
     }
 
     /*
@@ -430,13 +430,13 @@ public:
         // the sign of two integers is the same and not zero
 
         // prepare variables
-        int size = std::max(digits_.size_, rhs.digits_.size_) + 1;
+        int size = std::max(digits_.size(), rhs.digits_.size()) + 1;
 
         Integer num1 = *this;
-        num1.add_leading_zeros(size - 1 - num1.digits_.size_);
+        num1.add_leading_zeros(size - 1 - num1.digits_.size());
 
         Integer num2 = rhs;
-        num2.add_leading_zeros(size - 1 - num2.digits_.size_);
+        num2.add_leading_zeros(size - 1 - num2.digits_.size());
 
         Integer result;
         result.sign_ = sign_;               // the signs are same
@@ -475,13 +475,13 @@ public:
         // the sign of two integers is the same and not zero
 
         // prepare variables
-        int size = std::max(digits_.size_, rhs.digits_.size_);
+        int size = std::max(digits_.size(), rhs.digits_.size());
 
         Integer num1 = *this;
-        num1.add_leading_zeros(size - num1.digits_.size_);
+        num1.add_leading_zeros(size - num1.digits_.size());
 
         Integer num2 = rhs;
-        num2.add_leading_zeros(size - num2.digits_.size_);
+        num2.add_leading_zeros(size - num2.digits_.size());
 
         Integer result;
         result.sign_ = sign_;                       // the signs are same
@@ -510,7 +510,7 @@ public:
         result.remove_leading_zeros();
 
         // if result is zero, set sign to 0
-        result.sign_ = ((result.digits_.size_ == 1 && result.digits_[0] == 0) ? 0 : result.sign_);
+        result.sign_ = ((result.digits_.size() == 1 && result.digits_[0] == 0) ? 0 : result.sign_);
 
         // return result
         return result;
@@ -528,7 +528,7 @@ public:
         // the sign of two integers is not zero
 
         // prepare variables
-        int size = digits_.size_ + rhs.digits_.size_;
+        int size = digits_.size() + rhs.digits_.size();
 
         Integer result;
         result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
@@ -538,9 +538,9 @@ public:
         const auto& a = digits_;
         const auto& b = rhs.digits_;
         auto& c = result.digits_;
-        for (int i = 0; i < a.size_; i++)
+        for (int i = 0; i < a.size(); i++)
         {
-            for (int j = 0; j < b.size_; j++)
+            for (int j = 0; j < b.size(); j++)
             {
                 c[i + j] += a[i] * b[j];
                 c[i + j + 1] += c[i + j] / 10;
@@ -562,7 +562,7 @@ public:
         }
 
         // if this is zero or this.abs() < rhs.abs(), just return zero
-        if (sign_ == 0 || digits_.size_ < rhs.digits_.size_)
+        if (sign_ == 0 || digits_.size() < rhs.digits_.size())
         {
             return 0;
         }
@@ -570,7 +570,7 @@ public:
         // the sign of two integers is not zero
 
         // prepare variables
-        int size = digits_.size_ - rhs.digits_.size_ + 1;
+        int size = digits_.size() - rhs.digits_.size() + 1;
 
         Integer num1 = (*this).abs();
 
@@ -596,7 +596,7 @@ public:
         }
 
         // if result is zero, set sign to 0
-        result.sign_ = ((result.digits_.size_ == 1 && result.digits_[0] == 0) ? 0 : result.sign_);
+        result.sign_ = ((result.digits_.size() == 1 && result.digits_[0] == 0) ? 0 : result.sign_);
 
         // remove leading zeros and return
         return result.remove_leading_zeros();
@@ -687,9 +687,9 @@ public:
     T to_integer() const
     {
         T result = 0;
-        for (int i = digits_.size_ - 1; i >= 0; i--)
+        for (int i = digits_.size() - 1; i >= 0; i--)
         {
-            result = result * 10 + digits_.data_[i];
+            result = result * 10 + digits_[i];
         }
         return result * sign_;
     }
