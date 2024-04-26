@@ -194,6 +194,14 @@ private:
         return index >= 0 ? data_[index] : data_[size_ + index];
     }
 
+    // Construct a list.
+    List(int size, int capacity, T* data)
+        : size_(size)
+        , capacity_(capacity)
+        , data_(data)
+    {
+    }
+
 public:
     /**
      * @brief Initial capacity.
@@ -708,10 +716,7 @@ public:
     template <typename F>
     List& map(const F& action)
     {
-        for (int i = 0; i < size_; ++i)
-        {
-            action(data_[i]);
-        }
+        std::for_each(data_, data_ + size_, action);
 
         return *this;
     }
@@ -726,16 +731,10 @@ public:
     template <typename F>
     List& filter(const F& predicate)
     {
-        List list;
-        for (int i = 0; i < size_; i++)
-        {
-            if (predicate(data_[i]))
-            {
-                list += data_[i];
-            }
-        }
+        auto it = std::copy_if(data_, data_ + size_, data_, predicate);
+        size_ = it - data_;
 
-        return *this = std::move(list);
+        return *this;
     }
 
     /**
@@ -993,15 +992,15 @@ public:
             throw std::runtime_error("Error: Times to repeat can not be less than zero.");
         }
 
-        List buffer;
-        buffer.adjust_capacity(std::max(size_ * times, INIT_CAPACITY));
+        int size = size_ * times;
+        int capacity = std::max(size, INIT_CAPACITY);
+        T* buffer = new T[capacity];
         for (int part = 0; part < times; part++)
         {
-            std::copy(data_, data_ + size_, buffer.data_ + part * size_);
+            std::copy(data_, data_ + size_, buffer + part * size_);
         }
-        buffer.size_ = size_ * times;
 
-        return buffer;
+        return List(size, capacity, buffer);
     }
 
     /**
