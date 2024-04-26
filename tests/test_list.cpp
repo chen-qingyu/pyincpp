@@ -49,6 +49,11 @@ TEST_CASE("List")
         REQUIRE(list4.size() == 0);
         REQUIRE(list4.is_empty());
 
+        // test compatibility
+        List<EqType> test = {1, 2, 3, 4, 5};
+        REQUIRE(test.size() == 5);
+        REQUIRE(!test.is_empty());
+
         // ~List()
     }
 

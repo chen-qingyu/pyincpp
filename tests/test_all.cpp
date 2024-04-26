@@ -6,7 +6,7 @@ using namespace pyincpp;
 
 TEST_CASE("All")
 {
-    Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"third", {"12345678987654321", 5}}};
+    Map<String, List<Integer>> map = {{"first", {"123", "456"}}, {"second", {"789"}}, {"third", {"12345678987654321", "5"}}};
 
     std::ostringstream oss;
     oss << map;

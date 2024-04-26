@@ -35,6 +35,11 @@ TEST_CASE("Set")
         REQUIRE(set4.size() == 0);
         REQUIRE(set4.is_empty());
 
+        // test compatibility
+        Set<EqLtType> test = {1, 2, 3, 4, 5};
+        REQUIRE(test.size() == 5);
+        REQUIRE(!test.is_empty());
+
         // ~Set()
     }
 

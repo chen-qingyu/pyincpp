@@ -10,19 +10,31 @@ TEST_CASE("Integer")
     {
         // Integer()
         Integer int1;
+        REQUIRE(int1.digits() == 0);
+        REQUIRE(int1.is_zero());
 
         // Integer(const char* chars)
         Integer int2("123456789000");
+        REQUIRE(int2.digits() == 12);
+        REQUIRE(!int2.is_zero());
         REQUIRE_THROWS_MATCHES(Integer("hello"), std::runtime_error, Message("Error: Wrong integer literal."));
 
         // Integer(int integer)
         Integer int3 = 123456789;
+        REQUIRE(int3.digits() == 9);
+        REQUIRE(!int3.is_zero());
 
-        // Integer(const Integer &that)
+        // Integer(const Integer& that)
         Integer int4(int3);
+        REQUIRE(int4.digits() == 9);
+        REQUIRE(!int4.is_zero());
 
-        // Integer(Integer &&that)
+        // Integer(Integer&& that)
         Integer int5(std::move(int4));
+        REQUIRE(int5.digits() == 9);
+        REQUIRE(!int5.is_zero());
+        REQUIRE(int4.digits() == 0);
+        REQUIRE(int4.is_zero());
 
         // ~Integer()
     }

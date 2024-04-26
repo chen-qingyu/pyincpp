@@ -35,6 +35,11 @@ TEST_CASE("Map")
         REQUIRE(map4.size() == 0);
         REQUIRE(map4.is_empty());
 
+        // test compatibility
+        Map<EqLtType, EqType> test = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}};
+        REQUIRE(test.size() == 5);
+        REQUIRE(!test.is_empty());
+
         // ~Map()
     }
 

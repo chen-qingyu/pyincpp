@@ -24,6 +24,10 @@ TEST_CASE("Tuple")
         Tuple<int, double, char> tuple4(1, 2.5, 'A');
         REQUIRE(tuple4.size() == 3);
 
+        // test compatibility
+        Tuple<EqType, EqType, EqLtType, EqLtType> test(1, 1, 1, 1);
+        REQUIRE(test.size() == 4);
+
         // ~Tuple()
     }
 

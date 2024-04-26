@@ -35,6 +35,11 @@ TEST_CASE("Deque")
         REQUIRE(deque4.size() == 0);
         REQUIRE(deque4.is_empty());
 
+        // test compatibility
+        Deque<EqType> test = {1, 2, 3, 4, 5};
+        REQUIRE(test.size() == 5);
+        REQUIRE(!test.is_empty());
+
         // ~Deque()
     }
 
