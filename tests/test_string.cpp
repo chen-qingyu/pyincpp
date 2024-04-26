@@ -114,15 +114,6 @@ TEST_CASE("String")
         REQUIRE_THROWS_MATCHES(some[5], std::runtime_error, Message("Error: Index out of range."));
     }
 
-    // get() set()
-    SECTION("get_set")
-    {
-        char* str = String("hello").get();
-        empty.set(str);
-        REQUIRE(empty == "hello");
-        delete[] str;
-    }
-
     // find()
     SECTION("find")
     {

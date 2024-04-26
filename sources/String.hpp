@@ -359,36 +359,6 @@ public:
     }
 
     /*
-     * Getter / Setter
-     */
-
-    /**
-     * @brief Get the copy of the contents of the string.
-     *
-     * @return a pointer to null-terminated characters
-     */
-    char* get() const
-    {
-        char* chars = new char[list_.size_ + 1]; // add '\0'
-        std::copy(list_.data_, list_.data_ + list_.size_, chars);
-        chars[list_.size_] = '\0';
-
-        return chars;
-    }
-
-    /**
-     * @brief Set the contents of the string using null-terminated characters.
-     *
-     * @param chars a pointer to null-terminated characters
-     */
-    void set(const char* chars)
-    {
-        int size = std::strlen(chars);
-        list_.size_ = size;
-        std::copy(chars, chars + size, list_.data_);
-    }
-
-    /*
      * Examination
      */
 
