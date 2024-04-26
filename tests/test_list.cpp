@@ -100,6 +100,18 @@ TEST_CASE("List")
         REQUIRE(one == List<int>());
     }
 
+    SECTION("iterator")
+    {
+        // empty
+        REQUIRE(empty.begin() == empty.end());
+
+        // for in
+        for (int i = 1; const auto& e : some)
+        {
+            REQUIRE(e == i++);
+        }
+    }
+
     SECTION("access")
     {
         // forward
@@ -123,25 +135,6 @@ TEST_CASE("List")
 
         // check bounds
         REQUIRE_THROWS_MATCHES(some[5], std::runtime_error, Message("Error: Index out of range."));
-    }
-
-    SECTION("iterator")
-    {
-        // empty
-        REQUIRE(empty.begin() == empty.end());
-
-        // for
-        int i = 1;
-        for (auto it = some.begin(); it != some.end(); ++it)
-        {
-            REQUIRE(*it == i++);
-        }
-
-        // for in
-        for (i = 1; const auto& e : some)
-        {
-            REQUIRE(e == i++);
-        }
     }
 
     SECTION("examination")

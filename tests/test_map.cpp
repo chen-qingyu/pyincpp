@@ -64,6 +64,18 @@ TEST_CASE("Map")
         REQUIRE(one == Map<int, std::string>());
     }
 
+    SECTION("iterator")
+    {
+        // empty
+        REQUIRE(empty.begin() == empty.end());
+
+        // for in
+        for (const auto& [k, v] : Map<int, int>({{1, 1}, {2, 4}, {3, 9}}))
+        {
+            REQUIRE(k * k == v);
+        }
+    }
+
     SECTION("access")
     {
         Map<std::string, int> map({{"one", 1}, {"two", 2}, {"three", 3}});
@@ -87,18 +99,6 @@ TEST_CASE("Map")
         // const access
         const Map<std::string, int> const_map({{"one", 1}, {"two", 2}, {"three", 3}});
         REQUIRE(const_map["one"] == 1);
-    }
-
-    SECTION("iterator")
-    {
-        // empty
-        REQUIRE(empty.begin() == empty.end());
-
-        // for in
-        for (const auto& [k, v] : Map<int, int>({{1, 1}, {2, 4}, {3, 9}}))
-        {
-            REQUIRE(k * k == v);
-        }
     }
 
     SECTION("examination")
