@@ -102,6 +102,18 @@ public:
         return vector_.end();
     }
 
+    /// Return a reverse iterator to the first element of the reversed list.
+    auto rbegin() const
+    {
+        return vector_.rbegin();
+    }
+
+    /// Return a reverse iterator to the element following the last element of the reversed list.
+    auto rend() const
+    {
+        return vector_.rend();
+    }
+
     /*
      * Access
      */
@@ -288,11 +300,11 @@ public:
     List& uniquify()
     {
         std::vector<T> buffer;
-        for (int i = 0; i < size(); i++)
+        for (const auto& e : vector_)
         {
-            if (std::find(buffer.begin(), buffer.end(), vector_[i]) == buffer.end())
+            if (std::find(buffer.begin(), buffer.end(), e) == buffer.end())
             {
-                buffer.push_back(vector_[i]);
+                buffer.push_back(e);
             }
         }
         vector_ = std::move(buffer);

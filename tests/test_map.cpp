@@ -73,12 +73,20 @@ TEST_CASE("Map")
     {
         // empty
         REQUIRE(empty.begin() == empty.end());
+        REQUIRE(empty.rbegin() == empty.rend());
 
         // for in
         for (const auto& [k, v] : Map<int, int>({{1, 1}, {2, 4}, {3, 9}}))
         {
             REQUIRE(k * k == v);
         }
+
+        // reversed for
+        auto it = some.rbegin();
+        REQUIRE(*it++ == Pair{3, "three"});
+        REQUIRE(*it++ == Pair{2, "two"});
+        REQUIRE(*it++ == Pair{1, "one"});
+        REQUIRE(it == some.rend());
     }
 
     SECTION("access")

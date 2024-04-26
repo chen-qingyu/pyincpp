@@ -91,11 +91,19 @@ TEST_CASE("Set")
     {
         // empty
         REQUIRE(empty.begin() == empty.end());
+        REQUIRE(empty.rbegin() == empty.rend());
 
         // for in
         for (int i = 1; const auto& e : some)
         {
             REQUIRE(e == i++);
+        }
+
+        // reversed for
+        int i = 5;
+        for (auto it = some.rbegin(); it != some.rend(); ++it)
+        {
+            REQUIRE(*it == i--);
         }
     }
 

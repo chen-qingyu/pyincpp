@@ -100,6 +100,18 @@ public:
         return map_.end();
     }
 
+    /// Return a reverse iterator to the first element of the reversed map.
+    auto rbegin() const
+    {
+        return map_.rbegin();
+    }
+
+    /// Return a reverse iterator to the element following the last element of the reversed map.
+    auto rend() const
+    {
+        return map_.rend();
+    }
+
     /*
      * Access
      */

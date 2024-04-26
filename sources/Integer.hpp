@@ -704,10 +704,8 @@ public:
             os << '-';
         }
 
-        for (int i = integer.digits_.size() - 1; i >= 0; i--)
-        {
-            os << (char)(integer.digits_[i] + '0');
-        }
+        std::for_each(integer.digits_.rbegin(), integer.digits_.rend(), [&](const auto& d)
+                      { os << char(d + '0'); });
 
         return os;
     }

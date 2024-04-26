@@ -121,6 +121,18 @@ public:
         return set_.end();
     }
 
+    /// Return a reverse iterator to the first element of the reversed set.
+    auto rbegin() const
+    {
+        return set_.rbegin();
+    }
+
+    /// Return a reverse iterator to the element following the last element of the reversed set.
+    auto rend() const
+    {
+        return set_.rend();
+    }
+
     /*
      * Examination
      */

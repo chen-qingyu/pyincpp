@@ -97,6 +97,18 @@ public:
         return deque_.end();
     }
 
+    /// Return a reverse iterator to the first element of the reversed deque.
+    auto rbegin() const
+    {
+        return deque_.rbegin();
+    }
+
+    /// Return a reverse iterator to the element following the last element of the reversed deque.
+    auto rend() const
+    {
+        return deque_.rend();
+    }
+
     /*
      * Access
      */

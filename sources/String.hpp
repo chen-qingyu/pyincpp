@@ -196,6 +196,18 @@ public:
         return str_.cend();
     }
 
+    /// Return a reverse iterator to the first char of the reversed string.
+    auto rbegin() const
+    {
+        return str_.rbegin();
+    }
+
+    /// Return a reverse iterator to the char following the last char of the reversed string.
+    auto rend() const
+    {
+        return str_.rend();
+    }
+
     /*
      * Access
      */
@@ -711,10 +723,8 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const String& string)
     {
         os << "\"";
-        for (int i = 0; i < string.size(); i++)
-        {
-            os << string.str_[i];
-        }
+        std::for_each(string.begin(), string.end(), [&](const char& c)
+                      { os << c; });
         os << "\"";
 
         return os;
