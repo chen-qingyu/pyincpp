@@ -27,22 +27,27 @@ TEST_CASE("List")
         REQUIRE(list1.size() == 0);
         REQUIRE(list1.is_empty());
 
-        // List(const std::initializer_list<T> &il)
+        // List(const std::initializer_list<T>& init)
         List<int> list2 = {1, 2, 3, 4, 5};
         REQUIRE(list2.size() == 5);
         REQUIRE(!list2.is_empty());
 
-        // List(const List<T> &that)
-        List<int> list3(list2);
+        // List(const InputIt& first, const InputIt& last)
+        List<int> list3(list2.begin(), list2.end());
         REQUIRE(list3.size() == 5);
         REQUIRE(!list3.is_empty());
 
-        // List(List<T> &&that)
-        List<int> list4(std::move(list3));
+        // List(const List& that)
+        List<int> list4(list3);
         REQUIRE(list4.size() == 5);
         REQUIRE(!list4.is_empty());
-        REQUIRE(list3.size() == 0);
-        REQUIRE(list3.is_empty());
+
+        // List(List&& that)
+        List<int> list5(std::move(list4));
+        REQUIRE(list5.size() == 5);
+        REQUIRE(!list5.is_empty());
+        REQUIRE(list4.size() == 0);
+        REQUIRE(list4.is_empty());
 
         // ~List()
     }

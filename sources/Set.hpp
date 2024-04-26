@@ -48,14 +48,14 @@ public:
     Set() = default;
 
     /// Construct a set with the contents of the initializer list `init`.
-    Set(const std::initializer_list<T>& il)
-        : set_(il)
+    Set(const std::initializer_list<T>& init)
+        : set_(init)
     {
     }
 
     /// Construct a set with the contents of the range [`first`, `last`).
     template <typename InputIt>
-    Set(InputIt first, InputIt last)
+    Set(const InputIt& first, const InputIt& last)
         : set_(first, last)
     {
     }

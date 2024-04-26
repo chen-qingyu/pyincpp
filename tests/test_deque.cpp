@@ -13,7 +13,7 @@ TEST_CASE("Deque")
         REQUIRE(deque1.size() == 0);
         REQUIRE(deque1.is_empty());
 
-        // Deque(const std::initializer_list<T>& il)
+        // Deque(const std::initializer_list<T>& init)
         Deque<int> deque2 = {1, 2, 3, 4, 5};
         REQUIRE(deque2.size() == 5);
         REQUIRE(!deque2.is_empty());
@@ -32,6 +32,8 @@ TEST_CASE("Deque")
         Deque<int> deque5(std::move(deque4));
         REQUIRE(deque5.size() == 5);
         REQUIRE(!deque5.is_empty());
+        REQUIRE(deque4.size() == 0);
+        REQUIRE(deque4.is_empty());
 
         // ~Deque()
     }

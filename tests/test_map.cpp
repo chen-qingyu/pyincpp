@@ -32,6 +32,8 @@ TEST_CASE("Map")
         Map<int, std::string> map5(std::move(map4));
         REQUIRE(map5.size() == 5);
         REQUIRE(!map5.is_empty());
+        REQUIRE(map4.size() == 0);
+        REQUIRE(map4.is_empty());
 
         // ~Map()
     }

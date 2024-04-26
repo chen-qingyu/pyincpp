@@ -13,7 +13,7 @@ TEST_CASE("Set")
         REQUIRE(set1.size() == 0);
         REQUIRE(set1.is_empty());
 
-        // Set(const std::initializer_list<T>& il)
+        // Set(const std::initializer_list<T>& init)
         Set<int> set2 = {1, 2, 3, 4, 5};
         REQUIRE(set2.size() == 5);
         REQUIRE(!set2.is_empty());
@@ -32,6 +32,8 @@ TEST_CASE("Set")
         Set<int> set5(std::move(set4));
         REQUIRE(set5.size() == 5);
         REQUIRE(!set5.is_empty());
+        REQUIRE(set4.size() == 0);
+        REQUIRE(set4.is_empty());
 
         // ~Set()
     }
