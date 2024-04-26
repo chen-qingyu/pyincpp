@@ -189,13 +189,13 @@ public:
     /// Return an iterator to the first char of the string.
     auto begin() const
     {
-        return str_.begin();
+        return str_.cbegin();
     }
 
     /// Return an iterator to the char following the last char of the string.
     auto end() const
     {
-        return str_.end();
+        return str_.cend();
     }
 
     /*
