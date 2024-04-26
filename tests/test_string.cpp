@@ -81,6 +81,18 @@ TEST_CASE("String")
         REQUIRE(one == "");
     }
 
+    SECTION("iterator")
+    {
+        // empty
+        REQUIRE(empty.begin() == empty.end());
+
+        // for in
+        for (char i = '1'; const auto& e : some)
+        {
+            REQUIRE(e == i++);
+        }
+    }
+
     SECTION("access")
     {
         // forward
