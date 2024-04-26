@@ -441,8 +441,8 @@ public:
         result.add_leading_zeros(size - 1); // result initially has a 0
 
         // simulate the vertical calculation
-        auto& a = num1.digits_;
-        auto& b = num2.digits_;
+        const auto& a = num1.digits_;
+        const auto& b = num2.digits_;
         auto& c = result.digits_;
         for (int i = 0; i < size - 1; i++)
         {
@@ -492,7 +492,7 @@ public:
 
         // simulate the vertical calculation, assert a >= b
         auto& a = num1.digits_;
-        auto& b = num2.digits_;
+        const auto& b = num2.digits_;
         auto& c = result.digits_;
         for (int i = 0; i < size; i++)
         {
