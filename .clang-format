@@ -1,0 +1,22 @@
+---
+Language: Cpp
+BasedOnStyle: LLVM
+UseTab: Never
+IndentWidth: 4
+TabWidth: 4
+BreakBeforeBraces: Allman
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: true
+AccessModifierOffset: -4
+NamespaceIndentation: None
+BreakConstructorInitializers: BeforeComma
+PointerAlignment: Left
+ColumnLimit: 0
+AllowShortBlocksOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: None
+AllowShortLambdasOnASingleLine: All
+ReflowComments: true
+SpacesInLineCommentPrefix: { Minimum: 1, Maximum: 1 }
+Standard: c++17
+---
+
