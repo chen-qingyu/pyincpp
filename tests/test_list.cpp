@@ -369,8 +369,18 @@ TEST_CASE("List")
                                          {"Yuzu", 18}}));
     }
 
-    SECTION("shift")
+    SECTION("rotate")
     {
+        REQUIRE((empty >>= 1) == List<int>());
+        REQUIRE((empty >>= 2) == List<int>());
+        REQUIRE((empty <<= 1) == List<int>());
+        REQUIRE((empty <<= 2) == List<int>());
+
+        REQUIRE((one >>= 1) == List<int>({1}));
+        REQUIRE((one >>= 2) == List<int>({1}));
+        REQUIRE((one <<= 1) == List<int>({1}));
+        REQUIRE((one <<= 2) == List<int>({1}));
+
         REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= -1) == List<int>({2, 3, 4, 5, 1}));
         REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 0) == List<int>({1, 2, 3, 4, 5}));
         REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 1) == List<int>({5, 1, 2, 3, 4}));

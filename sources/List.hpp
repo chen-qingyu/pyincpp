@@ -251,7 +251,7 @@ public:
         return *this;
     }
 
-    /// Shift the list to right `n` elements.
+    /// Rotate the list to right `n` elements.
     List& operator>>=(int n)
     {
         if (size() <= 1 || n == 0)
@@ -267,7 +267,7 @@ public:
         return *this <<= size() - n;
     }
 
-    /// Shift the list to left `n` elements.
+    /// Rotate the list to left `n` elements.
     List& operator<<=(int n)
     {
         if (size() <= 1 || n == 0)

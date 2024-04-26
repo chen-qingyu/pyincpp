@@ -475,7 +475,7 @@ public:
      * Production
      */
 
-    /// Shift the string to right `n` characters.
+    /// Copy and rotate the string to right `n` characters.
     String operator>>(int n) const
     {
         if (size() <= 1 || n == 0)
@@ -491,7 +491,7 @@ public:
         return *this << size() - n;
     }
 
-    /// Shift the string to left n characters.
+    /// Copy and rotate the string to left `n` characters.
     String operator<<(int n) const
     {
         if (size() <= 1 || n == 0)

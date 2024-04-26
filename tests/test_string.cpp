@@ -298,8 +298,18 @@ TEST_CASE("String")
         REQUIRE(String("'''hello'''").strip('\'') == "hello");
     }
 
-    SECTION("shift")
+    SECTION("rotate")
     {
+        REQUIRE((empty >> 1) == "");
+        REQUIRE((empty >> 2) == "");
+        REQUIRE((empty << 1) == "");
+        REQUIRE((empty << 2) == "");
+
+        REQUIRE((one >> 1) == "1");
+        REQUIRE((one >> 2) == "1");
+        REQUIRE((one << 1) == "1");
+        REQUIRE((one << 2) == "1");
+
         REQUIRE((String("ABCDEFGHIJK") >> -1) == "BCDEFGHIJKA");
         REQUIRE((String("ABCDEFGHIJK") >> 0) == "ABCDEFGHIJK");
         REQUIRE((String("ABCDEFGHIJK") >> 1) == "KABCDEFGHIJ");
