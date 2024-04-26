@@ -845,12 +845,12 @@ public:
      */
     List& operator>>=(int n)
     {
-        n %= size_;
-
         if (size_ <= 1 || n == 0)
         {
             return *this;
         }
+
+        n %= size_;
 
         if (n < 0)
         {
@@ -870,12 +870,12 @@ public:
      */
     List& operator<<=(int n)
     {
-        n %= size_;
-
         if (size_ <= 1 || n == 0)
         {
             return *this;
         }
+
+        n %= size_;
 
         if (n < 0)
         {
