@@ -282,7 +282,7 @@ public:
             return *this >>= -n;
         }
 
-        std::rotate(vector_.begin(), vector_.begin() + n, vector_.begin() + size());
+        std::rotate(vector_.begin(), vector_.begin() + n, vector_.end());
 
         return *this;
     }
@@ -300,7 +300,7 @@ public:
     List& uniquify()
     {
         std::vector<T> buffer;
-        for (const auto& e : vector_)
+        for (auto&& e : vector_)
         {
             if (std::find(buffer.begin(), buffer.end(), e) == buffer.end())
             {
@@ -379,13 +379,13 @@ public:
         stop = stop < 0 ? stop + size() : stop;
 
         // copy
-        List list;
+        std::vector<T> buffer;
         for (int i = start; (step > 0) ? (i < stop) : (i > stop); i += step)
         {
-            list += vector_[i];
+            buffer.push_back(vector_[i]);
         }
 
-        return list;
+        return buffer;
     }
 
     /// Generate a new list and append the specified `element` to the end of the list.

@@ -10,6 +10,23 @@
 #include <catch2/benchmark/catch_benchmark.hpp>
 #include <catch2/catch_test_macros.hpp>
 
+TEST_CASE("my benchmark tests")
+{
+    using namespace pyincpp;
+
+    String many = String("hello WORLD") * 10000;
+
+    BENCHMARK("String upper")
+    {
+        return many.upper(); // ~125 us -> ~10 us: using bitand/bitor
+    };
+
+    BENCHMARK("String replace")
+    {
+        return many.replace("hello", "HELLO!"); // ~720 us -> ~270 us: using substr
+    };
+}
+
 TEST_CASE("std::vector vs pyincpp::List")
 {
     BENCHMARK("std::vector constructor")
@@ -68,7 +85,7 @@ TEST_CASE("std::set vs pyincpp::Set")
 
     BENCHMARK("pyincpp::Set insert")
     {
-        return p += 6;
+        return p.add(6);
     };
 
     BENCHMARK("std::set find")
@@ -104,7 +121,7 @@ TEST_CASE("std::map vs pyincpp::Map")
 
     BENCHMARK("pyincpp::Map insert")
     {
-        return p += {6, 'F'};
+        return p.add(6, 'F');
     };
 
     BENCHMARK("std::map find")
@@ -135,12 +152,12 @@ TEST_CASE("std::string vs pyincpp::String")
 
     BENCHMARK("std::string append")
     {
-        return s += "world";
+        return s + "world";
     };
 
     BENCHMARK("pyincpp::String append")
     {
-        return p += "world";
+        return p + "world";
     };
 
     BENCHMARK("std::string access")

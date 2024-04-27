@@ -515,8 +515,8 @@ public:
     /// Rerurn the reversed string.
     String reverse() const
     {
-        std::string buffer = str_;
-        std::reverse(buffer.begin(), buffer.end());
+        std::string buffer(size(), 0);
+        std::reverse_copy(begin(), end(), buffer.begin());
 
         return buffer;
     }
@@ -526,7 +526,7 @@ public:
     {
         std::string buffer = str_;
         std::for_each(buffer.begin(), buffer.end(), [](char& c)
-                      { c = (c >= 'A' && c <= 'Z' ? c + ('a' - 'A') : c); });
+                      { c |= 0b0010'0000; });
 
         return buffer;
     }
@@ -536,7 +536,7 @@ public:
     {
         std::string buffer = str_;
         std::for_each(buffer.begin(), buffer.end(), [](char& c)
-                      { c = (c >= 'a' && c <= 'z' ? c - ('a' - 'A') : c); });
+                      { c &= 0b1101'1111; });
 
         return buffer;
     }
@@ -561,12 +561,12 @@ public:
         int this_start = 0;
         for (int patt_start = 0; (patt_start = find(old_str, this_start)) != -1; this_start = patt_start + old_str.size())
         {
-            buffer += slice(this_start, patt_start).str_;
+            buffer += str_.substr(this_start, patt_start - this_start);
             buffer += new_str.str_;
         }
         if (this_start != size())
         {
-            buffer += slice(this_start, size()).str_;
+            buffer += str_.substr(this_start);
         }
 
         return buffer;
@@ -666,11 +666,11 @@ public:
         int this_start = 0;
         for (int patt_start = 0; (patt_start = find(sep, this_start)) != -1; this_start = patt_start + sep.size())
         {
-            str_list += slice(this_start, patt_start);
+            str_list += str_.substr(this_start, patt_start - this_start);
         }
         if (this_start != size())
         {
-            str_list += slice(this_start, size());
+            str_list += str_.substr(this_start);
         }
 
         return str_list;
@@ -687,11 +687,6 @@ public:
         if (str_list.size() == 0)
         {
             return String();
-        }
-
-        if (str_list.size() == 1)
-        {
-            return str_list[0];
         }
 
         std::string buffer;
