@@ -237,6 +237,12 @@ public:
         return str_.empty();
     }
 
+    // Return const pointer to contents. This is a pointer to internal data.
+    const char* data() const
+    {
+        return str_.data();
+    }
+
     /// Return the index of the first occurrence of the specified pattern in the specified range [`start`, `stop`).
     /// Or -1 if the string does not contain the pattern (in the specified range).
     int find(const String& pattern, int start = 0, int stop = INT_MAX) const

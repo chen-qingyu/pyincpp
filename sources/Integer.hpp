@@ -33,7 +33,13 @@ class Integer
 {
 private:
     // List of digits, represent absolute value of the integer.
-    List<signed char> digits_; // base 10, little endian
+    // Base 10, little endian.
+    // Example: `12345000`
+    // ```
+    // digit: 0 0 0 5 4 3 2 1
+    // index: 0 1 2 3 4 5 6 7
+    // ```
+    List<signed char> digits_;
 
     // Sign of integer, 1 is positive, -1 is negative, and 0 is zero.
     signed char sign_;
@@ -41,10 +47,12 @@ private:
     // Remove leading zeros.
     Integer& remove_leading_zeros()
     {
-        while (digits_[-1] == 0 && digits_.size() > 1)
+        int i = digits_.size() - 1;
+        while (i >= 0 && digits_[i] == 0) // i = -1 if is zero, ok
         {
-            digits_.remove(-1);
+            --i;
         }
+        digits_.erase(i + 1, digits_.size());
 
         return *this;
     }
@@ -112,7 +120,7 @@ private:
         remove_leading_zeros();
 
         // if result is zero, set sign to 0
-        sign_ = (digits_.size() == 1 && digits_[0] == 0) ? 0 : sign_;
+        sign_ = digits_.is_empty() ? 0 : sign_;
     }
 
 public:
@@ -122,8 +130,8 @@ public:
 
     /// Construct a new zero integer object.
     Integer()
-        : digits_({0})
-        , sign_(0)
+        : digits_()
+        , sign_(0) // can't using default, cause sign_ will be -1
     {
     }
 
@@ -147,21 +155,17 @@ public:
 
         remove_leading_zeros();
 
-        if (digits_.size() == 1 && digits_[0] == 0)
-        {
-            sign_ = 0;
-        }
+        // if result is zero, set sign to 0
+        sign_ = digits_.is_empty() ? 0 : sign_;
     }
 
     /// Construct a new integer object based on the given int.
     Integer(int integer)
         : digits_()
-        , sign_()
+        , sign_(0)
     {
         if (integer == 0)
         {
-            digits_ += 0;
-            sign_ = 0;
             return;
         }
 
@@ -183,7 +187,6 @@ public:
         : digits_(std::move(that.digits_))
         , sign_(std::move(that.sign_))
     {
-        that.digits_ += 0;
         that.sign_ = 0;
     }
 
@@ -230,7 +233,7 @@ public:
             }
         }
 
-        for (int i = digits_.size() - 1; i >= 0; i--)
+        for (int i = digits_.size() - 1; i >= 0; i--) // i = -1 if is zero, ok
         {
             if (digits_[i] != that.digits_[i])
             {
@@ -261,7 +264,6 @@ public:
         digits_ = std::move(that.digits_);
         sign_ = std::move(that.sign_);
 
-        that.digits_ += 0;
         that.sign_ = 0;
 
         return *this;
@@ -274,7 +276,7 @@ public:
     /// Return the number of digits in the integer (based 10).
     int digits() const
     {
-        return sign_ == 0 ? 0 : digits_.size();
+        return digits_.size();
     }
 
     /// Determine whether the integer is zero quickly.
@@ -299,13 +301,13 @@ public:
     /// Determine whether the integer is even quickly.
     bool is_even() const
     {
-        return digits_[0] % 2 == 0;
+        return is_zero() ? true : digits_[0] % 2 == 0;
     }
 
     /// Determine whether the integer is odd quickly.
     bool is_odd() const
     {
-        return digits_[0] % 2 == 1;
+        return is_zero() ? false : digits_[0] % 2 == 1;
     }
 
     /*
@@ -345,18 +347,14 @@ public:
     /// Increment the value by 1 quickly.
     Integer& operator++()
     {
-        if (sign_ == 1)
-        {
-            abs_inc();
-        }
-        else if (sign_ == -1)
-        {
-            abs_dec();
-        }
-        else // sign_ == 0
+        if (sign_ == 0)
         {
             sign_ = 1;
-            digits_[0] = 1;
+            digits_ += 1;
+        }
+        else
+        {
+            (sign_ == 1) ? abs_inc() : abs_dec();
         }
 
         return *this;
@@ -365,18 +363,14 @@ public:
     /// Decrement the value by 1 quickly.
     Integer& operator--()
     {
-        if (sign_ == 1)
-        {
-            abs_dec();
-        }
-        else if (sign_ == -1)
-        {
-            abs_inc();
-        }
-        else // sign_ == 0
+        if (sign_ == 0)
         {
             sign_ = -1;
-            digits_[0] = 1;
+            digits_ += 1;
+        }
+        else
+        {
+            (sign_ == 1) ? abs_dec() : abs_inc();
         }
 
         return *this;
@@ -437,8 +431,8 @@ public:
         num2.add_leading_zeros(size - 1 - num2.digits_.size());
 
         Integer result;
-        result.sign_ = sign_;               // the signs are same
-        result.add_leading_zeros(size - 1); // result initially has a 0
+        result.sign_ = sign_; // the signs are same
+        result.add_leading_zeros(size);
 
         // simulate the vertical calculation
         const auto& a = num1.digits_;
@@ -486,9 +480,9 @@ public:
         if (sign_ == 1 ? num1 < num2 : num1 > num2) // let num1.abs() >= num2.abs()
         {
             std::swap(num1, num2);
-            result = -result;
+            result.sign_ = -result.sign_;
         }
-        result.add_leading_zeros(size - 1); // result initially has a 0
+        result.add_leading_zeros(size);
 
         // simulate the vertical calculation, assert a >= b
         auto& a = num1.digits_;
@@ -508,7 +502,7 @@ public:
         result.remove_leading_zeros();
 
         // if result is zero, set sign to 0
-        result.sign_ = ((result.digits_.size() == 1 && result.digits_[0] == 0) ? 0 : result.sign_);
+        result.sign_ = result.digits_.is_empty() ? 0 : result.sign_;
 
         // return result
         return result;
@@ -530,7 +524,7 @@ public:
 
         Integer result;
         result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
-        result.add_leading_zeros(size - 1);           // result initially has a 0
+        result.add_leading_zeros(size);
 
         // simulate the vertical calculation
         const auto& a = digits_;
@@ -577,7 +571,7 @@ public:
 
         Integer result;
         result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
-        result.add_leading_zeros(size - 1);           // result initially has a 0
+        result.add_leading_zeros(size);
 
         // calculation
         const auto& b = rhs.digits_;
@@ -593,11 +587,14 @@ public:
             }
         }
 
-        // if result is zero, set sign to 0
-        result.sign_ = ((result.digits_.size() == 1 && result.digits_[0] == 0) ? 0 : result.sign_);
+        // remove leading zeros
+        result.remove_leading_zeros();
 
-        // remove leading zeros and return
-        return result.remove_leading_zeros();
+        // if result is zero, set sign to 0
+        result.sign_ = result.digits_.is_empty() ? 0 : result.sign_;
+
+        // return result
+        return result;
     }
 
     /// Return this % `rhs` (not zero).
@@ -685,7 +682,7 @@ public:
     T to_integer() const
     {
         T result = 0;
-        for (int i = digits_.size() - 1; i >= 0; i--)
+        for (int i = digits_.size() - 1; i >= 0; i--) // i = -1 if is zero, ok
         {
             result = result * 10 + digits_[i];
         }
@@ -699,6 +696,11 @@ public:
     /// Output the integer to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Integer& integer)
     {
+        if (integer.sign_ == 0)
+        {
+            return os << '0';
+        }
+
         if (integer.sign_ == -1)
         {
             os << '-';

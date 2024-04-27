@@ -25,6 +25,14 @@ TEST_CASE("my benchmark tests")
     {
         return many.replace("hello", "HELLO!"); // ~720 us -> ~270 us: using substr
     };
+
+    Integer big1 = (String("1") * 10000).data();
+    Integer big2 = (String("2") * 10000).data();
+
+    BENCHMARK("Integer sub")
+    {
+        return big1 - big2; // ~72 us -> ~53 us: optimized
+    };
 }
 
 TEST_CASE("std::vector vs pyincpp::List")
