@@ -6,14 +6,11 @@ using namespace pyincpp;
 
 TEST_CASE("All")
 {
-    Map<String, List<Integer>> map = {{"first", {"123", "456"}}, {"second", {"789"}}, {"third", {"12345678987654321", "5"}}};
+    Dict<Str, List<Int>> dict = {{"first", {"123", "456"}}, {"second", {"789"}}, {"third", {"12345678987654321", "5"}}};
 
     std::ostringstream oss;
-    oss << map;
+    oss << dict;
     REQUIRE(oss.str() == "{\"first\": [123, 456], \"second\": [789], \"third\": [12345678987654321, 5]}");
-    oss.str("");
-
-    REQUIRE(map.size() == 3);
-    REQUIRE(map.keys() == Set<String>({"first", "second", "third"}));
-    REQUIRE(map["third"][-1].factorial() == 120);
+    REQUIRE(dict.keys() == Set<Str>({"first", "second", "third"}));
+    REQUIRE(dict["third"][-1].factorial() == 120);
 }

@@ -1,6 +1,6 @@
-//! @file String.hpp
+//! @file Str.hpp
 //! @author Qingyu Chen (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
-//! @brief String class.
+//! @brief Str class.
 //! @date 2023.01.08
 //!
 //! @copyright Copyright (C) 2023 - 2024
@@ -18,22 +18,22 @@
 //! You should have received a copy of the GNU General Public License
 //! along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef STRING_HPP
-#define STRING_HPP
+#ifndef STR_HPP
+#define STR_HPP
 
 #include "utility.hpp"
 
-#include "Integer.hpp"
+#include "Int.hpp"
 #include "List.hpp"
 
 namespace pyincpp
 {
 
-/// String class.
-class String
+/// Str is immutable sequence of characters.
+class Str
 {
 private:
-    // String.
+    // Immutable string.
     const std::string str_;
 
     // Used for FSM.
@@ -119,7 +119,7 @@ private:
     }
 
     // Create a string from std::string.
-    String(std::string&& string)
+    Str(std::string&& string)
         : str_(string)
     {
     }
@@ -130,19 +130,19 @@ public:
      */
 
     /// Default constructor. Construct an empty deque.
-    String() = default;
+    Str() = default;
 
     /// Create a string from null-terminated characters.
-    String(const char* chars)
+    Str(const char* chars)
         : str_(chars)
     {
     }
 
     /// Copy constructor.
-    String(const String& that) = default;
+    Str(const Str& that) = default;
 
     /// Move constructor.
-    String(String&& that)
+    Str(Str&& that)
         : str_(std::move(const_cast<std::string&>(that.str_)))
     {
     }
@@ -152,14 +152,14 @@ public:
      */
 
     /// Compare the string with another string.
-    auto operator<=>(const String& that) const = default;
+    auto operator<=>(const Str& that) const = default;
 
     /*
      * Assignment
      */
 
     /// Copy assignment operator.
-    String& operator=(const String& that)
+    Str& operator=(const Str& that)
     {
         if (this != &that)
         {
@@ -170,7 +170,7 @@ public:
     }
 
     /// Move assignment operator.
-    String& operator=(String&& that)
+    Str& operator=(Str&& that)
     {
         if (this != &that)
         {
@@ -245,7 +245,7 @@ public:
 
     /// Return the index of the first occurrence of the specified pattern in the specified range [`start`, `stop`).
     /// Or -1 if the string does not contain the pattern (in the specified range).
-    int find(const String& pattern, int start = 0, int stop = INT_MAX) const
+    int find(const Str& pattern, int start = 0, int stop = INT_MAX) const
     {
         if (start > size())
         {
@@ -260,7 +260,7 @@ public:
     }
 
     /// Return `true` if the string contains the specified `pattern` in the specified range [`start`, `stop`).
-    bool contains(const String& pattern, int start = 0, int stop = INT_MAX) const
+    bool contains(const Str& pattern, int start = 0, int stop = INT_MAX) const
     {
         return find(pattern, start, stop) != -1;
     }
@@ -279,11 +279,11 @@ public:
     ///
     /// ### Example:
     /// ```
-    /// String("233.33").to_decimal(); // 233.33
-    /// String("123.456e-3").to_decimal(); // 0.123456
-    /// String("1e+600").to_decimal(); // HUGE_VAL
-    /// String("nan").to_decimal(); // NAN
-    /// String("inf").to_decimal(); // INFINITY
+    /// Str("233.33").to_decimal(); // 233.33
+    /// Str("123.456e-3").to_decimal(); // 0.123456
+    /// Str("1e+600").to_decimal(); // HUGE_VAL
+    /// Str("nan").to_decimal(); // NAN
+    /// Str("inf").to_decimal(); // INFINITY
     /// ```
     double to_decimal() const
     {
@@ -408,11 +408,11 @@ public:
     ///
     /// ### Example:
     /// ```
-    /// String("233").to_integer(); // 233
-    /// String("cafebabe").to_integer(16); // 3405691582
-    /// String("z").to_integer(36); // 35
+    /// Str("233").to_integer(); // 233
+    /// Str("cafebabe").to_integer(16); // 3405691582
+    /// Str("z").to_integer(36); // 35
     /// ```
-    Integer to_integer(int base = 10) const
+    Int to_integer(int base = 10) const
     {
         // check base
         if (base < 2 || base > 36)
@@ -421,7 +421,7 @@ public:
         }
 
         bool non_negative = true; // default '+'
-        Integer integer_part;
+        Int integer_part;
 
         // FSM
         state st = S_BEGIN_BLANK;
@@ -466,13 +466,13 @@ public:
     }
 
     /// Return `true` if the string begins with the specified string, otherwise return `false`.
-    bool starts_with(const String& str) const
+    bool starts_with(const Str& str) const
     {
         return str_.starts_with(str.str_);
     }
 
     /// Return `true` if the string ends with the specified string, otherwise return `false`.
-    bool ends_with(const String& str) const
+    bool ends_with(const Str& str) const
     {
         return str_.ends_with(str.str_);
     }
@@ -482,7 +482,7 @@ public:
      */
 
     /// Copy and rotate the string to right `n` characters.
-    String operator>>(int n) const
+    Str operator>>(int n) const
     {
         if (size() <= 1 || n == 0)
         {
@@ -498,7 +498,7 @@ public:
     }
 
     /// Copy and rotate the string to left `n` characters.
-    String operator<<(int n) const
+    Str operator<<(int n) const
     {
         if (size() <= 1 || n == 0)
         {
@@ -519,7 +519,7 @@ public:
     }
 
     /// Rerurn the reversed string.
-    String reverse() const
+    Str reverse() const
     {
         std::string buffer(size(), 0);
         std::reverse_copy(begin(), end(), buffer.begin());
@@ -528,7 +528,7 @@ public:
     }
 
     /// Return a copy of the string with all the characters converted to lowercase.
-    String lower() const
+    Str lower() const
     {
         std::string buffer = str_;
         std::for_each(buffer.begin(), buffer.end(), [](char& c)
@@ -538,7 +538,7 @@ public:
     }
 
     /// Return a copy of the string with all the characters converted to uppercase.
-    String upper() const
+    Str upper() const
     {
         std::string buffer = str_;
         std::for_each(buffer.begin(), buffer.end(), [](char& c)
@@ -548,7 +548,7 @@ public:
     }
 
     /// Return a copy of the string and erase the contents of the string in the range [`start`, `stop`).
-    String erase(int start, int stop) const
+    Str erase(int start, int stop) const
     {
         internal::check_bounds(start, 0, size() + 1);
         internal::check_bounds(stop, 0, size() + 1);
@@ -560,7 +560,7 @@ public:
     }
 
     /// Replace the string.
-    String replace(const String& old_str, const String& new_str) const
+    Str replace(const Str& old_str, const Str& new_str) const
     {
         std::string buffer;
 
@@ -579,7 +579,7 @@ public:
     }
 
     /// Remove leading and trailing characters (default is blank character) of the string.
-    String strip(const signed char& ch = -1) const
+    Str strip(const signed char& ch = -1) const
     {
         std::string buffer = str_;
 
@@ -602,7 +602,7 @@ public:
 
     /// Return slice of the string from `start` to `stop` with certain `step`.
     /// Index and step length can be negative.
-    String slice(int start, int stop, int step = 1) const
+    Str slice(int start, int stop, int step = 1) const
     {
         if (step == 0)
         {
@@ -627,19 +627,19 @@ public:
     }
 
     /// Generate a new string and append the specified `element` to the end of the string.
-    String operator+(const char& element) const
+    Str operator+(const char& element) const
     {
         return str_ + element;
     }
 
     /// Generate a new string and append the specified `string` to the end of the string.
-    String operator+(const String& string) const
+    Str operator+(const Str& string) const
     {
         return str_ + string.str_;
     }
 
     /// Generate a new string and add the string to itself a certain number of `times`.
-    String operator*(int times) const
+    Str operator*(int times) const
     {
         if (times < 0)
         {
@@ -659,16 +659,16 @@ public:
     ///
     /// ### Example:
     /// ```
-    /// String("one, two, three").split(", "); // ["one", "two", "three"]
+    /// Str("one, two, three").split(", "); // ["one", "two", "three"]
     /// ```
-    List<String> split(const String& sep = " ") const
+    List<Str> split(const Str& sep = " ") const
     {
         if (sep.size() == 0)
         {
             throw std::runtime_error("Error: Empty separator.");
         }
 
-        List<String> str_list;
+        List<Str> str_list;
         int this_start = 0;
         for (int patt_start = 0; (patt_start = find(sep, this_start)) != -1; this_start = patt_start + sep.size())
         {
@@ -686,13 +686,13 @@ public:
     ///
     /// ### Example:
     /// ```
-    /// String(".").join({"192", "168", "0", "1"}) // "192.168.0.1"
+    /// Str(".").join({"192", "168", "0", "1"}) // "192.168.0.1"
     /// ```
-    String join(const List<String>& str_list) const
+    Str join(const List<Str>& str_list) const
     {
         if (str_list.size() == 0)
         {
-            return String();
+            return Str();
         }
 
         std::string buffer;
@@ -707,7 +707,7 @@ public:
 
     /// Format `args` according to the format string, and return the result as a string.
     template <typename... Args>
-    String format(const Args&... args) const
+    Str format(const Args&... args) const
     {
         std::ostringstream oss;
         std::string_view str(str_);
@@ -721,7 +721,7 @@ public:
      */
 
     /// Output the string to the specified output stream.
-    friend std::ostream& operator<<(std::ostream& os, const String& string)
+    friend std::ostream& operator<<(std::ostream& os, const Str& string)
     {
         os << "\"";
         std::for_each(string.begin(), string.end(), [&](const char& c)
@@ -732,7 +732,7 @@ public:
     }
 
     /// Get a line of string from the specified input stream.
-    friend std::istream& operator>>(std::istream& is, String& string)
+    friend std::istream& operator>>(std::istream& is, Str& string)
     {
         return std::getline(is, const_cast<std::string&>(string.str_));
     }
@@ -740,4 +740,4 @@ public:
 
 } // namespace pyincpp
 
-#endif // STRING_HPP
+#endif // STR_HPP

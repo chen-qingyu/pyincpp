@@ -23,12 +23,12 @@
 
 #if ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
 #include "Deque.hpp"
+#include "Dict.hpp"
 #include "Fraction.hpp"
-#include "Integer.hpp"
+#include "Int.hpp"
 #include "List.hpp"
-#include "Map.hpp"
 #include "Set.hpp"
-#include "String.hpp"
+#include "Str.hpp"
 #include "Tuple.hpp"
 
 #else

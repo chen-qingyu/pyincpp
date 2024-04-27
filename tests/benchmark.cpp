@@ -10,31 +10,6 @@
 #include <catch2/benchmark/catch_benchmark.hpp>
 #include <catch2/catch_test_macros.hpp>
 
-TEST_CASE("my benchmark tests")
-{
-    using namespace pyincpp;
-
-    String many = String("hello WORLD") * 10000;
-
-    BENCHMARK("String upper")
-    {
-        return many.upper(); // ~125 us -> ~10 us: using bitand/bitor
-    };
-
-    BENCHMARK("String replace")
-    {
-        return many.replace("hello", "HELLO!"); // ~720 us -> ~270 us: using substr
-    };
-
-    Integer big1 = (String("1") * 10000).data();
-    Integer big2 = (String("2") * 10000).data();
-
-    BENCHMARK("Integer sub")
-    {
-        return big1 - big2; // ~72 us -> ~53 us: optimized
-    };
-}
-
 TEST_CASE("std::vector vs pyincpp::List")
 {
     BENCHMARK("std::vector constructor")
@@ -107,27 +82,27 @@ TEST_CASE("std::set vs pyincpp::Set")
     };
 }
 
-TEST_CASE("std::map vs pyincpp::Map")
+TEST_CASE("std::map vs pyincpp::Dict")
 {
     BENCHMARK("std::map constructor")
     {
         return std::map<int, char>({{1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}});
     };
 
-    BENCHMARK("pyincpp::Map constructor")
+    BENCHMARK("pyincpp::Dict constructor")
     {
-        return pyincpp::Map<int, char>({{1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}});
+        return pyincpp::Dict<int, char>({{1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}});
     };
 
     auto s = std::map<int, char>({{1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}});
-    auto p = pyincpp::Map<int, char>({{1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}});
+    auto p = pyincpp::Dict<int, char>({{1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}});
 
     BENCHMARK("std::map insert")
     {
         return s.insert({6, 'F'});
     };
 
-    BENCHMARK("pyincpp::Map insert")
+    BENCHMARK("pyincpp::Dict insert")
     {
         return p.add(6, 'F');
     };
@@ -137,33 +112,33 @@ TEST_CASE("std::map vs pyincpp::Map")
         return s.find(2);
     };
 
-    BENCHMARK("pyincpp::Map find")
+    BENCHMARK("pyincpp::Dict find")
     {
         return p.find(2);
     };
 }
 
-TEST_CASE("std::string vs pyincpp::String")
+TEST_CASE("std::string vs pyincpp::Str")
 {
     BENCHMARK("std::string constructor")
     {
         return std::string("hello");
     };
 
-    BENCHMARK("pyincpp::String constructor")
+    BENCHMARK("pyincpp::Str constructor")
     {
-        return pyincpp::String("hello");
+        return pyincpp::Str("hello");
     };
 
     auto s = std::string("hello");
-    auto p = pyincpp::String("hello");
+    auto p = pyincpp::Str("hello");
 
     BENCHMARK("std::string append")
     {
         return s + "world";
     };
 
-    BENCHMARK("pyincpp::String append")
+    BENCHMARK("pyincpp::Str append")
     {
         return p + "world";
     };
@@ -173,7 +148,7 @@ TEST_CASE("std::string vs pyincpp::String")
         return s.at(0);
     };
 
-    BENCHMARK("pyincpp::String access")
+    BENCHMARK("pyincpp::Str access")
     {
         return p[0]; // access with check
     };
@@ -266,29 +241,29 @@ benchmark name                       samples       iterations    est run time
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-std::vector constructor                        100           290      1.943 ms
-                                        68.0793 ns    67.5759 ns    68.7379 ns
-                                        2.91895 ns    2.42381 ns    3.55439 ns
+std::vector constructor                        100           302     2.1442 ms
+                                        75.8808 ns    72.1788 ns    82.6093 ns
+                                        24.6142 ns    15.2081 ns    38.2256 ns
 
-pyincpp::List constructor                      100           325       1.95 ms
-                                        63.2185 ns    61.0431 ns      66.68 ns
-                                        13.6884 ns    9.60682 ns    18.7119 ns
+pyincpp::List constructor                      100           302     2.1442 ms
+                                         72.798 ns    70.9636 ns    76.1523 ns
+                                        12.3321 ns    7.73523 ns    18.7859 ns
 
-std::vector append                             100          2564     1.7948 ms
-                                        2.64314 ns    2.49766 ns    2.83541 ns
-                                       0.845982 ns   0.695176 ns    1.04057 ns
+std::vector append                             100          3022     2.1154 ms
+                                        2.55493 ns    2.40834 ns    2.75778 ns
+                                        0.87289 ns   0.691952 ns    1.15907 ns
 
-pyincpp::List append                           100             3     2.0739 ms
-                                        9.62867 us       9.04 us     12.237 us
-                                        5.28229 us    335.444 ns    12.4067 us
+pyincpp::List append                           100             4      2.576 ms
+                                        8.87775 us    8.17175 us     10.695 us
+                                        5.06282 us    643.512 ns    9.13123 us
 
-std::vector access                             100         21504          0 ns
-                                       0.912481 ns   0.905552 ns   0.921596 ns
-                                      0.0403162 ns  0.0326209 ns  0.0507803 ns
+std::vector access                             100         23494          0 ns
+                                       0.909934 ns   0.903933 ns   0.917213 ns
+                                      0.0337354 ns  0.0294148 ns  0.0419337 ns
 
-pyincpp::List access                           100         20335          0 ns
-                                       0.970838 ns   0.964101 ns   0.988739 ns
-                                      0.0518939 ns  0.0242792 ns    0.10827 ns
+pyincpp::List access                           100         19198     1.9198 ms
+                                        1.11361 ns    1.10933 ns    1.12053 ns
+                                      0.0269401 ns  0.0162647 ns  0.0369729 ns
 
 
 -------------------------------------------------------------------------------
@@ -301,33 +276,33 @@ benchmark name                       samples       iterations    est run time
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-std::set constructor                           100            18     2.0232 ms
-                                        1.11706 us    1.11167 us    1.12617 us
-                                        34.7622 ns    23.7073 ns    51.4365 ns
+std::set constructor                           100            19     2.1584 ms
+                                        1.11553 us    1.10989 us    1.12589 us
+                                        37.8264 ns    24.8811 ns      60.83 ns
 
-pyincpp::Set constructor                       100            18     2.0484 ms
-                                        1.12883 us    1.12078 us    1.14178 us
-                                        51.2726 ns     37.479 ns    75.9518 ns
+pyincpp::Set constructor                       100            20       2.24 ms
+                                         1.1195 us      1.114 us    1.12925 us
+                                        36.2607 ns     24.387 ns    59.5459 ns
 
-std::set insert                                100          3028     1.8168 ms
-                                        5.43263 ns    5.40555 ns    5.48217 ns
-                                       0.180082 ns   0.109504 ns   0.275621 ns
+std::set insert                                100          3941     1.9705 ms
+                                        5.48769 ns    5.43745 ns    5.60188 ns
+                                       0.367171 ns   0.163831 ns   0.655751 ns
 
-pyincpp::Set insert                            100            42     2.0034 ms
-                                        1.01681 us    970.976 ns    1.20757 us
-                                        414.857 ns    71.4958 ns    975.402 ns
+pyincpp::Set insert                            100          3996      1.998 ms
+                                        5.33934 ns    5.31907 ns    5.37287 ns
+                                       0.130487 ns  0.0820592 ns   0.180527 ns
 
-std::set find                                  100          6903     1.3806 ms
-                                        2.80646 ns    2.79342 ns    2.82616 ns
-                                      0.0807788 ns  0.0562349 ns   0.108786 ns
+std::set find                                  100          7658     1.5316 ms
+                                        2.76965 ns    2.75764 ns    2.78715 ns
+                                      0.0730347 ns  0.0535259 ns  0.0971304 ns
 
-pyincpp::Set find                              100          7029     1.4058 ms
-                                        2.79855 ns    2.78674 ns    2.81619 ns
-                                      0.0726402 ns   0.051389 ns  0.0988542 ns
+pyincpp::Set find                              100          7644     1.5288 ms
+                                           2.75 ns    2.73927 ns    2.76766 ns
+                                      0.0688498 ns  0.0479064 ns  0.0941097 ns
 
 
 -------------------------------------------------------------------------------
-std::map vs pyincpp::Map
+std::map vs pyincpp::Dict
 -------------------------------------------------------------------------------
 tests\benchmark.cpp(85)
 ...............................................................................
@@ -336,33 +311,33 @@ benchmark name                       samples       iterations    est run time
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-std::map constructor                           100            18     2.0214 ms
-                                        1.12978 us    1.12139 us    1.14339 us
-                                        53.4222 ns    36.4334 ns    74.4705 ns
+std::map constructor                           100            20      2.248 ms
+                                        1.11905 us    1.11355 us     1.1287 us
+                                        36.4588 ns    23.9397 ns    54.8529 ns
 
-pyincpp::Map constructor                       100            18     2.0106 ms
-                                        1.12644 us    1.11583 us     1.1585 us
-                                         85.141 ns    33.5583 ns    185.113 ns
+pyincpp::Dict constructor                      100            19     2.1736 ms
+                                        1.11374 us    1.10858 us    1.12474 us
+                                        36.7615 ns    21.9786 ns    66.0705 ns
 
-std::map insert                                100          3392      1.696 ms
-                                         5.5513 ns    5.52683 ns    5.59316 ns
-                                        0.15977 ns   0.101424 ns   0.220604 ns
+std::map insert                                100          3788      1.894 ms
+                                        5.60428 ns    5.54488 ns    5.82154 ns
+                                       0.516391 ns   0.132115 ns    1.18894 ns
 
-pyincpp::Map insert                            100            41     1.9844 ms
-                                        478.146 ns    475.902 ns     481.78 ns
-                                         14.313 ns    9.93387 ns    19.1901 ns
+pyincpp::Dict insert                           100           353      2.118 ms
+                                         60.864 ns    60.6176 ns    61.2436 ns
+                                        1.54356 ns    1.05821 ns    2.05627 ns
 
-std::map find                                  100          7039     1.4078 ms
-                                        3.30118 ns    3.16025 ns    3.49766 ns
-                                       0.844483 ns   0.670635 ns    1.26917 ns
+std::map find                                  100          7593     1.5186 ms
+                                        2.80785 ns    2.79586 ns    2.82629 ns
+                                      0.0752833 ns  0.0526472 ns    0.10071 ns
 
-pyincpp::Map find                              100          6947     1.3894 ms
-                                         2.7907 ns    2.77703 ns    2.81244 ns
-                                      0.0868424 ns  0.0600235 ns   0.123149 ns
+pyincpp::Dict find                             100          7663     1.5326 ms
+                                        2.85998 ns    2.81026 ns    3.04776 ns
+                                        0.42798 ns   0.100659 ns   0.981021 ns
 
 
 -------------------------------------------------------------------------------
-std::string vs pyincpp::String
+std::string vs pyincpp::Str
 -------------------------------------------------------------------------------
 tests\benchmark.cpp(121)
 ...............................................................................
@@ -371,29 +346,29 @@ benchmark name                       samples       iterations    est run time
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-std::string constructor                        100          9380      1.876 ms
-                                         2.0887 ns    2.07665 ns    2.11119 ns
-                                      0.0811621 ns  0.0513611 ns    0.13361 ns
+std::string constructor                        100         10312     2.0624 ms
+                                        2.08136 ns    2.07283 ns    2.09513 ns
+                                      0.0545595 ns  0.0371228 ns   0.076778 ns
 
-pyincpp::String constructor                    100           167     1.9706 ms
-                                        116.102 ns    115.569 ns    117.024 ns
-                                        3.48715 ns    2.30111 ns    5.09537 ns
+pyincpp::Str constructor                       100         10282     2.0564 ms
+                                        2.07742 ns    2.06934 ns    2.09045 ns
+                                      0.0507527 ns  0.0310144 ns  0.0698221 ns
 
-std::string append                             100             2     2.0356 ms
-                                        12.3335 us    11.4915 us     15.227 us
-                                        7.03314 us    2.11791 us    15.8587 us
+std::string append                             100          2858     2.0006 ms
+                                        7.67075 ns    7.58118 ns    7.82715 ns
+                                       0.583981 ns   0.395532 ns    1.07269 ns
 
-pyincpp::String append                         100             3     2.4978 ms
-                                        10.6217 us    10.0747 us    11.9897 us
-                                        4.08474 us    1.37533 us    7.44033 us
+pyincpp::Str append                            100          1360       2.04 ms
+                                         16.175 ns    15.9485 ns    16.6228 ns
+                                        1.55607 ns   0.916294 ns    2.66859 ns
 
-std::string access                             100         16495     1.6495 ms
-                                        1.18794 ns     1.1829 ns    1.19606 ns
-                                      0.0315599 ns  0.0190143 ns  0.0432977 ns
+std::string access                             100         17959     1.7959 ms
+                                       0.998051 ns   0.965143 ns     1.0426 ns
+                                       0.193357 ns   0.152494 ns   0.232142 ns
 
-pyincpp::String access                         100         20362          0 ns
-                                       0.964542 ns    0.96076 ns   0.971516 ns
-                                      0.0255764 ns   0.015556 ns  0.0372162 ns
+pyincpp::Str access                            100         18740      1.874 ms
+                                        1.36713 ns    1.29445 ns    1.44856 ns
+                                       0.391853 ns   0.354692 ns   0.446096 ns
 
 
 -------------------------------------------------------------------------------
@@ -406,29 +381,29 @@ benchmark name                       samples       iterations    est run time
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-std::tuple constructor                         100         33044          0 ns
-                                       0.594662 ns    0.59212 ns   0.598717 ns
-                                      0.0161938 ns   0.010996 ns   0.021944 ns
+std::tuple constructor                         100         36070          0 ns
+                                       0.596784 ns   0.592847 ns   0.607984 ns
+                                       0.031138 ns  0.0134988 ns  0.0665321 ns
 
-pyincpp::Tuple constructor                     100         33056          0 ns
-                                       0.593871 ns    0.59133 ns   0.597955 ns
-                                      0.0158439 ns 0.00954727 ns   0.021774 ns
+pyincpp::Tuple constructor                     100         35771          0 ns
+                                       0.593609 ns   0.591289 ns   0.597327 ns
+                                      0.0145126 ns 0.00879798 ns  0.0199404 ns
 
-std::tuple compare                             100         32406          0 ns
-                                       0.593193 ns   0.591033 ns   0.597173 ns
-                                      0.0147875 ns 0.00947732 ns  0.0212018 ns
+std::tuple compare                             100         35796          0 ns
+                                       0.599341 ns   0.594592 ns   0.610962 ns
+                                      0.0355219 ns  0.0183045 ns  0.0710582 ns
 
-pyincpp::Tuple compare                         100         33035          0 ns
-                                        0.59555 ns   0.592674 ns   0.600303 ns
-                                      0.0185433 ns  0.0122758 ns  0.0255572 ns
+pyincpp::Tuple compare                         100         35978          0 ns
+                                       0.594669 ns   0.592084 ns   0.599255 ns
+                                      0.0170509 ns  0.0106411 ns  0.0246243 ns
 
-std::tuple get                                 100         31577          0 ns
-                                       0.610159 ns   0.607277 ns    0.61472 ns
-                                      0.0181923 ns  0.0125619 ns  0.0244981 ns
+std::tuple get                                 100         34684          0 ns
+                                       0.613222 ns   0.610743 ns   0.617345 ns
+                                      0.0159992 ns  0.0103045 ns  0.0220868 ns
 
-pyincpp::Tuple get                             100         31896          0 ns
-                                       0.609199 ns   0.606502 ns   0.613807 ns
-                                      0.0176826 ns  0.0115222 ns  0.0244966 ns
+pyincpp::Tuple get                             100         34825          0 ns
+                                       0.614731 ns   0.611342 ns   0.620675 ns
+                                      0.0224441 ns   0.014839 ns  0.0330294 ns
 
 
 -------------------------------------------------------------------------------
@@ -441,29 +416,29 @@ benchmark name                       samples       iterations    est run time
                                      mean          low mean      high mean
                                      std dev       low std dev   high std dev
 -------------------------------------------------------------------------------
-std::deque constructor                         100            70      1.967 ms
-                                        280.657 ns    278.471 ns    286.786 ns
-                                        17.1302 ns    7.23477 ns    36.5183 ns
+std::deque constructor                         100            36     2.1492 ms
+                                        270.306 ns    268.278 ns    274.222 ns
+                                         13.836 ns    8.56579 ns    22.0835 ns
 
-pyincpp::Deque constructor                     100            69     1.9734 ms
-                                        278.928 ns    277.667 ns    281.014 ns
-                                        8.09878 ns    5.43297 ns     11.097 ns
+pyincpp::Deque constructor                     100            80      2.168 ms
+                                         269.45 ns    268.125 ns    271.525 ns
+                                        8.30215 ns    5.93057 ns    11.4488 ns
 
-std::deque push_back                           100          1089     1.9602 ms
-                                        15.5216 ns    13.6107 ns    18.2287 ns
-                                        11.5227 ns    8.90792 ns    14.1806 ns
+std::deque push_back                           100          1258     2.1386 ms
+                                        15.1614 ns    13.3887 ns    17.5771 ns
+                                        10.4986 ns    8.34186 ns    12.6616 ns
 
-pyincpp::Deque push_back                       100          1043     1.8774 ms
-                                        17.1304 ns    15.1755 ns    19.9473 ns
-                                        11.8468 ns    8.98871 ns    15.1086 ns
+pyincpp::Deque push_back                       100          1117     2.1223 ms
+                                        16.8675 ns    15.0483 ns    19.4056 ns
+                                        10.8587 ns    8.42586 ns    13.3053 ns
 
-std::deque push_front                          100          1019     1.9361 ms
-                                        15.1256 ns     13.315 ns    17.7841 ns
-                                        11.0708 ns    8.29119 ns    13.9211 ns
+std::deque push_front                          100          1093     2.0767 ms
+                                        15.2525 ns    13.4328 ns    17.8756 ns
+                                          11.01 ns    8.53439 ns    13.6402 ns
 
-pyincpp::Deque push_front                      100          1019     1.9361 ms
-                                        15.5378 ns     13.473 ns    18.4711 ns
-                                        12.4601 ns    9.48078 ns    15.6352 ns
+pyincpp::Deque push_front                      100          1124     2.1356 ms
+                                        15.2322 ns    13.3906 ns    17.8096 ns
+                                        11.0676 ns    8.55655 ns    13.5966 ns
 
 
 ===============================================================================

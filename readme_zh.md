@@ -9,7 +9,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 - 名称：PyInCpp。
 - 语言：C++ ，要求 C++20 。
 - 目标：实现一个像 Python 的内置类型一样好用的 C++ 库。
-- 模块：List, Set, Map, Integer, String, Tuple, Deque, Fraction.
+- 模块：List, Set, Dict, Int, Str, Tuple, Deque, Fraction.
 - 风格：大部分遵循 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) ，小部分基于项目规模和源码简洁性的考虑采用自己的风格。
 - 测试：使用 [Catch2](https://github.com/catchorg/Catch2) 进行了单元测试和基准测试，确保测试全部通过。
 - 安全：使用 [Dr. Memory](https://drmemory.org/) 进行了检查，确保没有安全问题。
@@ -19,7 +19,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 ### 2. 特点
 
 - 简洁：Stay simple, stay young. 在保证好用和健壮的前提下，尽量简洁，便于维护和阅读。
-- 好用：提供了许多方便的函数，比如 String 类提供了像 Python 的 str 那样的替换、分割、查找等操作，比如 List 类和 String 类都支持像 Python 那样的负数索引等等。
+- 好用：提供了许多方便的函数，比如 Str 类提供了像 Python 的 str 那样的替换、分割、查找等操作，比如 List 类和 Str 类都支持像 Python 那样的负数索引等等。
 - 健壮：安全的扩容机制，防止溢出。对容器的增删改查都有相应的检查。检查会对性能有影响，但是这个库追求的并不是性能，而是简洁，好用和健壮。
 - 优雅：经过我的精心设计，用起来可以像 Python 的内置类型一样方便。很 Pythonic。
 - 高效：和标准库重合的部分进行了性能比较，[基准测试结果](./tests/benchmark.cpp)表明性能几乎与标准库一样好。
@@ -39,9 +39,9 @@ _像 Python 的内置类型一样好用的 C++ 库_
 | --------------- | -------------------- |
 | `List<T>`       | `list`               |
 | `Set<T>`        | `set`                |
-| `Map<K, V>`     | `dict`               |
-| `Integer`       | `int`                |
-| `String`        | `str`                |
+| `Dict<K, V>`    | `dict`               |
+| `Int`           | `int`                |
+| `Str`           | `str`                |
 | `Tuple<Ts...>`  | `tuple`              |
 | `Deque<T>`      | `collections.deque`  |
 | `Fraction`      | `fractions.Fraction` |
@@ -65,32 +65,32 @@ Set<int>{5, 1} < Set<int>{1, 2, 3, 4, 5}; // true
 // intersection of Sets, support intersection, union, difference, and symmetric difference
 Set<int>{1, 2, 3, 4, 5} & Set<int>{1, 3, 5, 7, 9}; // {1, 3, 5}
 
-// Map assign value for key
-Map<String, int>{{"one", 1}, {"two", 2}, {"three", 3}}["one"] = 11; // {"one": 11, "two": 2, "three": 3}
-// Map get values
-Map<String, int>{{"one", 1}, {"two", 2}, {"three", 3}}.values(); // {1, 2, 3}
+// Dict assign value for key
+Dict<Str, int>{{"one", 1}, {"two", 2}, {"three", 3}}["one"] = 11; // {"one": 11, "two": 2, "three": 3}
+// Dict get values
+Dict<Str, int>{{"one", 1}, {"two", 2}, {"three", 3}}.values(); // {1, 2, 3}
 
-// Integer modular power, very fast
-Integer("1024").pow("1024", "100"); // 76
-// Integer factorial
-Integer("5").factorial().factorial(); // 668950291344912705758811805409037258675274633313802981029567135230163355...
+// Int modular power, very fast
+Int("1024").pow("1024", "100"); // 76
+// Int factorial
+Int("5").factorial().factorial(); // 668950291344912705758811805409037258675274633313802981029567135230163355...
 
-// convert String to floating-point number, support inf and nan
-String(".1e-2").to_decimal(); // 0.1e-2
-// convert String to integer, support base 2-36
-String("-0101").to_integer(2); // -5
-// String repeat
-String("hello! ") * 2; // "hello! hello! "
-// String replace
-String("hahaha").replace("a", "ooow~ "); // "hooow~ hooow~ hooow~ "
-// String slice
-String("12345").slice(0, 5, 2); // "135"
-// String split
-String("one, two, three").split(", "); // ["one", "two", "three"]
-// String join
-String(".").join({"192", "168", "0", "1"}); // "192.168.0.1"
-// String format
-String("I'm {}, {} years old.").format("Alice", 18); // "I'm Alice, 18 years old."
+// convert Str to floating-point number, support inf and nan
+Str(".1e-2").to_decimal(); // 0.1e-2
+// convert Str to integer, support base 2-36
+Str("-0101").to_integer(2); // -5
+// Str repeat
+Str("hello! ") * 2; // "hello! hello! "
+// Str replace
+Str("hahaha").replace("a", "ooow~ "); // "hooow~ hooow~ hooow~ "
+// Str slice
+Str("12345").slice(0, 5, 2); // "135"
+// Str split
+Str("one, two, three").split(", "); // ["one", "two", "three"]
+// Str join
+Str(".").join({"192", "168", "0", "1"}); // "192.168.0.1"
+// Str format
+Str("I'm {}, {} years old.").format("Alice", 18); // "I'm Alice, 18 years old."
 
 // Tuple index, return type different, so template function is used
 Tuple<int, double, char>(1, 2.5, 'A').get<2>(); // 'A'
@@ -113,14 +113,14 @@ Fraction(1, 2) % Fraction(1, 3); // 1/6
 PyInCpp 的优势在于把 C++ 的高性能和 Python 的易用性结合起来了，还可以方便地与其他库结合使用，比如：
 
 ```cpp
-/// 1. All types can be easily combined and print:
-Map<String, List<Integer>> map = {{"first", {"123", "456"}}, {"second", {"789"}}, {"third", {"12345678987654321", "5"}}};
-map.keys(); // {"first", "second", "third"}
-map["third"][-1].factorial(); // 120
-std::cout << map; // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
+/// 1. All types can be printed and easily combined:
+Dict<Str, List<Int>> dict = {{"first", {"123", "456"}}, {"second", {"789"}}, {"third", {"12345678987654321", "5"}}};
+std::cout << dict; // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
+dict.keys(); // {"first", "second", "third"}
+dict["third"][-1].factorial(); // 120
 
 /// 2. All container types support iterators, such as:
-for (const auto& [k, v] : Map<int, int>{{1, 1}, {2, 4}, {3, 9}})
+for (const auto& [k, v] : Dict<int, int>{{1, 1}, {2, 4}, {3, 9}})
 {
     assert(k * k == v);
 }
@@ -166,6 +166,6 @@ std::cout << t3 << std::endl; // (1, 1.5, A, hello, ((), ()))
 
 说明一下关于 inline：为了源码简洁性，我最后决定一律采用 inline 的风格。一般不会有问题，除非对程序体积有很高的要求。刚开始我是把声明和定义分开写的，但这是模板，没法分成两个文件，所以我在一个文件里分开写，一部分函数定义前面加上 inline，但是这样最后写完了看起来非常冗长，一大堆的 "template typename inline"，在看了 Java 源码后考虑再三决定全部写在类里面，也就是默认 inline 的形式。inline 只是对编译器的请求而非要求，不能 inline 的函数（比如有递归的函数）编译器是不会执行 inline 的。
 
-开发完了 Integer 类后和 GitHub 上一个有三百多 star 的大整数类 [BigInt](https://github.com/faheel/BigInt) 做了比较，结论是 pyincpp::Integer 的性能综合来看更快，同时易用性和 BigInt 差不多，而源码行数只有 BigInt 的几乎一半，并且代码也更加整洁。
+开发完了 Int 类后和 GitHub 上一个有三百多 star 的大整数类 [BigInt](https://github.com/faheel/BigInt) 做了比较，结论是 pyincpp::Int 的性能综合来看更快，同时易用性和 BigInt 差不多，而源码行数只有 BigInt 的几乎一半，并且代码也更加整洁。
 
 我这个项目用到了 FPGA 里面的独热码思想结合有限状态机，还用到了模板元编程在编译期递归实现任意可变模板参数，听着很厉害，但是不赚钱，也没多少人真的会用，属于自娱自乐，可我创造就是快乐，创造就是意义（反正我不缺钱——饿不死）。

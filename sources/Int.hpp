@@ -1,6 +1,6 @@
-//! @file Integer.hpp
+//! @file Int.hpp
 //! @author Qingyu Chen (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
-//! @brief Integer class.
+//! @brief Int class.
 //! @date 2023.01.21
 //!
 //! @copyright Copyright (C) 2023 - 2024
@@ -18,8 +18,8 @@
 //! You should have received a copy of the GNU General Public License
 //! along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef INTEGER_HPP
-#define INTEGER_HPP
+#ifndef INT_HPP
+#define INT_HPP
 
 #include "utility.hpp"
 
@@ -28,8 +28,8 @@
 namespace pyincpp
 {
 
-/// Integer class provides support for big integer arithmetic.
-class Integer
+/// Int class provides support for big integer arithmetic.
+class Int
 {
 private:
     // List of digits, represent absolute value of the integer.
@@ -45,7 +45,7 @@ private:
     signed char sign_;
 
     // Remove leading zeros.
-    Integer& remove_leading_zeros()
+    Int& remove_leading_zeros()
     {
         int i = digits_.size() - 1;
         while (i >= 0 && digits_[i] == 0) // i = -1 if is zero, ok
@@ -58,7 +58,7 @@ private:
     }
 
     // Add leading zeros.
-    Integer& add_leading_zeros(int n)
+    Int& add_leading_zeros(int n)
     {
         digits_ += List<signed char>({0}) * n;
 
@@ -129,14 +129,14 @@ public:
      */
 
     /// Construct a new zero integer object.
-    Integer()
+    Int()
         : digits_()
         , sign_(0) // can't using default, cause sign_ will be -1
     {
     }
 
     /// Construct a new integer object based on the given null-terminated characters.
-    Integer(const char* chars)
+    Int(const char* chars)
         : digits_()
         , sign_()
     {
@@ -160,7 +160,7 @@ public:
     }
 
     /// Construct a new integer object based on the given int.
-    Integer(int integer)
+    Int(int integer)
         : digits_()
         , sign_(0)
     {
@@ -180,10 +180,10 @@ public:
     }
 
     /// Copy constructor.
-    Integer(const Integer& that) = default;
+    Int(const Int& that) = default;
 
     /// Move constructor.
-    Integer(Integer&& that)
+    Int(Int&& that)
         : digits_(std::move(that.digits_))
         , sign_(std::move(that.sign_))
     {
@@ -195,13 +195,13 @@ public:
      */
 
     /// Determine whether this integer is equal to another integer.
-    bool operator==(const Integer& that) const
+    bool operator==(const Int& that) const
     {
         return sign_ == that.sign_ && digits_ == that.digits_;
     }
 
     /// Compare the integer with another integer.
-    auto operator<=>(const Integer& that) const
+    auto operator<=>(const Int& that) const
     {
         if (sign_ != that.sign_)
         {
@@ -256,10 +256,10 @@ public:
      */
 
     /// Copy assignment operator.
-    Integer& operator=(const Integer& that) = default;
+    Int& operator=(const Int& that) = default;
 
     /// Move assignment operator.
-    Integer& operator=(Integer&& that)
+    Int& operator=(Int&& that)
     {
         digits_ = std::move(that.digits_);
         sign_ = std::move(that.sign_);
@@ -315,37 +315,37 @@ public:
      */
 
     /// Return this += `rhs`.
-    Integer& operator+=(const Integer& rhs)
+    Int& operator+=(const Int& rhs)
     {
         return *this = *this + rhs;
     }
 
     /// Return this -= `rhs`.
-    Integer& operator-=(const Integer& rhs)
+    Int& operator-=(const Int& rhs)
     {
         return *this = *this - rhs;
     }
 
     /// Return this *= `rhs`.
-    Integer& operator*=(const Integer& rhs)
+    Int& operator*=(const Int& rhs)
     {
         return *this = *this * rhs;
     }
 
     /// Return this /= `rhs` (not zero).
-    Integer& operator/=(const Integer& rhs)
+    Int& operator/=(const Int& rhs)
     {
         return *this = *this / rhs;
     }
 
     /// Return this %= `rhs` (not zero).
-    Integer& operator%=(const Integer& rhs)
+    Int& operator%=(const Int& rhs)
     {
         return *this = *this % rhs;
     }
 
     /// Increment the value by 1 quickly.
-    Integer& operator++()
+    Int& operator++()
     {
         if (sign_ == 0)
         {
@@ -361,7 +361,7 @@ public:
     }
 
     /// Decrement the value by 1 quickly.
-    Integer& operator--()
+    Int& operator--()
     {
         if (sign_ == 0)
         {
@@ -381,27 +381,27 @@ public:
      */
 
     /// Return the copy of this.
-    Integer operator+() const
+    Int operator+() const
     {
         return *this;
     }
 
     /// Return the opposite value of this.
-    Integer operator-() const
+    Int operator-() const
     {
-        Integer num = *this;
+        Int num = *this;
         num.sign_ = -num.sign_;
         return num;
     }
 
     /// Return the absolute value of this.
-    Integer abs() const
+    Int abs() const
     {
         return sign_ == -1 ? -*this : *this;
     }
 
     /// Return this + `rhs`.
-    Integer operator+(const Integer& rhs) const
+    Int operator+(const Int& rhs) const
     {
         // if one of the operands is zero, just return another one
         if (sign_ == 0 || rhs.sign_ == 0)
@@ -424,13 +424,13 @@ public:
         // prepare variables
         int size = std::max(digits_.size(), rhs.digits_.size()) + 1;
 
-        Integer num1 = *this;
+        Int num1 = *this;
         num1.add_leading_zeros(size - 1 - num1.digits_.size());
 
-        Integer num2 = rhs;
+        Int num2 = rhs;
         num2.add_leading_zeros(size - 1 - num2.digits_.size());
 
-        Integer result;
+        Int result;
         result.sign_ = sign_; // the signs are same
         result.add_leading_zeros(size);
 
@@ -450,7 +450,7 @@ public:
     }
 
     /// Return this - `rhs`.
-    Integer operator-(const Integer& rhs) const
+    Int operator-(const Int& rhs) const
     {
         // if one of the operands is zero
         if (sign_ == 0 || rhs.sign_ == 0)
@@ -469,13 +469,13 @@ public:
         // prepare variables
         int size = std::max(digits_.size(), rhs.digits_.size());
 
-        Integer num1 = *this;
+        Int num1 = *this;
         num1.add_leading_zeros(size - num1.digits_.size());
 
-        Integer num2 = rhs;
+        Int num2 = rhs;
         num2.add_leading_zeros(size - num2.digits_.size());
 
-        Integer result;
+        Int result;
         result.sign_ = sign_;                       // the signs are same
         if (sign_ == 1 ? num1 < num2 : num1 > num2) // let num1.abs() >= num2.abs()
         {
@@ -509,7 +509,7 @@ public:
     }
 
     /// Return this * `rhs`.
-    Integer operator*(const Integer& rhs) const
+    Int operator*(const Int& rhs) const
     {
         // if one of the operands is zero, just return zero
         if (sign_ == 0 || rhs.sign_ == 0)
@@ -522,7 +522,7 @@ public:
         // prepare variables
         int size = digits_.size() + rhs.digits_.size();
 
-        Integer result;
+        Int result;
         result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
         result.add_leading_zeros(size);
 
@@ -545,7 +545,7 @@ public:
     }
 
     /// Return this / `rhs` (not zero).
-    Integer operator/(const Integer& rhs) const
+    Int operator/(const Int& rhs) const
     {
         // if rhs is zero, throw an exception
         if (rhs.sign_ == 0)
@@ -564,12 +564,12 @@ public:
         // prepare variables
         int size = digits_.size() - rhs.digits_.size() + 1;
 
-        Integer num1 = (*this).abs();
+        Int num1 = (*this).abs();
 
-        Integer tmp;   // intermediate variable for rhs * 10^i
+        Int tmp;       // intermediate variable for rhs * 10^i
         tmp.sign_ = 1; // positive
 
-        Integer result;
+        Int result;
         result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
         result.add_leading_zeros(size);
 
@@ -598,13 +598,13 @@ public:
     }
 
     /// Return this % `rhs` (not zero).
-    Integer operator%(const Integer& rhs) const
+    Int operator%(const Int& rhs) const
     {
         return *this - (*this / rhs) * rhs;
     }
 
     /// Return `(this**exp) % mod` (`mod` default = 0 means does not perform module).
-    Integer pow(const Integer& exp, const Integer& mod = 0) const
+    Int pow(const Int& exp, const Int& mod = 0) const
     {
         if (exp.is_negative())
         {
@@ -613,9 +613,9 @@ public:
 
         // fast power algorithm
 
-        Integer num = *this;
-        Integer n = exp;
-        Integer result = 1; // this**0 == 1
+        Int num = *this;
+        Int n = exp;
+        Int result = 1; // this**0 == 1
 
         while (!n.is_zero())
         {
@@ -630,15 +630,15 @@ public:
     }
 
     /// Return the factorial of this.
-    Integer factorial() const
+    Int factorial() const
     {
         if (sign_ == -1)
         {
             throw std::runtime_error("Error: Negative integer have no factorial.");
         }
 
-        Integer result = 1;                           // 0! == 1
-        for (Integer i = *this; i.is_positive(); --i) // fast judgement, fast decrement
+        Int result = 1;                           // 0! == 1
+        for (Int i = *this; i.is_positive(); --i) // fast judgement, fast decrement
         {
             result *= i;
         }
@@ -646,7 +646,7 @@ public:
     }
 
     /// Return the square root of this.
-    Integer sqrt() const
+    Int sqrt() const
     {
         if (sign_ == -1)
         {
@@ -664,8 +664,8 @@ public:
 
         // using Newton's method
         // as far as possible to reduce the number of iterations
-        Integer cur_sqrt = *this / 2;
-        Integer pre_sqrt = 2;
+        Int cur_sqrt = *this / 2;
+        Int pre_sqrt = 2;
 
         while (cur_sqrt != pre_sqrt)
         {
@@ -694,7 +694,7 @@ public:
      */
 
     /// Output the integer to the specified output stream.
-    friend std::ostream& operator<<(std::ostream& os, const Integer& integer)
+    friend std::ostream& operator<<(std::ostream& os, const Int& integer)
     {
         if (integer.sign_ == 0)
         {
@@ -718,10 +718,10 @@ public:
  */
 
 /// Calculate the greatest common divisor of two integers using Euclidean algorithm.
-inline Integer gcd(const Integer& int1, const Integer& int2)
+inline Int gcd(const Int& int1, const Int& int2)
 {
-    Integer a = int1;
-    Integer b = int2;
+    Int a = int1;
+    Int b = int2;
 
     while (!b.is_zero()) // a, b = b, a % b until b == 0
     {
@@ -734,7 +734,7 @@ inline Integer gcd(const Integer& int1, const Integer& int2)
 }
 
 /// Calculate the least common multiple of two integers.
-inline Integer lcm(const Integer& int1, const Integer& int2)
+inline Int lcm(const Int& int1, const Int& int2)
 {
     if (int1.is_zero() || int2.is_zero())
     {
@@ -745,7 +745,7 @@ inline Integer lcm(const Integer& int1, const Integer& int2)
 }
 
 /// Get an integer from the specified input stream.
-inline std::istream& operator>>(std::istream& is, Integer& integer)
+inline std::istream& operator>>(std::istream& is, Int& integer)
 {
     std::string str;
     is >> str;
@@ -756,4 +756,4 @@ inline std::istream& operator>>(std::istream& is, Integer& integer)
 
 } // namespace pyincpp
 
-#endif // INTEGER_HPP
+#endif // INT_HPP

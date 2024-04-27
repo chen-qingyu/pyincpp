@@ -9,7 +9,7 @@ _A C++ type library that is as easy to use as Python built-in types._
 - Name: PyInCpp.
 - Language: C++, requires C++20.
 - Goal: Write a C++ type library that is as easy to use as Python built-in types.
-- Module: List, Set, Map, Integer, String, Tuple, Deque, Fraction
+- Module: List, Set, Dict, Int, Str, Tuple, Deque, Fraction
 - Style: Most follow the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html), a small portion adopt their own style based on project size and source code simplicity considerations.
 - Test: Using [Catch2](https://github.com/catchorg/Catch2) for unit testing and benchmark testing and ensure that all tests passed.
 - Security: Using [Dr. Memory](https://drmemory.org/) checked to ensure there were no safety issues.
@@ -19,7 +19,7 @@ _A C++ type library that is as easy to use as Python built-in types._
 ### 2. Feature
 
 - Simple: Stay simple, stay young. While ensuring usability and robustness, try to be concise and easy to maintain and read.
-- Friendly: Provides many convenient functions. For example, String class provides replace, split, find and other operations like Python's str, and List class and String class both support negative index like Python.
+- Friendly: Provides many convenient functions. For example, Str class provides replace, split, find and other operations like Python's str, and List class and Str class both support negative index like Python.
 - Robust: A secure expansion mechanism to prevent overflow. There are corresponding checks for the addition, deletion, modification, and inspection of containers. Checking will have an impact on performance, but this library is not pursuing performance, but simplicity, usability, and robustness.
 - Elegance: With my careful design, it can be used as conveniently as Python's built-in types. Very Pythonic.
 - Efficiency: Performance comparison was conducted on the parts that overlap with the standard library, and the [benchmark results](./tests/benchmark.cpp) showed that the performance almost as good as the standard library.
@@ -39,9 +39,9 @@ There are a total of 8 classes for now, refer to the 8 commonly used classes in 
 | --------------- | -------------------- |
 | `List<T>`       | `list`               |
 | `Set<T>`        | `set`                |
-| `Map<K, V>`     | `dict`               |
-| `Integer`       | `int`                |
-| `String`        | `str`                |
+| `Dict<K, V>`    | `dict`               |
+| `Int`           | `int`                |
+| `Str`           | `str`                |
 | `Tuple<Ts...>`  | `tuple`              |
 | `Deque<T>`      | `collections.deque`  |
 | `Fraction`      | `fractions.Fraction` |
@@ -65,32 +65,32 @@ Set<int>{5, 1} < Set<int>{1, 2, 3, 4, 5}; // true
 // intersection of Sets, support intersection, union, difference, and symmetric difference
 Set<int>{1, 2, 3, 4, 5} & Set<int>{1, 3, 5, 7, 9}; // {1, 3, 5}
 
-// Map assign value for key
-Map<String, int>{{"one", 1}, {"two", 2}, {"three", 3}}["one"] = 11; // {"one": 11, "two": 2, "three": 3}
-// Map get values
-Map<String, int>{{"one", 1}, {"two", 2}, {"three", 3}}.values(); // {1, 2, 3}
+// Dict assign value for key
+Dict<Str, int>{{"one", 1}, {"two", 2}, {"three", 3}}["one"] = 11; // {"one": 11, "two": 2, "three": 3}
+// Dict get values
+Dict<Str, int>{{"one", 1}, {"two", 2}, {"three", 3}}.values(); // {1, 2, 3}
 
-// Integer modular power, very fast
-Integer("1024").pow("1024", "100"); // 76
-// Integer factorial
-Integer("5").factorial().factorial(); // 668950291344912705758811805409037258675274633313802981029567135230163355...
+// Int modular power, very fast
+Int("1024").pow("1024", "100"); // 76
+// Int factorial
+Int("5").factorial().factorial(); // 668950291344912705758811805409037258675274633313802981029567135230163355...
 
-// convert String to floating-point number, support inf and nan
-String(".1e-2").to_decimal(); // 0.1e-2
-// convert String to integer, support base 2-36
-String("-0101").to_integer(2); // -5
-// String repeat
-String("hello! ") * 2; // "hello! hello! "
-// String replace
-String("hahaha").replace("a", "ooow~ "); // "hooow~ hooow~ hooow~ "
-// String slice
-String("12345").slice(0, 5, 2); // "135"
-// String split
-String("one, two, three").split(", "); // ["one", "two", "three"]
-// String join
-String(".").join({"192", "168", "0", "1"}); // "192.168.0.1"
-// String format
-String("I'm {}, {} years old.").format("Alice", 18); // "I'm Alice, 18 years old."
+// convert Str to floating-point number, support inf and nan
+Str(".1e-2").to_decimal(); // 0.1e-2
+// convert Str to integer, support base 2-36
+Str("-0101").to_integer(2); // -5
+// Str repeat
+Str("hello! ") * 2; // "hello! hello! "
+// Str replace
+Str("hahaha").replace("a", "ooow~ "); // "hooow~ hooow~ hooow~ "
+// Str slice
+Str("12345").slice(0, 5, 2); // "135"
+// Str split
+Str("one, two, three").split(", "); // ["one", "two", "three"]
+// Str join
+Str(".").join({"192", "168", "0", "1"}); // "192.168.0.1"
+// Str format
+Str("I'm {}, {} years old.").format("Alice", 18); // "I'm Alice, 18 years old."
 
 // Tuple index, return type different, so template function is used
 Tuple<int, double, char>(1, 2.5, 'A').get<2>(); // 'A'
@@ -113,14 +113,14 @@ Fraction(1, 2) % Fraction(1, 3); // 1/6
 The advantage of PyInCpp is that it combines the high performance of C++ with the ease of use of Python, and can also be easily combined with other libraries, for example:
 
 ```cpp
-/// 1. All types can be easily combined and print:
-Map<String, List<Integer>> map = {{"first", {"123", "456"}}, {"second", {"789"}}, {"third", {"12345678987654321", "5"}}};
-map.keys(); // {"first", "second", "third"}
-map["third"][-1].factorial(); // 120
-std::cout << map; // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
+/// 1. All types can be printed and easily combined:
+Dict<Str, List<Int>> dict = {{"first", {"123", "456"}}, {"second", {"789"}}, {"third", {"12345678987654321", "5"}}};
+std::cout << dict; // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
+dict.keys(); // {"first", "second", "third"}
+dict["third"][-1].factorial(); // 120
 
 /// 2. All container types support iterators, such as:
-for (const auto& [k, v] : Map<int, int>{{1, 1}, {2, 4}, {3, 9}})
+for (const auto& [k, v] : Dict<int, int>{{1, 1}, {2, 4}, {3, 9}})
 {
     assert(k * k == v);
 }
@@ -166,6 +166,6 @@ It was originally developed in C to learn data structures. Then the 2021 started
 
 A word about inline: for the sake of source brevity, I finally decided to adopt the inline style. There is usually no problem unless there is a high requirement for program size. At first I wrote the declaration and the definition separately, but this is a template, so I can't split it into two files, so I'm going to write it in one file, and I'm going to put inline in front of some of the function definitions, but it ended up being a verbose bunch of "template typename inline". After reading the Java source code, I decided to write it all in the class, as the default inline. Inline is just a request to the compiler, not a requirement, and functions that can not be inline (such as recursive functions) are not executed by the compiler.
 
-After developing the Integer class, I compared it to [BigInt](https://github.com/faheel/BigInt), a big integer class on GitHub with more than 300 stars, and the conclusion is that pyincpp::Integer has a faster overall performance, while its ease of use is similar to BigInt, and the number of source code lines is almost half of BigInt, and the code is also cleaner.
+After developing the Int class, I compared it to [BigInt](https://github.com/faheel/BigInt), a big integer class on GitHub with more than 300 stars, and the conclusion is that pyincpp::Int has a faster overall performance, while its ease of use is similar to BigInt, and the number of source code lines is almost half of BigInt, and the code is also cleaner.
 
 In this project, I used the One-hot code idea in FPGA combined with the finite state machine. I also used template meta-programming to recursively implement any variable template parameters at compile time. It sounds great, but it doesn't make money, not many people really use, just belong to self-entertainment now, but creation is happiness, creation is meaning.
