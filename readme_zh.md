@@ -7,7 +7,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 ### 1. 属性
 
 - 名称：PyInCpp。
-- 语言：C++ ，要求 C++17 。
+- 语言：C++ ，要求 C++20 。
 - 目标：实现一个像 Python 的内置类型一样好用的 C++ 库。
 - 模块：List, Set, Map, Integer, String, Tuple, Deque, Fraction.
 - 风格：大部分遵循 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) ，小部分基于项目规模和源码简洁性的考虑采用自己的风格。
@@ -19,10 +19,10 @@ _像 Python 的内置类型一样好用的 C++ 库_
 ### 2. 特点
 
 - 简洁：Stay simple, stay young. 在保证好用和健壮的前提下，尽量简洁，便于维护和阅读。
-- 好用：提供了许多方便的函数，比如 String 类提供了像 Python 的 str 那样的替换、分割、查找等操作，比如 List 类和 String 类都支持像 Python 那样的负数下标等等。
+- 好用：提供了许多方便的函数，比如 String 类提供了像 Python 的 str 那样的替换、分割、查找等操作，比如 List 类和 String 类都支持像 Python 那样的负数索引等等。
 - 健壮：安全的扩容机制，防止溢出。对容器的增删改查都有相应的检查。检查会对性能有影响，但是这个库追求的并不是性能，而是简洁，好用和健壮。
 - 优雅：经过我的精心设计，用起来可以像 Python 的内置类型一样方便。很 Pythonic。
-- 高效：和标准库重合的部分进行了性能比较，[基准测试结果](./tests/benchmark.cpp)表明性能并不差。
+- 高效：和标准库重合的部分进行了性能比较，[基准测试结果](./tests/benchmark.cpp)表明性能几乎与标准库一样好。
 
 ### 3. 用法
 
@@ -51,82 +51,81 @@ _像 Python 的内置类型一样好用的 C++ 库_
 ```cpp
 using namespace pyincpp;
 
-// 列表索引，支持负数下标
-List<int>({1, 2, 3, 4, 5})[-1] // 5
-// 列表遍历
-List<int>({1, 2, 3, 4, 5}).map([](int& x) { x *= 2; }) // [2, 4, 6, 8, 10]
-// 列表去重
-List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify() // [1, 2, 3]
-// 列表排序，稳定排序，默认从小到大，可自定义比较器
-List<int>({1, 2, 3, 4, 5, 6, 7, 8, 9}).sort([](const int& e1, const int& e2) { return e1 > e2; }) // [9, 8, 7, 6, 5, 4, 3, 2, 1]
+// List support negative index
+List<int>{1, 2, 3, 4, 5}[-1]; // 5
+// List traversal
+List<int>{1, 2, 3, 4, 5}.map([](int& x) { x *= 2; }); // [2, 4, 6, 8, 10]
+// List uniquify
+List<int>{1, 2, 3, 1, 2, 3, 1, 2, 3}.uniquify(); // [1, 2, 3]
+// List sort, stable sort, default from small to large, customizable comparator
+List<int>{1, 2, 3, 4, 5}.sort([](const int& e1, const int& e2) { return e1 > e2; }); // [5, 4, 3, 2, 1]
 
-// 集合添加元素
-Set<int>({1, 2, 3, 4}) += 5 // {1, 2, 3, 4, 5}
-// 集合求交集，交、并、差、对称差（异或）都支持
-Set<int>({1, 2, 3, 4, 5}) & Set<int>({1, 3, 5, 7, 9}) // {1, 3, 5}
+// test whether a Set is proper subset of another Set
+Set<int>{5, 1} < Set<int>{1, 2, 3, 4, 5}; // true
+// intersection of Sets, support intersection, union, difference, and symmetric difference
+Set<int>{1, 2, 3, 4, 5} & Set<int>{1, 3, 5, 7, 9}; // {1, 3, 5}
 
-// 字典根据键赋值
-Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}})["one"] = 1111 // {"one": 1111, "two": 2, "three": 3}
-// 字典取值集合
-Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}}).values() // {1, 2, 3}
+// Map assign value for key
+Map<String, int>{{"one", 1}, {"two", 2}, {"three", 3}}["one"] = 11; // {"one": 11, "two": 2, "three": 3}
+// Map get values
+Map<String, int>{{"one", 1}, {"two", 2}, {"three", 3}}.values(); // {1, 2, 3}
 
-// 整数幂取模，非常快
-Integer("1024").pow("1024", "100") // 76
-// 整数求阶乘
-Integer("5").factorial().factorial() // 668950291344912705758811805409037258675274633313802981029567135230163355...
+// Integer modular power, very fast
+Integer("1024").pow("1024", "100"); // 76
+// Integer factorial
+Integer("5").factorial().factorial(); // 668950291344912705758811805409037258675274633313802981029567135230163355...
 
-// 字符串转浮点数，支持 inf 和 nan
-String(".1e-2").to_decimal() // 0.1e-2
-// 字符串转整数，支持 2-36 进制
-String("-0101").to_integer(2) // -5
-// 字符串追加
-String("hello") += " world!" // "hello world!"
-// 字符串重复
-String("hello! ") *= 2 // "hello! hello! "
-// 字符串替换
-String("hahaha").replace("a", "ooow~ ") // "hooow~ hooow~ hooow~ "
-// 字符串切片
-String("12345").slice(0, 5, 2) // "135"
-// 字符串分割
-String("one, two, three").split(", ") // ["one", "two", "three"]
-// 字符串合并
-String(".").join({"192", "168", "0", "1"}) // "192.168.0.1"
-// 字符串格式化
-String("I'm {}, {} years old.").format("Alice", 18) // "I'm Alice, 18 years old."
+// convert String to floating-point number, support inf and nan
+String(".1e-2").to_decimal(); // 0.1e-2
+// convert String to integer, support base 2-36
+String("-0101").to_integer(2); // -5
+// String repeat
+String("hello! ") * 2; // "hello! hello! "
+// String replace
+String("hahaha").replace("a", "ooow~ "); // "hooow~ hooow~ hooow~ "
+// String slice
+String("12345").slice(0, 5, 2); // "135"
+// String split
+String("one, two, three").split(", "); // ["one", "two", "three"]
+// String join
+String(".").join({"192", "168", "0", "1"}); // "192.168.0.1"
+// String format
+String("I'm {}, {} years old.").format("Alice", 18); // "I'm Alice, 18 years old."
 
-// 元组索引，返回类型不同所以使用模板函数
-Tuple<int, double, char>(1, 2.5, 'A').get<2>() // 'A'
-// 元组取剩余部分，底层是指针转换，非常快
-Tuple<int, double, char>(1, 2.5, 'A').rest() // (2.5, 'A')
+// Tuple index, return type different, so template function is used
+Tuple<int, double, char>(1, 2.5, 'A').get<2>(); // 'A'
+// take the remaining part of the Tuple, the underlying layer is pointer conversion, which is very fast
+Tuple<int, double, char>(1, 2.5, 'A').rest(); // (2.5, 'A')
 
-// 双端队列尾部入栈，头部、尾部入栈、出栈、引用都支持
-Deque<int>({1, 2, 3, 4}).push_back(5) // <1, 2, 3, 4, 5>
-// 双端队列向右移位，很生动形象有木有！
-Deque<int>({1, 2, 3, 4, 5}) >>= 1 // <5, 1, 2, 3, 4>
+// Deque element reference
+Deque<int>{1, 2, 3, 4, 5}.front(); // 1
+// Deque rotate to right (or left), very vivid!
+Deque<int>{1, 2, 3, 4, 5} >>= 1; // <5, 1, 2, 3, 4>
 
-// 分数相加
-Fraction(1, 2) + Fraction(1, 3) // 5/6
-// 分数取模
-Fraction(1, 2) % Fraction(1, 3) // 1/6
-
-// 任意嵌套多层类型
-Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {"12345678987654321", 5}}}
-    // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
-map.size() // 3
-map.keys() // {"first", "second", "third"}
-map["third"][-1].factorial() // 120
+// Fraction addition
+Fraction(1, 2) + Fraction(1, 3); // 5/6
+// Fraction modulo
+Fraction(1, 2) % Fraction(1, 3); // 1/6
 ```
-
-如果您想在 Rust 中使用类似的库，请参阅：[PyInRs](https://github.com/chen-qingyu/pyinrs).
 
 ### 4. 优势
 
 PyInCpp 的优势在于把 C++ 的高性能和 Python 的易用性结合起来了，还可以方便地与其他库结合使用，比如：
 
 ```cpp
-/*
-Combining pyincpp::Fraction with Eigen library to display accurate matrix operation results.
-*/
+/// 1. All types can be easily combined and print:
+Map<String, List<Integer>> map = {{"first", {"123", "456"}}, {"second", {"789"}}, {"third", {"12345678987654321", "5"}}};
+map.keys(); // {"first", "second", "third"}
+map["third"][-1].factorial(); // 120
+std::cout << map; // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
+
+/// 2. All container types support iterators, such as:
+for (const auto& [k, v] : Map<int, int>{{1, 1}, {2, 4}, {3, 9}})
+{
+    assert(k * k == v);
+}
+
+/// 3. Combining pyincpp::Fraction with Eigen library to display accurate matrix.
 using Matrix = Eigen::Matrix<pyincpp::Fraction, 2, 2>; // compiling with boost::rational will fail
 
 Matrix A = Matrix{{1, 2}, {3, 4}};
@@ -140,9 +139,7 @@ std::cout << ((A + B) * (C + D)).inverse() << std::endl;
   5/3    -2/3
 */
 
-/*
-boost::rational vs pyincpp::Fraction
-*/
+/// 4. boost::rational vs pyincpp::Fraction
 boost::rational<int> r1(1, 2), r2(1, 3), r3(1, 4), r4(1, 5);
 pyincpp::Fraction f1(1, 2), f2(1, 3), f3(1, 4), f4(1, 5);
 
@@ -151,9 +148,7 @@ std::cout << ((r1 + r2) * r3 / r4) << std::endl; // 25/24
 std::cout << ((f1 + f2) * f3 / f4) << std::endl; // 25/24
 std::cout << ((f1 + f2) * f3 % f4) << std::endl; // 1/120
 
-/*
-std::tuple vs boost::tuple vs pyincpp::Tuple
-*/
+/// 5. std::tuple vs boost::tuple vs pyincpp::Tuple
 auto t1 = std::make_tuple(1, 1.5, 'A', "hello", std::tuple<std::tuple<>, std::tuple<>>({}, {}));
 auto t2 = boost::make_tuple(1, 1.5, 'A', "hello", boost::tuple<boost::tuple<>, boost::tuple<>>({}, {}));
 auto t3 = pyincpp::make_tuple(1, 1.5, 'A', "hello", pyincpp::Tuple<pyincpp::Tuple<>, pyincpp::Tuple<>>({}, {}));
@@ -162,6 +157,8 @@ auto t3 = pyincpp::make_tuple(1, 1.5, 'A', "hello", pyincpp::Tuple<pyincpp::Tupl
 std::cout << t2 << std::endl; // (1 1.5 A hello (() ()))
 std::cout << t3 << std::endl; // (1, 1.5, A, hello, ((), ()))
 ```
+
+如果您想在 Rust 中使用类似的库，请参阅：[PyInRs](https://github.com/chen-qingyu/pyinrs).
 
 ### 5. 历史
 

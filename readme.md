@@ -7,7 +7,7 @@ _A C++ type library that is as easy to use as Python built-in types._
 ### 1. Attribute
 
 - Name: PyInCpp.
-- Language: C++, requires C++17.
+- Language: C++, requires C++20.
 - Goal: Write a C++ type library that is as easy to use as Python built-in types.
 - Module: List, Set, Map, Integer, String, Tuple, Deque, Fraction
 - Style: Most follow the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html), a small portion adopt their own style based on project size and source code simplicity considerations.
@@ -19,10 +19,10 @@ _A C++ type library that is as easy to use as Python built-in types._
 ### 2. Feature
 
 - Simple: Stay simple, stay young. While ensuring usability and robustness, try to be concise and easy to maintain and read.
-- Friendly: Provides many convenient functions. For example, String class provides replace, split, find and other operations like Python's str, and List class and String class both support negative subscript like Python.
+- Friendly: Provides many convenient functions. For example, String class provides replace, split, find and other operations like Python's str, and List class and String class both support negative index like Python.
 - Robust: A secure expansion mechanism to prevent overflow. There are corresponding checks for the addition, deletion, modification, and inspection of containers. Checking will have an impact on performance, but this library is not pursuing performance, but simplicity, usability, and robustness.
 - Elegance: With my careful design, it can be used as conveniently as Python's built-in types. Very Pythonic.
-- Efficiency: Performance comparison was conducted on the parts that overlap with the standard library, and the [benchmark results](./tests/benchmark.cpp) showed that the performance was not poor.
+- Efficiency: Performance comparison was conducted on the parts that overlap with the standard library, and the [benchmark results](./tests/benchmark.cpp) showed that the performance almost as good as the standard library.
 
 ### 3. Usage
 
@@ -51,82 +51,81 @@ Some simple examples:
 ```cpp
 using namespace pyincpp;
 
-// List index, supports negative subscript
-List<int>({1, 2, 3, 4, 5})[-1] // 5
+// List support negative index
+List<int>{1, 2, 3, 4, 5}[-1]; // 5
 // List traversal
-List<int>({1, 2, 3, 4, 5}).map([](int& x) { x *= 2; }) // [2, 4, 6, 8, 10]
+List<int>{1, 2, 3, 4, 5}.map([](int& x) { x *= 2; }); // [2, 4, 6, 8, 10]
 // List uniquify
-List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify() // [1, 2, 3]
-// List sorting, stable sorting, default from small to large, customizable comparator
-List<int>({1, 2, 3, 4, 5, 6, 7, 8, 9}).sort([](const int& e1, const int& e2) { return e1 > e2; }) // [9, 8, 7, 6, 5, 4, 3, 2, 1]
+List<int>{1, 2, 3, 1, 2, 3, 1, 2, 3}.uniquify(); // [1, 2, 3]
+// List sort, stable sort, default from small to large, customizable comparator
+List<int>{1, 2, 3, 4, 5}.sort([](const int& e1, const int& e2) { return e1 > e2; }); // [5, 4, 3, 2, 1]
 
-// Adding elements to Set
-Set<int>({1, 2, 3, 4}) += 5 // {1, 2, 3, 4, 5}
-// Intersection of Sets, supports intersection, union, difference, and symmetric difference
-Set<int>({1, 2, 3, 4, 5}) & Set<int>({1, 3, 5, 7, 9}) // {1, 3, 5}
+// test whether a Set is proper subset of another Set
+Set<int>{5, 1} < Set<int>{1, 2, 3, 4, 5}; // true
+// intersection of Sets, support intersection, union, difference, and symmetric difference
+Set<int>{1, 2, 3, 4, 5} & Set<int>{1, 3, 5, 7, 9}; // {1, 3, 5}
 
 // Map assign value for key
-Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}})["one"] = 1111 // {"one": 1111, "two": 2, "three": 3}
+Map<String, int>{{"one", 1}, {"two", 2}, {"three", 3}}["one"] = 11; // {"one": 11, "two": 2, "three": 3}
 // Map get values
-Map<String, int>({{"one", 1}, {"two", 2}, {"three", 3}}).values() // {1, 2, 3}
+Map<String, int>{{"one", 1}, {"two", 2}, {"three", 3}}.values(); // {1, 2, 3}
 
 // Integer modular power, very fast
-Integer("1024").pow("1024", "100") // 76
+Integer("1024").pow("1024", "100"); // 76
 // Integer factorial
-Integer("5").factorial().factorial() // 668950291344912705758811805409037258675274633313802981029567135230163355...
+Integer("5").factorial().factorial(); // 668950291344912705758811805409037258675274633313802981029567135230163355...
 
-// Convert String to floating-point number, supports inf and nan
-String(".1e-2").to_decimal() // 0.1e-2
-// Convert String to integer, supports base 2-36
-String("-0101").to_integer(2) // -5
-// String append
-String("hello") += " world!" // "hello world!"
+// convert String to floating-point number, support inf and nan
+String(".1e-2").to_decimal(); // 0.1e-2
+// convert String to integer, support base 2-36
+String("-0101").to_integer(2); // -5
 // String repeat
-String("hello! ") *= 2 // "hello! hello! "
+String("hello! ") * 2; // "hello! hello! "
 // String replace
-String("hahaha").replace("a", "ooow~ ") // "hooow~ hooow~ hooow~ "
+String("hahaha").replace("a", "ooow~ "); // "hooow~ hooow~ hooow~ "
 // String slice
-String("12345").slice(0, 5, 2) // "135"
+String("12345").slice(0, 5, 2); // "135"
 // String split
-String("one, two, three").split(", ") // ["one", "two", "three"]
+String("one, two, three").split(", "); // ["one", "two", "three"]
 // String join
-String(".").join({"192", "168", "0", "1"}) // "192.168.0.1"
+String(".").join({"192", "168", "0", "1"}); // "192.168.0.1"
 // String format
-String("I'm {}, {} years old.").format("Alice", 18) // "I'm Alice, 18 years old."
+String("I'm {}, {} years old.").format("Alice", 18); // "I'm Alice, 18 years old."
 
 // Tuple index, return type different, so template function is used
-Tuple<int, double, char>(1, 2.5, 'A').get<2>() // 'A'
-// Taking the remaining part of a Tuple, the underlying layer is pointer conversion, which is very fast
-Tuple<int, double, char>(1, 2.5, 'A').rest() // (2.5, 'A')
+Tuple<int, double, char>(1, 2.5, 'A').get<2>(); // 'A'
+// take the remaining part of the Tuple, the underlying layer is pointer conversion, which is very fast
+Tuple<int, double, char>(1, 2.5, 'A').rest(); // (2.5, 'A')
 
-// Deque push back, supports both back and front push, pop, and element reference
-Deque<int>({1, 2, 3, 4}).push_back(5) // <1, 2, 3, 4, 5>
-// Deque shifts to right (or left), very vivid!
-Deque<int>({1, 2, 3, 4, 5}) >>= 1 // <5, 1, 2, 3, 4>
+// Deque element reference
+Deque<int>{1, 2, 3, 4, 5}.front(); // 1
+// Deque rotate to right (or left), very vivid!
+Deque<int>{1, 2, 3, 4, 5} >>= 1; // <5, 1, 2, 3, 4>
 
 // Fraction addition
-Fraction(1, 2) + Fraction(1, 3) // 5/6
+Fraction(1, 2) + Fraction(1, 3); // 5/6
 // Fraction modulo
-Fraction(1, 2) % Fraction(1, 3) // 1/6
-
-// Arbitrarily nested multiple layers of types
-Map<String, List<Integer>> map = {{"first", {123, 456}}, {"second", {789}}, {"second", {0}}, {"third", {"12345678987654321", 5}}}
-    // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
-map.size() // 3
-map.keys() // {"first", "second", "third"}
-map["third"][-1].factorial() // 120
+Fraction(1, 2) % Fraction(1, 3); // 1/6
 ```
-
-If you want to use a similar library in Rust, please see: [PyInRs](https://github.com/chen-qingyu/pyinrs).
 
 ### 4. Advantage
 
 The advantage of PyInCpp is that it combines the high performance of C++ with the ease of use of Python, and can also be easily combined with other libraries, for example:
 
 ```cpp
-/*
-Combining pyincpp::Fraction with Eigen library to display accurate matrix operation results.
-*/
+/// 1. All types can be easily combined and print:
+Map<String, List<Integer>> map = {{"first", {"123", "456"}}, {"second", {"789"}}, {"third", {"12345678987654321", "5"}}};
+map.keys(); // {"first", "second", "third"}
+map["third"][-1].factorial(); // 120
+std::cout << map; // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
+
+/// 2. All container types support iterators, such as:
+for (const auto& [k, v] : Map<int, int>{{1, 1}, {2, 4}, {3, 9}})
+{
+    assert(k * k == v);
+}
+
+/// 3. Combining pyincpp::Fraction with Eigen library to display accurate matrix.
 using Matrix = Eigen::Matrix<pyincpp::Fraction, 2, 2>; // compiling with boost::rational will fail
 
 Matrix A = Matrix{{1, 2}, {3, 4}};
@@ -140,9 +139,7 @@ std::cout << ((A + B) * (C + D)).inverse() << std::endl;
   5/3    -2/3
 */
 
-/*
-boost::rational vs pyincpp::Fraction
-*/
+/// 4. boost::rational vs pyincpp::Fraction
 boost::rational<int> r1(1, 2), r2(1, 3), r3(1, 4), r4(1, 5);
 pyincpp::Fraction f1(1, 2), f2(1, 3), f3(1, 4), f4(1, 5);
 
@@ -151,9 +148,7 @@ std::cout << ((r1 + r2) * r3 / r4) << std::endl; // 25/24
 std::cout << ((f1 + f2) * f3 / f4) << std::endl; // 25/24
 std::cout << ((f1 + f2) * f3 % f4) << std::endl; // 1/120
 
-/*
-std::tuple vs boost::tuple vs pyincpp::Tuple
-*/
+/// 5. std::tuple vs boost::tuple vs pyincpp::Tuple
 auto t1 = std::make_tuple(1, 1.5, 'A', "hello", std::tuple<std::tuple<>, std::tuple<>>({}, {}));
 auto t2 = boost::make_tuple(1, 1.5, 'A', "hello", boost::tuple<boost::tuple<>, boost::tuple<>>({}, {}));
 auto t3 = pyincpp::make_tuple(1, 1.5, 'A', "hello", pyincpp::Tuple<pyincpp::Tuple<>, pyincpp::Tuple<>>({}, {}));
@@ -162,6 +157,8 @@ auto t3 = pyincpp::make_tuple(1, 1.5, 'A', "hello", pyincpp::Tuple<pyincpp::Tupl
 std::cout << t2 << std::endl; // (1 1.5 A hello (() ()))
 std::cout << t3 << std::endl; // (1, 1.5, A, hello, ((), ()))
 ```
+
+If you want to use a similar library in Rust, please see: [PyInRs](https://github.com/chen-qingyu/pyinrs).
 
 ### 5. History
 
