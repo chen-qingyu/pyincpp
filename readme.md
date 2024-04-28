@@ -161,7 +161,7 @@ If you want to use a similar library in Rust, please see: [PyInRs](https://githu
 
 ### 5. History
 
-It was originally developed in C to learn data structures. Then the 2021 started experimenting with some handy container classes in C++, just for practice. After several reconstructions, the goals and objectives were determined, and formal development began in 2023.
+It was originally developed in C to learn data structures. Then in 2021 I tried to implement some handy container classes in C++, just for fun. After several refactoring, the development goals were determined. The original version was migrated to [HelloDS](https://github.com/chen-qingyu/hellods) with the goal of implementing a complete, generic base container class without using any standard library containers. And the goal of this project is to achieve basic types similar to Python's, and to be as convenient and efficient as possible. I started developing this project on January 1, 2023.
 
 A word about inline: for the sake of source brevity, I finally decided to adopt the inline style. There is usually no problem unless there is a high requirement for program size. At first I wrote the declaration and the definition separately, but this is a template, so I can't split it into two files, so I'm going to write it in one file, and I'm going to put inline in front of some of the function definitions, but it ended up being a verbose bunch of "template typename inline". After reading the Java source code, I decided to write it all in the class, as the default inline. Inline is just a request to the compiler, not a requirement, and functions that can not be inline (such as recursive functions) are not executed by the compiler.
 
