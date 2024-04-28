@@ -64,8 +64,8 @@ Set<int>{5, 1} < Set<int>{1, 2, 3, 4, 5}; // true
 // intersection of Sets, support intersection, union, difference, and symmetric difference
 Set<int>{1, 2, 3, 4, 5} & Set<int>{1, 3, 5, 7, 9}; // {1, 3, 5}
 
-// Dict assign value for key
-Dict<Str, int>{{"one", 1}, {"two", 2}, {"three", 3}}["one"] = 11; // {"one": 11, "two": 2, "three": 3}
+// Dict access
+Dict<Str, int>{{"one", 1}, {"two", 2}, {"three", 3}}["one"]; // 1
 // Dict get values
 Dict<Str, int>{{"one", 1}, {"two", 2}, {"three", 3}}.values(); // {1, 2, 3}
 
@@ -112,19 +112,19 @@ Fraction(1, 2) % Fraction(1, 3); // 1/6
 PyInCpp 的优势在于把 C++ 的高性能和 Python 的易用性结合起来了，还可以方便地与其他库结合使用，比如：
 
 ```cpp
-/// 1. All types can be printed and easily combined:
+// 1. All types can be printed and easily combined:
 Dict<Str, List<Int>> dict = {{"first", {"123", "456"}}, {"second", {"789"}}, {"third", {"12345678987654321", "5"}}};
 std::cout << dict; // {"first": [123, 456], "second": [789], "third": [12345678987654321, 5]}
 dict.keys(); // {"first", "second", "third"}
 dict["third"][-1].factorial(); // 120
 
-/// 2. All container types support iterators, such as:
+// 2. All container types support iterators, such as:
 for (const auto& [k, v] : Dict<int, int>{{1, 1}, {2, 4}, {3, 9}})
 {
     assert(k * k == v);
 }
 
-/// 3. Combining pyincpp::Fraction with Eigen library to display accurate matrix.
+// 3. Combining pyincpp::Fraction with Eigen library to display accurate matrix.
 using Matrix = Eigen::Matrix<pyincpp::Fraction, 2, 2>; // compiling with boost::rational will fail
 
 Matrix A = Matrix{{1, 2}, {3, 4}};
@@ -138,7 +138,7 @@ std::cout << ((A + B) * (C + D)).inverse() << std::endl;
   5/3    -2/3
 */
 
-/// 4. boost::rational vs pyincpp::Fraction
+// 4. boost::rational vs pyincpp::Fraction
 boost::rational<int> r1(1, 2), r2(1, 3), r3(1, 4), r4(1, 5);
 pyincpp::Fraction f1(1, 2), f2(1, 3), f3(1, 4), f4(1, 5);
 
@@ -147,7 +147,7 @@ std::cout << ((r1 + r2) * r3 / r4) << std::endl; // 25/24
 std::cout << ((f1 + f2) * f3 / f4) << std::endl; // 25/24
 std::cout << ((f1 + f2) * f3 % f4) << std::endl; // 1/120
 
-/// 5. std::tuple vs boost::tuple vs pyincpp::Tuple
+// 5. std::tuple vs boost::tuple vs pyincpp::Tuple
 auto t1 = std::make_tuple(1, 1.5, 'A', "hello", std::tuple<std::tuple<>, std::tuple<>>({}, {}));
 auto t2 = boost::make_tuple(1, 1.5, 'A', "hello", boost::tuple<boost::tuple<>, boost::tuple<>>({}, {}));
 auto t3 = pyincpp::make_tuple(1, 1.5, 'A', "hello", pyincpp::Tuple<pyincpp::Tuple<>, pyincpp::Tuple<>>({}, {}));
