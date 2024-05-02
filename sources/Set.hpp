@@ -161,7 +161,7 @@ public:
         return find(element) != end();
     }
 
-    /// the smallest item of the set.
+    /// Get the smallest item of the set.
     T min() const
     {
         internal::check_empty(size());
@@ -193,6 +193,14 @@ public:
     bool remove(const T& element)
     {
         return set_.erase(element) == 1;
+    }
+
+    /// Remove and return an arbitrary element from the set.
+    T pop()
+    {
+        internal::check_empty(size());
+
+        return set_.extract(set_.begin()).value();
     }
 
     /// Intersection.

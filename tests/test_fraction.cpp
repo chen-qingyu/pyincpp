@@ -184,4 +184,23 @@ TEST_CASE("Fraction")
         REQUIRE(oss.str() == "-1/2");
         oss.str("");
     }
+
+    SECTION("input")
+    {
+        Fraction f1, f2, f3, f4;
+        std::istringstream("  +1/-2  \n  233 \t 1234/4321  0") >> f1 >> f2 >> f3 >> f4;
+
+        REQUIRE(f1 == Fraction(-1, 2));
+        REQUIRE(f2 == Fraction(233));
+        REQUIRE(f3 == Fraction(1234, 4321));
+        REQUIRE(f4 == Fraction(0));
+
+        Fraction err;
+        REQUIRE_THROWS_MATCHES(std::istringstream("z1/2") >> err, std::runtime_error, Message("Error: Wrong fraction literal."));
+        REQUIRE_THROWS_MATCHES(std::istringstream("1z/2") >> err, std::runtime_error, Message("Error: Wrong fraction literal."));
+        REQUIRE_THROWS_MATCHES(std::istringstream("1/z2") >> err, std::runtime_error, Message("Error: Wrong fraction literal."));
+        REQUIRE_THROWS_MATCHES(std::istringstream("1/2z") >> err, std::runtime_error, Message("Error: Wrong fraction literal."));
+        REQUIRE_THROWS_MATCHES(std::istringstream("1|2") >> err, std::runtime_error, Message("Error: Wrong fraction literal."));
+        REQUIRE_THROWS_MATCHES(std::istringstream("0/0") >> err, std::runtime_error, Message("Error: Zero denominator."));
+    }
 }

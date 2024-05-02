@@ -170,6 +170,14 @@ TEST_CASE("Dict")
         REQUIRE(some == Dict<int, std::string>());
     }
 
+    SECTION("pop")
+    {
+        REQUIRE(some.pop() == Pair{1, "one"});
+        REQUIRE(some.pop() == Pair{2, "two"});
+        REQUIRE(some.pop() == Pair{3, "three"});
+        REQUIRE_THROWS_MATCHES(some.pop(), std::runtime_error, Message("Error: The container is empty."));
+    }
+
     SECTION("clear")
     {
         some.clear();

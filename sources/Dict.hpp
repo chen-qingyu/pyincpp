@@ -228,6 +228,15 @@ public:
         return map_.erase(key) == 1;
     }
 
+    /// Remove and return an arbitrary key-value pair from the dictionary.
+    Pair<K, V> pop()
+    {
+        internal::check_empty(size());
+
+        auto node = map_.extract(begin());
+        return Pair{node.key(), node.mapped()};
+    }
+
     /// Remove all of the elements from the dictionary.
     void clear()
     {

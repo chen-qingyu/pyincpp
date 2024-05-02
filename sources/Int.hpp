@@ -28,7 +28,7 @@
 namespace pyincpp
 {
 
-/// Int class provides support for big integer arithmetic.
+/// Int provides support for big integer arithmetic.
 class Int
 {
 private:
@@ -690,7 +690,7 @@ public:
     }
 
     /*
-     * Print
+     * Print / Input
      */
 
     /// Output the integer to the specified output stream.
@@ -710,6 +710,16 @@ public:
                       { os << char(d + '0'); });
 
         return os;
+    }
+
+    /// Get an integer from the specified input stream.
+    friend std::istream& operator>>(std::istream& is, Int& integer)
+    {
+        std::string str;
+        is >> str;
+        integer = str.c_str();
+
+        return is;
     }
 };
 
@@ -742,16 +752,6 @@ inline Int lcm(const Int& int1, const Int& int2)
     }
 
     return (int1 * int2) / gcd(int1, int2); // LCM = (int1 * int2) / GCD
-}
-
-/// Get an integer from the specified input stream.
-inline std::istream& operator>>(std::istream& is, Int& integer)
-{
-    std::string str;
-    is >> str;
-    integer = str.c_str();
-
-    return is;
 }
 
 } // namespace pyincpp

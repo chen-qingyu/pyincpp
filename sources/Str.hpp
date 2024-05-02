@@ -277,7 +277,7 @@ public:
     /// If the string represents NaN will return `NAN`.
     /// If the string represents Infinity will return `(+-)INFINITY`.
     ///
-    /// ### Example:
+    /// ### Example
     /// ```
     /// Str("233.33").to_decimal(); // 233.33
     /// Str("123.456e-3").to_decimal(); // 0.123456
@@ -406,7 +406,7 @@ public:
     ///
     /// Numeric character in 36 base: 0, 1, ..., 9, A(10), ..., F(15), G(16), ..., Y(34), Z(35).
     ///
-    /// ### Example:
+    /// ### Example
     /// ```
     /// Str("233").to_integer(); // 233
     /// Str("cafebabe").to_integer(16); // 3405691582
@@ -657,7 +657,7 @@ public:
 
     /// Split the string with separator (default = " ").
     ///
-    /// ### Example:
+    /// ### Example
     /// ```
     /// Str("one, two, three").split(", "); // ["one", "two", "three"]
     /// ```
@@ -684,7 +684,7 @@ public:
 
     /// Return a string which is the concatenation of the strings in `str_list`.
     ///
-    /// ### Example:
+    /// ### Example
     /// ```
     /// Str(".").join({"192", "168", "0", "1"}) // "192.168.0.1"
     /// ```

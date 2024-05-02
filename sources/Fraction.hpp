@@ -26,7 +26,7 @@
 namespace pyincpp
 {
 
-/// Fraction class provides support for rational number arithmetic.
+/// Fraction provides support for rational number arithmetic.
 class Fraction
 {
 private:
@@ -243,7 +243,7 @@ public:
     }
 
     /*
-     * Print
+     * Print / Input
      */
 
     /// Output the fraction to the specified output stream.
@@ -257,6 +257,50 @@ public:
         {
             return os << fraction.numerator_ << "/" << fraction.denominator_;
         }
+    }
+
+    /// Get a fraction from the specified input stream.
+    ///
+    /// ### Example
+    /// ```
+    /// Fraction f1, f2;
+    /// std::istringstream("+1/-2 233") >> f1 >> f2;
+    /// // f1 == Fraction(-1, 2);
+    /// // f2 == Fraction(233);
+    /// ```
+    friend std::istream& operator>>(std::istream& is, Fraction& fraction)
+    {
+        while (is.peek() <= 0x20)
+        {
+            is.ignore();
+        }
+        if (!(std::isdigit(is.peek()) || is.peek() == '-' || is.peek() == '+')) // handle "z1/2"
+        {
+            throw std::runtime_error("Error: Wrong fraction literal.");
+        }
+
+        int num;
+        is >> num;
+        if (is.peek() <= 0x20) // next char is white space, ok
+        {
+            fraction = num;
+            return is;
+        }
+
+        char c;
+        int den;
+        is >> c;
+        if (!(std::isdigit(is.peek()) || is.peek() == '-' || is.peek() == '+')) // handle "1z/2" or "1/z2"
+        {
+            throw std::runtime_error("Error: Wrong fraction literal.");
+        }
+        is >> den;
+        if (c != '/' || is.peek() > 0x20) // handle "1|2" or "1/2z"
+        {
+            throw std::runtime_error("Error: Wrong fraction literal.");
+        }
+        fraction = Fraction(num, den);
+        return is;
     }
 };
 

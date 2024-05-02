@@ -178,12 +178,16 @@ public:
     /// Append the given `element` to the end of the deque.
     void push_back(const T& element)
     {
+        internal::check_full(size(), INT_MAX);
+
         deque_.push_back(element);
     }
 
     /// Prepend the given `element` to the beginning of the deque.
     void push_front(const T& element)
     {
+        internal::check_full(size(), INT_MAX);
+
         deque_.push_front(element);
     }
 

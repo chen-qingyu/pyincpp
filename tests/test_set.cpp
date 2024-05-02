@@ -164,6 +164,16 @@ TEST_CASE("Set")
         REQUIRE(some == Set<int>());
     }
 
+    SECTION("pop")
+    {
+        REQUIRE(some.pop() == 1);
+        REQUIRE(some.pop() == 2);
+        REQUIRE(some.pop() == 3);
+        REQUIRE(some.pop() == 4);
+        REQUIRE(some.pop() == 5);
+        REQUIRE_THROWS_MATCHES(some.pop(), std::runtime_error, Message("Error: The container is empty."));
+    }
+
     SECTION("intersection")
     {
         Set<int> set1 = {1, 2, 3, 4, 5};
