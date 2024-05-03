@@ -92,17 +92,19 @@ TEST_CASE("Deque")
         REQUIRE(empty.rbegin() == empty.rend());
 
         // for in
-        for (int i = 1; const auto& e : some)
+        int i = 0;
+        for (const auto& e : some)
         {
-            REQUIRE(e == i++);
+            REQUIRE(e == ++i);
         }
+        REQUIRE(i == 5);
 
         // reversed for
-        int i = 5;
         for (auto it = some.rbegin(); it != some.rend(); ++it)
         {
             REQUIRE(*it == i--);
         }
+        REQUIRE(i == 0);
     }
 
     SECTION("access")
@@ -111,14 +113,11 @@ TEST_CASE("Deque")
         REQUIRE_THROWS_MATCHES(empty.front(), std::runtime_error, Message("Error: The container is empty."));
         REQUIRE_THROWS_MATCHES(empty[0], std::runtime_error, Message("Error: Index out of range."));
 
-        REQUIRE(some.back() == 5);
-        REQUIRE(some.front() == 1);
-
         REQUIRE(++some.back() == 6);
         REQUIRE(--some.front() == 0);
 
-        REQUIRE(some[-1] == 6);
-        REQUIRE(some[0] == 0);
+        REQUIRE(++some[-1] == 7);
+        REQUIRE(--some[0] == -1);
     }
 
     SECTION("push_pop")

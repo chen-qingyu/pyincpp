@@ -112,17 +112,19 @@ TEST_CASE("List")
         REQUIRE(empty.rbegin() == empty.rend());
 
         // for in
-        for (int i = 1; const auto& e : some)
+        int i = 0;
+        for (const auto& e : some)
         {
-            REQUIRE(e == i++);
+            REQUIRE(e == ++i);
         }
+        REQUIRE(i == 5);
 
         // reversed for
-        int i = 5;
         for (auto it = some.rbegin(); it != some.rend(); ++it)
         {
             REQUIRE(*it == i--);
         }
+        REQUIRE(i == 0);
     }
 
     SECTION("access")
@@ -326,9 +328,7 @@ TEST_CASE("List")
     {
         REQUIRE(List<int>({1, 2, 2, 3, 3, 3}).uniquify() == List<int>({1, 2, 3}));
         REQUIRE(List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify() == List<int>({1, 2, 3}));
-
-        List<int> many = List<int>{0} * 10000;
-        REQUIRE(many.uniquify() == List<int>({0}));
+        REQUIRE((List<int>{0} * 10000).uniquify() == List<int>({0}));
     }
 
     SECTION("sort")

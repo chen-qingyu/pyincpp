@@ -50,12 +50,12 @@ TEST_CASE("Dict")
     SECTION("compare")
     {
         // operator==
-        Dict<int, std::string> eq_dict = {{1, "one"}, {2, "two"}, {3, "three"}};
-        REQUIRE(eq_dict == some);
+        REQUIRE(Dict<int, std::string>{} == empty);
+        REQUIRE(Dict<int, std::string>{{1, "one"}, {2, "two"}, {3, "three"}} == some);
 
         // operator!=
-        Dict<int, std::string> ne_dict = {{1, "one"}, {2, "two"}, {3, "three!"}};
-        REQUIRE(ne_dict != some);
+        REQUIRE(Dict<int, std::string>{{1, "one"}} != empty);
+        REQUIRE(Dict<int, std::string>{{1, "one"}, {2, "two"}, {3, "three!"}} != some);
     }
 
     SECTION("assignment")
@@ -76,10 +76,13 @@ TEST_CASE("Dict")
         REQUIRE(empty.rbegin() == empty.rend());
 
         // for in
+        int i = 0;
         for (const auto& [k, v] : Dict<int, int>({{1, 1}, {2, 4}, {3, 9}}))
         {
             REQUIRE(k * k == v);
+            i++;
         }
+        REQUIRE(i == 3);
 
         // reversed for
         auto it = some.rbegin();
