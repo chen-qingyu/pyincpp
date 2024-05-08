@@ -73,7 +73,7 @@ public:
      */
 
     /// Compare the list with another list.
-    auto operator<=>(const List& that) const = default;
+    constexpr auto operator<=>(const List& that) const = default;
 
     /*
      * Assignment
@@ -90,25 +90,25 @@ public:
      */
 
     /// Return an iterator to the first element of the list.
-    auto begin() const
+    constexpr auto begin() const
     {
         return vector_.begin();
     }
 
     /// Return an iterator to the element following the last element of the list.
-    auto end() const
+    constexpr auto end() const
     {
         return vector_.end();
     }
 
     /// Return a reverse iterator to the first element of the reversed list.
-    auto rbegin() const
+    constexpr auto rbegin() const
     {
         return vector_.rbegin();
     }
 
     /// Return a reverse iterator to the element following the last element of the reversed list.
-    auto rend() const
+    constexpr auto rend() const
     {
         return vector_.rend();
     }
@@ -128,7 +128,7 @@ public:
 
     /// Return the const reference to element at the specified position in the list.
     /// Index can be negative, like Python's list: list[-1] gets the last element.
-    const T& operator[](int index) const
+    constexpr const T& operator[](int index) const
     {
         return const_cast<List&>(*this)[index];
     }
@@ -138,25 +138,25 @@ public:
      */
 
     /// Return the number of elements in the list.
-    int size() const
+    constexpr int size() const
     {
         return vector_.size();
     }
 
     /// Return `true` if the list contains no elements.
-    bool is_empty() const
+    constexpr bool is_empty() const
     {
         return vector_.empty();
     }
 
     /// Return the iterator of the specified element in the list, or end() if the list does not contain the element.
-    auto find(const T& element) const
+    constexpr auto find(const T& element) const
     {
         return std::find(begin(), end(), element);
     }
 
     /// Return the index of the first occurrence of the specified `element`, or -1 if the list does not contain the element in the specified range [`start`, `stop`].
-    int index(const T& element, int start = 0, int stop = INT_MAX) const
+    constexpr int index(const T& element, int start = 0, int stop = INT_MAX) const
     {
         stop = stop > size() ? size() : stop;
         auto it = std::find(begin() + start, begin() + stop, element);
@@ -164,13 +164,13 @@ public:
     }
 
     /// Return `true` if the list contains the specified `element` in the specified range [`start`, `stop`].
-    bool contains(const T& element, int start = 0, int stop = INT_MAX) const
+    constexpr bool contains(const T& element, int start = 0, int stop = INT_MAX) const
     {
         return index(element, start, stop) != -1;
     }
 
     /// Count the total number of occurrences of the specified `element` in the list.
-    int count(const T& element) const
+    constexpr int count(const T& element) const
     {
         return std::count_if(begin(), end(), [&](const T& e)
                              { return e == element; });

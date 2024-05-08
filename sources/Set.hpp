@@ -68,28 +68,28 @@ public:
      */
 
     /// Test whether the set is equal to another set.
-    bool operator==(const Set& that) const = default;
+    constexpr bool operator==(const Set& that) const = default;
 
     /// Test whether the set is a proper subset of another set.
-    bool operator<(const Set& that) const
+    constexpr bool operator<(const Set& that) const
     {
         return size() != that.size() && *this <= that;
     }
 
     /// Test whether every element in the set is in another set.
-    bool operator<=(const Set& that) const
+    constexpr bool operator<=(const Set& that) const
     {
         return std::includes(that.set_.cbegin(), that.set_.cend(), set_.cbegin(), set_.cend());
     }
 
     /// Test whether the set is a proper superset of another set.
-    bool operator>(const Set& that) const
+    constexpr bool operator>(const Set& that) const
     {
         return that < *this;
     }
 
     /// Test whether every element in another set is in the set.
-    bool operator>=(const Set& that) const
+    constexpr bool operator>=(const Set& that) const
     {
         return that <= *this;
     }
@@ -109,25 +109,25 @@ public:
      */
 
     /// Return an iterator to the first element of the set.
-    auto begin() const
+    constexpr auto begin() const
     {
         return set_.begin();
     }
 
     /// Return an iterator to the element following the last element of the set.
-    auto end() const
+    constexpr auto end() const
     {
         return set_.end();
     }
 
     /// Return a reverse iterator to the first element of the reversed set.
-    auto rbegin() const
+    constexpr auto rbegin() const
     {
         return set_.rbegin();
     }
 
     /// Return a reverse iterator to the element following the last element of the reversed set.
-    auto rend() const
+    constexpr auto rend() const
     {
         return set_.rend();
     }
@@ -137,31 +137,31 @@ public:
      */
 
     /// Return the number of elements in the set.
-    int size() const
+    constexpr int size() const
     {
         return set_.size();
     }
 
     /// Return `true` if the set contains no elements.
-    bool is_empty() const
+    constexpr bool is_empty() const
     {
         return set_.empty();
     }
 
     /// Return the iterator of the specified element in the set, or end() if the set does not contain the element.
-    auto find(const T& element) const
+    constexpr auto find(const T& element) const
     {
         return set_.find(element);
     }
 
     /// Return `true` if the set contains the specified element.
-    bool contains(const T& element) const
+    constexpr bool contains(const T& element) const
     {
         return find(element) != end();
     }
 
     /// Get the smallest item of the set.
-    T min() const
+    constexpr T min() const
     {
         internal::check_empty(size());
 
@@ -169,7 +169,7 @@ public:
     }
 
     /// Get the largest item of the set.
-    T max() const
+    constexpr T max() const
     {
         internal::check_empty(size());
 

@@ -68,7 +68,7 @@ public:
      */
 
     /// Construct a new tuple object.
-    Tuple<T, Ts...>(const T& value, const Ts&... values)
+    constexpr Tuple<T, Ts...>(const T& value, const Ts&... values)
         : Tuple<Ts...>(values...)
         , value_(value)
     {
@@ -80,7 +80,7 @@ public:
 
     /// Check whether two tuples are equal.
     template <typename... X>
-    bool operator==(const Tuple<X...>& that) const
+    constexpr bool operator==(const Tuple<X...>& that) const
     {
         if constexpr (sizeof...(X) > 0)
         {
@@ -98,7 +98,7 @@ public:
 
     /// Get the i-th element of the tuple.
     template <int I>
-    decltype(auto) get() const
+    constexpr decltype(auto) get() const
     {
         static_assert(I < 1 + sizeof...(Ts));
         if constexpr (I == 0)
@@ -122,7 +122,7 @@ public:
     }
 
     /// Return the rest of the tuple.
-    const Tuple<Ts...>& rest() const
+    constexpr const Tuple<Ts...>& rest() const
     {
         return *((Tuple<Ts...>*)this);
     }
@@ -134,7 +134,7 @@ public:
 
 /// Creates a tuple object, deducing the target type from the types of arguments.
 template <typename... Ts>
-decltype(auto) make_tuple(const Ts&... values)
+constexpr decltype(auto) make_tuple(const Ts&... values)
 {
     return Tuple<Ts...>(values...);
 }
@@ -143,7 +143,7 @@ namespace internal
 {
 
 template <typename... Ts>
-static void print(std::ostream& os, const Tuple<Ts...>& tuple)
+constexpr static void print(std::ostream& os, const Tuple<Ts...>& tuple)
 {
     if constexpr (sizeof...(Ts) > 0)
     {
@@ -160,7 +160,7 @@ static void print(std::ostream& os, const Tuple<Ts...>& tuple)
 
 /// Output the tuple to the specified output stream.
 template <typename... Ts>
-std::ostream& operator<<(std::ostream& os, const Tuple<Ts...>& tuple)
+constexpr std::ostream& operator<<(std::ostream& os, const Tuple<Ts...>& tuple)
 {
     if constexpr (sizeof...(Ts) == 1)
     {

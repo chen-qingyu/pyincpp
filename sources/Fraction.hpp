@@ -95,7 +95,7 @@ public:
      */
 
     /// Compare the fraction with another fraction.
-    auto operator<=>(const Fraction& that) const
+    constexpr auto operator<=>(const Fraction& that) const
     {
         // this = a/b; that = c/d;
         // so, this - that = a/b - c/d = (ad - bc)/(bd)
@@ -132,7 +132,7 @@ public:
      */
 
     /// Convert the fraction to double type.
-    operator double() const
+    constexpr operator double() const
     {
         return (double)numerator_ / denominator_;
     }

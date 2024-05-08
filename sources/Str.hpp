@@ -152,7 +152,7 @@ public:
      */
 
     /// Compare the string with another string.
-    auto operator<=>(const Str& that) const = default;
+    constexpr auto operator<=>(const Str& that) const = default;
 
     /*
      * Assignment
@@ -185,25 +185,25 @@ public:
      */
 
     /// Return an iterator to the first char of the string.
-    auto begin() const
+    constexpr auto begin() const
     {
         return str_.cbegin();
     }
 
     /// Return an iterator to the char following the last char of the string.
-    auto end() const
+    constexpr auto end() const
     {
         return str_.cend();
     }
 
     /// Return a reverse iterator to the first char of the reversed string.
-    auto rbegin() const
+    constexpr auto rbegin() const
     {
         return str_.rbegin();
     }
 
     /// Return a reverse iterator to the char following the last char of the reversed string.
-    auto rend() const
+    constexpr auto rend() const
     {
         return str_.rend();
     }
@@ -214,7 +214,7 @@ public:
 
     /// Return the const reference to element at the specified position in the string.
     /// Index can be negative, like Python's string: string[-1] gets the last element.
-    const char& operator[](int index) const
+    constexpr const char& operator[](int index) const
     {
         internal::check_bounds(index, -size(), size());
 
@@ -226,26 +226,26 @@ public:
      */
 
     /// Return the number of elements in the string.
-    int size() const
+    constexpr int size() const
     {
         return str_.size(); // no '\0'
     }
 
     /// Return true if the string contains no elements.
-    bool is_empty() const
+    constexpr bool is_empty() const
     {
         return str_.empty();
     }
 
     // Return const pointer to contents. This is a pointer to internal data.
-    const char* data() const
+    constexpr const char* data() const
     {
         return str_.data();
     }
 
     /// Return the index of the first occurrence of the specified pattern in the specified range [`start`, `stop`).
     /// Or -1 if the string does not contain the pattern (in the specified range).
-    int find(const Str& pattern, int start = 0, int stop = INT_MAX) const
+    constexpr int find(const Str& pattern, int start = 0, int stop = INT_MAX) const
     {
         if (start > size())
         {
@@ -260,13 +260,13 @@ public:
     }
 
     /// Return `true` if the string contains the specified `pattern` in the specified range [`start`, `stop`).
-    bool contains(const Str& pattern, int start = 0, int stop = INT_MAX) const
+    constexpr bool contains(const Str& pattern, int start = 0, int stop = INT_MAX) const
     {
         return find(pattern, start, stop) != -1;
     }
 
     /// Count the total number of occurrences of the specified element in the string.
-    int count(const char& element) const
+    constexpr int count(const char& element) const
     {
         return std::count(begin(), end(), element);
     }
@@ -466,13 +466,13 @@ public:
     }
 
     /// Return `true` if the string begins with the specified string, otherwise return `false`.
-    bool starts_with(const Str& str) const
+    constexpr bool starts_with(const Str& str) const
     {
         return str_.starts_with(str.str_);
     }
 
     /// Return `true` if the string ends with the specified string, otherwise return `false`.
-    bool ends_with(const Str& str) const
+    constexpr bool ends_with(const Str& str) const
     {
         return str_.ends_with(str.str_);
     }

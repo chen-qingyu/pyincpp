@@ -71,7 +71,7 @@ public:
      */
 
     /// Determine whether this dictionary is equal to another dictionary.
-    bool operator==(const Dict& that) const = default;
+    constexpr bool operator==(const Dict& that) const = default;
 
     /*
      * Assignment
@@ -88,25 +88,25 @@ public:
      */
 
     /// Return an iterator to the first element of the dictionary.
-    auto begin() const
+    constexpr auto begin() const
     {
         return map_.begin();
     }
 
     /// Return an iterator to the element following the last element of the dictionary.
-    auto end() const
+    constexpr auto end() const
     {
         return map_.end();
     }
 
     /// Return a reverse iterator to the first element of the reversed dictionary.
-    auto rbegin() const
+    constexpr auto rbegin() const
     {
         return map_.rbegin();
     }
 
     /// Return a reverse iterator to the element following the last element of the reversed dictionary.
-    auto rend() const
+    constexpr auto rend() const
     {
         return map_.rend();
     }
@@ -128,13 +128,13 @@ public:
     }
 
     /// Return the const reference to value of the `key` in the dictionary.
-    const V& operator[](const K& key) const
+    constexpr const V& operator[](const K& key) const
     {
         return const_cast<Dict&>(*this)[key];
     }
 
     /// Return copy of the value for `key` if `key` is in the dictionary, else `defaults` value.
-    const V& get(const K& key, const V& defaults) const
+    constexpr const V& get(const K& key, const V& defaults) const
     {
         return contains(key) ? (*this)[key] : defaults;
     }
@@ -144,43 +144,43 @@ public:
      */
 
     /// Return the number of elements in the dictionary.
-    int size() const
+    constexpr int size() const
     {
         return map_.size();
     }
 
     /// Return `true` if the dictionary contains no elements.
-    bool is_empty() const
+    constexpr bool is_empty() const
     {
         return map_.empty();
     }
 
     /// Return the iterator of the specified key or end() if the dictionary does not contain the key.
-    auto find(const K& key) const
+    constexpr auto find(const K& key) const
     {
         return map_.find(key);
     }
 
     /// Return `true` if the dictionary contains the specified `key`.
-    bool contains(const K& key) const
+    constexpr bool contains(const K& key) const
     {
         return map_.find(key) != map_.end();
     }
 
     /// Get the smallest key of the dictionary.
-    K min() const
+    constexpr K min() const
     {
         return map_.cbegin()->first;
     }
 
     /// Get the largest key of the dictionary.
-    K max() const
+    constexpr K max() const
     {
         return map_.crbegin()->first;
     }
 
     /// Return a new set of the dictionary's keys.
-    Set<K> keys() const
+    constexpr Set<K> keys() const
     {
         Set<K> keys;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
@@ -190,7 +190,7 @@ public:
     }
 
     /// Return a new set of the dictionary's values.
-    Set<V> values() const
+    constexpr Set<V> values() const
     {
         Set<V> values;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
@@ -200,7 +200,7 @@ public:
     }
 
     /// Return a new set of the dictionary's items.
-    Set<Pair<K, V>> items() const
+    constexpr Set<Pair<K, V>> items() const
     {
         Set<Pair<K, V>> items;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)

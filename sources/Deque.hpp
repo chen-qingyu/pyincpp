@@ -68,7 +68,7 @@ public:
      */
 
     /// Compare the deque with another deque.
-    auto operator<=>(const Deque& that) const = default;
+    constexpr auto operator<=>(const Deque& that) const = default;
 
     /*
      * Assignment
@@ -85,25 +85,25 @@ public:
      */
 
     /// Return an iterator to the first element of the deque.
-    auto begin() const
+    constexpr auto begin() const
     {
         return deque_.begin();
     }
 
     /// Return an iterator to the element following the last element of the deque.
-    auto end() const
+    constexpr auto end() const
     {
         return deque_.end();
     }
 
     /// Return a reverse iterator to the first element of the reversed deque.
-    auto rbegin() const
+    constexpr auto rbegin() const
     {
         return deque_.rbegin();
     }
 
     /// Return a reverse iterator to the element following the last element of the reversed deque.
-    auto rend() const
+    constexpr auto rend() const
     {
         return deque_.rend();
     }
@@ -121,7 +121,7 @@ public:
     }
 
     /// Peek the last element.
-    const T& back() const
+    constexpr const T& back() const
     {
         return const_cast<Deque&>(*this).back();
     }
@@ -135,7 +135,7 @@ public:
     }
 
     /// Peek the first element.
-    const T& front() const
+    constexpr const T& front() const
     {
         return const_cast<Deque&>(*this).front();
     }
@@ -149,7 +149,7 @@ public:
     }
 
     /// Return a const reference to the element at specified `index`.
-    const T& operator[](int index) const
+    constexpr const T& operator[](int index) const
     {
         return const_cast<Deque&>(*this)[index];
     }
@@ -159,13 +159,13 @@ public:
      */
 
     /// Return the number of elements in the deque.
-    int size() const
+    constexpr int size() const
     {
         return deque_.size();
     }
 
     /// Return `true` if the deque contains no elements.
-    bool is_empty() const
+    constexpr bool is_empty() const
     {
         return deque_.empty();
     }
