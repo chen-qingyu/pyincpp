@@ -237,6 +237,13 @@ public:
         return Pair{node.key(), node.mapped()};
     }
 
+    /// Extend the dictionary by adding elements of the range [`first`, `last`).
+    template <typename InputIt>
+    void extend(const InputIt& first, const InputIt& last)
+    {
+        map_.insert(first, last);
+    }
+
     /// Remove all of the elements from the dictionary.
     void clear()
     {

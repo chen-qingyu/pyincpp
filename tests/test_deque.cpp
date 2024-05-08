@@ -158,17 +158,34 @@ TEST_CASE("Deque")
 
     SECTION("extend")
     {
-        empty.extend_back(some);
-        REQUIRE(empty == Deque<int>({1, 2, 3, 4, 5}));
+        // extend_back
+        empty.extend_back(empty.begin(), empty.end());
+        REQUIRE(empty == Deque<int>{});
 
-        empty.extend_back(one);
-        REQUIRE(empty == Deque<int>({1, 2, 3, 4, 5, 1}));
+        empty.extend_back(one.begin(), one.end());
+        REQUIRE(empty == Deque<int>{1});
 
-        empty.extend_front(some);
-        REQUIRE(empty == Deque<int>({1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1}));
+        empty.extend_back(some.begin(), some.end());
+        REQUIRE(empty == Deque<int>{1, 1, 2, 3, 4, 5});
 
-        empty.extend_front(one);
-        REQUIRE(empty == Deque<int>({1, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1}));
+        // extend_front
+        empty.extend_front(empty.begin(), empty.end());
+        REQUIRE(empty == Deque<int>{1, 1, 2, 3, 4, 5, 1, 1, 2, 3, 4, 5});
+
+        empty.extend_front(one.begin(), one.end());
+        REQUIRE(empty == Deque<int>{1, 1, 1, 2, 3, 4, 5, 1, 1, 2, 3, 4, 5});
+
+        empty.extend_front(some.begin(), some.end());
+        REQUIRE(empty == Deque<int>{1, 2, 3, 4, 5, 1, 1, 1, 2, 3, 4, 5, 1, 1, 2, 3, 4, 5});
+
+        // extend from other container
+        std::vector<int> v = {0, 9};
+
+        empty.extend_back(v.begin(), v.end());
+        REQUIRE(empty == Deque<int>{1, 2, 3, 4, 5, 1, 1, 1, 2, 3, 4, 5, 1, 1, 2, 3, 4, 5, 0, 9});
+
+        empty.extend_front(v.begin(), v.end());
+        REQUIRE(empty == Deque<int>{0, 9, 1, 2, 3, 4, 5, 1, 1, 1, 2, 3, 4, 5, 1, 1, 2, 3, 4, 5, 0, 9});
     }
 
     SECTION("rotate")

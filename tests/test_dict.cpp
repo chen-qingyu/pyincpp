@@ -181,6 +181,28 @@ TEST_CASE("Dict")
         REQUIRE_THROWS_MATCHES(some.pop(), std::runtime_error, Message("Error: The container is empty."));
     }
 
+    SECTION("extend")
+    {
+        empty.extend(empty.begin(), empty.end());
+        REQUIRE(empty == Dict<int, std::string>{});
+
+        empty.extend(one.begin(), one.end());
+        REQUIRE(empty == Dict<int, std::string>{{1, "one"}});
+
+        empty.extend(some.begin(), some.end());
+        REQUIRE(empty == Dict<int, std::string>{{1, "one"}, {2, "two"}, {3, "three"}});
+
+        // extend from other containers
+        std::vector<Pair<int, std::string>> v = {{4, "four"}};
+        empty.extend(v.begin(), v.end());
+        REQUIRE(empty == Dict<int, std::string>{{1, "one"}, {2, "two"}, {3, "three"}, {4, "four"}});
+
+        auto s = empty.items(); // Set<Pair<int, std::string>>
+        auto d = Dict<int, std::string>{{1, "111"}};
+        d.extend(s.begin(), s.end());
+        REQUIRE(d == Dict<int, std::string>{{1, "111"}, {2, "two"}, {3, "three"}, {4, "four"}});
+    }
+
     SECTION("clear")
     {
         some.clear();

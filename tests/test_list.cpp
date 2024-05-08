@@ -282,39 +282,29 @@ TEST_CASE("List")
         REQUIRE((list /= 6) == List<int>({}));
     }
 
-    SECTION("clear")
+    SECTION("rotate")
     {
-        some.clear();
-        REQUIRE(some == List<int>());
-        some.clear(); // double clear
-        REQUIRE(some == List<int>());
-    }
+        REQUIRE((empty >>= 1) == List<int>());
+        REQUIRE((empty >>= 2) == List<int>());
+        REQUIRE((empty <<= 1) == List<int>());
+        REQUIRE((empty <<= 2) == List<int>());
 
-    SECTION("map")
-    {
-        some.map([](int& x)
-                 { x *= 2; });
-        REQUIRE(some == List<int>({2, 4, 6, 8, 10}));
+        REQUIRE((one >>= 1) == List<int>({1}));
+        REQUIRE((one >>= 2) == List<int>({1}));
+        REQUIRE((one <<= 1) == List<int>({1}));
+        REQUIRE((one <<= 2) == List<int>({1}));
 
-        some.map([](int& x)
-                 { x = 1; });
-        REQUIRE(some == List<int>({1, 1, 1, 1, 1}));
+        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= -1) == List<int>({2, 3, 4, 5, 1}));
+        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 0) == List<int>({1, 2, 3, 4, 5}));
+        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 1) == List<int>({5, 1, 2, 3, 4}));
+        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 3) == List<int>({3, 4, 5, 1, 2}));
+        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 5) == List<int>({1, 2, 3, 4, 5}));
 
-        std::string str;
-        some.map([&](int& x)
-                 { str += std::to_string(x) + " "; });
-        REQUIRE(str == "1 1 1 1 1 ");
-    }
-
-    SECTION("filter")
-    {
-        some.filter([](int& x)
-                    { return x % 2 == 0; });
-        REQUIRE(some == List<int>({2, 4}));
-
-        some.filter([](int& x)
-                    { return x % 2 == 1; });
-        REQUIRE(some == List<int>());
+        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= -1) == List<int>({5, 1, 2, 3, 4}));
+        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= 0) == List<int>({1, 2, 3, 4, 5}));
+        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= 1) == List<int>({2, 3, 4, 5, 1}));
+        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= 3) == List<int>({4, 5, 1, 2, 3}));
+        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= 5) == List<int>({1, 2, 3, 4, 5}));
     }
 
     SECTION("reverse")
@@ -369,31 +359,6 @@ TEST_CASE("List")
                                          {"Yuzu", 18}}));
     }
 
-    SECTION("rotate")
-    {
-        REQUIRE((empty >>= 1) == List<int>());
-        REQUIRE((empty >>= 2) == List<int>());
-        REQUIRE((empty <<= 1) == List<int>());
-        REQUIRE((empty <<= 2) == List<int>());
-
-        REQUIRE((one >>= 1) == List<int>({1}));
-        REQUIRE((one >>= 2) == List<int>({1}));
-        REQUIRE((one <<= 1) == List<int>({1}));
-        REQUIRE((one <<= 2) == List<int>({1}));
-
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= -1) == List<int>({2, 3, 4, 5, 1}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 0) == List<int>({1, 2, 3, 4, 5}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 1) == List<int>({5, 1, 2, 3, 4}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 3) == List<int>({3, 4, 5, 1, 2}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 5) == List<int>({1, 2, 3, 4, 5}));
-
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= -1) == List<int>({5, 1, 2, 3, 4}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= 0) == List<int>({1, 2, 3, 4, 5}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= 1) == List<int>({2, 3, 4, 5, 1}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= 3) == List<int>({4, 5, 1, 2, 3}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= 5) == List<int>({1, 2, 3, 4, 5}));
-    }
-
     SECTION("erase")
     {
         REQUIRE(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(0, 1) == List<int>({2, 3, 4, 5, 6, 7}));
@@ -402,6 +367,58 @@ TEST_CASE("List")
         REQUIRE(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(0, 7) == List<int>());
 
         REQUIRE_THROWS_MATCHES(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(-1, 99), std::runtime_error, Message("Error: Index out of range."));
+    }
+
+    SECTION("map")
+    {
+        some.map([](int& x)
+                 { x *= 2; });
+        REQUIRE(some == List<int>({2, 4, 6, 8, 10}));
+
+        some.map([](int& x)
+                 { x = 1; });
+        REQUIRE(some == List<int>({1, 1, 1, 1, 1}));
+
+        std::string str;
+        some.map([&](int& x)
+                 { str += std::to_string(x) + " "; });
+        REQUIRE(str == "1 1 1 1 1 ");
+    }
+
+    SECTION("filter")
+    {
+        some.filter([](int& x)
+                    { return x % 2 == 0; });
+        REQUIRE(some == List<int>({2, 4}));
+
+        some.filter([](int& x)
+                    { return x % 2 == 1; });
+        REQUIRE(some == List<int>());
+    }
+
+    SECTION("extend")
+    {
+        empty.extend(empty.begin(), empty.end());
+        REQUIRE(empty == List<int>{});
+
+        empty.extend(one.begin(), one.end());
+        REQUIRE(empty == List<int>{1});
+
+        empty.extend(some.begin(), some.end());
+        REQUIRE(empty == List<int>{1, 1, 2, 3, 4, 5});
+
+        // extend from other container
+        std::vector<int> v = {0, 9};
+        empty.extend(v.begin(), v.end());
+        REQUIRE(empty == List<int>{1, 1, 2, 3, 4, 5, 0, 9});
+    }
+
+    SECTION("clear")
+    {
+        some.clear();
+        REQUIRE(some == List<int>());
+        some.clear(); // double clear
+        REQUIRE(some == List<int>());
     }
 
     SECTION("slice")

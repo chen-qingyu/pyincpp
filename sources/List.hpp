@@ -352,6 +352,13 @@ public:
         return *this;
     }
 
+    /// Extend the list by appending elements of the range [`first`, `last`).
+    template <typename InputIt>
+    void extend(const InputIt& first, const InputIt& last)
+    {
+        vector_.insert(vector_.end(), first, last);
+    }
+
     /// Remove all of the elements from the list.
     void clear()
     {

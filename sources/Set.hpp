@@ -231,6 +231,13 @@ public:
         return *this = std::move(*this ^ that);
     }
 
+    /// Extend the set by adding elements of the range [`first`, `last`).
+    template <typename InputIt>
+    void extend(const InputIt& first, const InputIt& last)
+    {
+        set_.insert(first, last);
+    }
+
     /// Remove all elements from the set.
     void clear()
     {

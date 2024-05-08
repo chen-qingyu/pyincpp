@@ -213,18 +213,18 @@ public:
         return data;
     }
 
-    /// Extend the right side of the deque by appending elements from the iterable.
-    template <typename Iterable>
-    void extend_back(const Iterable& iterable)
+    /// Extend the right side of the deque by appending elements of the range [`first`, `last`).
+    template <typename InputIt>
+    void extend_back(const InputIt& first, const InputIt& last)
     {
-        deque_.insert(deque_.end(), iterable.begin(), iterable.end());
+        deque_.insert(deque_.end(), first, last);
     }
 
-    /// Extend the left side of the deque by prepending elements from the iterable.
-    template <typename Iterable>
-    void extend_front(const Iterable& iterable)
+    /// Extend the left side of the deque by prepending elements of the range [`first`, `last`).
+    template <typename InputIt>
+    void extend_front(const InputIt& first, const InputIt& last)
     {
-        deque_.insert(deque_.begin(), iterable.begin(), iterable.end());
+        deque_.insert(deque_.begin(), first, last);
     }
 
     /// Rotate `n` elements to the right.

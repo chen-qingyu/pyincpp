@@ -196,6 +196,23 @@ TEST_CASE("Set")
         REQUIRE((empty ^ empty) == empty);
     }
 
+    SECTION("extend")
+    {
+        empty.extend(empty.begin(), empty.end());
+        REQUIRE(empty == Set<int>{});
+
+        empty.extend(one.begin(), one.end());
+        REQUIRE(empty == Set<int>{1});
+
+        empty.extend(some.begin(), some.end());
+        REQUIRE(empty == Set<int>{1, 2, 3, 4, 5});
+
+        // extend from other container
+        std::vector<int> v = {0, 9};
+        empty.extend(v.begin(), v.end());
+        REQUIRE(empty == Set<int>{0, 1, 2, 3, 4, 5, 9});
+    }
+
     SECTION("clear")
     {
         some.clear();
