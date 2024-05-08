@@ -50,15 +50,15 @@ TEST_CASE("Deque")
     SECTION("compare")
     {
         // operator==
-        Deque<int> eq_deque({1, 2, 3, 4, 5});
+        Deque<int> eq_deque{1, 2, 3, 4, 5};
         REQUIRE(eq_deque == some);
 
         // operator!=
-        Deque<int> ne_deque({1, 3, 5});
+        Deque<int> ne_deque{1, 3, 5};
         REQUIRE(ne_deque != some);
 
         // operator<
-        Deque<int> lt_deque({0, 9, 9, 9, 9});
+        Deque<int> lt_deque{0, 9, 9, 9, 9};
         REQUIRE(lt_deque < some);
 
         // operator<=
@@ -66,7 +66,7 @@ TEST_CASE("Deque")
         REQUIRE(eq_deque <= some);
 
         // operator>
-        Deque<int> gt_deque({2});
+        Deque<int> gt_deque{2};
         REQUIRE(gt_deque > some);
 
         // operator>=
@@ -77,12 +77,12 @@ TEST_CASE("Deque")
     SECTION("assignment")
     {
         some = one; // copy
-        REQUIRE(some == Deque<int>({1}));
-        REQUIRE(one == Deque<int>({1}));
+        REQUIRE(some == Deque<int>{1});
+        REQUIRE(one == Deque<int>{1});
 
         empty = std::move(one); // move
-        REQUIRE(empty == Deque<int>({1}));
-        REQUIRE(one == Deque<int>());
+        REQUIRE(empty == Deque<int>{1});
+        REQUIRE(one == Deque<int>{});
     }
 
     SECTION("iterator")
@@ -190,48 +190,48 @@ TEST_CASE("Deque")
 
     SECTION("rotate")
     {
-        REQUIRE((empty >>= 1) == Deque<int>());
-        REQUIRE((empty >>= 2) == Deque<int>());
-        REQUIRE((empty <<= 1) == Deque<int>());
-        REQUIRE((empty <<= 2) == Deque<int>());
+        REQUIRE((empty >>= 1) == Deque<int>{});
+        REQUIRE((empty >>= 2) == Deque<int>{});
+        REQUIRE((empty <<= 1) == Deque<int>{});
+        REQUIRE((empty <<= 2) == Deque<int>{});
 
         empty.push_back(1);
 
-        REQUIRE((empty >>= 1) == Deque<int>({1}));
-        REQUIRE((empty >>= 2) == Deque<int>({1}));
-        REQUIRE((empty <<= 1) == Deque<int>({1}));
-        REQUIRE((empty <<= 2) == Deque<int>({1}));
+        REQUIRE((empty >>= 1) == Deque<int>{1});
+        REQUIRE((empty >>= 2) == Deque<int>{1});
+        REQUIRE((empty <<= 1) == Deque<int>{1});
+        REQUIRE((empty <<= 2) == Deque<int>{1});
 
         empty.push_back(2);
         empty.push_back(3);
         empty.push_back(4);
         empty.push_back(5);
 
-        REQUIRE((empty >>= 1) == Deque<int>({5, 1, 2, 3, 4}));
-        REQUIRE((empty >>= 2) == Deque<int>({3, 4, 5, 1, 2}));
-        REQUIRE((empty <<= 1) == Deque<int>({4, 5, 1, 2, 3}));
-        REQUIRE((empty <<= 2) == Deque<int>({1, 2, 3, 4, 5}));
+        REQUIRE((empty >>= 1) == Deque<int>{5, 1, 2, 3, 4});
+        REQUIRE((empty >>= 2) == Deque<int>{3, 4, 5, 1, 2});
+        REQUIRE((empty <<= 1) == Deque<int>{4, 5, 1, 2, 3});
+        REQUIRE((empty <<= 2) == Deque<int>{1, 2, 3, 4, 5});
 
-        REQUIRE((empty >>= 233) == Deque<int>({3, 4, 5, 1, 2}));
-        REQUIRE((empty >>= -233) == Deque<int>({1, 2, 3, 4, 5}));
+        REQUIRE((empty >>= 233) == Deque<int>{3, 4, 5, 1, 2});
+        REQUIRE((empty >>= -233) == Deque<int>{1, 2, 3, 4, 5});
 
-        REQUIRE((empty <<= 233) == Deque<int>({4, 5, 1, 2, 3}));
-        REQUIRE((empty <<= -233) == Deque<int>({1, 2, 3, 4, 5}));
+        REQUIRE((empty <<= 233) == Deque<int>{4, 5, 1, 2, 3});
+        REQUIRE((empty <<= -233) == Deque<int>{1, 2, 3, 4, 5});
     }
 
     SECTION("reverse")
     {
-        REQUIRE(empty.reverse() == Deque<int>());
-        REQUIRE(one.reverse() == Deque<int>({1}));
-        REQUIRE(some.reverse() == Deque<int>({5, 4, 3, 2, 1}));
+        REQUIRE(empty.reverse() == Deque<int>{});
+        REQUIRE(one.reverse() == Deque<int>{1});
+        REQUIRE(some.reverse() == Deque<int>{5, 4, 3, 2, 1});
     }
 
     SECTION("clear")
     {
         some.clear();
-        REQUIRE(some == Deque<int>());
+        REQUIRE(some == Deque<int>{});
         some.clear(); // double clear
-        REQUIRE(some == Deque<int>());
+        REQUIRE(some == Deque<int>{});
     }
 
     SECTION("print")

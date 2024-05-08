@@ -14,7 +14,7 @@ TEST_CASE("Dict")
         REQUIRE(dict1.is_empty());
 
         // Dict(const std::initializer_list<Pair<K, V>>& init)
-        Dict<int, std::string> dict2({{1, "one"}, {2, "two"}, {3, "three"}, {4, "four"}, {5, "five"}});
+        Dict<int, std::string> dict2 = {{1, "one"}, {2, "two"}, {3, "three"}, {4, "four"}, {5, "five"}};
         REQUIRE(dict2.size() == 5);
         REQUIRE(!dict2.is_empty());
 
@@ -61,12 +61,12 @@ TEST_CASE("Dict")
     SECTION("assignment")
     {
         some = one; // copy
-        REQUIRE(some == Dict<int, std::string>({{1, "one"}}));
-        REQUIRE(one == Dict<int, std::string>({{1, "one"}}));
+        REQUIRE(some == Dict<int, std::string>{{1, "one"}});
+        REQUIRE(one == Dict<int, std::string>{{1, "one"}});
 
         empty = std::move(one); // move
-        REQUIRE(empty == Dict<int, std::string>({{1, "one"}}));
-        REQUIRE(one == Dict<int, std::string>());
+        REQUIRE(empty == Dict<int, std::string>{{1, "one"}});
+        REQUIRE(one == Dict<int, std::string>{});
     }
 
     SECTION("iterator")
@@ -77,7 +77,7 @@ TEST_CASE("Dict")
 
         // for in
         int i = 0;
-        for (const auto& [k, v] : Dict<int, int>({{1, 1}, {2, 4}, {3, 9}}))
+        for (const auto& [k, v] : Dict<int, int>{{1, 1}, {2, 4}, {3, 9}})
         {
             REQUIRE(k * k == v);
             i++;
@@ -94,7 +94,7 @@ TEST_CASE("Dict")
 
     SECTION("access")
     {
-        Dict<std::string, int> dict({{"one", 1}, {"two", 2}, {"three", 3}});
+        Dict<std::string, int> dict{{"one", 1}, {"two", 2}, {"three", 3}};
 
         // get
         REQUIRE(dict.get("one", 233) == 1);
@@ -113,7 +113,7 @@ TEST_CASE("Dict")
         REQUIRE_THROWS_MATCHES(dict["four"], std::runtime_error, Message("Error: Key is not found in the dictionary."));
 
         // const access
-        const Dict<std::string, int> const_dict({{"one", 1}, {"two", 2}, {"three", 3}});
+        const Dict<std::string, int> const_dict{{"one", 1}, {"two", 2}, {"three", 3}};
         REQUIRE(const_dict["one"] == 1);
     }
 
@@ -138,9 +138,9 @@ TEST_CASE("Dict")
 
     SECTION("keys_values_items")
     {
-        REQUIRE(some.keys() == Set<int>({1, 2, 3}));
-        REQUIRE(some.values() == Set<std::string>({"one", "two", "three"}));
-        REQUIRE(some.items() == Set<Pair<int, std::string>>({{1, "one"}, {2, "two"}, {3, "three"}}));
+        REQUIRE(some.keys() == Set<int>{1, 2, 3});
+        REQUIRE(some.values() == Set<std::string>{"one", "two", "three"});
+        REQUIRE(some.items() == Set<Pair<int, std::string>>{{1, "one"}, {2, "two"}, {3, "three"}});
     }
 
     SECTION("add")
@@ -149,13 +149,13 @@ TEST_CASE("Dict")
         REQUIRE(empty.add(1, "one") == true);
         REQUIRE(empty.add(2, "two") == true);
 
-        REQUIRE(empty == Dict<int, std::string>({{1, "one"}, {2, "two"}, {3, "three"}}));
+        REQUIRE(empty == some);
 
         REQUIRE(empty.add(3, "three") == false);
         REQUIRE(empty.add(1, "one") == false);
         REQUIRE(empty.add(2, "two") == false);
 
-        REQUIRE(empty == Dict<int, std::string>({{1, "one"}, {2, "two"}, {3, "three"}}));
+        REQUIRE(empty == some);
     }
 
     SECTION("remove")
@@ -164,13 +164,13 @@ TEST_CASE("Dict")
         REQUIRE(some.remove(1) == true);
         REQUIRE(some.remove(2) == true);
 
-        REQUIRE(some == Dict<int, std::string>());
+        REQUIRE(some == empty);
 
         REQUIRE(some.remove(2) == false);
         REQUIRE(some.remove(1) == false);
         REQUIRE(some.remove(3) == false);
 
-        REQUIRE(some == Dict<int, std::string>());
+        REQUIRE(some == empty);
     }
 
     SECTION("pop")
@@ -206,9 +206,9 @@ TEST_CASE("Dict")
     SECTION("clear")
     {
         some.clear();
-        REQUIRE(some == Dict<int, std::string>());
+        REQUIRE(some == Dict<int, std::string>{});
         some.clear(); // double clear
-        REQUIRE(some == Dict<int, std::string>());
+        REQUIRE(some == Dict<int, std::string>{});
     }
 
     SECTION("print")

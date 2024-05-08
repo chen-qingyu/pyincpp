@@ -83,12 +83,12 @@ TEST_CASE("Set")
     SECTION("assignment")
     {
         some = one; // copy
-        REQUIRE(some == Set<int>({1}));
-        REQUIRE(one == Set<int>({1}));
+        REQUIRE(some == Set<int>{1});
+        REQUIRE(one == Set<int>{1});
 
         empty = std::move(one); // move
-        REQUIRE(empty == Set<int>({1}));
-        REQUIRE(one == Set<int>());
+        REQUIRE(empty == Set<int>{1});
+        REQUIRE(one == Set<int>{});
     }
 
     SECTION("iterator")
@@ -185,10 +185,10 @@ TEST_CASE("Set")
         Set<int> set1 = {1, 2, 3, 4, 5};
         Set<int> set2 = {1, 3, 5, 7, 9};
 
-        REQUIRE((set1 & set2) == Set<int>({1, 3, 5}));
-        REQUIRE((set1 | set2) == Set<int>({1, 2, 3, 4, 5, 7, 9}));
-        REQUIRE((set1 - set2) == Set<int>({2, 4}));
-        REQUIRE((set1 ^ set2) == Set<int>({2, 4, 7, 9}));
+        REQUIRE((set1 & set2) == Set<int>{1, 3, 5});
+        REQUIRE((set1 | set2) == Set<int>{1, 2, 3, 4, 5, 7, 9});
+        REQUIRE((set1 - set2) == Set<int>{2, 4});
+        REQUIRE((set1 ^ set2) == Set<int>{2, 4, 7, 9});
 
         REQUIRE((empty & empty) == empty);
         REQUIRE((empty | empty) == empty);
@@ -216,9 +216,9 @@ TEST_CASE("Set")
     SECTION("clear")
     {
         some.clear();
-        REQUIRE(some == Set<int>());
+        REQUIRE(some == Set<int>{});
         some.clear(); // double clear
-        REQUIRE(some == Set<int>());
+        REQUIRE(some == Set<int>{});
     }
 
     SECTION("print")

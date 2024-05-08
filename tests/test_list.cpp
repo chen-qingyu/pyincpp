@@ -64,16 +64,16 @@ TEST_CASE("List")
     SECTION("compare")
     {
         // operator==
-        List<int> eq_list({1, 2, 3, 4, 5});
+        List<int> eq_list{1, 2, 3, 4, 5};
         REQUIRE(eq_list == some);
 
         // operator!=
-        List<int> ne_list({1, 3, 5});
+        List<int> ne_list{1, 3, 5};
         REQUIRE(ne_list != some);
 
         // operator<
-        List<int> lt_list({1, 2, 3});
-        List<int> lt_list2({0, 9, 9, 9, 9});
+        List<int> lt_list{1, 2, 3};
+        List<int> lt_list2{0, 9, 9, 9, 9};
         REQUIRE(lt_list < some);
         REQUIRE(lt_list2 < some);
 
@@ -83,8 +83,8 @@ TEST_CASE("List")
         REQUIRE(eq_list <= some);
 
         // operator>
-        List<int> gt_list({1, 2, 3, 4, 5, 6});
-        List<int> gt_list2({2});
+        List<int> gt_list{1, 2, 3, 4, 5, 6};
+        List<int> gt_list2{2};
         REQUIRE(gt_list > some);
         REQUIRE(gt_list2 > some);
 
@@ -97,12 +97,12 @@ TEST_CASE("List")
     SECTION("assignment")
     {
         some = one; // copy
-        REQUIRE(some == List<int>({1}));
-        REQUIRE(one == List<int>({1}));
+        REQUIRE(some == List<int>{1});
+        REQUIRE(one == List<int>{1});
 
         empty = std::move(one); // move
-        REQUIRE(empty == List<int>({1}));
-        REQUIRE(one == List<int>());
+        REQUIRE(empty == List<int>{1});
+        REQUIRE(one == List<int>{});
     }
 
     SECTION("iterator")
@@ -187,15 +187,15 @@ TEST_CASE("List")
 
         // insert
         empty.insert(0, 233);
-        REQUIRE(empty == List<int>({233}));
+        REQUIRE(empty == List<int>{233});
         empty.insert(0, 1);
-        REQUIRE(empty == List<int>({1, 233}));
+        REQUIRE(empty == List<int>{1, 233});
         empty.insert(2, 999);
-        REQUIRE(empty == List<int>({1, 233, 999}));
+        REQUIRE(empty == List<int>{1, 233, 999});
         empty.insert(1, 5);
-        REQUIRE(empty == List<int>({1, 5, 233, 999}));
+        REQUIRE(empty == List<int>{1, 5, 233, 999});
         empty.insert(-1, -1);
-        REQUIRE(empty == List<int>({1, 5, 233, -1, 999}));
+        REQUIRE(empty == List<int>{1, 5, 233, -1, 999});
 
         // check full
         // The test was successful! But the testing time is too long, and comment it out.
@@ -235,90 +235,90 @@ TEST_CASE("List")
     SECTION("append")
     {
         // append element
-        REQUIRE((empty += 2) == List<int>({2}));
-        REQUIRE((empty += 3) == List<int>({2, 3}));
-        REQUIRE((empty += 3) == List<int>({2, 3, 3}));
-        REQUIRE((empty += 3) == List<int>({2, 3, 3, 3}));
-        REQUIRE((empty += 3) == List<int>({2, 3, 3, 3, 3}));
+        REQUIRE((empty += 2) == List<int>{2});
+        REQUIRE((empty += 3) == List<int>{2, 3});
+        REQUIRE((empty += 3) == List<int>{2, 3, 3});
+        REQUIRE((empty += 3) == List<int>{2, 3, 3, 3});
+        REQUIRE((empty += 3) == List<int>{2, 3, 3, 3, 3});
 
         // append list
-        REQUIRE((empty += empty) == List<int>({2, 3, 3, 3, 3, 2, 3, 3, 3, 3}));
-        REQUIRE((empty += empty) == List<int>({2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3}));
-        REQUIRE((empty += List<int>({0, 0})) == List<int>({2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 0, 0}));
+        REQUIRE((empty += empty) == List<int>{2, 3, 3, 3, 3, 2, 3, 3, 3, 3});
+        REQUIRE((empty += empty) == List<int>{2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3});
+        REQUIRE((empty += List<int>{0, 0}) == List<int>{2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 0, 0});
     }
 
     SECTION("remove_element")
     {
-        REQUIRE((some -= 1) == List<int>({2, 3, 4, 5}));
-        REQUIRE((some -= 2) == List<int>({3, 4, 5}));
-        REQUIRE((some -= 3) == List<int>({4, 5}));
-        REQUIRE((some -= 4) == List<int>({5}));
-        REQUIRE((some -= 5) == List<int>({}));
+        REQUIRE((some -= 1) == List<int>{2, 3, 4, 5});
+        REQUIRE((some -= 2) == List<int>{3, 4, 5});
+        REQUIRE((some -= 3) == List<int>{4, 5});
+        REQUIRE((some -= 4) == List<int>{5});
+        REQUIRE((some -= 5) == List<int>{});
 
         // if the list does not contain the element, it is unchanged.
-        REQUIRE((some -= 6) == List<int>({}));
+        REQUIRE((some -= 6) == List<int>{});
     }
 
     SECTION("repeat")
     {
         REQUIRE_THROWS_MATCHES(some *= -1, std::runtime_error, Message("Error: Times to repeat can not be less than zero."));
 
-        REQUIRE((some *= 1) == List<int>({1, 2, 3, 4, 5}));
-        REQUIRE((some *= 2) == List<int>({1, 2, 3, 4, 5, 1, 2, 3, 4, 5}));
-        REQUIRE((some *= 0) == List<int>({}));
+        REQUIRE((some *= 1) == List<int>{1, 2, 3, 4, 5});
+        REQUIRE((some *= 2) == List<int>{1, 2, 3, 4, 5, 1, 2, 3, 4, 5});
+        REQUIRE((some *= 0) == List<int>{});
     }
 
     SECTION("remove_all_element")
     {
         List<int> list = {1, 2, 3, 4, 5, 4, 3, 2, 1};
 
-        REQUIRE((list /= 1) == List<int>({2, 3, 4, 5, 4, 3, 2}));
-        REQUIRE((list /= 2) == List<int>({3, 4, 5, 4, 3}));
-        REQUIRE((list /= 3) == List<int>({4, 5, 4}));
-        REQUIRE((list /= 4) == List<int>({5}));
-        REQUIRE((list /= 5) == List<int>({}));
+        REQUIRE((list /= 1) == List<int>{2, 3, 4, 5, 4, 3, 2});
+        REQUIRE((list /= 2) == List<int>{3, 4, 5, 4, 3});
+        REQUIRE((list /= 3) == List<int>{4, 5, 4});
+        REQUIRE((list /= 4) == List<int>{5});
+        REQUIRE((list /= 5) == List<int>{});
 
         // if the list does not contain the element, it is unchanged.
-        REQUIRE((list /= 6) == List<int>({}));
+        REQUIRE((list /= 6) == List<int>{});
     }
 
     SECTION("rotate")
     {
-        REQUIRE((empty >>= 1) == List<int>());
-        REQUIRE((empty >>= 2) == List<int>());
-        REQUIRE((empty <<= 1) == List<int>());
-        REQUIRE((empty <<= 2) == List<int>());
+        REQUIRE((empty >>= 1) == List<int>{});
+        REQUIRE((empty >>= 2) == List<int>{});
+        REQUIRE((empty <<= 1) == List<int>{});
+        REQUIRE((empty <<= 2) == List<int>{});
 
-        REQUIRE((one >>= 1) == List<int>({1}));
-        REQUIRE((one >>= 2) == List<int>({1}));
-        REQUIRE((one <<= 1) == List<int>({1}));
-        REQUIRE((one <<= 2) == List<int>({1}));
+        REQUIRE((one >>= 1) == List<int>{1});
+        REQUIRE((one >>= 2) == List<int>{1});
+        REQUIRE((one <<= 1) == List<int>{1});
+        REQUIRE((one <<= 2) == List<int>{1});
 
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= -1) == List<int>({2, 3, 4, 5, 1}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 0) == List<int>({1, 2, 3, 4, 5}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 1) == List<int>({5, 1, 2, 3, 4}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 3) == List<int>({3, 4, 5, 1, 2}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) >>= 5) == List<int>({1, 2, 3, 4, 5}));
+        REQUIRE((List<int>{1, 2, 3, 4, 5} >>= -1) == List<int>{2, 3, 4, 5, 1});
+        REQUIRE((List<int>{1, 2, 3, 4, 5} >>= 0) == List<int>{1, 2, 3, 4, 5});
+        REQUIRE((List<int>{1, 2, 3, 4, 5} >>= 1) == List<int>{5, 1, 2, 3, 4});
+        REQUIRE((List<int>{1, 2, 3, 4, 5} >>= 3) == List<int>{3, 4, 5, 1, 2});
+        REQUIRE((List<int>{1, 2, 3, 4, 5} >>= 5) == List<int>{1, 2, 3, 4, 5});
 
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= -1) == List<int>({5, 1, 2, 3, 4}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= 0) == List<int>({1, 2, 3, 4, 5}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= 1) == List<int>({2, 3, 4, 5, 1}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= 3) == List<int>({4, 5, 1, 2, 3}));
-        REQUIRE((List<int>({1, 2, 3, 4, 5}) <<= 5) == List<int>({1, 2, 3, 4, 5}));
+        REQUIRE((List<int>{1, 2, 3, 4, 5} <<= -1) == List<int>{5, 1, 2, 3, 4});
+        REQUIRE((List<int>{1, 2, 3, 4, 5} <<= 0) == List<int>{1, 2, 3, 4, 5});
+        REQUIRE((List<int>{1, 2, 3, 4, 5} <<= 1) == List<int>{2, 3, 4, 5, 1});
+        REQUIRE((List<int>{1, 2, 3, 4, 5} <<= 3) == List<int>{4, 5, 1, 2, 3});
+        REQUIRE((List<int>{1, 2, 3, 4, 5} <<= 5) == List<int>{1, 2, 3, 4, 5});
     }
 
     SECTION("reverse")
     {
         REQUIRE(empty.reverse() == empty);
         REQUIRE(one.reverse() == one);
-        REQUIRE(some.reverse() == List<int>({5, 4, 3, 2, 1}));
+        REQUIRE(some.reverse() == List<int>{5, 4, 3, 2, 1});
     }
 
     SECTION("uniquify")
     {
-        REQUIRE(List<int>({1, 2, 2, 3, 3, 3}).uniquify() == List<int>({1, 2, 3}));
-        REQUIRE(List<int>({1, 2, 3, 1, 2, 3, 1, 2, 3}).uniquify() == List<int>({1, 2, 3}));
-        REQUIRE((List<int>{0} * 10000).uniquify() == List<int>({0}));
+        REQUIRE(List<int>{1, 2, 2, 3, 3, 3}.uniquify() == List<int>{1, 2, 3});
+        REQUIRE(List<int>{1, 2, 3, 1, 2, 3, 1, 2, 3}.uniquify() == List<int>{1, 2, 3});
+        REQUIRE((List<int>{0} * 10000).uniquify() == List<int>{0});
     }
 
     SECTION("sort")
@@ -327,12 +327,12 @@ TEST_CASE("List")
 
         // from small to large
         list.sort();
-        REQUIRE(list == List<int>({0, 1, 2, 3, 4, 5, 6, 7, 8, 9}));
+        REQUIRE(list == List<int>{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
 
         // from large to small
         list.sort([](const int& e1, const int& e2)
                   { return e1 > e2; });
-        REQUIRE(list == List<int>({9, 8, 7, 6, 5, 4, 3, 2, 1, 0}));
+        REQUIRE(list == List<int>{9, 8, 7, 6, 5, 4, 3, 2, 1, 0});
 
         List<Person> persons = {{"Alice", 18},
                                 {"Sakura", 19},
@@ -343,41 +343,41 @@ TEST_CASE("List")
         // sort by age
         persons.sort([](const Person& e1, const Person& e2)
                      { return e1.age < e2.age; });
-        REQUIRE(persons == List<Person>({{"Mei", 17},
-                                         {"Alice", 18},
-                                         {"Yuzu", 18},
-                                         {"Sakura", 19},
-                                         {"Homura", 20}}));
+        REQUIRE(persons == List<Person>{{"Mei", 17},
+                                        {"Alice", 18},
+                                        {"Yuzu", 18},
+                                        {"Sakura", 19},
+                                        {"Homura", 20}});
 
         // sort by name
         persons.sort([](const Person& e1, const Person& e2)
                      { return e1.name < e2.name; });
-        REQUIRE(persons == List<Person>({{"Alice", 18},
-                                         {"Homura", 20},
-                                         {"Mei", 17},
-                                         {"Sakura", 19},
-                                         {"Yuzu", 18}}));
+        REQUIRE(persons == List<Person>{{"Alice", 18},
+                                        {"Homura", 20},
+                                        {"Mei", 17},
+                                        {"Sakura", 19},
+                                        {"Yuzu", 18}});
     }
 
     SECTION("erase")
     {
-        REQUIRE(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(0, 1) == List<int>({2, 3, 4, 5, 6, 7}));
-        REQUIRE(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(1, 2) == List<int>({1, 3, 4, 5, 6, 7}));
-        REQUIRE(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(1, 6) == List<int>({1, 7}));
-        REQUIRE(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(0, 7) == List<int>());
+        REQUIRE(List<int>{1, 2, 3, 4, 5, 6, 7}.erase(0, 1) == List<int>{2, 3, 4, 5, 6, 7});
+        REQUIRE(List<int>{1, 2, 3, 4, 5, 6, 7}.erase(1, 2) == List<int>{1, 3, 4, 5, 6, 7});
+        REQUIRE(List<int>{1, 2, 3, 4, 5, 6, 7}.erase(1, 6) == List<int>{1, 7});
+        REQUIRE(List<int>{1, 2, 3, 4, 5, 6, 7}.erase(0, 7) == List<int>{});
 
-        REQUIRE_THROWS_MATCHES(List<int>({1, 2, 3, 4, 5, 6, 7}).erase(-1, 99), std::runtime_error, Message("Error: Index out of range."));
+        REQUIRE_THROWS_MATCHES(some.erase(-1, 99), std::runtime_error, Message("Error: Index out of range."));
     }
 
     SECTION("map")
     {
         some.map([](int& x)
                  { x *= 2; });
-        REQUIRE(some == List<int>({2, 4, 6, 8, 10}));
+        REQUIRE(some == List<int>{2, 4, 6, 8, 10});
 
         some.map([](int& x)
                  { x = 1; });
-        REQUIRE(some == List<int>({1, 1, 1, 1, 1}));
+        REQUIRE(some == List<int>{1, 1, 1, 1, 1});
 
         std::string str;
         some.map([&](int& x)
@@ -389,11 +389,11 @@ TEST_CASE("List")
     {
         some.filter([](int& x)
                     { return x % 2 == 0; });
-        REQUIRE(some == List<int>({2, 4}));
+        REQUIRE(some == List<int>{2, 4});
 
         some.filter([](int& x)
                     { return x % 2 == 1; });
-        REQUIRE(some == List<int>());
+        REQUIRE(some == List<int>{});
     }
 
     SECTION("extend")
@@ -416,32 +416,32 @@ TEST_CASE("List")
     SECTION("clear")
     {
         some.clear();
-        REQUIRE(some == List<int>());
+        REQUIRE(some == List<int>{});
         some.clear(); // double clear
-        REQUIRE(some == List<int>());
+        REQUIRE(some == List<int>{});
     }
 
     SECTION("slice")
     {
-        REQUIRE(some.slice(-1, 1) == List<int>({}));
-        REQUIRE(some.slice(-1, 1, -1) == List<int>({5, 4, 3}));
-        REQUIRE(some.slice(1, -1) == List<int>({2, 3, 4}));
-        REQUIRE(some.slice(1, -1, -1) == List<int>({}));
+        REQUIRE(some.slice(-1, 1) == List<int>{});
+        REQUIRE(some.slice(-1, 1, -1) == List<int>{5, 4, 3});
+        REQUIRE(some.slice(1, -1) == List<int>{2, 3, 4});
+        REQUIRE(some.slice(1, -1, -1) == List<int>{});
 
-        REQUIRE(some.slice(0, 5) == List<int>({1, 2, 3, 4, 5}));
-        REQUIRE(some.slice(0, 5, 2) == List<int>({1, 3, 5}));
-        REQUIRE(some.slice(0, 5, -1) == List<int>({}));
-        REQUIRE(some.slice(0, 5, -2) == List<int>({}));
+        REQUIRE(some.slice(0, 5) == List<int>{1, 2, 3, 4, 5});
+        REQUIRE(some.slice(0, 5, 2) == List<int>{1, 3, 5});
+        REQUIRE(some.slice(0, 5, -1) == List<int>{});
+        REQUIRE(some.slice(0, 5, -2) == List<int>{});
 
-        REQUIRE(some.slice(-1, -6) == List<int>({}));
-        REQUIRE(some.slice(-1, -6, 2) == List<int>({}));
-        REQUIRE(some.slice(-1, -6, -1) == List<int>({5, 4, 3, 2, 1}));
-        REQUIRE(some.slice(-1, -6, -2) == List<int>({5, 3, 1}));
+        REQUIRE(some.slice(-1, -6) == List<int>{});
+        REQUIRE(some.slice(-1, -6, 2) == List<int>{});
+        REQUIRE(some.slice(-1, -6, -1) == List<int>{5, 4, 3, 2, 1});
+        REQUIRE(some.slice(-1, -6, -2) == List<int>{5, 3, 1});
 
-        REQUIRE(some.slice(0, 0) == List<int>({}));
-        REQUIRE(some.slice(1, 1) == List<int>({}));
-        REQUIRE(some.slice(-1, -1) == List<int>({}));
-        REQUIRE(some.slice(-1, -1, -1) == List<int>({}));
+        REQUIRE(some.slice(0, 0) == List<int>{});
+        REQUIRE(some.slice(1, 1) == List<int>{});
+        REQUIRE(some.slice(-1, -1) == List<int>{});
+        REQUIRE(some.slice(-1, -1, -1) == List<int>{});
 
         REQUIRE_THROWS_MATCHES(some.slice(1, 2, 0), std::runtime_error, Message("Error: Slice step can not be zero."));
 
@@ -451,21 +451,21 @@ TEST_CASE("List")
     SECTION("production")
     {
         // operator+
-        REQUIRE(some + 6 == List<int>({1, 2, 3, 4, 5, 6}));
-        REQUIRE(some + List<int>({6, 7}) == List<int>({1, 2, 3, 4, 5, 6, 7}));
+        REQUIRE(some + 6 == List<int>{1, 2, 3, 4, 5, 6});
+        REQUIRE(some + List<int>{6, 7} == List<int>{1, 2, 3, 4, 5, 6, 7});
 
         // operator-
-        REQUIRE(some - 5 == List<int>({1, 2, 3, 4}));
-        REQUIRE(some - 6 == List<int>({1, 2, 3, 4, 5}));
+        REQUIRE(some - 5 == List<int>{1, 2, 3, 4});
+        REQUIRE(some - 6 == List<int>{1, 2, 3, 4, 5});
 
         // operator*
-        REQUIRE(some * 0 == List<int>({}));
-        REQUIRE(some * 1 == List<int>({1, 2, 3, 4, 5}));
-        REQUIRE(some * 2 == List<int>({1, 2, 3, 4, 5, 1, 2, 3, 4, 5}));
+        REQUIRE(some * 0 == List<int>{});
+        REQUIRE(some * 1 == List<int>{1, 2, 3, 4, 5});
+        REQUIRE(some * 2 == List<int>{1, 2, 3, 4, 5, 1, 2, 3, 4, 5});
 
         // operator/
-        REQUIRE(some / 5 == List<int>({1, 2, 3, 4}));
-        REQUIRE(some / 6 == List<int>({1, 2, 3, 4, 5}));
+        REQUIRE(some / 5 == List<int>{1, 2, 3, 4});
+        REQUIRE(some / 6 == List<int>{1, 2, 3, 4, 5});
     }
 
     SECTION("print")
