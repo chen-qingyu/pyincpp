@@ -42,7 +42,7 @@ private:
     List<signed char> digits_;
 
     // Sign of integer, 1 is positive, -1 is negative, and 0 is zero.
-    signed char sign_;
+    signed char sign_ = 0; // need init value
 
     // Remove leading zeros.
     Int& remove_leading_zeros()
@@ -129,16 +129,10 @@ public:
      */
 
     /// Construct a new zero integer object.
-    Int()
-        : digits_()
-        , sign_(0) // can't using default, cause sign_ will be -1
-    {
-    }
+    Int() = default;
 
     /// Construct a new integer object based on the given null-terminated characters.
     Int(const char* chars)
-        : digits_()
-        , sign_()
     {
         int len = std::strlen(chars);
         if (!is_integer(chars, len))
@@ -161,8 +155,6 @@ public:
 
     /// Construct a new integer object based on the given int.
     Int(int integer)
-        : digits_()
-        , sign_(0)
     {
         if (integer == 0)
         {
