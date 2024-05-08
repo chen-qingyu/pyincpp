@@ -365,13 +365,13 @@ TEST_CASE("Str")
 
     SECTION("split")
     {
-        REQUIRE(Str("one, two, three").split(", ") == List<Str>({"one", "two", "three"}));
-        REQUIRE(Str("this is my code!").split(" ") == List<Str>({"this", "is", "my", "code!"}));
-        REQUIRE(Str("this is my code!").split() == List<Str>({"this", "is", "my", "code!"}));
-        REQUIRE(Str("this is my code!").split("this is my code!") == List<Str>({""}));
-        REQUIRE(Str(" this is my code! ").split(" ") == List<Str>({"", "this", "is", "my", "code!"}));
-        REQUIRE(Str("aaa").split("a") == List<Str>({"", "", ""}));
-        REQUIRE(Str("192.168.0.1").split(".") == List<Str>({"192", "168", "0", "1"}));
+        REQUIRE(Str("one, two, three").split(", ") == List<Str>{"one", "two", "three"});
+        REQUIRE(Str("this is my code!").split(" ") == List<Str>{"this", "is", "my", "code!"});
+        REQUIRE(Str("this is my code!").split() == List<Str>{"this", "is", "my", "code!"});
+        REQUIRE(Str("this is my code!").split("this is my code!") == List<Str>{""});
+        REQUIRE(Str(" this is my code! ").split(" ") == List<Str>{"", "this", "is", "my", "code!"});
+        REQUIRE(Str("aaa").split("a") == List<Str>{"", "", ""});
+        REQUIRE(Str("192.168.0.1").split(".") == List<Str>{"192", "168", "0", "1"});
     }
 
     SECTION("join")
@@ -385,9 +385,9 @@ TEST_CASE("Str")
 
     SECTION("format")
     {
-        REQUIRE(Str("{}, {}, {}, {}.").format(1, 2, 3, 4) == Str("1, 2, 3, 4."));
-        REQUIRE(Str("I'm {}, {} years old.").format("Alice", 18) == Str("I'm Alice, 18 years old."));
-        REQUIRE(Str("{} -> {}").format(List<int>({1, 2, 3}), List<Str>({"one", "two", "three"})) == Str("[1, 2, 3] -> [\"one\", \"two\", \"three\"]"));
+        REQUIRE(Str("{}, {}, {}, {}.").format(1, 2, 3, 4) == "1, 2, 3, 4.");
+        REQUIRE(Str("I'm {}, {} years old.").format("Alice", 18) == "I'm Alice, 18 years old.");
+        REQUIRE(Str("{} -> {}").format(List<int>{1, 2, 3}, List<Str>{"one", "two", "three"}) == "[1, 2, 3] -> [\"one\", \"two\", \"three\"]");
     }
 
     SECTION("print")
