@@ -52,8 +52,7 @@ public:
     }
 
     /// Construct a set with the contents of the range [`first`, `last`).
-    template <typename InputIt>
-    Set(const InputIt& first, const InputIt& last)
+    Set(std::input_iterator auto first, std::input_iterator auto last)
         : set_(first, last)
     {
     }
@@ -232,8 +231,7 @@ public:
     }
 
     /// Extend the set by adding elements of the range [`first`, `last`).
-    template <typename InputIt>
-    void extend(const InputIt& first, const InputIt& last)
+    void extend(std::input_iterator auto first, std::input_iterator auto last)
     {
         set_.insert(first, last);
     }
@@ -291,7 +289,7 @@ public:
     /// Output the set to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Set& set)
     {
-        return internal::print(os, set, '{', '}');
+        return internal::print(os, set.begin(), set.end(), '{', '}');
     }
 };
 

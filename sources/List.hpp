@@ -57,8 +57,7 @@ public:
     }
 
     /// Construct a list with the contents of the range [`first`, `last`).
-    template <typename InputIt>
-    List(const InputIt& first, const InputIt& last)
+    List(std::input_iterator auto first, std::input_iterator auto last)
         : vector_(first, last)
     {
     }
@@ -353,8 +352,7 @@ public:
     }
 
     /// Extend the list by appending elements of the range [`first`, `last`).
-    template <typename InputIt>
-    void extend(const InputIt& first, const InputIt& last)
+    void extend(std::input_iterator auto first, std::input_iterator auto last)
     {
         vector_.insert(vector_.end(), first, last);
     }
@@ -445,7 +443,7 @@ public:
     /// Output the list to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const List& list)
     {
-        return internal::print(os, list, '[', ']');
+        return internal::print(os, list.begin(), list.end(), '[', ']');
     }
 };
 

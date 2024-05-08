@@ -21,11 +21,12 @@
 #ifndef UTILITY_HPP
 #define UTILITY_HPP
 
-#include <algorithm>   // std::copy std::copy_backward ...
+#include <algorithm>   // std::copy std::find std::rotate ...
 #include <climits>     // INT_MAX
 #include <cmath>       // std::abs std::pow INFINITY NAN
 #include <cstring>     // std::strlen
 #include <iostream>    // std::istream std::ostream
+#include <iterator>    // std::input_iterator
 #include <sstream>     // std::ostringstream
 #include <stdexcept>   // std::runtime_error
 #include <string>      // std::string std::getline
@@ -62,26 +63,25 @@ static inline void check_full(int size, int capacity)
     }
 }
 
-// Print function template for iterable container.
-template <typename Iterable>
-static inline std::ostream& print(std::ostream& os, const Iterable& iterable, char open, char close)
+// Print helper for range [`first`, `last`).
+static inline std::ostream& print(std::ostream& os, std::input_iterator auto first, std::input_iterator auto last, char open, char close)
 {
     // This form looks complex, but there is only one judgment in the loop.
     // At the Assembly level (see https://godbolt.org/z/qT9n7GKf8), this is more efficient
     // than the usual short form of the generated machine code under O3-level optimization.
     // The inspiration comes from Java source code.
 
-    if (iterable.is_empty())
+    if (first == last)
     {
         return os << open << close;
     }
 
     os << open;
-    auto it = iterable.begin();
+    auto it = first;
     while (true)
     {
         os << *it++;
-        if (it == iterable.end())
+        if (it == last)
         {
             return os << close;
         }

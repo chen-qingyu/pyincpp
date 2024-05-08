@@ -52,8 +52,7 @@ public:
     }
 
     /// Construct a deque with the contents of the range [`first`, `last`).
-    template <typename InputIt>
-    Deque(const InputIt& first, const InputIt& last)
+    Deque(std::input_iterator auto first, std::input_iterator auto last)
         : deque_(first, last)
     {
     }
@@ -214,15 +213,13 @@ public:
     }
 
     /// Extend the right side of the deque by appending elements of the range [`first`, `last`).
-    template <typename InputIt>
-    void extend_back(const InputIt& first, const InputIt& last)
+    void extend_back(std::input_iterator auto first, std::input_iterator auto last)
     {
         deque_.insert(deque_.end(), first, last);
     }
 
     /// Extend the left side of the deque by prepending elements of the range [`first`, `last`).
-    template <typename InputIt>
-    void extend_front(const InputIt& first, const InputIt& last)
+    void extend_front(std::input_iterator auto first, std::input_iterator auto last)
     {
         deque_.insert(deque_.begin(), first, last);
     }
@@ -284,7 +281,7 @@ public:
     /// Output the deque to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Deque& deque)
     {
-        return internal::print(os, deque, '<', '>');
+        return internal::print(os, deque.begin(), deque.end(), '<', '>');
     }
 };
 

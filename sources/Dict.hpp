@@ -55,8 +55,7 @@ public:
     }
 
     /// Construct a dictionary with the contents of the range [`first`, `last`).
-    template <typename InputIt>
-    Dict(const InputIt& first, const InputIt& last)
+    Dict(std::input_iterator auto first, std::input_iterator auto last)
         : map_(first, last)
     {
     }
@@ -238,8 +237,7 @@ public:
     }
 
     /// Extend the dictionary by adding elements of the range [`first`, `last`).
-    template <typename InputIt>
-    void extend(const InputIt& first, const InputIt& last)
+    void extend(std::input_iterator auto first, std::input_iterator auto last)
     {
         map_.insert(first, last);
     }
@@ -255,9 +253,9 @@ public:
      */
 
     /// Output the dictionary to the specified output stream.
-    friend std::ostream& operator<<(std::ostream& os, const Dict& dictionary)
+    friend std::ostream& operator<<(std::ostream& os, const Dict& dict)
     {
-        return internal::print(os, dictionary, '{', '}');
+        return internal::print(os, dict.begin(), dict.end(), '{', '}');
     }
 };
 
