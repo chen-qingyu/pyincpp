@@ -23,8 +23,6 @@
 
 #include "utility.hpp"
 
-#include "List.hpp"
-
 namespace pyincpp
 {
 
@@ -39,28 +37,28 @@ private:
     // digit: 0 0 0 5 4 3 2 1
     // index: 0 1 2 3 4 5 6 7
     // ```
-    List<signed char> digits_;
+    std::vector<signed char> digits_;
 
     // Sign of integer, 1 is positive, -1 is negative, and 0 is zero.
     signed char sign_ = 0; // need init value
 
-    // Remove leading zeros.
+    // Remove leading zeros elegantly.
     Int& remove_leading_zeros()
     {
-        int i = digits_.size() - 1;
-        while (i >= 0 && digits_[i] == 0) // i = -1 if is zero, ok
+        auto it = digits_.rbegin();
+        while (it != digits_.rend() && *it == 0)
         {
-            --i;
+            ++it;
         }
-        digits_.erase(i + 1, digits_.size());
+        digits_.erase(it.base(), digits_.end()); // note: rbegin().base() == end()
 
         return *this;
     }
 
-    // Add leading zeros.
+    // Add `n` leading zeros elegantly.
     Int& add_leading_zeros(int n)
     {
-        digits_ += List<signed char>({0}) * n;
+        digits_.resize(digits_.size() + n, 0);
 
         return *this;
     }
@@ -75,6 +73,8 @@ private:
 
         for (int i = (chars[0] == '+' || chars[0] == '-'); i < len; i++)
         {
+            // surprisingly, this is faster than `!std::isdigit(chars[i])`
+            // my guess is that the conversion of char to int takes time
             if (chars[i] < '0' || chars[i] > '9')
             {
                 return false;
@@ -87,7 +87,7 @@ private:
     // Increment the absolute value by 1 quickly.
     void abs_inc()
     {
-        digits_ += 0; // add a leading zero
+        digits_.push_back(0); // add a leading zero
 
         int i = 0;
         while (digits_[i] == 9)
@@ -120,7 +120,7 @@ private:
         remove_leading_zeros();
 
         // if result is zero, set sign to 0
-        sign_ = digits_.is_empty() ? 0 : sign_;
+        sign_ = digits_.empty() ? 0 : sign_;
     }
 
 public:
@@ -134,23 +134,27 @@ public:
     /// Construct a new integer object based on the given null-terminated characters.
     Int(const char* chars)
     {
-        int len = std::strlen(chars);
+        const int len = std::strlen(chars);
         if (!is_integer(chars, len))
         {
             throw std::runtime_error("Error: Wrong integer literal.");
         }
 
         sign_ = (chars[0] == '-' ? -1 : 1);
-        int s = (chars[0] == '-' || chars[0] == '+'); // skip symbol
-        for (int i = len - 1; i >= s; i--)
+        const int s = (chars[0] == '-' || chars[0] == '+'); // skip symbol
+        const int digit_len = len - s;
+
+        // this is faster than `reserve` and `push_back`, cause `push_back` is slower than `[]`
+        digits_.resize(digit_len);
+        for (int i = 0; i != digit_len; i++)
         {
-            digits_ += chars[i] - '0';
+            digits_[i] = chars[len - 1 - i] - '0';
         }
 
         remove_leading_zeros();
 
         // if result is zero, set sign to 0
-        sign_ = digits_.is_empty() ? 0 : sign_;
+        sign_ = digits_.empty() ? 0 : sign_;
     }
 
     /// Construct a new integer object based on the given int.
@@ -166,7 +170,7 @@ public:
         integer = std::abs(integer);
         while (integer > 0)
         {
-            digits_ += integer % 10;
+            digits_.push_back(integer % 10);
             integer /= 10;
         }
     }
@@ -341,7 +345,7 @@ public:
         if (sign_ == 0)
         {
             sign_ = 1;
-            digits_ += 1;
+            digits_.push_back(1);
         }
         else
         {
@@ -357,7 +361,7 @@ public:
         if (sign_ == 0)
         {
             sign_ = -1;
-            digits_ += 1;
+            digits_.push_back(1);
         }
         else
         {
@@ -493,7 +497,7 @@ public:
         result.remove_leading_zeros();
 
         // if result is zero, set sign to 0
-        result.sign_ = result.digits_.is_empty() ? 0 : result.sign_;
+        result.sign_ = result.digits_.empty() ? 0 : result.sign_;
 
         // return result
         return result;
@@ -560,20 +564,22 @@ public:
         Int tmp;       // intermediate variable for rhs * 10^i
         tmp.sign_ = 1; // positive
 
+        // tmp = rhs * 10^(size), not size-1, since the for loop will erase first, so tmp is rhs * 10^(size-1) at first
+        tmp.digits_ = std::vector<signed char>(size, 0);
+        tmp.digits_.insert(tmp.digits_.end(), rhs.digits_.begin(), rhs.digits_.end());
+
         Int result;
         result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
         result.add_leading_zeros(size);
 
         // calculation
-        const auto& b = rhs.digits_;
-        auto& c = result.digits_;
         for (int i = size - 1; i >= 0; i--)
         {
-            tmp.digits_ = List<signed char>({0}) * i + b; // tmp = rhs * 10^i in O(N)
+            tmp.digits_.erase(tmp.digits_.begin()); // tmp = rhs * 10^i in O(1), I'm a fxxking genius
 
             while (num1 >= tmp) // <= 9 loops, so O(1)
             {
-                c[i]++;
+                result.digits_[i]++;
                 num1 -= tmp;
             }
         }
@@ -582,7 +588,7 @@ public:
         result.remove_leading_zeros();
 
         // if result is zero, set sign to 0
-        result.sign_ = result.digits_.is_empty() ? 0 : result.sign_;
+        result.sign_ = result.digits_.empty() ? 0 : result.sign_;
 
         // return result
         return result;
