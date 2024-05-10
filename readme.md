@@ -77,7 +77,7 @@ Int("5").factorial().factorial(); // 6689502913449127057588118054090372586752746
 // convert Str to floating-point number, support inf and nan
 Str(".1e-2").to_decimal(); // 0.1e-2
 // convert Str to integer, support base 2-36
-Str("-0101").to_integer(2); // -5
+Str("-ffffffffffffffff").to_integer(16); // -18446744073709551615
 // Str repeat
 Str("hello! ") * 2; // "hello! hello! "
 // Str replace

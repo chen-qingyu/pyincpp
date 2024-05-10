@@ -35,7 +35,7 @@ TEST_CASE("Usage")
     // convert Str to floating-point number, support inf and nan
     REQUIRE(Str(".1e-2").to_decimal() == 0.1e-2);
     // convert Str to integer, support base 2-36
-    REQUIRE(Str("-0101").to_integer(2) == -5);
+    REQUIRE(Str("-ffffffffffffffff").to_integer(16) == Int("-18446744073709551615"));
     // Str repeat
     REQUIRE(Str("hello! ") * 2 == "hello! hello! ");
     // Str replace

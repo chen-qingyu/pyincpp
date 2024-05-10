@@ -411,6 +411,7 @@ public:
     /// Str("233").to_integer(); // 233
     /// Str("cafebabe").to_integer(16); // 3405691582
     /// Str("z").to_integer(36); // 35
+    /// Str("ffffffffffffffff").to_integer(16); // 18446744073709551615
     /// ```
     Int to_integer(int base = 10) const
     {

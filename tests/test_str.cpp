@@ -223,6 +223,7 @@ TEST_CASE("Str")
         REQUIRE(Str("233").to_integer() == 233);
         REQUIRE(Str("cafebabe").to_integer(16) == Int("3405691582"));
         REQUIRE(Str("z").to_integer(36) == 35);
+        REQUIRE(Str("ffffffffffffffff").to_integer(16) == Int("18446744073709551615"));
 
         // other
         REQUIRE(Str("0001000").to_integer() == 1000);
