@@ -32,6 +32,7 @@
 #include <string>      // std::string std::getline
 #include <string_view> // std::string_view
 #include <utility>     // std::initializer_list std::move
+#include <vector>      // std::vector
 
 namespace pyincpp::internal
 {

@@ -23,8 +23,6 @@
 
 #include "utility.hpp"
 
-#include <vector>
-
 namespace pyincpp
 {
 

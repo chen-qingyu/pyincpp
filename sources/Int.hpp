@@ -23,8 +23,6 @@
 
 #include "utility.hpp"
 
-#include <deque>
-
 namespace pyincpp
 {
 
@@ -39,7 +37,7 @@ private:
     // digit: 0 0 0 5 4 3 2 1
     // index: 0 1 2 3 4 5 6 7
     // ```
-    std::deque<signed char> digits_;
+    std::vector<signed char> digits_;
 
     // Sign of integer, 1 is positive, -1 is negative, and 0 is zero.
     signed char sign_ = 0; // need init value
@@ -272,9 +270,9 @@ public:
      */
 
     /// Return the number of digits in the integer (based 10).
-    int digits() const
+    constexpr int digits() const
     {
-        return digits_.size(); // not constexpr
+        return digits_.size();
     }
 
     /// Determine whether the integer is zero quickly.
@@ -566,8 +564,8 @@ public:
         Int tmp;       // intermediate variable for rhs * 10^i
         tmp.sign_ = 1; // positive
 
-        // tmp = rhs * 10^(size), not size-1, since the for loop will pop at first, so tmp is rhs * 10^(size-1) at first
-        tmp.digits_ = std::deque<signed char>(size, 0);
+        // tmp = rhs * 10^(size), not size-1, since the for loop will erase first, so tmp is rhs * 10^(size-1) at first
+        tmp.digits_ = std::vector<signed char>(size, 0);
         tmp.digits_.insert(tmp.digits_.end(), rhs.digits_.begin(), rhs.digits_.end());
 
         Int result;
@@ -577,7 +575,10 @@ public:
         // calculation
         for (int i = size - 1; i >= 0; i--)
         {
-            tmp.digits_.pop_front(); // tmp = rhs * 10^i in O(1), I'm a fxxking genius
+            // tmp = rhs * 10^i in O(1), I'm a fxxking genius
+            // after testing, found that use vector is very faster than use deque `tmp.digits_.pop_front();`
+            // my guess is that deque's various operations take longer than vector's
+            tmp.digits_.erase(tmp.digits_.begin());
 
             while (num1 >= tmp) // <= 9 loops, so O(1)
             {
