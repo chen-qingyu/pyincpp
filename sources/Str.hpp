@@ -237,7 +237,8 @@ public:
         return str_.empty();
     }
 
-    // Return const pointer to contents. This is a pointer to internal data.
+    /// Return const pointer to contents. This is a pointer to internal data.
+    /// It is undefined to modify the contents through the returned pointer.
     constexpr const char* data() const
     {
         return str_.data();
