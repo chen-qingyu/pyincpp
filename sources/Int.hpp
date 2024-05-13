@@ -744,6 +744,11 @@ public:
             throw std::runtime_error("Error: Math domain error.");
         }
 
+        if (base == 10)
+        {
+            return integer.digits() - 1;
+        }
+
         Int result = -1;
         Int value = integer;
         while (!value.is_zero())

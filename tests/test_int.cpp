@@ -320,12 +320,16 @@ TEST_CASE("Int")
         REQUIRE(Int::log(100, 10) == 2);
         REQUIRE(Int::log(1000, 10) == 3);
 
+        REQUIRE(Int::log(123, 10) == 2);
+        REQUIRE(Int::log(12345, 10) == 4);
+        REQUIRE(Int::log(123456789, 10) == 8);
+
         REQUIRE(Int::log(positive, 2) == 64);         // integer: 2^64+1
         REQUIRE(Int::log(positive * 2 - 3, 2) == 64); // integer: 2^65-1
         REQUIRE(Int::log(positive * 2 - 2, 2) == 65); // integer: 2^65
         REQUIRE(Int::log(positive * 2, 2) == 65);     // integer: 2^65+2
 
-        REQUIRE(Int::log("123456789", 233) == 3); // 3.41795456496562
+        REQUIRE(Int::log("123456789000", 233) == 4); // 4.6851911360933745
     }
 
     SECTION("gcd_lcm")
