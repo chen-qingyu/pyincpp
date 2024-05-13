@@ -676,6 +676,25 @@ public:
         return cur_sqrt;
     }
 
+    /// Return the logarithm based on `base` (default = 2).
+    Int log(const Int& base = 2) const
+    {
+        if (sign_ <= 0 || base < 2)
+        {
+            throw std::runtime_error("Error: Math domain error.");
+        }
+
+        Int result = -1;
+        Int value = *this;
+        while (!value.is_zero())
+        {
+            ++result;
+            value /= base;
+        }
+
+        return result;
+    }
+
     /// Convert the integer object to some integer of type T.
     /// @tparam T an integer type : int, long, and any custom type that support basic arithmetic operations.
     template <typename T>

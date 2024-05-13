@@ -322,6 +322,27 @@ TEST_CASE("Int")
         }
     }
 
+    SECTION("log")
+    {
+        REQUIRE_THROWS_MATCHES(negative.log(), std::runtime_error, Message("Error: Math domain error."));
+        REQUIRE_THROWS_MATCHES(zero.log(), std::runtime_error, Message("Error: Math domain error."));
+        REQUIRE_THROWS_MATCHES(positive.log(1), std::runtime_error, Message("Error: Math domain error."));
+
+        REQUIRE(Int(1).log(2) == 0);
+        REQUIRE(Int(1).log(3) == 0);
+        REQUIRE(Int(1).log(4) == 0);
+
+        REQUIRE(Int(2).log() == 1);
+        REQUIRE(Int(4).log() == 2);
+        REQUIRE(Int(8).log() == 3);
+
+        REQUIRE(Int(10).log(10) == 1);
+        REQUIRE(Int(100).log(10) == 2);
+        REQUIRE(Int(1000).log(10) == 3);
+
+        REQUIRE(Int("123456789").log(233) == 3); // 3.41795456496562
+    }
+
     SECTION("print")
     {
         std::ostringstream oss;
