@@ -231,6 +231,17 @@ TEST_CASE("Int")
         REQUIRE(Int("5").factorial().factorial() == "6689502913449127057588118054090372586752746333138029810295671352301633557244962989366874165271984981308157637893214090552534408589408121859898481114389650005964960521256960000000000000000000000000000");
     }
 
+    SECTION("next_prime")
+    {
+        Int prime; // 0
+        int prime_arr[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
+        for (int i = 0; i < 20; i++)
+        {
+            prime = prime.next_prime();
+            REQUIRE(prime == prime_arr[i]);
+        }
+    }
+
     SECTION("to_integer")
     {
         REQUIRE(zero.to_integer<signed char>() == 0);

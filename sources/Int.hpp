@@ -619,6 +619,51 @@ public:
         return result;
     }
 
+    /// Calculate the next prime that greater than this.
+    Int next_prime() const
+    {
+        if (*this < 2)
+        {
+            return 2;
+        }
+        else if (*this == 2)
+        {
+            return 3;
+        }
+
+        Int prime = *this; // >= 3
+
+        // if prime is even, let it odd, because prime > 2 is odd
+        if (prime.is_even())
+        {
+            prime.abs_inc();
+        }
+
+        // prime >= 3
+        while (true)
+        {
+            // faster than prime += 2
+            prime.abs_inc();
+            prime.abs_inc();
+
+            bool is_prime = true;
+            for (int i = 2; i * i <= prime; i++)
+            {
+                if (prime % i == 0)
+                {
+                    is_prime = false;
+                    break; // prime is not prime, continue while loop
+                }
+            }
+            if (is_prime)
+            {
+                break; // prime is prime, return
+            }
+        }
+
+        return prime;
+    }
+
     /// Convert the integer object to some integer of type T.
     /// @tparam T an integer type : int, long, and any custom type that support basic arithmetic operations.
     template <typename T>
