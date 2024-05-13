@@ -690,6 +690,37 @@ public:
     }
 
     /*
+     * Static
+     */
+
+    /// Calculate the greatest common divisor of two integers using Euclidean algorithm.
+    static Int gcd(const Int& int1, const Int& int2)
+    {
+        Int a = int1;
+        Int b = int2;
+
+        while (!b.is_zero()) // a, b = b, a % b until b == 0
+        {
+            auto t = b;
+            b = a % b;
+            a = t;
+        }
+
+        return a; // a is GCD
+    }
+
+    /// Calculate the least common multiple of two integers.
+    static Int lcm(const Int& int1, const Int& int2)
+    {
+        if (int1.is_zero() || int2.is_zero())
+        {
+            return 0;
+        }
+
+        return (int1 * int2) / gcd(int1, int2); // LCM = (int1 * int2) / GCD
+    }
+
+    /*
      * Print / Input
      */
 
@@ -722,37 +753,6 @@ public:
         return is;
     }
 };
-
-/*
- * Non-member functions
- */
-
-/// Calculate the greatest common divisor of two integers using Euclidean algorithm.
-inline Int gcd(const Int& int1, const Int& int2)
-{
-    Int a = int1;
-    Int b = int2;
-
-    while (!b.is_zero()) // a, b = b, a % b until b == 0
-    {
-        auto t = b;
-        b = a % b;
-        a = t;
-    }
-
-    return a; // a is GCD
-}
-
-/// Calculate the least common multiple of two integers.
-inline Int lcm(const Int& int1, const Int& int2)
-{
-    if (int1.is_zero() || int2.is_zero())
-    {
-        return 0;
-    }
-
-    return (int1 * int2) / gcd(int1, int2); // LCM = (int1 * int2) / GCD
-}
 
 } // namespace pyincpp
 

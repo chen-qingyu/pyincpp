@@ -264,16 +264,16 @@ TEST_CASE("Int")
     SECTION("gcd_lcm")
     {
         // gcd()
-        REQUIRE(gcd("0", "1") == "1");
-        REQUIRE(gcd("6", "12") == "6");
-        REQUIRE(gcd("6", "11") == "1");
-        REQUIRE(gcd("12345", "54321") == "3");
+        REQUIRE(Int::gcd("0", "1") == "1");
+        REQUIRE(Int::gcd("6", "12") == "6");
+        REQUIRE(Int::gcd("6", "11") == "1");
+        REQUIRE(Int::gcd("12345", "54321") == "3");
 
         // lcm()
-        REQUIRE(lcm("0", "1") == "0");
-        REQUIRE(lcm("6", "12") == "12");
-        REQUIRE(lcm("6", "11") == "66");
-        REQUIRE(lcm("12345", "54321") == "223530915");
+        REQUIRE(Int::lcm("0", "1") == "0");
+        REQUIRE(Int::lcm("6", "12") == "12");
+        REQUIRE(Int::lcm("6", "11") == "66");
+        REQUIRE(Int::lcm("12345", "54321") == "223530915");
     }
 
     SECTION("sqrt")
