@@ -240,6 +240,8 @@ TEST_CASE("Int")
             prime = prime.next_prime();
             REQUIRE(prime == prime_arr[i]);
         }
+
+        REQUIRE(Int(104728).next_prime() == 104729); // the 10000th prime
     }
 
     SECTION("to_integer")

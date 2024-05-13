@@ -626,20 +626,16 @@ public:
         {
             return 2;
         }
-        else if (*this == 2)
-        {
-            return 3;
-        }
 
-        Int prime = *this; // >= 3
+        Int prime = *this; // >= 2
 
-        // if prime is even, let it odd, because prime > 2 is odd
+        // if prime is even, let it odd and < this, because prime > 2 is odd and while prime += 2
         if (prime.is_even())
         {
-            prime.abs_inc();
+            prime.abs_dec();
         }
 
-        // prime >= 3
+        // prime >= 1
         while (true)
         {
             // faster than prime += 2
