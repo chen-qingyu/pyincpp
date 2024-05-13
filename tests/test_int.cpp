@@ -304,6 +304,24 @@ TEST_CASE("Int")
         REQUIRE(Int("-1024").to_integer<int>() == -1024);
     }
 
+    SECTION("random")
+    {
+        REQUIRE_THROWS_MATCHES(Int::random(-2), std::runtime_error, Message("Error: `digits` must be a non-negative integer or default = -1."));
+
+        REQUIRE(Int::random(0) == 0);
+
+        REQUIRE(Int::random(1).digits() == 1);
+        REQUIRE(Int::random(2).digits() == 2);
+        REQUIRE(Int::random(3).digits() == 3);
+
+        for (int i = 0; i < 100; i++)
+        {
+            Int r = Int::random();
+            REQUIRE(r.digits() >= 0);
+            REQUIRE(r.digits() <= 4300);
+        }
+    }
+
     SECTION("print")
     {
         std::ostringstream oss;

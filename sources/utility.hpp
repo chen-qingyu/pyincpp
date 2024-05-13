@@ -27,6 +27,7 @@
 #include <cstring>     // std::strlen
 #include <iostream>    // std::istream std::ostream
 #include <iterator>    // std::input_iterator
+#include <random>      // std::random_device std::mt19937 std::uniform_int_distribution
 #include <sstream>     // std::ostringstream
 #include <stdexcept>   // std::runtime_error
 #include <string>      // std::string std::getline

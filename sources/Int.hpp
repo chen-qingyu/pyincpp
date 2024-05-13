@@ -720,6 +720,41 @@ public:
         return (int1 * int2) / gcd(int1, int2); // LCM = (int1 * int2) / GCD
     }
 
+    /// Return a non-negative random integer (with a specific number of `digits`).
+    static Int random(int digits = -1)
+    {
+        if (digits < -1)
+        {
+            throw std::runtime_error("Error: `digits` must be a non-negative integer or default = -1.");
+        }
+
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<int> digit(0, 9);
+
+        // the default limit of Python's int is 4300 digits as provided in `sys.int_info.default_max_str_digits`
+        // see: https://docs.python.org/3/library/stdtypes.html#integer-string-conversion-length-limitation
+        std::uniform_int_distribution<int> digits_limit(0, 4300);
+
+        Int randint;
+        randint.digits_.resize(digits == -1 ? digits_limit(gen) : digits); // may be 0
+        randint.sign_ = randint.digits_.empty() ? 0 : 1;
+
+        for (auto& d : randint.digits_)
+        {
+            d = digit(gen);
+        }
+
+        // reset most significant digit if is 0
+        if (!randint.digits_.empty() && randint.digits_.back() == 0)
+        {
+            std::uniform_int_distribution<int> most_digit(1, 9);
+            randint.digits_.back() = most_digit(gen);
+        }
+
+        return randint;
+    }
+
     /*
      * Print / Input
      */
