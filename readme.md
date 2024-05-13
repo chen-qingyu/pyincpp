@@ -70,7 +70,7 @@ Dict<Str, int>{{"one", 1}, {"two", 2}, {"three", 3}}["one"]; // 1
 Dict<Str, int>{{"one", 1}, {"two", 2}, {"three", 3}}.values(); // {1, 2, 3}
 
 // Int modular power, very fast
-Int("1024").pow("1024", "100"); // 76
+Int::pow("1024", "1024", "100"); // 76
 // Int factorial
 Int("5").factorial().factorial(); // 668950291344912705758811805409037258675274633313802981029567135...
 

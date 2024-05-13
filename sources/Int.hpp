@@ -603,32 +603,6 @@ public:
         return *this - (*this / rhs) * rhs;
     }
 
-    /// Return `(this**exp) % mod` (`mod` default = 0 means does not perform module).
-    Int pow(const Int& exp, const Int& mod = 0) const
-    {
-        if (exp.is_negative())
-        {
-            return 0;
-        }
-
-        // fast power algorithm
-
-        Int num = *this;
-        Int n = exp;
-        Int result = 1; // this**0 == 1
-
-        while (!n.is_zero())
-        {
-            if (n.is_odd())
-            {
-                result = (mod.is_zero() ? result * num : (result * num) % mod);
-            }
-            num = (mod.is_zero() ? num * num : (num * num) % mod);
-            n /= 2; // integer divide
-        }
-        return result;
-    }
-
     /// Return the factorial of this.
     Int factorial() const
     {
@@ -642,56 +616,6 @@ public:
         {
             result *= i;
         }
-        return result;
-    }
-
-    /// Return the square root of this.
-    Int sqrt() const
-    {
-        if (sign_ == -1)
-        {
-            throw std::runtime_error("Error: Cannot compute square root of a negative integer.");
-        }
-
-        if (is_zero())
-        {
-            return 0;
-        }
-        else if (*this < 4) // can not be omitted, otherwise will enter an infinite loop due to precision problem
-        {
-            return 1;
-        }
-
-        // using Newton's method
-        // as far as possible to reduce the number of iterations
-        Int cur_sqrt = *this / 2;
-        Int pre_sqrt = 2;
-
-        while (cur_sqrt != pre_sqrt)
-        {
-            pre_sqrt = cur_sqrt;
-            cur_sqrt = (cur_sqrt + *this / cur_sqrt) / 2;
-        }
-
-        return cur_sqrt;
-    }
-
-    /// Return the logarithm based on `base` (default = 2).
-    Int log(const Int& base = 2) const
-    {
-        if (sign_ <= 0 || base < 2)
-        {
-            throw std::runtime_error("Error: Math domain error.");
-        }
-
-        Int result = -1;
-        Int value = *this;
-        while (!value.is_zero())
-        {
-            ++result;
-            value /= base;
-        }
-
         return result;
     }
 
@@ -712,9 +636,89 @@ public:
      * Static
      */
 
-    /// Calculate the greatest common divisor of two integers using Euclidean algorithm.
+    /// Return the square root of `integer`.
+    static Int sqrt(const Int& integer)
+    {
+        if (integer.sign_ == -1)
+        {
+            throw std::runtime_error("Error: Cannot compute square root of a negative integer.");
+        }
+
+        if (integer.is_zero())
+        {
+            return 0;
+        }
+        else if (integer < 4) // can not be omitted, otherwise will enter an infinite loop due to precision problem
+        {
+            return 1;
+        }
+
+        // using Newton's method
+
+        // as far as possible to reduce the number of iterations
+        Int cur_sqrt = integer / 2;
+        Int pre_sqrt = 2;
+
+        while (cur_sqrt != pre_sqrt)
+        {
+            pre_sqrt = cur_sqrt;
+            cur_sqrt = (cur_sqrt + integer / cur_sqrt) / 2;
+        }
+
+        return cur_sqrt;
+    }
+
+    /// Return `(base**exp) % mod` (`mod` default = 0 means does not perform module).
+    static Int pow(const Int& base, const Int& exp, const Int& mod = 0)
+    {
+        if (exp.is_negative())
+        {
+            return 0;
+        }
+
+        // fast power algorithm
+
+        Int num = base;
+        Int n = exp;
+        Int result = 1; // this**0 == 1
+
+        while (!n.is_zero())
+        {
+            if (n.is_odd())
+            {
+                result = (mod.is_zero() ? result * num : (result * num) % mod);
+            }
+            num = (mod.is_zero() ? num * num : (num * num) % mod);
+            n /= 2; // integer divide
+        }
+
+        return result;
+    }
+
+    /// Return the logarithm of `integer` based on `base`.
+    static Int log(const Int& integer, const Int& base)
+    {
+        if (integer.sign_ <= 0 || base < 2)
+        {
+            throw std::runtime_error("Error: Math domain error.");
+        }
+
+        Int result = -1;
+        Int value = integer;
+        while (!value.is_zero())
+        {
+            ++result;
+            value /= base;
+        }
+
+        return result;
+    }
+
+    /// Calculate the greatest common divisor of two integers.
     static Int gcd(const Int& int1, const Int& int2)
     {
+        // using Euclidean algorithm
+
         Int a = int1;
         Int b = int2;
 

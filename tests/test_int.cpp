@@ -207,36 +207,6 @@ TEST_CASE("Int")
         REQUIRE(zero % negative == "0");
     }
 
-    SECTION("pow")
-    {
-        // 0^0 == 1
-        REQUIRE(Int("0").pow("0") == "1");
-
-        // 0^1 == 0
-        REQUIRE(Int("0").pow("1") == "0");
-
-        // 1^0 == 1
-        REQUIRE(Int("1").pow("0") == "1");
-
-        // 1^1 == 1
-        REQUIRE(Int("1").pow("1") == "1");
-
-        // 2^3 == 8
-        REQUIRE(Int("2").pow("3") == "8");
-
-        // 2^100 == 1267650600228229401496703205376
-        REQUIRE(Int("2").pow("100") == "1267650600228229401496703205376");
-
-        // (9^9)^9 == 196627050475552913618075908526912116283103450944214766927315415537966391196809
-        REQUIRE(Int("9").pow("9").pow("9") == "196627050475552913618075908526912116283103450944214766927315415537966391196809");
-
-        // 1024^1024 % 100 == 76
-        REQUIRE(Int("1024").pow("1024", "100") == "76");
-
-        // 9999^1001 % 100 == 99
-        REQUIRE(Int("9999").pow("1001", "100") == "99");
-    }
-
     SECTION("factorial")
     {
         // (negative)! throws exception
@@ -261,6 +231,90 @@ TEST_CASE("Int")
         REQUIRE(Int("5").factorial().factorial() == "6689502913449127057588118054090372586752746333138029810295671352301633557244962989366874165271984981308157637893214090552534408589408121859898481114389650005964960521256960000000000000000000000000000");
     }
 
+    SECTION("to_integer")
+    {
+        REQUIRE(zero.to_integer<signed char>() == 0);
+        REQUIRE(!std::is_same<decltype(zero.to_integer<signed char>()), unsigned char>::value);
+        REQUIRE(std::is_same<decltype(zero.to_integer<signed char>()), signed char>::value);
+
+        REQUIRE(zero.to_integer<long long>() == 0);
+        REQUIRE(!std::is_same<decltype(zero.to_integer<long long>()), long>::value);
+        REQUIRE(std::is_same<decltype(zero.to_integer<long long>()), long long>::value);
+
+        REQUIRE(Int("1024").to_integer<int>() == 1024);
+        REQUIRE(Int("-1024").to_integer<int>() == -1024);
+    }
+
+    SECTION("sqrt")
+    {
+        REQUIRE_THROWS_MATCHES(Int::sqrt("-1"), std::runtime_error, Message("Error: Cannot compute square root of a negative integer."));
+
+        REQUIRE(Int::sqrt("0") == "0");
+        REQUIRE(Int::sqrt("1") == "1");
+        REQUIRE(Int::sqrt("2") == "1");
+        REQUIRE(Int::sqrt("3") == "1");
+        REQUIRE(Int::sqrt("4") == "2");
+        REQUIRE(Int::sqrt("5") == "2");
+        REQUIRE(Int::sqrt("9") == "3");
+        REQUIRE(Int::sqrt("9801") == "99");
+    }
+
+    SECTION("pow")
+    {
+        // 0^0 == 1
+        REQUIRE(Int::pow("0", "0") == "1");
+
+        // 0^1 == 0
+        REQUIRE(Int::pow("0", "1") == "0");
+
+        // 1^0 == 1
+        REQUIRE(Int::pow("1", "0") == "1");
+
+        // 1^1 == 1
+        REQUIRE(Int::pow("1", "1") == "1");
+
+        // 2^3 == 8
+        REQUIRE(Int::pow("2", "3") == "8");
+
+        // 2^100 == 1267650600228229401496703205376
+        REQUIRE(Int::pow("2", "100") == "1267650600228229401496703205376");
+
+        // (9^9)^9 == 196627050475552913618075908526912116283103450944214766927315415537966391196809
+        REQUIRE(Int::pow(Int::pow("9", "9"), "9") == "196627050475552913618075908526912116283103450944214766927315415537966391196809");
+
+        // 1024^1024 % 100 == 76
+        REQUIRE(Int::pow("1024", "1024", "100") == "76");
+
+        // 9999^1001 % 100 == 99
+        REQUIRE(Int::pow("9999", "1001", "100") == "99");
+    }
+
+    SECTION("log")
+    {
+        REQUIRE_THROWS_MATCHES(Int::log(negative, 2), std::runtime_error, Message("Error: Math domain error."));
+        REQUIRE_THROWS_MATCHES(Int::log(zero, 2), std::runtime_error, Message("Error: Math domain error."));
+        REQUIRE_THROWS_MATCHES(Int::log(positive, 1), std::runtime_error, Message("Error: Math domain error."));
+
+        REQUIRE(Int::log(1, 2) == 0);
+        REQUIRE(Int::log(1, 3) == 0);
+        REQUIRE(Int::log(1, 4) == 0);
+
+        REQUIRE(Int::log(2, 2) == 1);
+        REQUIRE(Int::log(4, 2) == 2);
+        REQUIRE(Int::log(8, 2) == 3);
+
+        REQUIRE(Int::log(10, 10) == 1);
+        REQUIRE(Int::log(100, 10) == 2);
+        REQUIRE(Int::log(1000, 10) == 3);
+
+        REQUIRE(Int::log(positive, 2) == 64);         // integer: 2^64+1
+        REQUIRE(Int::log(positive * 2 - 3, 2) == 64); // integer: 2^65-1
+        REQUIRE(Int::log(positive * 2 - 2, 2) == 65); // integer: 2^65
+        REQUIRE(Int::log(positive * 2, 2) == 65);     // integer: 2^65+2
+
+        REQUIRE(Int::log("123456789", 233) == 3); // 3.41795456496562
+    }
+
     SECTION("gcd_lcm")
     {
         // gcd()
@@ -274,34 +328,6 @@ TEST_CASE("Int")
         REQUIRE(Int::lcm("6", "12") == "12");
         REQUIRE(Int::lcm("6", "11") == "66");
         REQUIRE(Int::lcm("12345", "54321") == "223530915");
-    }
-
-    SECTION("sqrt")
-    {
-        REQUIRE_THROWS_MATCHES(Int("-1").sqrt(), std::runtime_error, Message("Error: Cannot compute square root of a negative integer."));
-
-        REQUIRE(Int("0").sqrt() == "0");
-        REQUIRE(Int("1").sqrt() == "1");
-        REQUIRE(Int("2").sqrt() == "1");
-        REQUIRE(Int("3").sqrt() == "1");
-        REQUIRE(Int("4").sqrt() == "2");
-        REQUIRE(Int("5").sqrt() == "2");
-        REQUIRE(Int("9").sqrt() == "3");
-        REQUIRE(Int("9801").sqrt() == "99");
-    }
-
-    SECTION("to_integer")
-    {
-        REQUIRE(zero.to_integer<signed char>() == 0);
-        REQUIRE(!std::is_same<decltype(zero.to_integer<signed char>()), unsigned char>::value);
-        REQUIRE(std::is_same<decltype(zero.to_integer<signed char>()), signed char>::value);
-
-        REQUIRE(zero.to_integer<long long>() == 0);
-        REQUIRE(!std::is_same<decltype(zero.to_integer<long long>()), long>::value);
-        REQUIRE(std::is_same<decltype(zero.to_integer<long long>()), long long>::value);
-
-        REQUIRE(Int("1024").to_integer<int>() == 1024);
-        REQUIRE(Int("-1024").to_integer<int>() == -1024);
     }
 
     SECTION("random")
@@ -320,27 +346,6 @@ TEST_CASE("Int")
             REQUIRE(r.digits() >= 0);
             REQUIRE(r.digits() <= 4300);
         }
-    }
-
-    SECTION("log")
-    {
-        REQUIRE_THROWS_MATCHES(negative.log(), std::runtime_error, Message("Error: Math domain error."));
-        REQUIRE_THROWS_MATCHES(zero.log(), std::runtime_error, Message("Error: Math domain error."));
-        REQUIRE_THROWS_MATCHES(positive.log(1), std::runtime_error, Message("Error: Math domain error."));
-
-        REQUIRE(Int(1).log(2) == 0);
-        REQUIRE(Int(1).log(3) == 0);
-        REQUIRE(Int(1).log(4) == 0);
-
-        REQUIRE(Int(2).log() == 1);
-        REQUIRE(Int(4).log() == 2);
-        REQUIRE(Int(8).log() == 3);
-
-        REQUIRE(Int(10).log(10) == 1);
-        REQUIRE(Int(100).log(10) == 2);
-        REQUIRE(Int(1000).log(10) == 3);
-
-        REQUIRE(Int("123456789").log(233) == 3); // 3.41795456496562
     }
 
     SECTION("print")
