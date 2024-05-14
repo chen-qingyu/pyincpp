@@ -277,16 +277,15 @@ TEST_CASE("Int")
 
     SECTION("pow")
     {
-        // 0^0 == 1
+        // special situations
+        REQUIRE(Int::pow("-1", "-1") == "-1");
+        REQUIRE(Int::pow("-1", "0") == "1");
+        REQUIRE(Int::pow("-1", "1") == "-1");
+        REQUIRE_THROWS_MATCHES(Int::pow("0", "-1"), std::runtime_error, Message("Error: Math domain error."));
         REQUIRE(Int::pow("0", "0") == "1");
-
-        // 0^1 == 0
         REQUIRE(Int::pow("0", "1") == "0");
-
-        // 1^0 == 1
+        REQUIRE(Int::pow("1", "-1") == "1");
         REQUIRE(Int::pow("1", "0") == "1");
-
-        // 1^1 == 1
         REQUIRE(Int::pow("1", "1") == "1");
 
         // 2^3 == 8

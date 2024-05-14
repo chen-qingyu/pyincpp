@@ -779,8 +779,21 @@ public:
     /// Return `(base**exp) % mod` (`mod` default = 0 means does not perform module).
     static Int pow(const Int& base, const Int& exp, const Int& mod = 0)
     {
+        // check if base.abs() is 1
+        // if base.abs() is 1, only when base is negative and exp is odd return -1, otherwise return 1
+        if (base.digits() == 1 && base.digits_[0] == 1)
+        {
+            return base.sign_ == -1 && exp.is_odd() ? -1 : 1;
+        }
+
+        // then, check if exp is negative
         if (exp.is_negative())
         {
+            if (base.is_zero())
+            {
+                throw std::runtime_error("Error: Math domain error.");
+            }
+
             return 0;
         }
 
