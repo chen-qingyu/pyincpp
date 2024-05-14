@@ -553,8 +553,8 @@ public:
             throw std::runtime_error("Error: Divide by zero.");
         }
 
-        // if this is zero or this.abs() < rhs.abs(), just return zero
-        if (sign_ == 0 || digits_.size() < rhs.digits_.size())
+        // if this.abs() < rhs.abs(), just return 0
+        if (digits() < rhs.digits())
         {
             return 0;
         }
@@ -564,7 +564,7 @@ public:
         // prepare variables
         int size = digits_.size() - rhs.digits_.size() + 1;
 
-        Int num1 = (*this).abs();
+        Int num1 = abs();
 
         Int tmp;       // intermediate variable for rhs * 10^i
         tmp.sign_ = 1; // positive
@@ -605,7 +605,54 @@ public:
     /// Return this % `rhs` (not zero).
     Int operator%(const Int& rhs) const
     {
-        return *this - (*this / rhs) * rhs;
+        // if rhs is zero, throw an exception
+        if (rhs.sign_ == 0)
+        {
+            throw std::runtime_error("Error: Divide by zero.");
+        }
+
+        // if this.abs() < rhs.abs(), just return this
+        if (digits() < rhs.digits())
+        {
+            return *this;
+        }
+
+        // the sign of two integers is not zero
+
+        // prepare variables
+        int size = digits_.size() - rhs.digits_.size() + 1;
+
+        Int result = abs();
+
+        Int tmp;       // intermediate variable for rhs * 10^i
+        tmp.sign_ = 1; // positive
+
+        // tmp = rhs * 10^(size), not size-1, since the for loop will erase first, so tmp is rhs * 10^(size-1) at first
+        tmp.digits_ = std::vector<signed char>(size, 0);
+        tmp.digits_.insert(tmp.digits_.end(), rhs.digits_.begin(), rhs.digits_.end());
+
+        // calculation
+        for (int i = size - 1; i >= 0; i--)
+        {
+            // tmp = rhs * 10^i in O(1), I'm a fxxking genius
+            // after testing, found that use vector is very faster than use deque `tmp.digits_.pop_front();`
+            // my guess is that deque's various operations take longer than vector's
+            tmp.digits_.erase(tmp.digits_.begin());
+
+            while (result >= tmp) // <= 9 loops, so O(1)
+            {
+                result -= tmp;
+            }
+        }
+
+        // remove leading zeros
+        result.remove_leading_zeros();
+
+        // if result is zero, set sign to 0, else to this's
+        result.sign_ = result.digits_.empty() ? 0 : sign_;
+
+        // return result
+        return result;
     }
 
     /// Return the factorial of this.
