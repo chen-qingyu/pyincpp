@@ -359,9 +359,7 @@ TEST_CASE("Int")
 
         for (int i = 0; i < 100; i++)
         {
-            Int r = Int::random();
-            REQUIRE(r.digits() >= 0);
-            REQUIRE(r.digits() <= 4300);
+            REQUIRE(Int::random().digits() <= 4300);
         }
     }
 
