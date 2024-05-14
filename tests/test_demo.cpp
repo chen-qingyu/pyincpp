@@ -27,10 +27,18 @@ TEST_CASE("Usage")
     // Dict get values
     REQUIRE(Dict<Str, int>{{"one", 1}, {"two", 2}, {"three", 3}}.values() == Set<int>{1, 2, 3});
 
+    // Int basic operation, support +, -, *, /, % and compare
+    REQUIRE(Int("18446744073709551617") + Int("18446744073709551617") == "36893488147419103234");
+    // Int increment, after my optimization, much faster than `+= 1`
+    REQUIRE(++Int("99999999999999") == "100000000000000");
     // Int modular power, very fast
     REQUIRE(Int::pow("1024", "1024", "100") == "76");
     // Int factorial
     REQUIRE(Int("5").factorial().factorial() == "6689502913449127057588118054090372586752746333138029810295671352301633557244962989366874165271984981308157637893214090552534408589408121859898481114389650005964960521256960000000000000000000000000000");
+    // get random Int, using hardware device to generate true random integer if possible
+    REQUIRE(Int::random().digits() <= 4300);
+    // calculate the next prime that greater than this
+    REQUIRE(Int(0).next_prime() == "2");
 
     // convert Str to floating-point number, support inf and nan
     REQUIRE(Str(".1e-2").to_decimal() == 0.1e-2);

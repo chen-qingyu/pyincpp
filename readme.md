@@ -69,10 +69,18 @@ Dict<Str, int>{{"one", 1}, {"two", 2}, {"three", 3}}["one"]; // 1
 // Dict get values
 Dict<Str, int>{{"one", 1}, {"two", 2}, {"three", 3}}.values(); // {1, 2, 3}
 
+// Int basic operation, support +, -, *, /, % and compare
+Int("18446744073709551617") + Int("18446744073709551617"); // 36893488147419103234
+// Int increment, after my optimization, much faster than `+= 1`
+++Int("99999999999999"); // 100000000000000
 // Int modular power, very fast
 Int::pow("1024", "1024", "100"); // 76
 // Int factorial
 Int("5").factorial().factorial(); // 668950291344912705758811805409037258675274633313802981029567135...
+// get random Int, using hardware device to generate true random integer if possible
+Int::random(); // 2379575921434838751469952249632783251093957333629022509960142131113090672699644921...
+// calculate the next prime that greater than this
+Int(0).next_prime(); // 2
 
 // convert Str to floating-point number, support inf and nan
 Str(".1e-2").to_decimal(); // 0.1e-2
