@@ -844,6 +844,11 @@ public:
     }
 
     /// Return a non-negative random integer (with a specific number of `digits`).
+    ///
+    /// Using hardware device to generate true random integer if possible.
+    ///
+    /// If `digits` is not specified, it will generate a random integer with digits in [0, 4300],
+    /// since the default limit of Python's int is 4300 digits.
     static Int random(int digits = -1)
     {
         if (digits < -1)
