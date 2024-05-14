@@ -743,18 +743,31 @@ public:
         {
             return 0;
         }
-        else if (integer < 4) // can not be omitted, otherwise will enter an infinite loop due to precision problem
+        else if (integer < 4)
         {
             return 1;
+        }
+        else if (integer < 9)
+        {
+            return 2;
+        }
+        else if (integer < 16) // can not be omitted
+        {
+            return 3;
         }
 
         // using Newton's method
 
         // as far as possible to reduce the number of iterations
-        Int cur_sqrt = integer / 2;
-        Int pre_sqrt = 2;
+        // cur_sqrt = 10^(digits/2 - 1) in O(1)
+        Int cur_sqrt;
+        cur_sqrt.digits_ = std::vector<signed char>(integer.digits() / 2 - 1, 0); // integer.digits() >= 2
+        cur_sqrt.digits_.push_back(1);
+        cur_sqrt.sign_ = 1;
 
-        while (cur_sqrt != pre_sqrt)
+        Int pre_sqrt = -1;
+
+        while ((cur_sqrt - pre_sqrt).abs() > 1)
         {
             pre_sqrt = cur_sqrt;
             cur_sqrt = (cur_sqrt + integer / cur_sqrt) / 2;

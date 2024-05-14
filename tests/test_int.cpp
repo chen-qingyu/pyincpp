@@ -269,6 +269,9 @@ TEST_CASE("Int")
         REQUIRE(Int::sqrt("4") == "2");
         REQUIRE(Int::sqrt("5") == "2");
         REQUIRE(Int::sqrt("9") == "3");
+        REQUIRE(Int::sqrt("10") == "3");
+        REQUIRE(Int::sqrt("16") == "4");
+        REQUIRE(Int::sqrt("100") == "10");
         REQUIRE(Int::sqrt("9801") == "99");
     }
 
