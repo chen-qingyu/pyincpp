@@ -85,9 +85,11 @@ private:
     }
 
     // Increment the absolute value by 1 quickly.
+    // Require this != 0
     void abs_inc()
     {
-        digits_.push_back(0); // add a leading zero
+        // add a leading zero for carry
+        digits_.push_back(0);
 
         int i = 0;
         while (digits_[i] == 9)
@@ -101,9 +103,12 @@ private:
         }
 
         remove_leading_zeros();
+
+        // keep sign unchanged
     }
 
     // Decrement the absolute value by 1 quickly.
+    // Require this != 0
     void abs_dec()
     {
         int i = 0;
@@ -296,13 +301,13 @@ public:
     /// Determine whether the integer is even quickly.
     constexpr bool is_even() const
     {
-        return is_zero() ? true : digits_[0] % 2 == 0;
+        return is_zero() ? true : (digits_[0] & 1) == 0;
     }
 
     /// Determine whether the integer is odd quickly.
     constexpr bool is_odd() const
     {
-        return is_zero() ? false : digits_[0] % 2 == 1;
+        return is_zero() ? false : (digits_[0] & 1) == 1;
     }
 
     /*
@@ -611,11 +616,13 @@ public:
             throw std::runtime_error("Error: Negative integer have no factorial.");
         }
 
-        Int result = 1;                           // 0! == 1
-        for (Int i = *this; i.is_positive(); --i) // fast judgement, fast decrement
+        Int result = 1; // 0! == 1
+
+        for (Int i = *this; i.is_positive(); i.abs_dec()) // fast judgement, fast decrement
         {
             result *= i;
         }
+
         return result;
     }
 
@@ -749,8 +756,8 @@ public:
             return integer.digits() - 1;
         }
 
-        Int result = -1;
-        Int value = integer;
+        Int result;
+        Int value = integer / base;
         while (!value.is_zero())
         {
             ++result;
