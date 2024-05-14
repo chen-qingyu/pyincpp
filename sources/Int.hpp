@@ -767,7 +767,7 @@ public:
 
         Int pre_sqrt = -1;
 
-        while ((cur_sqrt - pre_sqrt).abs() > 1)
+        while (cur_sqrt != pre_sqrt)
         {
             pre_sqrt = cur_sqrt;
             cur_sqrt = (cur_sqrt + integer / cur_sqrt) / 2;
