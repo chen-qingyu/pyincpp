@@ -302,8 +302,19 @@ public:
         fraction = Fraction(num, den);
         return is;
     }
+
+    friend struct std::hash<pyincpp::Fraction>;
 };
 
 } // namespace pyincpp
+
+template <>
+struct std::hash<pyincpp::Fraction> // explicit specialization
+{
+    std::size_t operator()(const pyincpp::Fraction& fraction) const
+    {
+        return std::hash<int>{}(fraction.numerator_) ^ (std::hash<int>{}(fraction.denominator_) << 1);
+    }
+};
 
 #endif // FRACTION_HPP

@@ -738,8 +738,19 @@ public:
     {
         return std::getline(is, const_cast<std::string&>(string.str_));
     }
+
+    friend struct std::hash<pyincpp::Str>;
 };
 
 } // namespace pyincpp
+
+template <>
+struct std::hash<pyincpp::Str> // explicit specialization
+{
+    std::size_t operator()(const pyincpp::Str& string) const
+    {
+        return std::hash<std::string>{}(string.str_);
+    }
+};
 
 #endif // STR_HPP

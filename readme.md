@@ -126,13 +126,18 @@ std::cout << dict; // {"first": [123, 456], "second": [789], "third": [123456789
 dict.keys(); // {"first", "second", "third"}
 dict["third"][-1].factorial(); // 120
 
-// 2. All container types support iterators, such as:
+// 2. All container types are iterable:
 for (const auto& [k, v] : Dict<int, int>{{1, 1}, {2, 4}, {3, 9}})
 {
     assert(k * k == v);
 }
 
-// 3. Combining pyincpp::Fraction with Eigen library to display accurate matrix.
+// 3. All immutable types are hashable:
+std::unordered_set<Int> set1 = {"1", "2", "3", "18446744073709551617"};
+std::unordered_set<Str> set2 = {"hello", "pyincpp"};
+std::unordered_set<Fraction> set3 = {{1, 2}, {3, 4}};
+
+// 4. Combining pyincpp::Fraction with Eigen library to display accurate matrix.
 using Matrix = Eigen::Matrix<pyincpp::Fraction, 2, 2>; // compiling with boost::rational will fail
 
 Matrix A = Matrix{{1, 2}, {3, 4}};
@@ -146,7 +151,7 @@ std::cout << ((A + B) * (C + D)).inverse() << std::endl;
   5/3    -2/3
 */
 
-// 4. boost::rational vs pyincpp::Fraction
+// 5. boost::rational vs pyincpp::Fraction
 boost::rational<int> r1(1, 2), r2(1, 3), r3(1, 4), r4(1, 5);
 pyincpp::Fraction f1(1, 2), f2(1, 3), f3(1, 4), f4(1, 5);
 
@@ -155,7 +160,7 @@ std::cout << ((r1 + r2) * r3 / r4) << std::endl; // 25/24
 std::cout << ((f1 + f2) * f3 / f4) << std::endl; // 25/24
 std::cout << ((f1 + f2) * f3 % f4) << std::endl; // 1/120
 
-// 5. std::tuple vs boost::tuple vs pyincpp::Tuple
+// 6. std::tuple vs boost::tuple vs pyincpp::Tuple
 auto t1 = std::make_tuple(1, 1.5, 'A', "hello", std::tuple<std::tuple<>, std::tuple<>>({}, {}));
 auto t2 = boost::make_tuple(1, 1.5, 'A', "hello", boost::tuple<boost::tuple<>, boost::tuple<>>({}, {}));
 auto t3 = pyincpp::make_tuple(1, 1.5, 'A', "hello", pyincpp::Tuple<pyincpp::Tuple<>, pyincpp::Tuple<>>({}, {}));

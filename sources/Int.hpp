@@ -915,8 +915,26 @@ public:
 
         return is;
     }
+
+    friend struct std::hash<pyincpp::Int>;
 };
 
 } // namespace pyincpp
+
+template <>
+struct std::hash<pyincpp::Int> // explicit specialization
+{
+    std::size_t operator()(const pyincpp::Int& integer) const
+    {
+        std::size_t value = std::hash<signed char>{}(integer.sign_);
+
+        for (const auto& d : integer.digits_)
+        {
+            value ^= std::hash<signed char>{}(d) << 1;
+        }
+
+        return value;
+    }
+};
 
 #endif // INT_HPP

@@ -2,6 +2,8 @@
 
 #include "tool.hpp"
 
+#include <unordered_set>
+
 using namespace pyincpp;
 
 TEST_CASE("Usage")
@@ -83,9 +85,14 @@ TEST_CASE("Advantage")
     REQUIRE(dict.keys() == Set<Str>{"first", "second", "third"});
     REQUIRE(dict["third"][-1].factorial() == 120);
 
-    // 2. All container types support iterators, such as:
+    // 2. All container types are iterable:
     for (const auto& [k, v] : Dict<int, int>{{1, 1}, {2, 4}, {3, 9}})
     {
         REQUIRE(k * k == v);
     }
+
+    // 3. All immutable types are hashable:
+    std::unordered_set<Int> set1 = {"1", "2", "3", "18446744073709551617"};
+    std::unordered_set<Str> set2 = {"hello", "pyincpp"};
+    std::unordered_set<Fraction> set3 = {{1, 2}, {3, 4}};
 }
