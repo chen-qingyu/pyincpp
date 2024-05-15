@@ -208,7 +208,7 @@ public:
     {
         internal::check_full(size(), INT_MAX);
 
-        vector_.insert(end(), element);
+        vector_.push_back(element);
 
         return *this;
     }
