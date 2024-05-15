@@ -21,7 +21,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 - 简洁：Stay simple, stay young. 在保证好用和健壮的前提下，尽量简洁，便于维护和阅读。
 - 好用：经过我的精心设计，用起来可以像 Python 的内置类型一样方便。很 Pythonic。
 - 健壮：对容器的增删改查都有相应的检查。
-- 高效：[基准测试结果](./tests/benchmark.cpp)表明功能与标准库相同的部分的性能几乎一样。
+- 高效：[基准测试结果](./benches/std_vs_pyincpp.cpp)表明功能与标准库相同的部分的性能几乎一样。
 
 ### 3. 用法
 
@@ -178,6 +178,6 @@ std::cout << t3 << std::endl; // (1, 1.5, A, hello, ((), ()))
 
 说明一下关于 inline：为了源码简洁性，我最后决定一律采用 inline 的风格。一般不会有问题，除非对程序体积有很高的要求。刚开始我是把声明和定义分开写的，但这是模板，没法分成两个文件，所以我在一个文件里分开写，一部分函数定义前面加上 inline，但是这样最后写完了看起来非常冗长，一大堆的 "template typename inline"，在看了 Java 源码后考虑再三决定全部写在类里面，也就是默认 inline 的形式。inline 只是对编译器的请求而非要求，不能 inline 的函数（比如有递归的函数）编译器是不会执行 inline 的。
 
-每行代码都经过了我的精心优化。拿 pyincpp::Int 和 GitHub 上有三百多 star 的 [BigInt](https://github.com/faheel/BigInt) 做个[比较](./benches/cmp_int_speed.cpp)，结论是 pyincpp::Int 的速度快得多，并且功能更丰富，而源码行数不到 BigInt 的一半，代码也更加整洁。
+每行代码都经过了我的精心优化。拿 pyincpp::Int 和 GitHub 上有三百多 star 的 [BigInt](https://github.com/faheel/BigInt) 做个[比较](./benches/pyincpp_int_vs_other_int.cpp)，结论是 pyincpp::Int 的速度快得多，并且功能更丰富，而源码行数不到 BigInt 的一半，代码也更加整洁。
 
 我这个项目用到了 FPGA 里面的独热码思想结合有限状态机，还用到了模板元编程在编译期递归实现任意可变模板参数，听着很厉害，但是不赚钱，也没多少人真的会用，属于自娱自乐，可我创造就是快乐，创造就是意义（反正我不缺钱——饿不死）。

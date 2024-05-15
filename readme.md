@@ -21,7 +21,7 @@ _A C++ type library that is as easy to use as Python built-in types._
 - Simple: Stay simple, stay young. While ensuring friendly and robust, try to be concise and easy to maintain and read.
 - Friendly: With my careful design, it can be used as conveniently as Python's built-in types. Very Pythonic.
 - Robust: There are corresponding checks for the addition, deletion, modification, and inspection of containers.
-- Efficiency: The [benchmark results](./tests/benchmark.cpp) show that the performance of the parts with the same function as the standard library is almost the same.
+- Efficiency: The [benchmark results](./benches/std_vs_pyincpp.cpp) show that the performance of the parts with the same function as the standard library is almost the same.
 
 ### 3. Usage
 
@@ -178,6 +178,6 @@ It was originally developed in C to learn data structures. Then in 2021 I tried 
 
 A word about inline: for the sake of source brevity, I finally decided to adopt the inline style. There is usually no problem unless there is a high requirement for program size. At first I wrote the declaration and the definition separately, but this is a template, so I can't split it into two files, so I'm going to write it in one file, and I'm going to put inline in front of some of the function definitions, but it ended up being a verbose bunch of "template typename inline". After reading the Java source code, I decided to write it all in the class, as the default inline. Inline is just a request to the compiler, not a requirement, and functions that can not be inline (such as recursive functions) are not executed by the compiler.
 
-Each line of code has been carefully optimized by me. [Comparing](./benches/cmp_int_speed.cpp) pyincpp::Int with [BigInt](https://github.com/faheel/BigInt) on GitHub, which has over 300 stars, the conclusion is that pyincpp::Int is much faster and more feature rich, with less than half the number of source code lines and cleaner code.
+Each line of code has been carefully optimized by me. [Comparing](./benches/pyincpp_int_vs_other_int.cpp) pyincpp::Int with [BigInt](https://github.com/faheel/BigInt) on GitHub, which has over 300 stars, the conclusion is that pyincpp::Int is much faster and more feature rich, with less than half the number of source code lines and cleaner code.
 
 In this project, I used the One-hot code idea in FPGA combined with the finite state machine. I also used template meta-programming to recursively implement any variable template parameters at compile time. It sounds great, but it doesn't make money, not many people really use, just belong to self-entertainment now, but creation is happiness, creation is meaning.
