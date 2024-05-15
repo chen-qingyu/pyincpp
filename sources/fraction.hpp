@@ -134,7 +134,7 @@ public:
     /// Convert the fraction to double type.
     constexpr operator double() const
     {
-        return (double)numerator_ / denominator_;
+        return double(numerator_) / double(denominator_);
     }
 
     /*

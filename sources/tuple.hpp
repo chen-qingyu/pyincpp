@@ -56,6 +56,7 @@ public:
 template <typename T, typename... Ts>
 class Tuple<T, Ts...> : public Tuple<Ts...>
 {
+    template <typename... X>
     friend class Tuple;
 
 private:
@@ -124,7 +125,7 @@ public:
     /// Return the rest of the tuple.
     constexpr const Tuple<Ts...>& rest() const
     {
-        return *((Tuple<Ts...>*)this);
+        return *(static_cast<const Tuple<Ts...>*>(this));
     }
 };
 

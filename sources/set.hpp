@@ -68,7 +68,7 @@ public:
      */
 
     /// Test whether the set is equal to another set.
-    constexpr bool operator==(const Set& that) const = default;
+    bool operator==(const Set& that) const = default;
 
     /// Test whether the set is a proper subset of another set.
     constexpr bool operator<(const Set& that) const

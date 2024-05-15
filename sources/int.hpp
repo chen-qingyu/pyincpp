@@ -530,9 +530,9 @@ public:
         const auto& a = digits_;
         const auto& b = rhs.digits_;
         auto& c = result.digits_;
-        for (int i = 0; i < a.size(); i++)
+        for (int i = 0; i < int(a.size()); i++)
         {
-            for (int j = 0; j < b.size(); j++)
+            for (int j = 0; j < int(b.size()); j++)
             {
                 c[i + j] += a[i] * b[j];
                 c[i + j + 1] += c[i + j] / 10;

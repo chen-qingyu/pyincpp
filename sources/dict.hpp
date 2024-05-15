@@ -71,7 +71,7 @@ public:
      */
 
     /// Determine whether this dictionary is equal to another dictionary.
-    constexpr bool operator==(const Dict& that) const = default;
+    bool operator==(const Dict& that) const = default;
 
     /*
      * Assignment

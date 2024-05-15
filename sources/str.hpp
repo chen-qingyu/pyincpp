@@ -253,7 +253,7 @@ public:
             return -1;
         }
 
-        stop = stop > str_.size() ? str_.size() : stop;
+        stop = stop > size() ? size() : stop;
         std::string_view view(begin() + start, begin() + stop);
         auto pos = view.find(pattern.str_.data());
 
@@ -325,73 +325,73 @@ public:
 
         // FSM
         state st = S_BEGIN_BLANK;
-        for (int i = 0; i < str_.size(); ++i)
+        for (int i = 0; i < size(); ++i)
         {
             event ev = get_event(str_[i], 10);
-            switch (st | ev)
+            switch (int(st) | int(ev))
             {
-                case S_BEGIN_BLANK | E_BLANK:
+                case int(S_BEGIN_BLANK) | int(E_BLANK):
                     st = S_BEGIN_BLANK;
                     break;
 
-                case S_BEGIN_BLANK | E_SIGN:
+                case int(S_BEGIN_BLANK) | int(E_SIGN):
                     sign = (str_[i] == '+') ? 1 : -1;
                     st = S_SIGN;
                     break;
 
-                case S_BEGIN_BLANK | E_DEC_POINT:
-                case S_SIGN | E_DEC_POINT:
+                case int(S_BEGIN_BLANK) | int(E_DEC_POINT):
+                case int(S_SIGN) | int(E_DEC_POINT):
                     st = S_DEC_POINT_NOT_LEFT;
                     break;
 
-                case S_BEGIN_BLANK | E_NUMBER:
-                case S_SIGN | E_NUMBER:
-                case S_INT_PART | E_NUMBER:
+                case int(S_BEGIN_BLANK) | int(E_NUMBER):
+                case int(S_SIGN) | int(E_NUMBER):
+                case int(S_INT_PART) | int(E_NUMBER):
                     decimal_part = decimal_part * 10 + char_to_integer(str_[i], 10);
                     st = S_INT_PART;
                     break;
 
-                case S_INT_PART | E_DEC_POINT:
+                case int(S_INT_PART) | int(E_DEC_POINT):
                     st = S_DEC_POINT_HAS_LEFT;
                     break;
 
-                case S_DEC_POINT_NOT_LEFT | E_NUMBER:
-                case S_DEC_PART | E_NUMBER:
-                case S_DEC_POINT_HAS_LEFT | E_NUMBER:
+                case int(S_DEC_POINT_NOT_LEFT) | int(E_NUMBER):
+                case int(S_DEC_PART) | int(E_NUMBER):
+                case int(S_DEC_POINT_HAS_LEFT) | int(E_NUMBER):
                     decimal_part = decimal_part * 10 + char_to_integer(str_[i], 10);
                     decimal_cnt++;
                     st = S_DEC_PART;
                     break;
 
-                case S_INT_PART | E_EXP:
-                case S_DEC_POINT_HAS_LEFT | E_EXP:
-                case S_DEC_PART | E_EXP:
+                case int(S_INT_PART) | int(E_EXP):
+                case int(S_DEC_POINT_HAS_LEFT) | int(E_EXP):
+                case int(S_DEC_PART) | int(E_EXP):
                     st = S_EXP;
                     break;
 
-                case S_EXP | E_SIGN:
+                case int(S_EXP) | int(E_SIGN):
                     exp_sign = (str_[i] == '+') ? 1 : -1;
                     st = S_EXP_SIGN;
                     break;
 
-                case S_EXP | E_NUMBER:
-                case S_EXP_SIGN | E_NUMBER:
-                case S_EXP_PART | E_NUMBER:
+                case int(S_EXP) | int(E_NUMBER):
+                case int(S_EXP_SIGN) | int(E_NUMBER):
+                case int(S_EXP_PART) | int(E_NUMBER):
                     exp_part = exp_part * 10 + char_to_integer(str_[i], 10);
                     st = S_EXP_PART;
                     break;
 
-                case S_INT_PART | E_BLANK:
-                case S_DEC_POINT_HAS_LEFT | E_BLANK:
-                case S_DEC_PART | E_BLANK:
-                case S_EXP_PART | E_BLANK:
-                case S_END_BLANK | E_BLANK:
+                case int(S_INT_PART) | int(E_BLANK):
+                case int(S_DEC_POINT_HAS_LEFT) | int(E_BLANK):
+                case int(S_DEC_PART) | int(E_BLANK):
+                case int(S_EXP_PART) | int(E_BLANK):
+                case int(S_END_BLANK) | int(E_BLANK):
                     st = S_END_BLANK;
                     break;
 
                 default:
                     st = S_OTHER;
-                    i = str_.size(); // exit loop
+                    i = size(); // exit loop
                     break;
             }
         }
@@ -427,35 +427,35 @@ public:
 
         // FSM
         state st = S_BEGIN_BLANK;
-        for (int i = 0; i < str_.size(); ++i)
+        for (int i = 0; i < size(); ++i)
         {
             event ev = get_event(str_[i], base);
-            switch (st | ev)
+            switch (int(st) | int(ev))
             {
-                case S_BEGIN_BLANK | E_BLANK:
+                case int(S_BEGIN_BLANK) | int(E_BLANK):
                     st = S_BEGIN_BLANK;
                     break;
 
-                case S_BEGIN_BLANK | E_SIGN:
+                case int(S_BEGIN_BLANK) | int(E_SIGN):
                     non_negative = (str_[i] == '+') ? true : false;
                     st = S_SIGN;
                     break;
 
-                case S_BEGIN_BLANK | E_NUMBER:
-                case S_SIGN | E_NUMBER:
-                case S_INT_PART | E_NUMBER:
+                case int(S_BEGIN_BLANK) | int(E_NUMBER):
+                case int(S_SIGN) | int(E_NUMBER):
+                case int(S_INT_PART) | int(E_NUMBER):
                     integer_part = integer_part * base + char_to_integer(str_[i], base);
                     st = S_INT_PART;
                     break;
 
-                case S_INT_PART | E_BLANK:
-                case S_END_BLANK | E_BLANK:
+                case int(S_INT_PART) | int(E_BLANK):
+                case int(S_END_BLANK) | int(E_BLANK):
                     st = S_END_BLANK;
                     break;
 
                 default:
                     st = S_OTHER;
-                    i = str_.size(); // exit loop
+                    i = size(); // exit loop
                     break;
             }
         }
@@ -586,7 +586,7 @@ public:
         std::string buffer = str_;
 
         int i = 0;
-        while (i < buffer.size() && (ch == -1 ? buffer[i] <= 0x20 : buffer[i] == ch))
+        while (i < int(buffer.size()) && (ch == -1 ? buffer[i] <= 0x20 : buffer[i] == ch))
         {
             ++i;
         }
