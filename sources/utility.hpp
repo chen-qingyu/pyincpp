@@ -65,6 +65,14 @@ constexpr static inline void check_full(int size, int capacity)
     }
 }
 
+// Print helper for Pair.
+// This function can only be placed here because of the header file reference order.
+template <typename K, typename V>
+std::ostream& operator<<(std::ostream& os, const std::pair<const K, V>& pair)
+{
+    return os << pair.first << ": " << pair.second;
+}
+
 // Print helper for range [`first`, `last`).
 constexpr static inline std::ostream& print(std::ostream& os, std::input_iterator auto first, std::input_iterator auto last, char open, char close)
 {

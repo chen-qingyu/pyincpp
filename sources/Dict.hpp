@@ -259,12 +259,6 @@ public:
     }
 };
 
-template <typename K, typename V>
-std::ostream& operator<<(std::ostream& os, const Pair<K, V>& pair)
-{
-    return os << pair.first << ": " << pair.second;
-}
-
 } // namespace pyincpp
 
 #endif // DICT_HPP
