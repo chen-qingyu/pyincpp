@@ -166,34 +166,39 @@ TEST_CASE("pyincpp::Int vs BigInt", "[int]")
 Run with: `xmake config -m release && xmake build bench && xmake run bench -i [int] --benchmark-no-analysis`
 
 Result (2024.05.15, Windows 10, Catch2 v3.5.3):
+
+-------------------------------------------------------------------------------
+pyincpp::Int vs BigInt
+-------------------------------------------------------------------------------
+benches\pyincpp_int_vs_other_int.cpp(7)
 ...............................................................................
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-pyincpp::Int ctor                              100           134        143 ns
-BigInt ctor                                    100            77    252.039 ns
-pyincpp::Int +                                 100            44     444.25 ns
-BigInt +                                       100             6    3.44983 us
-pyincpp::Int -                                 100            75    262.933 ns
-BigInt -                                       100             6     3.7285 us
-pyincpp::Int *                                 100             3    7.56767 us
-BigInt *                                       100             1    126.503 us
-pyincpp::Int /                                 100             8      2.646 us
-BigInt /                                       100             1     36.921 us
-pyincpp::Int %                                 100             8    2.51175 us
-BigInt %                                       100             1     79.091 us
-pyincpp::Int ++                                100           257    76.0895 ns
-BigInt ++                                      100             6     3.4355 us
-pyincpp::Int >                                 100          5446     3.6076 ns
-BigInt >                                       100          1615    12.2056 ns
-pyincpp::Int gcd                               100             2    12.3195 us
-BigInt gcd                                     100             1    248.917 us
-pyincpp::Int pow                               100             1    770.243 us
-BigInt pow                                     100             1    4.26706 ms
-pyincpp::Int sqrt                              100             1    798.393 us
-BigInt sqrt                                    100             1    3.50107 ms
-pyincpp::Int random                            100             4     6.2295 us
-BigInt random                                  100             2      9.851 us
+pyincpp::Int ctor                              100           139    141.813 ns
+BigInt ctor                                    100            82    247.866 ns
+pyincpp::Int +                                 100            43    536.395 ns
+BigInt +                                       100             6    3.40883 us
+pyincpp::Int -                                 100            64    269.844 ns
+BigInt -                                       100             5       3.66 us
+pyincpp::Int *                                 100             3      7.614 us
+BigInt *                                       100             1    122.567 us
+pyincpp::Int /                                 100             9    2.58344 us
+BigInt /                                       100             1     36.993 us
+pyincpp::Int %                                 100             9    2.52556 us
+BigInt %                                       100             1     78.301 us
+pyincpp::Int ++                                100           276    76.8768 ns
+BigInt ++                                      100             6    3.40133 us
+pyincpp::Int >                                 100          5812    3.58723 ns
+BigInt >                                       100          1864    11.2827 ns
+pyincpp::Int gcd                               100             2    13.8315 us
+BigInt gcd                                     100             1    250.251 us
+pyincpp::Int pow                               100             1    767.197 us
+BigInt pow                                     100             1    4.08365 ms
+pyincpp::Int sqrt                              100             1    799.926 us
+BigInt sqrt                                    100             1    2.99672 ms
+pyincpp::Int random                            100             4    6.43075 us
+BigInt random                                  100             3    9.93367 us
 
 ===============================================================================
 All tests passed (24 assertions in 1 test case)

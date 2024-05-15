@@ -276,92 +276,92 @@ Result (2024.05.15, Windows 10, Catch2 v3.5.3):
 -------------------------------------------------------------------------------
 std::vector vs pyincpp::List
 -------------------------------------------------------------------------------
-benches\benchmark.cpp(13)
+benches\std_vs_pyincpp.cpp(13)
 ...............................................................................
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-std::vector constructor                        100           294    68.2449 ns
-pyincpp::List constructor                      100           289    68.3841 ns
-std::vector append                             100          2695    2.60557 ns
-pyincpp::List append                           100          2770    2.89747 ns
-std::vector access with check                  100         21650   0.947667 ns
-pyincpp::List access with check                100         17665    1.12216 ns
+std::vector constructor                        100           310    68.2903 ns
+pyincpp::List constructor                      100           303     68.868 ns
+std::vector append                             100          2700    2.64741 ns
+pyincpp::List append                           100          2351     2.8843 ns
+std::vector access with check                  100         22765   0.948649 ns
+pyincpp::List access with check                100         18637    1.13103 ns
 
 -------------------------------------------------------------------------------
 std::set vs pyincpp::Set
 -------------------------------------------------------------------------------
-benches\benchmark.cpp(57)
+benches\std_vs_pyincpp.cpp(57)
 ...............................................................................
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-std::set constructor                           100            46    433.478 ns
-pyincpp::Set constructor                       100            47    427.915 ns
-std::set add and check                         100          2869    6.84211 ns
-pyincpp::Set add and check                     100          3062    6.44154 ns
-std::set find                                  100          5896    3.22185 ns
-pyincpp::Set find                              100          5908    3.24425 ns
+std::set constructor                           100            49    425.735 ns
+pyincpp::Set constructor                       100            49    434.694 ns
+std::set add and check                         100          2839    6.81825 ns
+pyincpp::Set add and check                     100          3240    6.75247 ns
+std::set find                                  100          6081    3.35076 ns
+pyincpp::Set find                              100          6192     3.3876 ns
 
 -------------------------------------------------------------------------------
 std::map vs pyincpp::Dict
 -------------------------------------------------------------------------------
-benches\benchmark.cpp(99)
+benches\std_vs_pyincpp.cpp(99)
 ...............................................................................
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-std::map constructor                           100            47    427.319 ns
-pyincpp::Dict constructor                      100            44    451.614 ns
-std::map add and check                         100          2830    6.86678 ns
-pyincpp::Dict add and check                    100           314    62.4172 ns
-std::map access                                100          3356     5.8826 ns
-pyincpp::Dict access                           100          3980    5.15653 ns
+std::map constructor                           100            45    446.067 ns
+pyincpp::Dict constructor                      100            43    464.186 ns
+std::map add and check                         100          2968    6.96799 ns
+pyincpp::Dict add and check                    100           324    62.3858 ns
+std::map access                                100          3446    5.66599 ns
+pyincpp::Dict access                           100          4215    5.42278 ns
 
 -------------------------------------------------------------------------------
 std::string vs pyincpp::Str
 -------------------------------------------------------------------------------
-benches\benchmark.cpp(141)
+benches\std_vs_pyincpp.cpp(141)
 ...............................................................................
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-std::string constructor                        100          8289     2.3805 ns
-pyincpp::Str constructor                       100          8279       2.38 ns
-std::string append                             100          2507    7.30475 ns
-pyincpp::Str append                            100          1261    15.1705 ns
-std::string find                               100          3777    5.54832 ns
-pyincpp::Str find                              100          1074    17.9879 ns
+std::string constructor                        100          8335    2.38164 ns
+pyincpp::Str constructor                       100          8599    2.56297 ns
+std::string append                             100          2818     7.2885 ns
+pyincpp::Str append                            100          1328     15.808 ns
+std::string find                               100          4025    5.24571 ns
+pyincpp::Str find                              100          1285    15.7642 ns
 
 -------------------------------------------------------------------------------
 std::tuple vs pyincpp::Tuple
 -------------------------------------------------------------------------------
-benches\benchmark.cpp(183)
+benches\std_vs_pyincpp.cpp(183)
 ...............................................................................
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-std::tuple make_tuple                          100         33069   0.594394 ns
-pyincpp::Tuple make_tuple                      100         33080   0.595435 ns
-std::tuple compare                             100         33109   0.596575 ns
-pyincpp::Tuple compare                         100         33016   0.594954 ns
-std::tuple get                                 100         32065   0.615437 ns
-pyincpp::Tuple get                             100         32060   0.613475 ns
+std::tuple make_tuple                          100         35033   0.594639 ns
+pyincpp::Tuple make_tuple                      100         34955   0.610556 ns
+std::tuple compare                             100         35051   0.598927 ns
+pyincpp::Tuple compare                         100         34986    0.59601 ns
+std::tuple get                                 100         33877   0.613366 ns
+pyincpp::Tuple get                             100         33709   0.614554 ns
 
 -------------------------------------------------------------------------------
 std::deque vs pyincpp::Deque
 -------------------------------------------------------------------------------
-benches\benchmark.cpp(225)
+benches\std_vs_pyincpp.cpp(225)
 ...............................................................................
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-std::deque constructor                         100            74    273.419 ns
-pyincpp::Deque constructor                     100            74    272.649 ns
-std::deque push_back                           100          1034    17.3588 ns
-pyincpp::Deque push_back                       100          1047    16.7813 ns
-std::deque push_front                          100           950    17.3516 ns
-pyincpp::Deque push_front                      100           945    16.7704 ns
+std::deque constructor                         100            76    266.224 ns
+pyincpp::Deque constructor                     100            79    266.873 ns
+std::deque push_back                           100          1102     17.167 ns
+pyincpp::Deque push_back                       100          1034    17.7776 ns
+std::deque push_front                          100           929    17.5748 ns
+pyincpp::Deque push_front                      100           938    17.9797 ns
 
 ===============================================================================
 All tests passed (36 assertions in 6 test cases)
