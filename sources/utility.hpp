@@ -25,8 +25,9 @@
 #include <climits>     // INT_MAX
 #include <cmath>       // std::abs std::pow INFINITY NAN
 #include <cstring>     // std::strlen
-#include <iostream>    // std::istream std::ostream
+#include <istream>     // std::istream
 #include <iterator>    // std::input_iterator
+#include <ostream>     // std::ostream
 #include <random>      // std::random_device std::mt19937 std::uniform_int_distribution
 #include <sstream>     // std::ostringstream
 #include <stdexcept>   // std::runtime_error
