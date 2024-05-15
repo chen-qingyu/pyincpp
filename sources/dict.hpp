@@ -1,4 +1,4 @@
-//! @file Dict.hpp
+//! @file dict.hpp
 //! @author Qingyu Chen (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
 //! @brief Dict template class.
 //! @date 2023.01.18
@@ -21,7 +21,7 @@
 #ifndef DICT_HPP
 #define DICT_HPP
 
-#include "Set.hpp"
+#include "set.hpp"
 
 #include <map>
 

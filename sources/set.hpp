@@ -1,4 +1,4 @@
-//! @file Set.hpp
+//! @file set.hpp
 //! @author Qingyu Chen (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
 //! @brief Set template class.
 //! @date 2023.01.15

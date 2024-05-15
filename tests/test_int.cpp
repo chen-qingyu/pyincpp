@@ -1,4 +1,4 @@
-#include "../sources/Int.hpp"
+#include "../sources/int.hpp"
 
 #include "tool.hpp"
 

@@ -1,4 +1,4 @@
-//! @file List.hpp
+//! @file list.hpp
 //! @author Qingyu Chen (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
 //! @brief List template class, implemented by dynamic array.
 //! @date 2023.01.05

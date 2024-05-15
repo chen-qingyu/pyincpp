@@ -1,4 +1,4 @@
-#include "../sources/Fraction.hpp"
+#include "../sources/fraction.hpp"
 
 #include "tool.hpp"
 

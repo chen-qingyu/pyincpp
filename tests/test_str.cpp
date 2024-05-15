@@ -1,4 +1,4 @@
-#include "../sources/Str.hpp"
+#include "../sources/str.hpp"
 
 #include "tool.hpp"
 

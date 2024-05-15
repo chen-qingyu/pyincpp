@@ -1,4 +1,4 @@
-//! @file Deque.hpp
+//! @file deque.hpp
 //! @author Qingyu Chen (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
 //! @brief Deque template class.
 //! @date 2023.01.10

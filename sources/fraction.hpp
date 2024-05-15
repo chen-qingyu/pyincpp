@@ -1,4 +1,4 @@
-//! @file Fraction.hpp
+//! @file fraction.hpp
 //! @author Qingyu Chen (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
 //! @brief Fraction class.
 //! @date 2024.01.15

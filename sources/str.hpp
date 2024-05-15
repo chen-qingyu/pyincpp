@@ -1,4 +1,4 @@
-//! @file Str.hpp
+//! @file str.hpp
 //! @author Qingyu Chen (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
 //! @brief Str class.
 //! @date 2023.01.08
@@ -23,8 +23,8 @@
 
 #include "utility.hpp"
 
-#include "Int.hpp"
-#include "List.hpp"
+#include "int.hpp"
+#include "list.hpp"
 
 namespace pyincpp
 {

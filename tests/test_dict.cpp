@@ -1,4 +1,4 @@
-#include "../sources/Dict.hpp"
+#include "../sources/dict.hpp"
 
 #include "tool.hpp"
 

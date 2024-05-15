@@ -1,4 +1,4 @@
-#include "../sources/Deque.hpp"
+#include "../sources/deque.hpp"
 
 #include "tool.hpp"
 

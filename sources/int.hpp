@@ -1,4 +1,4 @@
-//! @file Int.hpp
+//! @file int.hpp
 //! @author Qingyu Chen (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
 //! @brief Int class.
 //! @date 2023.01.21

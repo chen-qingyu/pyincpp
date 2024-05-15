@@ -22,14 +22,14 @@
 #define PYINCPP_HPP
 
 #if ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
-#include "Deque.hpp"
-#include "Dict.hpp"
-#include "Fraction.hpp"
-#include "Int.hpp"
-#include "List.hpp"
-#include "Set.hpp"
-#include "Str.hpp"
-#include "Tuple.hpp"
+#include "deque.hpp"
+#include "dict.hpp"
+#include "fraction.hpp"
+#include "int.hpp"
+#include "list.hpp"
+#include "set.hpp"
+#include "str.hpp"
+#include "tuple.hpp"
 
 #else
 #error "Require at least C++20."
