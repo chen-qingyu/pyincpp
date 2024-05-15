@@ -273,7 +273,7 @@ TEST_CASE("std::deque vs pyincpp::Deque", "[std]")
 }
 
 /*
-Run with: `xmake config -m release && xmake build bench && xmake run bench -i [std] --benchmark-no-analysis`
+Run with: `xmake config -m release && xmake build bench && xmake run bench --benchmark-no-analysis -i [std]`
 
 Result (2024.05.15, Windows 10, Catch2 v3.5.3):
 

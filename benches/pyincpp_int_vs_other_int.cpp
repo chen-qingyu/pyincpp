@@ -163,7 +163,7 @@ TEST_CASE("pyincpp::Int vs BigInt", "[int]")
 }
 
 /*
-Run with: `xmake config -m release && xmake build bench && xmake run bench -i [int] --benchmark-no-analysis`
+Run with: `xmake config -m release && xmake build bench && xmake run bench --benchmark-no-analysis -i [int]`
 
 Result (2024.05.15, Windows 10, Catch2 v3.5.3):
 
