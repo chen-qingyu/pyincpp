@@ -651,7 +651,7 @@ public:
         tmp.digits_.insert(tmp.digits_.end(), rhs.digits_.begin(), rhs.digits_.end());
 
         // calculation
-        for (int i = size - 1; i >= 0; i--)
+        for (int i = 0; i < size; i++)
         {
             // tmp = rhs * 10^i in O(1), I'm a fxxking genius
             // after testing, found that use vector is very faster than use deque `tmp.digits_.pop_front();`
