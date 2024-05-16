@@ -42,8 +42,8 @@ private:
     // Sign of integer, 1 is positive, -1 is negative, and 0 is zero.
     signed char sign_ = 0; // need init value
 
-    // Remove leading zeros elegantly.
-    Int& remove_leading_zeros()
+    // Remove leading zeros elegantly and correct sign.
+    Int& trim()
     {
         auto it = digits_.rbegin();
         while (it != digits_.rend() && *it == 0)
@@ -52,13 +52,10 @@ private:
         }
         digits_.erase(it.base(), digits_.end()); // note: rbegin().base() == end()
 
-        return *this;
-    }
-
-    // Add `n` leading zeros elegantly.
-    Int& add_leading_zeros(int n)
-    {
-        digits_.resize(digits_.size() + n, 0);
+        if (digits_.empty())
+        {
+            sign_ = 0;
+        }
 
         return *this;
     }
@@ -102,7 +99,7 @@ private:
             digits_[--i] = 0;
         }
 
-        remove_leading_zeros();
+        trim();
 
         // keep sign unchanged
     }
@@ -122,10 +119,7 @@ private:
             digits_[--i] = 9;
         }
 
-        remove_leading_zeros();
-
-        // if result is zero, set sign to 0
-        sign_ = digits_.empty() ? 0 : sign_;
+        trim();
     }
 
 public:
@@ -156,10 +150,7 @@ public:
             digits_[i] = chars[len - 1 - i] - '0';
         }
 
-        remove_leading_zeros();
-
-        // if result is zero, set sign to 0
-        sign_ = digits_.empty() ? 0 : sign_;
+        trim();
     }
 
     /// Construct a new integer object based on the given int.
@@ -336,31 +327,221 @@ public:
     /// Return this += `rhs`.
     Int& operator+=(const Int& rhs)
     {
-        return *this = *this + rhs;
+        // if one of the operands is zero, just return another one
+        if (sign_ == 0 || rhs.sign_ == 0)
+        {
+            return sign_ == 0 ? *this = rhs : *this;
+        }
+
+        // if the operands are of opposite signs, perform subtraction
+        if (sign_ != rhs.sign_)
+        {
+            return *this -= -rhs;
+        }
+
+        // the sign of two integers is the same and not zero
+
+        digits_.resize(std::max(digits_.size(), rhs.digits_.size()) + 1); // the digits is max+1
+
+        // simulate the vertical calculation, assert a.len() > b.len()
+        auto a = digits_.begin();
+        for (auto b = rhs.digits_.cbegin(); b != rhs.digits_.cend(); ++a, ++b)
+        {
+            *a += *b;
+            if (*a > 9)
+            {
+                ++*(a + 1);
+                *a %= 10;
+            }
+        }
+        for (; a != digits_.end() && *a > 9; ++a) // exit early
+        {
+            ++*(a + 1);
+            *a %= 10;
+        }
+
+        return trim();
     }
 
     /// Return this -= `rhs`.
     Int& operator-=(const Int& rhs)
     {
-        return *this = *this - rhs;
+        // if one of the operands is zero
+        if (sign_ == 0 || rhs.sign_ == 0)
+        {
+            return sign_ == 0 ? *this = -rhs : *this;
+        }
+
+        // if the operands are of opposite signs, perform addition
+        if (sign_ != rhs.sign_)
+        {
+            return *this += -rhs;
+        }
+
+        // the sign of two integers is the same and not zero
+
+        // prepare variables
+        Int result;
+        result.sign_ = *this > rhs ? 1 : -1;
+        result.digits_.resize(std::max(digits_.size(), rhs.digits_.size()));
+
+        // simulate the vertical calculation, assert c.len() == a.len() >= b.len()
+        auto a = *this > rhs ? digits_.cbegin() : rhs.digits_.cbegin();
+        auto b = a == digits_.cbegin() ? rhs.digits_.cbegin() : digits_.cbegin();
+        auto bend = a == digits_.cbegin() ? rhs.digits_.cend() : digits_.cend();
+        auto c = result.digits_.begin();
+        for (; b != bend; ++a, ++b, ++c)
+        {
+            *c += *a - *b;
+            if (*c < 0) // carry
+            {
+                --*(c + 1);
+                *c += 10;
+            }
+        }
+        for (; c != result.digits_.end(); ++a, ++c) // a.len == c.len
+        {
+            *c += *a;
+            if (*c < 0) // carry
+            {
+                --*(c + 1);
+                *c += 10;
+            }
+        }
+
+        return *this = result.trim();
     }
 
     /// Return this *= `rhs`.
     Int& operator*=(const Int& rhs)
     {
-        return *this = *this * rhs;
+        // if one of the operands is zero, just return zero
+        if (sign_ == 0 || rhs.sign_ == 0)
+        {
+            return *this = 0;
+        }
+
+        // the sign of two integers is not zero
+
+        // prepare variables
+        int size = digits_.size() + rhs.digits_.size();
+
+        Int result;
+        result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
+        result.digits_.resize(size);
+
+        // simulate the vertical calculation
+        const auto& a = digits_;
+        const auto& b = rhs.digits_;
+        auto& c = result.digits_;
+        for (int i = 0; i < int(a.size()); i++)
+        {
+            for (int j = 0; j < int(b.size()); j++)
+            {
+                c[i + j] += a[i] * b[j];
+                c[i + j + 1] += c[i + j] / 10;
+                c[i + j] %= 10;
+            }
+        }
+
+        return *this = result.trim();
     }
 
     /// Return this /= `rhs` (not zero).
     Int& operator/=(const Int& rhs)
     {
-        return *this = *this / rhs;
+        // if rhs is zero, throw an exception
+        if (rhs.sign_ == 0)
+        {
+            throw std::runtime_error("Error: Divide by zero.");
+        }
+
+        // if this.abs() < rhs.abs(), just return 0
+        if (digits() < rhs.digits())
+        {
+            return *this = 0;
+        }
+
+        // the sign of two integers is not zero
+
+        // prepare variables
+        int size = digits_.size() - rhs.digits_.size() + 1;
+
+        Int tmp;       // intermediate variable for rhs * 10^i
+        tmp.sign_ = 1; // positive
+
+        // tmp = rhs * 10^(size), not size-1, since the for loop will erase first, so tmp is rhs * 10^(size-1) at first
+        tmp.digits_ = std::vector<signed char>(size, 0);
+        tmp.digits_.insert(tmp.digits_.end(), rhs.digits_.begin(), rhs.digits_.end());
+
+        Int result;
+        result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
+        result.digits_.resize(size);
+
+        sign_ = 1;
+
+        // calculation
+        for (int i = size - 1; i >= 0; i--)
+        {
+            // tmp = rhs * 10^i in O(1), I'm a fxxking genius
+            // after testing, found that use vector is very faster than use deque `tmp.digits_.pop_front();`
+            // my guess is that deque's various operations take longer than vector's
+            tmp.digits_.erase(tmp.digits_.begin());
+
+            while (*this >= tmp) // <= 9 loops, so O(1)
+            {
+                result.digits_[i]++;
+                *this -= tmp;
+            }
+        }
+
+        return *this = result.trim();
     }
 
     /// Return this %= `rhs` (not zero).
     Int& operator%=(const Int& rhs)
     {
-        return *this = *this % rhs;
+        // if rhs is zero, throw an exception
+        if (rhs.sign_ == 0)
+        {
+            throw std::runtime_error("Error: Divide by zero.");
+        }
+
+        // if this.abs() < rhs.abs(), just return this
+        if (digits() < rhs.digits())
+        {
+            return *this;
+        }
+
+        // the sign of two integers is not zero
+
+        // prepare variables
+        int size = digits_.size() - rhs.digits_.size() + 1;
+
+        sign_ = 1;
+
+        Int tmp;       // intermediate variable for rhs * 10^i
+        tmp.sign_ = 1; // positive
+
+        // tmp = rhs * 10^(size), not size-1, since the for loop will erase first, so tmp is rhs * 10^(size-1) at first
+        tmp.digits_ = std::vector<signed char>(size, 0);
+        tmp.digits_.insert(tmp.digits_.end(), rhs.digits_.begin(), rhs.digits_.end());
+
+        // calculation
+        for (int i = 0; i < size; i++)
+        {
+            // tmp = rhs * 10^i in O(1), I'm a fxxking genius
+            // after testing, found that use vector is very faster than use deque `tmp.digits_.pop_front();`
+            // my guess is that deque's various operations take longer than vector's
+            tmp.digits_.erase(tmp.digits_.begin());
+
+            while (*this >= tmp) // <= 9 loops, so O(1)
+            {
+                *this -= tmp;
+            }
+        }
+
+        return trim();
     }
 
     /// Increment the value by 1 quickly.
@@ -422,256 +603,31 @@ public:
     /// Return this + `rhs`.
     Int operator+(const Int& rhs) const
     {
-        // if one of the operands is zero, just return another one
-        if (sign_ == 0 || rhs.sign_ == 0)
-        {
-            return sign_ == 0 ? rhs : *this;
-        }
-
-        // if the operands are of opposite signs, perform subtraction
-        if (sign_ == 1 && rhs.sign_ == -1)
-        {
-            return *this - (-rhs);
-        }
-        else if (sign_ == -1 && rhs.sign_ == 1)
-        {
-            return rhs - (-*this);
-        }
-
-        // the sign of two integers is the same and not zero
-
-        // prepare variables
-        int size = std::max(digits_.size(), rhs.digits_.size()) + 1;
-
-        Int num1 = *this;
-        num1.add_leading_zeros(size - 1 - num1.digits_.size());
-
-        Int num2 = rhs;
-        num2.add_leading_zeros(size - 1 - num2.digits_.size());
-
-        Int result;
-        result.sign_ = sign_; // the signs are same
-        result.add_leading_zeros(size);
-
-        // simulate the vertical calculation
-        const auto& a = num1.digits_;
-        const auto& b = num2.digits_;
-        auto& c = result.digits_;
-        for (int i = 0; i < size - 1; i++)
-        {
-            c[i] += a[i] + b[i];
-            c[i + 1] = c[i] / 10;
-            c[i] %= 10;
-        }
-
-        // remove leading zeros and return result
-        return result.remove_leading_zeros();
+        return Int(*this) += rhs;
     }
 
     /// Return this - `rhs`.
     Int operator-(const Int& rhs) const
     {
-        // if one of the operands is zero
-        if (sign_ == 0 || rhs.sign_ == 0)
-        {
-            return sign_ == 0 ? -rhs : *this;
-        }
-
-        // if the operands are of opposite signs, perform addition
-        if (sign_ != rhs.sign_)
-        {
-            return *this + (-rhs);
-        }
-
-        // the sign of two integers is the same and not zero
-
-        // prepare variables
-        int size = std::max(digits_.size(), rhs.digits_.size());
-
-        Int num1 = *this;
-        num1.add_leading_zeros(size - num1.digits_.size());
-
-        Int num2 = rhs;
-        num2.add_leading_zeros(size - num2.digits_.size());
-
-        Int result;
-        result.sign_ = sign_;                       // the signs are same
-        if (sign_ == 1 ? num1 < num2 : num1 > num2) // let num1.abs() >= num2.abs()
-        {
-            std::swap(num1, num2);
-            result.sign_ = -result.sign_;
-        }
-        result.add_leading_zeros(size);
-
-        // simulate the vertical calculation, assert a >= b
-        auto& a = num1.digits_;
-        const auto& b = num2.digits_;
-        auto& c = result.digits_;
-        for (int i = 0; i < size; i++)
-        {
-            if (a[i] < b[i]) // carry
-            {
-                a[i + 1]--;
-                a[i] += 10;
-            }
-            c[i] = a[i] - b[i];
-        }
-
-        // remove leading zeros
-        result.remove_leading_zeros();
-
-        // if result is zero, set sign to 0
-        result.sign_ = result.digits_.empty() ? 0 : result.sign_;
-
-        // return result
-        return result;
+        return Int(*this) -= rhs;
     }
 
     /// Return this * `rhs`.
     Int operator*(const Int& rhs) const
     {
-        // if one of the operands is zero, just return zero
-        if (sign_ == 0 || rhs.sign_ == 0)
-        {
-            return 0;
-        }
-
-        // the sign of two integers is not zero
-
-        // prepare variables
-        int size = digits_.size() + rhs.digits_.size();
-
-        Int result;
-        result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
-        result.add_leading_zeros(size);
-
-        // simulate the vertical calculation
-        const auto& a = digits_;
-        const auto& b = rhs.digits_;
-        auto& c = result.digits_;
-        for (int i = 0; i < int(a.size()); i++)
-        {
-            for (int j = 0; j < int(b.size()); j++)
-            {
-                c[i + j] += a[i] * b[j];
-                c[i + j + 1] += c[i + j] / 10;
-                c[i + j] %= 10;
-            }
-        }
-
-        // remove leading zeros and return
-        return result.remove_leading_zeros();
+        return Int(*this) *= rhs;
     }
 
     /// Return this / `rhs` (not zero).
     Int operator/(const Int& rhs) const
     {
-        // if rhs is zero, throw an exception
-        if (rhs.sign_ == 0)
-        {
-            throw std::runtime_error("Error: Divide by zero.");
-        }
-
-        // if this.abs() < rhs.abs(), just return 0
-        if (digits() < rhs.digits())
-        {
-            return 0;
-        }
-
-        // the sign of two integers is not zero
-
-        // prepare variables
-        int size = digits_.size() - rhs.digits_.size() + 1;
-
-        Int num1 = abs();
-
-        Int tmp;       // intermediate variable for rhs * 10^i
-        tmp.sign_ = 1; // positive
-
-        // tmp = rhs * 10^(size), not size-1, since the for loop will erase first, so tmp is rhs * 10^(size-1) at first
-        tmp.digits_ = std::vector<signed char>(size, 0);
-        tmp.digits_.insert(tmp.digits_.end(), rhs.digits_.begin(), rhs.digits_.end());
-
-        Int result;
-        result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
-        result.add_leading_zeros(size);
-
-        // calculation
-        for (int i = size - 1; i >= 0; i--)
-        {
-            // tmp = rhs * 10^i in O(1), I'm a fxxking genius
-            // after testing, found that use vector is very faster than use deque `tmp.digits_.pop_front();`
-            // my guess is that deque's various operations take longer than vector's
-            tmp.digits_.erase(tmp.digits_.begin());
-
-            while (num1 >= tmp) // <= 9 loops, so O(1)
-            {
-                result.digits_[i]++;
-                num1 -= tmp;
-            }
-        }
-
-        // remove leading zeros
-        result.remove_leading_zeros();
-
-        // if result is zero, set sign to 0
-        result.sign_ = result.digits_.empty() ? 0 : result.sign_;
-
-        // return result
-        return result;
+        return Int(*this) /= rhs;
     }
 
     /// Return this % `rhs` (not zero).
     Int operator%(const Int& rhs) const
     {
-        // if rhs is zero, throw an exception
-        if (rhs.sign_ == 0)
-        {
-            throw std::runtime_error("Error: Divide by zero.");
-        }
-
-        // if this.abs() < rhs.abs(), just return this
-        if (digits() < rhs.digits())
-        {
-            return *this;
-        }
-
-        // the sign of two integers is not zero
-
-        // prepare variables
-        int size = digits_.size() - rhs.digits_.size() + 1;
-
-        Int result = abs();
-
-        Int tmp;       // intermediate variable for rhs * 10^i
-        tmp.sign_ = 1; // positive
-
-        // tmp = rhs * 10^(size), not size-1, since the for loop will erase first, so tmp is rhs * 10^(size-1) at first
-        tmp.digits_ = std::vector<signed char>(size, 0);
-        tmp.digits_.insert(tmp.digits_.end(), rhs.digits_.begin(), rhs.digits_.end());
-
-        // calculation
-        for (int i = 0; i < size; i++)
-        {
-            // tmp = rhs * 10^i in O(1), I'm a fxxking genius
-            // after testing, found that use vector is very faster than use deque `tmp.digits_.pop_front();`
-            // my guess is that deque's various operations take longer than vector's
-            tmp.digits_.erase(tmp.digits_.begin());
-
-            while (result >= tmp) // <= 9 loops, so O(1)
-            {
-                result -= tmp;
-            }
-        }
-
-        // remove leading zeros
-        result.remove_leading_zeros();
-
-        // if result is zero, set sign to 0, else to this's
-        result.sign_ = result.digits_.empty() ? 0 : sign_;
-
-        // return result
-        return result;
+        return Int(*this) %= rhs;
     }
 
     /// Return the factorial of this.
