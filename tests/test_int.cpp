@@ -253,12 +253,12 @@ TEST_CASE("Int")
 
     SECTION("next_prime")
     {
-        Int prime; // 0
-        int prime_arr[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
-        for (int i = 0; i < 20; i++)
+        Int number; // 0
+        int primes[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
+        for (auto&& prime : primes)
         {
-            prime = prime.next_prime();
-            REQUIRE(prime == prime_arr[i]);
+            number = number.next_prime();
+            REQUIRE(number == prime);
         }
 
         REQUIRE(Int(104728).next_prime() == 104729); // the 10000th prime
