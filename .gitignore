@@ -2,4 +2,3 @@
 .xmake/
 build/
 vsxmake2022/
-tests/compatibility.cpp
