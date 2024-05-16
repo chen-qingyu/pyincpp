@@ -117,6 +117,26 @@ TEST_CASE("Int")
         REQUIRE(negative.is_odd());
     }
 
+    SECTION("is_prime")
+    {
+        REQUIRE(!Int("-1").is_prime());
+        REQUIRE(!Int("0").is_prime());
+        REQUIRE(!Int("1").is_prime());
+        REQUIRE(Int("2").is_prime());
+        REQUIRE(Int("3").is_prime());
+        REQUIRE(!Int("4").is_prime());
+        REQUIRE(Int("5").is_prime());
+        REQUIRE(!Int("6").is_prime());
+        REQUIRE(Int("7").is_prime());
+        REQUIRE(!Int("8").is_prime());
+        REQUIRE(!Int("9").is_prime());
+        REQUIRE(!Int("10").is_prime());
+
+        REQUIRE(Int("2147483629").is_prime()); // maximum prime number that < INT_MAX
+        REQUIRE(Int("2147483647").is_prime()); // INT_MAX is a prime number
+        REQUIRE(Int("2147483659").is_prime()); // minimum prime number that > INT_MAX
+    }
+
     SECTION("inc_dec")
     {
         // operator++()
@@ -242,6 +262,10 @@ TEST_CASE("Int")
         }
 
         REQUIRE(Int(104728).next_prime() == 104729); // the 10000th prime
+
+        REQUIRE(Int("2147483628").next_prime() == "2147483629"); // maximum prime number that < INT_MAX
+        REQUIRE(Int("2147483629").next_prime() == "2147483647"); // INT_MAX is a prime number
+        REQUIRE(Int("2147483647").next_prime() == "2147483659"); // minimum prime number that > INT_MAX
     }
 
     SECTION("to_integer")

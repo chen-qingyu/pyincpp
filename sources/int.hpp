@@ -310,6 +310,25 @@ public:
         return is_zero() ? false : (digits_[0] & 1) == 1;
     }
 
+    /// Determine whether the integer is prime number.
+    bool is_prime() const
+    {
+        if (*this <= 1)
+        {
+            return false; // prime >= 2
+        }
+
+        for (Int i = 2; i * i <= *this; i.abs_inc())
+        {
+            if ((*this % i).is_zero())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /*
      * Manipulation
      */
@@ -696,18 +715,9 @@ public:
             prime.abs_inc();
             prime.abs_inc();
 
-            bool is_prime = true;
-            for (int i = 2; i * i <= prime; i++)
+            if (prime.is_prime())
             {
-                if (prime % i == 0)
-                {
-                    is_prime = false;
-                    break; // prime is not prime, continue while loop
-                }
-            }
-            if (is_prime)
-            {
-                break; // prime is prime, return
+                break;
             }
         }
 
