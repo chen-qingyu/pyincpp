@@ -165,6 +165,8 @@ TEST_CASE("Int")
         REQUIRE(zero + positive == "18446744073709551617");
         REQUIRE(zero + zero == "0");
         REQUIRE(zero + negative == "-18446744073709551617");
+
+        REQUIRE(Int("99999") + Int("1") == "100000");
     }
 
     SECTION("minus")
@@ -180,6 +182,8 @@ TEST_CASE("Int")
         REQUIRE(zero - positive == "-18446744073709551617");
         REQUIRE(zero - zero == "0");
         REQUIRE(zero - negative == "18446744073709551617");
+
+        REQUIRE(Int("100000") - Int("1") == "99999");
     }
 
     SECTION("times")
@@ -195,6 +199,8 @@ TEST_CASE("Int")
         REQUIRE(zero * positive == "0");
         REQUIRE(zero * zero == "0");
         REQUIRE(zero * negative == "0");
+
+        REQUIRE(Int("100000") * Int("1") == "100000");
     }
 
     SECTION("divide")
@@ -210,6 +216,8 @@ TEST_CASE("Int")
         REQUIRE(zero / positive == "0");
         REQUIRE_THROWS_MATCHES(zero / zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(zero / negative == "0");
+
+        REQUIRE(Int("100000") / Int("1") == "100000");
     }
 
     SECTION("mod")
@@ -225,6 +233,8 @@ TEST_CASE("Int")
         REQUIRE(zero % positive == "0");
         REQUIRE_THROWS_MATCHES(zero % zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(zero % negative == "0");
+
+        REQUIRE(Int("100000") % Int("1") == "0");
     }
 
     SECTION("factorial")
