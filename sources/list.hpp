@@ -55,7 +55,8 @@ public:
     }
 
     /// Construct a list with the contents of the range [`first`, `last`).
-    List(std::input_iterator auto first, std::input_iterator auto last)
+    template <std::input_iterator InputIt>
+    List(const InputIt& first, const InputIt& last)
         : vector_(first, last)
     {
     }
@@ -71,7 +72,7 @@ public:
      */
 
     /// Compare the list with another list.
-    constexpr auto operator<=>(const List& that) const = default;
+    auto operator<=>(const List& that) const = default;
 
     /*
      * Assignment
@@ -88,25 +89,25 @@ public:
      */
 
     /// Return an iterator to the first element of the list.
-    constexpr auto begin() const
+    auto begin() const
     {
         return vector_.begin();
     }
 
     /// Return an iterator to the element following the last element of the list.
-    constexpr auto end() const
+    auto end() const
     {
         return vector_.end();
     }
 
     /// Return a reverse iterator to the first element of the reversed list.
-    constexpr auto rbegin() const
+    auto rbegin() const
     {
         return vector_.rbegin();
     }
 
     /// Return a reverse iterator to the element following the last element of the reversed list.
-    constexpr auto rend() const
+    auto rend() const
     {
         return vector_.rend();
     }
@@ -126,7 +127,7 @@ public:
 
     /// Return the const reference to element at the specified position in the list.
     /// Index can be negative, like Python's list: list[-1] gets the last element.
-    constexpr const T& operator[](int index) const
+    const T& operator[](int index) const
     {
         return const_cast<List&>(*this)[index];
     }
@@ -142,19 +143,19 @@ public:
     }
 
     /// Return `true` if the list contains no elements.
-    constexpr bool is_empty() const
+    bool is_empty() const
     {
         return vector_.empty();
     }
 
     /// Return the iterator of the specified element in the list, or end() if the list does not contain the element.
-    constexpr auto find(const T& element) const
+    auto find(const T& element) const
     {
         return std::find(begin(), end(), element);
     }
 
     /// Return the index of the first occurrence of the specified `element`, or -1 if the list does not contain the element in the specified range [`start`, `stop`].
-    constexpr int index(const T& element, int start = 0, int stop = INT_MAX) const
+    int index(const T& element, int start = 0, int stop = INT_MAX) const
     {
         stop = stop > size() ? size() : stop;
         auto it = std::find(begin() + start, begin() + stop, element);
@@ -162,13 +163,13 @@ public:
     }
 
     /// Return `true` if the list contains the specified `element` in the specified range [`start`, `stop`].
-    constexpr bool contains(const T& element, int start = 0, int stop = INT_MAX) const
+    bool contains(const T& element, int start = 0, int stop = INT_MAX) const
     {
         return index(element, start, stop) != -1;
     }
 
     /// Count the total number of occurrences of the specified `element` in the list.
-    constexpr int count(const T& element) const
+    int count(const T& element) const
     {
         return std::count_if(begin(), end(), [&](const T& e)
                              { return e == element; });
@@ -350,7 +351,8 @@ public:
     }
 
     /// Extend the list by appending elements of the range [`first`, `last`).
-    void extend(std::input_iterator auto first, std::input_iterator auto last)
+    template <std::input_iterator InputIt>
+    void extend(const InputIt& first, const InputIt& last)
     {
         vector_.insert(vector_.end(), first, last);
     }

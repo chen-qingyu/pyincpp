@@ -187,13 +187,13 @@ public:
      */
 
     /// Determine whether this integer is equal to another integer.
-    constexpr bool operator==(const Int& that) const
+    bool operator==(const Int& that) const
     {
         return sign_ == that.sign_ && digits_ == that.digits_;
     }
 
     /// Compare the integer with another integer.
-    constexpr auto operator<=>(const Int& that) const
+    auto operator<=>(const Int& that) const
     {
         if (sign_ != that.sign_)
         {
@@ -272,31 +272,31 @@ public:
     }
 
     /// Determine whether the integer is zero quickly.
-    constexpr bool is_zero() const
+    bool is_zero() const
     {
         return sign_ == 0;
     }
 
     /// Determine whether the integer is positive quickly.
-    constexpr bool is_positive() const
+    bool is_positive() const
     {
         return sign_ == 1;
     }
 
     /// Determine whether the integer is negative quickly.
-    constexpr bool is_negative() const
+    bool is_negative() const
     {
         return sign_ == -1;
     }
 
     /// Determine whether the integer is even quickly.
-    constexpr bool is_even() const
+    bool is_even() const
     {
         return is_zero() ? true : (digits_[0] & 1) == 0;
     }
 
     /// Determine whether the integer is odd quickly.
-    constexpr bool is_odd() const
+    bool is_odd() const
     {
         return is_zero() ? false : (digits_[0] & 1) == 1;
     }

@@ -40,7 +40,7 @@ namespace pyincpp::internal
 {
 
 // Check whether the index is valid (begin <= pos < end).
-constexpr static inline void check_bounds(int pos, int begin, int end)
+static inline void check_bounds(int pos, int begin, int end)
 {
     if (pos < begin || pos >= end)
     {
@@ -49,7 +49,7 @@ constexpr static inline void check_bounds(int pos, int begin, int end)
 }
 
 // Check whether is not empty.
-constexpr static inline void check_empty(int size)
+static inline void check_empty(int size)
 {
     if (size == 0)
     {
@@ -58,7 +58,7 @@ constexpr static inline void check_empty(int size)
 }
 
 // Check whether there is any remaining capacity.
-constexpr static inline void check_full(int size, int capacity)
+static inline void check_full(int size, int capacity)
 {
     if (size >= capacity)
     {
@@ -75,7 +75,8 @@ std::ostream& operator<<(std::ostream& os, const std::pair<const K, V>& pair)
 }
 
 // Print helper for range [`first`, `last`).
-constexpr static inline std::ostream& print(std::ostream& os, std::input_iterator auto first, std::input_iterator auto last, char open, char close)
+template <std::input_iterator InputIt>
+static inline std::ostream& print(std::ostream& os, const InputIt& first, const InputIt& last, char open, char close)
 {
     // This form looks complex, but there is only one judgment in the loop.
     // At the Assembly level (see https://godbolt.org/z/qT9n7GKf8), this is more efficient

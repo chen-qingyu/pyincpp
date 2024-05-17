@@ -185,25 +185,25 @@ public:
      */
 
     /// Return an iterator to the first char of the string.
-    constexpr auto begin() const
+    auto begin() const
     {
         return str_.cbegin();
     }
 
     /// Return an iterator to the char following the last char of the string.
-    constexpr auto end() const
+    auto end() const
     {
         return str_.cend();
     }
 
     /// Return a reverse iterator to the first char of the reversed string.
-    constexpr auto rbegin() const
+    auto rbegin() const
     {
         return str_.rbegin();
     }
 
     /// Return a reverse iterator to the char following the last char of the reversed string.
-    constexpr auto rend() const
+    auto rend() const
     {
         return str_.rend();
     }
@@ -214,7 +214,7 @@ public:
 
     /// Return the const reference to element at the specified position in the string.
     /// Index can be negative, like Python's string: string[-1] gets the last element.
-    constexpr const char& operator[](int index) const
+    const char& operator[](int index) const
     {
         internal::check_bounds(index, -size(), size());
 
@@ -232,14 +232,14 @@ public:
     }
 
     /// Return true if the string contains no elements.
-    constexpr bool is_empty() const
+    bool is_empty() const
     {
         return str_.empty();
     }
 
     /// Return const pointer to contents. This is a pointer to internal data.
     /// It is undefined to modify the contents through the returned pointer.
-    constexpr const char* data() const
+    const char* data() const
     {
         return str_.data();
     }
@@ -254,7 +254,7 @@ public:
         }
 
         stop = stop > size() ? size() : stop;
-        std::string_view view(begin() + start, begin() + stop);
+        std::string_view view(str_.data() + start, stop - start);
         auto pos = view.find(pattern.str_.data());
 
         return pos == std::string::npos ? -1 : start + int(pos);
@@ -468,13 +468,13 @@ public:
     }
 
     /// Return `true` if the string begins with the specified string, otherwise return `false`.
-    constexpr bool starts_with(const Str& str) const
+    bool starts_with(const Str& str) const
     {
         return str_.starts_with(str.str_);
     }
 
     /// Return `true` if the string ends with the specified string, otherwise return `false`.
-    constexpr bool ends_with(const Str& str) const
+    bool ends_with(const Str& str) const
     {
         return str_.ends_with(str.str_);
     }

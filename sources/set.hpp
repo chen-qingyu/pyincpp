@@ -52,7 +52,8 @@ public:
     }
 
     /// Construct a set with the contents of the range [`first`, `last`).
-    Set(std::input_iterator auto first, std::input_iterator auto last)
+    template <std::input_iterator InputIt>
+    Set(const InputIt& first, const InputIt& last)
         : set_(first, last)
     {
     }
@@ -71,25 +72,25 @@ public:
     bool operator==(const Set& that) const = default;
 
     /// Test whether the set is a proper subset of another set.
-    constexpr bool operator<(const Set& that) const
+    bool operator<(const Set& that) const
     {
         return size() != that.size() && *this <= that;
     }
 
     /// Test whether every element in the set is in another set.
-    constexpr bool operator<=(const Set& that) const
+    bool operator<=(const Set& that) const
     {
         return std::includes(that.set_.cbegin(), that.set_.cend(), set_.cbegin(), set_.cend());
     }
 
     /// Test whether the set is a proper superset of another set.
-    constexpr bool operator>(const Set& that) const
+    bool operator>(const Set& that) const
     {
         return that < *this;
     }
 
     /// Test whether every element in another set is in the set.
-    constexpr bool operator>=(const Set& that) const
+    bool operator>=(const Set& that) const
     {
         return that <= *this;
     }
@@ -109,25 +110,25 @@ public:
      */
 
     /// Return an iterator to the first element of the set.
-    constexpr auto begin() const
+    auto begin() const
     {
         return set_.begin();
     }
 
     /// Return an iterator to the element following the last element of the set.
-    constexpr auto end() const
+    auto end() const
     {
         return set_.end();
     }
 
     /// Return a reverse iterator to the first element of the reversed set.
-    constexpr auto rbegin() const
+    auto rbegin() const
     {
         return set_.rbegin();
     }
 
     /// Return a reverse iterator to the element following the last element of the reversed set.
-    constexpr auto rend() const
+    auto rend() const
     {
         return set_.rend();
     }
@@ -143,25 +144,25 @@ public:
     }
 
     /// Return `true` if the set contains no elements.
-    constexpr bool is_empty() const
+    bool is_empty() const
     {
         return set_.empty();
     }
 
     /// Return the iterator of the specified element in the set, or end() if the set does not contain the element.
-    constexpr auto find(const T& element) const
+    auto find(const T& element) const
     {
         return set_.find(element);
     }
 
     /// Return `true` if the set contains the specified element.
-    constexpr bool contains(const T& element) const
+    bool contains(const T& element) const
     {
         return find(element) != end();
     }
 
     /// Get the smallest item of the set.
-    constexpr T min() const
+    T min() const
     {
         internal::check_empty(size());
 
@@ -169,7 +170,7 @@ public:
     }
 
     /// Get the largest item of the set.
-    constexpr T max() const
+    T max() const
     {
         internal::check_empty(size());
 
@@ -231,7 +232,8 @@ public:
     }
 
     /// Extend the set by adding elements of the range [`first`, `last`).
-    void extend(std::input_iterator auto first, std::input_iterator auto last)
+    template <std::input_iterator InputIt>
+    void extend(const InputIt& first, const InputIt& last)
     {
         set_.insert(first, last);
     }

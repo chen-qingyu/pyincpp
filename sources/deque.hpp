@@ -52,7 +52,8 @@ public:
     }
 
     /// Construct a deque with the contents of the range [`first`, `last`).
-    Deque(std::input_iterator auto first, std::input_iterator auto last)
+    template <std::input_iterator InputIt>
+    Deque(const InputIt& first, const InputIt& last)
         : deque_(first, last)
     {
     }
@@ -85,25 +86,25 @@ public:
      */
 
     /// Return an iterator to the first element of the deque.
-    constexpr auto begin() const
+    auto begin() const
     {
         return deque_.begin();
     }
 
     /// Return an iterator to the element following the last element of the deque.
-    constexpr auto end() const
+    auto end() const
     {
         return deque_.end();
     }
 
     /// Return a reverse iterator to the first element of the reversed deque.
-    constexpr auto rbegin() const
+    auto rbegin() const
     {
         return deque_.rbegin();
     }
 
     /// Return a reverse iterator to the element following the last element of the reversed deque.
-    constexpr auto rend() const
+    auto rend() const
     {
         return deque_.rend();
     }
@@ -121,7 +122,7 @@ public:
     }
 
     /// Peek the last element.
-    constexpr const T& back() const
+    const T& back() const
     {
         return const_cast<Deque&>(*this).back();
     }
@@ -135,7 +136,7 @@ public:
     }
 
     /// Peek the first element.
-    constexpr const T& front() const
+    const T& front() const
     {
         return const_cast<Deque&>(*this).front();
     }
@@ -149,7 +150,7 @@ public:
     }
 
     /// Return a const reference to the element at specified `index`.
-    constexpr const T& operator[](int index) const
+    const T& operator[](int index) const
     {
         return const_cast<Deque&>(*this)[index];
     }
@@ -165,7 +166,7 @@ public:
     }
 
     /// Return `true` if the deque contains no elements.
-    constexpr bool is_empty() const
+    bool is_empty() const
     {
         return deque_.empty();
     }
@@ -213,13 +214,15 @@ public:
     }
 
     /// Extend the right side of the deque by appending elements of the range [`first`, `last`).
-    void extend_back(std::input_iterator auto first, std::input_iterator auto last)
+    template <std::input_iterator InputIt>
+    void extend_back(const InputIt& first, const InputIt& last)
     {
         deque_.insert(deque_.end(), first, last);
     }
 
     /// Extend the left side of the deque by prepending elements of the range [`first`, `last`).
-    void extend_front(std::input_iterator auto first, std::input_iterator auto last)
+    template <std::input_iterator InputIt>
+    void extend_front(const InputIt& first, const InputIt& last)
     {
         deque_.insert(deque_.begin(), first, last);
     }

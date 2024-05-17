@@ -55,7 +55,8 @@ public:
     }
 
     /// Construct a dictionary with the contents of the range [`first`, `last`).
-    Dict(std::input_iterator auto first, std::input_iterator auto last)
+    template <std::input_iterator InputIt>
+    Dict(const InputIt& first, const InputIt& last)
         : map_(first, last)
     {
     }
@@ -88,25 +89,25 @@ public:
      */
 
     /// Return an iterator to the first element of the dictionary.
-    constexpr auto begin() const
+    auto begin() const
     {
         return map_.begin();
     }
 
     /// Return an iterator to the element following the last element of the dictionary.
-    constexpr auto end() const
+    auto end() const
     {
         return map_.end();
     }
 
     /// Return a reverse iterator to the first element of the reversed dictionary.
-    constexpr auto rbegin() const
+    auto rbegin() const
     {
         return map_.rbegin();
     }
 
     /// Return a reverse iterator to the element following the last element of the reversed dictionary.
-    constexpr auto rend() const
+    auto rend() const
     {
         return map_.rend();
     }
@@ -128,13 +129,13 @@ public:
     }
 
     /// Return the const reference to value of the `key` in the dictionary.
-    constexpr const V& operator[](const K& key) const
+    const V& operator[](const K& key) const
     {
         return const_cast<Dict&>(*this)[key];
     }
 
     /// Return copy of the value for `key` if `key` is in the dictionary, else `defaults` value.
-    constexpr const V& get(const K& key, const V& defaults) const
+    const V& get(const K& key, const V& defaults) const
     {
         return contains(key) ? (*this)[key] : defaults;
     }
@@ -150,37 +151,37 @@ public:
     }
 
     /// Return `true` if the dictionary contains no elements.
-    constexpr bool is_empty() const
+    bool is_empty() const
     {
         return map_.empty();
     }
 
     /// Return the iterator of the specified key or end() if the dictionary does not contain the key.
-    constexpr auto find(const K& key) const
+    auto find(const K& key) const
     {
         return map_.find(key);
     }
 
     /// Return `true` if the dictionary contains the specified `key`.
-    constexpr bool contains(const K& key) const
+    bool contains(const K& key) const
     {
         return map_.find(key) != map_.end();
     }
 
     /// Get the smallest key of the dictionary.
-    constexpr K min() const
+    K min() const
     {
         return map_.cbegin()->first;
     }
 
     /// Get the largest key of the dictionary.
-    constexpr K max() const
+    K max() const
     {
         return map_.crbegin()->first;
     }
 
     /// Return a new set of the dictionary's keys.
-    constexpr Set<K> keys() const
+    Set<K> keys() const
     {
         Set<K> keys;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
@@ -190,7 +191,7 @@ public:
     }
 
     /// Return a new set of the dictionary's values.
-    constexpr Set<V> values() const
+    Set<V> values() const
     {
         Set<V> values;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
@@ -200,7 +201,7 @@ public:
     }
 
     /// Return a new set of the dictionary's items.
-    constexpr Set<Pair<K, V>> items() const
+    Set<Pair<K, V>> items() const
     {
         Set<Pair<K, V>> items;
         std::for_each(map_.cbegin(), map_.cend(), [&](const auto& pair)
@@ -237,7 +238,8 @@ public:
     }
 
     /// Extend the dictionary by adding elements of the range [`first`, `last`).
-    void extend(std::input_iterator auto first, std::input_iterator auto last)
+    template <std::input_iterator InputIt>
+    void extend(const InputIt& first, const InputIt& last)
     {
         map_.insert(first, last);
     }
