@@ -152,6 +152,9 @@ public:
      */
 
     /// Compare the string with another string.
+    bool operator==(const Str& that) const = default;
+
+    /// Compare the string with another string.
     auto operator<=>(const Str& that) const = default;
 
     /*
