@@ -33,8 +33,8 @@ namespace pyincpp
 class Str
 {
 private:
-    // Immutable string.
-    const std::string str_;
+    // String.
+    std::string str_;
 
     // Used for FSM.
     enum state
@@ -142,10 +142,7 @@ public:
     Str(const Str& that) = default;
 
     /// Move constructor.
-    Str(Str&& that)
-        : str_(std::move(const_cast<std::string&>(that.str_)))
-    {
-    }
+    Str(Str&& that) = default;
 
     /*
      * Comparison
@@ -159,26 +156,10 @@ public:
      */
 
     /// Copy assignment operator.
-    Str& operator=(const Str& that)
-    {
-        if (this != &that)
-        {
-            const_cast<std::string&>(str_) = that.str_;
-        }
-
-        return *this;
-    }
+    Str& operator=(const Str& that) = default;
 
     /// Move assignment operator.
-    Str& operator=(Str&& that)
-    {
-        if (this != &that)
-        {
-            const_cast<std::string&>(str_) = std::move(const_cast<std::string&>(that.str_));
-        }
-
-        return *this;
-    }
+    Str& operator=(Str&& that) = default;
 
     /*
      * Iterator
