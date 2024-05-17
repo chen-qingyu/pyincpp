@@ -25,12 +25,12 @@ _A C++ type library that is as easy to use as Python built-in types._
 
 ### 3. Usage
 
-Because C++ templates are used, they are all provided in the form of header files (. hpp), header only.
+Because C++ templates are used, they are all provided in the form of header files (.hpp), header only.
 
 Very convenient to use:
 
 - PyInCpp has already in the official XMake repository, you only need to add it in the xmake.lua: `add_requires("pyincpp")` and then `#include <pyincpp/pyincpp.hpp>`.
-- Or, simply and roughly copy the entire sources directory to the project source directory and then `#include "pyincpp.hpp"`.
+- Or, just download the amalgamated header file from releases and then `#include "pyincpp_amalgamated.hpp"`.
 
 There are a total of 8 classes for now, refer to the 8 commonly used classes in Python:
 
