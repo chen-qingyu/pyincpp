@@ -29,7 +29,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 
 使用非常方便：
 
-- PyInCpp 已经进入 XMake 官方仓库，所以只需要在 xmake.lua 中加上 `add_requires("pyincpp")` 然后源码中就可以 `#include <pyincpp/pyincpp.hpp>`。
+- PyInCpp 已经进入 XMake 官方仓库，所以只需要在 xmake.lua 中加上 `add_requires("pyincpp")` 然后源码中就可以 `#include <pyincpp.hpp>`。
 - 或者，直接从 releases 里面下载合并后的头文件然后 `#include "pyincpp_amalgamated.hpp"`。
 
 目前一共八个类，对标 Python 里面的八个常用的类：
