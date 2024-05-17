@@ -152,9 +152,6 @@ public:
      */
 
     /// Compare the string with another string.
-    bool operator==(const Str& that) const = default;
-
-    /// Compare the string with another string.
     auto operator<=>(const Str& that) const = default;
 
     /*
@@ -298,21 +295,21 @@ public:
 
         for (int i = 0; i < 12; ++i)
         {
-            if (*this == pos_infs[i])
+            if (str_ == pos_infs[i])
             {
                 return INFINITY;
             }
         }
         for (int i = 0; i < 6; ++i)
         {
-            if (*this == neg_infs[i])
+            if (str_ == neg_infs[i])
             {
                 return -INFINITY;
             }
         }
         for (int i = 0; i < 9; ++i)
         {
-            if (*this == nans[i])
+            if (str_ == nans[i])
             {
                 return NAN;
             }
