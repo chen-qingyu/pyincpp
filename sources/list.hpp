@@ -136,7 +136,7 @@ public:
      */
 
     /// Return the number of elements in the list.
-    constexpr int size() const
+    int size() const
     {
         return vector_.size();
     }

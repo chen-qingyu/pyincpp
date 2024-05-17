@@ -68,7 +68,7 @@ public:
      */
 
     /// Compare the deque with another deque.
-    constexpr auto operator<=>(const Deque& that) const = default;
+    auto operator<=>(const Deque& that) const = default;
 
     /*
      * Assignment
@@ -159,7 +159,7 @@ public:
      */
 
     /// Return the number of elements in the deque.
-    constexpr int size() const
+    int size() const
     {
         return deque_.size();
     }

@@ -137,7 +137,7 @@ public:
      */
 
     /// Return the number of elements in the set.
-    constexpr int size() const
+    int size() const
     {
         return set_.size();
     }

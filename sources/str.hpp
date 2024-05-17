@@ -152,7 +152,7 @@ public:
      */
 
     /// Compare the string with another string.
-    constexpr auto operator<=>(const Str& that) const = default;
+    auto operator<=>(const Str& that) const = default;
 
     /*
      * Assignment
@@ -226,7 +226,7 @@ public:
      */
 
     /// Return the number of elements in the string.
-    constexpr int size() const
+    int size() const
     {
         return str_.size(); // no '\0'
     }
@@ -246,7 +246,7 @@ public:
 
     /// Return the index of the first occurrence of the specified pattern in the specified range [`start`, `stop`).
     /// Or -1 if the string does not contain the pattern (in the specified range).
-    constexpr int find(const Str& pattern, int start = 0, int stop = INT_MAX) const
+    int find(const Str& pattern, int start = 0, int stop = INT_MAX) const
     {
         if (start > size())
         {
@@ -261,13 +261,13 @@ public:
     }
 
     /// Return `true` if the string contains the specified `pattern` in the specified range [`start`, `stop`).
-    constexpr bool contains(const Str& pattern, int start = 0, int stop = INT_MAX) const
+    bool contains(const Str& pattern, int start = 0, int stop = INT_MAX) const
     {
         return find(pattern, start, stop) != -1;
     }
 
     /// Count the total number of occurrences of the specified element in the string.
-    constexpr int count(const char& element) const
+    int count(const char& element) const
     {
         return std::count(begin(), end(), element);
     }

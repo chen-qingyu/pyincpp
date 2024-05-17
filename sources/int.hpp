@@ -266,7 +266,7 @@ public:
      */
 
     /// Return the number of digits in the integer (based 10).
-    constexpr int digits() const
+    int digits() const
     {
         return digits_.size();
     }

@@ -144,7 +144,7 @@ public:
      */
 
     /// Return the number of elements in the dictionary.
-    constexpr int size() const
+    int size() const
     {
         return map_.size();
     }
@@ -233,7 +233,7 @@ public:
         internal::check_empty(size());
 
         auto node = map_.extract(begin());
-        return Pair{node.key(), node.mapped()};
+        return Pair<K, V>{node.key(), node.mapped()};
     }
 
     /// Extend the dictionary by adding elements of the range [`first`, `last`).
