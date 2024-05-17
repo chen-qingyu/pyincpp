@@ -24,6 +24,7 @@
 #include <algorithm>   // std::copy std::find std::rotate ...
 #include <climits>     // INT_MAX
 #include <cmath>       // std::abs std::pow INFINITY NAN
+#include <concepts>    // concepts
 #include <cstring>     // std::strlen
 #include <istream>     // std::istream
 #include <iterator>    // std::input_iterator
