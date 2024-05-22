@@ -36,9 +36,6 @@ private:
     // Imaginary part.
     double imag_;
 
-    // Natural constant.
-    static constexpr double E = 2.7182818284590452354;
-
 public:
     /*
      * Constructor
@@ -215,7 +212,7 @@ public:
             throw std::runtime_error("Error: Math domain error.");
         }
 
-        double coef = std::pow(base.abs(), exp.real_) * std::pow(E, -base.arg() * exp.imag_);
+        double coef = std::pow(base.abs(), exp.real_) * std::exp(-base.arg() * exp.imag_);
         double theta = std::log(base.abs()) * exp.imag_ + base.arg() * exp.real_;
 
         return Complex(coef * std::cos(theta), coef * std::sin(theta));
