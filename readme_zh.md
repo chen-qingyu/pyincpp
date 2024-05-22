@@ -105,6 +105,11 @@ Tuple<int, double, char>(1, 2.5, 'A').get<2>(); // 'A'
 // take the remaining part of the Tuple, the underlying layer is pointer conversion, which is very fast
 Tuple<int, double, char>(1, 2.5, 'A').rest(); // (2.5, 'A')
 
+// Complex addition
+Complex(1, 2) + Complex(1, 3); // (2+5j)
+// Complex power
+Complex::pow(Complex(1, 2), Complex(-1, 2)); // (0.04281551979798478+0.023517649351954585j)
+
 // Deque element reference
 Deque<int>{1, 2, 3, 4, 5}.front(); // 1
 // Deque rotate to right (or left), very vivid!
@@ -114,11 +119,6 @@ Deque<int>{1, 2, 3, 4, 5} >>= 1; // <5, 1, 2, 3, 4>
 Fraction(1, 2) + Fraction(1, 3); // 5/6
 // Fraction modulo
 Fraction(1, 2) % Fraction(1, 3); // 1/6
-
-// Complex addition
-Complex(1, 2) + Complex(1, 3); // (2+5j)
-// Complex power
-Complex::pow(Complex(1, 2), Complex(-1, 2)); // (0.04281551979798478+0.023517649351954585j)
 ```
 
 ### 4. 优势
