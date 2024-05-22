@@ -65,7 +65,7 @@ private:
 
 public:
     /*
-     * Constructor / Destructor
+     * Constructor
      */
 
     /// Construct a new tuple object.

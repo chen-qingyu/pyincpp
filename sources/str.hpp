@@ -126,7 +126,7 @@ private:
 
 public:
     /*
-     * Constructor / Destructor
+     * Constructor
      */
 
     /// Default constructor. Construct an empty deque.
@@ -138,28 +138,12 @@ public:
     {
     }
 
-    /// Copy constructor.
-    Str(const Str& that) = default;
-
-    /// Move constructor.
-    Str(Str&& that) = default;
-
     /*
      * Comparison
      */
 
     /// Compare the string with another string.
     auto operator<=>(const Str& that) const = default;
-
-    /*
-     * Assignment
-     */
-
-    /// Copy assignment operator.
-    Str& operator=(const Str& that) = default;
-
-    /// Move assignment operator.
-    Str& operator=(Str&& that) = default;
 
     /*
      * Iterator

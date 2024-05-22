@@ -42,7 +42,7 @@ private:
 
 public:
     /*
-     * Constructor / Destructor
+     * Constructor
      */
 
     /// Default constructor. Construct an empty dictionary.
@@ -61,28 +61,12 @@ public:
     {
     }
 
-    /// Copy constructor.
-    Dict(const Dict& that) = default;
-
-    /// Move constructor.
-    Dict(Dict&& that) = default;
-
     /*
      * Comparison
      */
 
     /// Determine whether this dictionary is equal to another dictionary.
     bool operator==(const Dict& that) const = default;
-
-    /*
-     * Assignment
-     */
-
-    /// Copy assignment operator.
-    Dict& operator=(const Dict& that) = default;
-
-    /// Move assignment operator.
-    Dict& operator=(Dict&& that) = default;
 
     /*
      * Iterator

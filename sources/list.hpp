@@ -42,7 +42,7 @@ private:
 
 public:
     /*
-     * Constructor / Destructor
+     * Constructor
      */
 
     /// Default constructor. Construct an empty list.
@@ -61,28 +61,12 @@ public:
     {
     }
 
-    /// Copy constructor.
-    List(const List& that) = default;
-
-    /// Move constructor.
-    List(List&& that) = default;
-
     /*
      * Comparison
      */
 
     /// Compare the list with another list.
     auto operator<=>(const List& that) const = default;
-
-    /*
-     * Assignment
-     */
-
-    /// Copy assignment operator.
-    List& operator=(const List& that) = default;
-
-    /// Move assignment operator.
-    List& operator=(List&& that) = default;
 
     /*
      * Iterator

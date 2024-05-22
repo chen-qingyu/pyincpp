@@ -39,7 +39,7 @@ private:
 
 public:
     /*
-     * Constructor / Destructor
+     * Constructor
      */
 
     /// Default constructor. Construct an empty deque.
@@ -58,28 +58,12 @@ public:
     {
     }
 
-    /// Copy constructor.
-    Deque(const Deque& that) = default;
-
-    /// Move constructor.
-    Deque(Deque&& that) = default;
-
     /*
      * Comparison
      */
 
     /// Compare the deque with another deque.
     auto operator<=>(const Deque& that) const = default;
-
-    /*
-     * Assignment
-     */
-
-    /// Copy assignment operator.
-    Deque& operator=(const Deque& that) = default;
-
-    /// Move assignment operator.
-    Deque& operator=(Deque&& that) = default;
 
     /*
      * Iterator

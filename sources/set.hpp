@@ -39,7 +39,7 @@ private:
 
 public:
     /*
-     * Constructor / Destructor
+     * Constructor
      */
 
     /// Default constructor. Construct an empty set.
@@ -57,12 +57,6 @@ public:
         : set_(first, last)
     {
     }
-
-    /// Copy constructor.
-    Set(const Set& that) = default;
-
-    /// Move constructor.
-    Set(Set&& that) = default;
 
     /*
      * Comparison
@@ -94,16 +88,6 @@ public:
     {
         return that <= *this;
     }
-
-    /*
-     * Assignment
-     */
-
-    /// Copy assignment operator.
-    Set& operator=(const Set& that) = default;
-
-    /// Move assignment operator.
-    Set& operator=(Set&& that) = default;
 
     /*
      * Iterator
