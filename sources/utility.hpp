@@ -23,7 +23,7 @@
 
 #include <algorithm>   // std::copy std::find std::rotate ...
 #include <climits>     // INT_MAX
-#include <cmath>       // std::abs std::pow INFINITY NAN
+#include <cmath>       // std::abs std::pow std::sqrt std::atan INFINITY NAN
 #include <cstring>     // std::strlen
 #include <istream>     // std::istream
 #include <iterator>    // std::input_iterator
@@ -48,7 +48,7 @@ static inline void check_bounds(int pos, int begin, int end)
     }
 }
 
-// Check whether is not empty.
+// Check whether the container is not empty.
 static inline void check_empty(int size)
 {
     if (size == 0)

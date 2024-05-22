@@ -32,7 +32,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 - PyInCpp 已经进入 XMake 官方仓库，所以只需要在 xmake.lua 中加上 `add_requires("pyincpp")` 然后源码中就可以 `#include <pyincpp.hpp>`。
 - 或者，直接从 releases 里面下载合并后的头文件然后 `#include "pyincpp_amalgamated.hpp"`。
 
-目前一共八个类，对标 Python 里面的八个常用的类：
+一共九个类，对标 Python 里面常用的类：
 
 | Type in PyInCpp | Type in Python       |
 | --------------- | -------------------- |
@@ -42,6 +42,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 | `Int`           | `int`                |
 | `Str`           | `str`                |
 | `Tuple<Ts...>`  | `tuple`              |
+| `Complex`       | `complex`            |
 | `Deque<T>`      | `collections.deque`  |
 | `Fraction`      | `fractions.Fraction` |
 
@@ -113,6 +114,11 @@ Deque<int>{1, 2, 3, 4, 5} >>= 1; // <5, 1, 2, 3, 4>
 Fraction(1, 2) + Fraction(1, 3); // 5/6
 // Fraction modulo
 Fraction(1, 2) % Fraction(1, 3); // 1/6
+
+// Complex addition
+Complex(1, 2) + Complex(1, 3); // (2+5j)
+// Complex power
+Complex::pow(Complex(1, 2), Complex(-1, 2)); // (0.04281551979798478+0.023517649351954585j)
 ```
 
 ### 4. 优势

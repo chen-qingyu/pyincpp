@@ -32,7 +32,7 @@ Very convenient to use:
 - PyInCpp has already in the official XMake repository, you only need to add it in the xmake.lua: `add_requires("pyincpp")` and then `#include <pyincpp.hpp>`.
 - Or, just download the amalgamated header file from releases and then `#include "pyincpp_amalgamated.hpp"`.
 
-There are a total of 8 classes for now, refer to the 8 commonly used classes in Python:
+There are a total of 9 classes, refer to commonly used classes in Python:
 
 | Type in PyInCpp | Type in Python       |
 | --------------- | -------------------- |
@@ -42,6 +42,7 @@ There are a total of 8 classes for now, refer to the 8 commonly used classes in 
 | `Int`           | `int`                |
 | `Str`           | `str`                |
 | `Tuple<Ts...>`  | `tuple`              |
+| `Complex`       | `complex`            |
 | `Deque<T>`      | `collections.deque`  |
 | `Fraction`      | `fractions.Fraction` |
 
@@ -113,6 +114,11 @@ Deque<int>{1, 2, 3, 4, 5} >>= 1; // <5, 1, 2, 3, 4>
 Fraction(1, 2) + Fraction(1, 3); // 5/6
 // Fraction modulo
 Fraction(1, 2) % Fraction(1, 3); // 1/6
+
+// Complex addition
+Complex(1, 2) + Complex(1, 3); // (2+5j)
+// Complex power
+Complex::pow(Complex(1, 2), Complex(-1, 2)); // (0.04281551979798478+0.023517649351954585j)
 ```
 
 ### 4. Advantage
