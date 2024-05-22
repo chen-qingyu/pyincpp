@@ -137,6 +137,18 @@ public:
         return double(numerator_) / double(denominator_);
     }
 
+    /// Get the numerator of this.
+    int numerator() const
+    {
+        return numerator_;
+    }
+
+    /// Get the denominator of this.
+    int denominator() const
+    {
+        return denominator_;
+    }
+
     /*
      * Manipulation
      */
@@ -302,8 +314,6 @@ public:
         fraction = Fraction(num, den);
         return is;
     }
-
-    friend struct std::hash<pyincpp::Fraction>;
 };
 
 } // namespace pyincpp
@@ -313,7 +323,7 @@ struct std::hash<pyincpp::Fraction> // explicit specialization
 {
     std::size_t operator()(const pyincpp::Fraction& fraction) const
     {
-        return std::hash<int>{}(fraction.numerator_) ^ (std::hash<int>{}(fraction.denominator_) << 1);
+        return std::hash<int>{}(fraction.numerator()) ^ (std::hash<int>{}(fraction.denominator()) << 1);
     }
 };
 

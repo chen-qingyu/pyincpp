@@ -65,6 +65,14 @@ TEST_CASE("Fraction")
         REQUIRE(double(Fraction(1, 2)) == Approx(0.5));
         REQUIRE(double(Fraction(2, 3)) == Approx(2.0 / 3.0));
         REQUIRE(double(Fraction(1, -2)) == Approx(-0.5));
+
+        REQUIRE(zero.numerator() == 0);
+        REQUIRE(positive.numerator() == 1);
+        REQUIRE(negative.numerator() == -1);
+
+        REQUIRE(zero.denominator() == 1);
+        REQUIRE(positive.denominator() == 2);
+        REQUIRE(negative.denominator() == 2);
     }
 
     SECTION("inc_dec")
