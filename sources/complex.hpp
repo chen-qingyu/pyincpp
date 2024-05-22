@@ -94,16 +94,28 @@ public:
      * Examination
      */
 
-    /// Return the coefficient of the real component.
+    /// Return the real part.
     double real() const
     {
         return real_;
     }
 
-    /// Return the coefficient of the imaginary component.
+    /// Return the imaginary part.
     double imag() const
     {
         return imag_;
+    }
+
+    /// Return the absolute value (distance from origin) of this.
+    double abs() const
+    {
+        return std::sqrt(real_ * real_ + imag_ * imag_);
+    }
+
+    /// Return the phase angle (in radians) of this.
+    double arg() const
+    {
+        return std::atan2(imag_, real_);
     }
 
     /*
@@ -148,18 +160,6 @@ public:
     Complex operator-() const
     {
         return Complex(-real_, -imag_);
-    }
-
-    /// Return the absolute value (distance from origin) of this.
-    double abs() const
-    {
-        return std::sqrt(real_ * real_ + imag_ * imag_);
-    }
-
-    /// Return the phase angle (in radians) of this.
-    double arg() const
-    {
-        return std::atan2(imag_, real_);
     }
 
     /// Return the conjugate value of this.

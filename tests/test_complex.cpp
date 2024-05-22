@@ -55,6 +55,14 @@ TEST_CASE("Complex")
         REQUIRE(zero.imag() == 0);
         REQUIRE(positive.imag() == 2);
         REQUIRE(negative.imag() == 2);
+
+        REQUIRE(zero.abs() == 0);
+        REQUIRE(positive.abs() == 2.23606797749979);
+        REQUIRE(negative.abs() == 2.23606797749979);
+
+        REQUIRE(zero.arg() == 0);
+        REQUIRE(positive.arg() == 1.1071487177940904);
+        REQUIRE(negative.arg() == 2.0344439357957027);
     }
 
     SECTION("unary")
@@ -66,14 +74,6 @@ TEST_CASE("Complex")
         REQUIRE(-zero == Complex(0));
         REQUIRE(-positive == Complex(-1, -2));
         REQUIRE(-negative == Complex(1, -2));
-
-        REQUIRE(zero.abs() == 0);
-        REQUIRE(positive.abs() == 2.23606797749979);
-        REQUIRE(negative.abs() == 2.23606797749979);
-
-        REQUIRE(zero.arg() == 0);
-        REQUIRE(positive.arg() == 1.1071487177940904);
-        REQUIRE(negative.arg() == 2.0344439357957027);
 
         REQUIRE(zero.conjugate() == Complex(0));
         REQUIRE(positive.conjugate() == Complex(1, -2));
