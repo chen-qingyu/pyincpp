@@ -29,7 +29,9 @@ int main()
     std::unordered_set<Str> set2 = {"hello", "pyincpp"};
     std::unordered_set<Fraction> set3 = {{1, 2}, {3, 4}};
 
-    auto t = make_tuple(1, 233, 0.5, std::string("hello"));
+    assert(pyincpp::make_tuple(std::string("hello")) != pyincpp::make_tuple(1, 2, 3));
+
+    assert(Complex::pow(Complex(1, 2), Complex(3, 4)) == Complex(0.12900959407446697, 0.03392409290517014));
 
     std::cout << "OK!\n";
 }
