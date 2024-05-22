@@ -205,9 +205,7 @@ public:
     /// Return the opposite value of this.
     Fraction operator-() const
     {
-        Fraction fraction = *this;
-        fraction.numerator_ = -fraction.numerator_;
-        return fraction;
+        return Fraction(-numerator_, denominator_);
     }
 
     /// Return the absolute value of this.
