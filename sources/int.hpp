@@ -124,7 +124,7 @@ private:
 
 public:
     /*
-     * Constructor / Destructor
+     * Constructor
      */
 
     /// Construct a new zero integer object.
@@ -422,10 +422,7 @@ public:
     Int& operator/=(const Int& rhs)
     {
         // if rhs is zero, throw an exception
-        if (rhs.sign_ == 0)
-        {
-            throw std::runtime_error("Error: Divide by zero.");
-        }
+        internal::check_zero(rhs.sign_);
 
         // if this.abs() < rhs.abs(), just return 0
         if (digits() < rhs.digits())
@@ -473,10 +470,7 @@ public:
     Int& operator%=(const Int& rhs)
     {
         // if rhs is zero, throw an exception
-        if (rhs.sign_ == 0)
-        {
-            throw std::runtime_error("Error: Divide by zero.");
-        }
+        internal::check_zero(rhs.sign_);
 
         // if this.abs() < rhs.abs(), just return this
         if (digits() < rhs.digits())

@@ -12,7 +12,7 @@ TEST_CASE("Fraction")
         Fraction f1;
         Fraction f2(2);
         Fraction f3(2, 3);
-        REQUIRE_THROWS_MATCHES(Fraction(1, 0), std::runtime_error, Message("Error: Zero denominator."));
+        REQUIRE_THROWS_MATCHES(Fraction(1, 0), std::runtime_error, Message("Error: Divide by zero."));
 
         // Fraction(const Fraction& that)
         Fraction f4(f3);
@@ -92,12 +92,16 @@ TEST_CASE("Fraction")
 
     SECTION("unary")
     {
+        REQUIRE(+zero == Fraction(0));
         REQUIRE(+positive == Fraction(1, 2));
-        REQUIRE(-positive == Fraction(-1, 2));
-        REQUIRE(positive.abs() == Fraction(1, 2));
-
         REQUIRE(+negative == Fraction(-1, 2));
+
+        REQUIRE(-zero == Fraction(0));
+        REQUIRE(-positive == Fraction(-1, 2));
         REQUIRE(-negative == Fraction(1, 2));
+
+        REQUIRE(zero.abs() == Fraction(0));
+        REQUIRE(positive.abs() == Fraction(1, 2));
         REQUIRE(negative.abs() == Fraction(1, 2));
     }
 
@@ -149,30 +153,30 @@ TEST_CASE("Fraction")
     SECTION("divide")
     {
         REQUIRE(positive / positive == Fraction(1));
-        REQUIRE_THROWS_MATCHES(positive / zero, std::runtime_error, Message("Error: Zero denominator."));
+        REQUIRE_THROWS_MATCHES(positive / zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(positive / negative == Fraction(-1));
 
         REQUIRE(negative / positive == Fraction(-1));
-        REQUIRE_THROWS_MATCHES(negative / zero, std::runtime_error, Message("Error: Zero denominator."));
+        REQUIRE_THROWS_MATCHES(negative / zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(negative / negative == Fraction(1));
 
         REQUIRE(zero / positive == Fraction(0));
-        REQUIRE_THROWS_MATCHES(zero / zero, std::runtime_error, Message("Error: Zero denominator."));
+        REQUIRE_THROWS_MATCHES(zero / zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(zero / negative == Fraction(0));
     }
 
     SECTION("mod")
     {
         REQUIRE(positive % positive == Fraction(0));
-        REQUIRE_THROWS_MATCHES(positive % zero, std::runtime_error, Message("Error: Zero denominator."));
+        REQUIRE_THROWS_MATCHES(positive % zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(positive % negative == Fraction(0));
 
         REQUIRE(negative % positive == Fraction(0));
-        REQUIRE_THROWS_MATCHES(negative % zero, std::runtime_error, Message("Error: Zero denominator."));
+        REQUIRE_THROWS_MATCHES(negative % zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(negative % negative == Fraction(0));
 
         REQUIRE(zero % positive == Fraction(0));
-        REQUIRE_THROWS_MATCHES(zero % zero, std::runtime_error, Message("Error: Zero denominator."));
+        REQUIRE_THROWS_MATCHES(zero % zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(zero % negative == Fraction(0));
     }
 
@@ -209,6 +213,6 @@ TEST_CASE("Fraction")
         REQUIRE_THROWS_MATCHES(std::istringstream("1/z2") >> err, std::runtime_error, Message("Error: Wrong fraction literal."));
         REQUIRE_THROWS_MATCHES(std::istringstream("1/2z") >> err, std::runtime_error, Message("Error: Wrong fraction literal."));
         REQUIRE_THROWS_MATCHES(std::istringstream("1|2") >> err, std::runtime_error, Message("Error: Wrong fraction literal."));
-        REQUIRE_THROWS_MATCHES(std::istringstream("0/0") >> err, std::runtime_error, Message("Error: Zero denominator."));
+        REQUIRE_THROWS_MATCHES(std::istringstream("0/0") >> err, std::runtime_error, Message("Error: Divide by zero."));
     }
 }

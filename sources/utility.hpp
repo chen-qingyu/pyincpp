@@ -66,6 +66,16 @@ static inline void check_full(int size, int capacity)
     }
 }
 
+// Check whether the number is not zero.
+template <typename T>
+static inline void check_zero(T number)
+{
+    if (number == T(0))
+    {
+        throw std::runtime_error("Error: Divide by zero.");
+    }
+}
+
 // Print helper for Pair.
 // This function can only be placed here because of the header file reference order.
 template <typename K, typename V>

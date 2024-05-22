@@ -61,16 +61,13 @@ private:
 
 public:
     /*
-     * Constructor / Destructor
+     * Constructor
      */
 
     /// Construct a new fraction object with value `numerator/denominator`.
     Fraction(int numerator = 0, int denominator = 1)
     {
-        if (denominator == 0)
-        {
-            throw std::runtime_error("Error: Zero denominator.");
-        }
+        internal::check_zero(denominator);
 
         numerator_ = numerator;
         denominator_ = denominator;
@@ -246,10 +243,7 @@ public:
     /// Return this % `rhs` (not zero).
     Fraction operator%(const Fraction& rhs) const
     {
-        if (rhs.numerator_ == 0)
-        {
-            throw std::runtime_error("Error: Zero denominator.");
-        }
+        internal::check_zero(rhs);
 
         return Fraction((numerator_ * rhs.denominator_) % (rhs.numerator_ * denominator_), denominator_ * rhs.denominator_);
     }
