@@ -64,7 +64,7 @@ public:
      * Constructor
      */
 
-    /// Construct a new fraction object with value `numerator/denominator`.
+    /// Construct a new fraction with value `numerator/denominator`.
     Fraction(int numerator = 0, int denominator = 1)
     {
         internal::check_zero(denominator);

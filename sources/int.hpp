@@ -127,10 +127,10 @@ public:
      * Constructor
      */
 
-    /// Construct a new zero integer object.
+    /// Construct a new zero integer.
     Int() = default;
 
-    /// Construct a new integer object based on the given null-terminated characters.
+    /// Construct a new integer based on the given null-terminated characters.
     Int(const char* chars)
     {
         const int len = std::strlen(chars);
@@ -153,7 +153,7 @@ public:
         trim();
     }
 
-    /// Construct a new integer object based on the given int.
+    /// Construct a new integer based on the given `integer`.
     Int(int integer)
     {
         if (integer == 0)
@@ -674,7 +674,7 @@ public:
         return prime;
     }
 
-    /// Convert the integer object to some integer of type T.
+    /// Convert the integer to some integer of type T.
     /// @tparam T an integer type : int, long, and any custom type that support basic arithmetic operations.
     template <typename T>
     T to_integer() const

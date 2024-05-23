@@ -41,7 +41,7 @@ public:
      * Constructor
      */
 
-    /// Construct a new complex object with value `real+imag*j`.
+    /// Construct a new complex with value `real+imag*j`.
     Complex(double real = 0, double imag = 0)
         : real_(real)
         , imag_(imag)

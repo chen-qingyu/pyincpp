@@ -68,7 +68,7 @@ public:
      * Constructor
      */
 
-    /// Construct a new tuple object.
+    /// Construct a new tuple.
     constexpr Tuple<T, Ts...>(const T& value, const Ts&... values)
         : Tuple<Ts...>(values...)
         , value_(value)
@@ -133,7 +133,7 @@ public:
  * Non-member functions
  */
 
-/// Creates a tuple object, deducing the target type from the types of arguments.
+/// Create a tuple, deducing the target type from the types of arguments.
 template <typename... Ts>
 constexpr decltype(auto) make_tuple(const Ts&... values)
 {

@@ -368,7 +368,7 @@ public:
         return sign * ((decimal_part / std::pow(10, decimal_cnt)) * std::pow(10, exp_sign * exp_part));
     }
 
-    /// Convert the string to an integer object based on 2-36 `base`.
+    /// Convert the string to an `Int` based on 2-36 `base`.
     ///
     /// Numeric character in 36 base: 0, 1, ..., 9, A(10), ..., F(15), G(16), ..., Y(34), Z(35).
     ///

@@ -32,7 +32,7 @@ namespace pyincpp
 template <typename K, typename V>
 using Pair = std::pair<const K, V>;
 
-/// A Dict object maps keys to arbitrary values.
+/// Dict maps keys to arbitrary values.
 template <typename K, typename V>
 class Dict
 {
@@ -118,7 +118,7 @@ public:
         return const_cast<Dict&>(*this)[key];
     }
 
-    /// Return copy of the value for `key` if `key` is in the dictionary, else `defaults` value.
+    /// Return a reference of the value for `key` if `key` is in the dictionary, else `defaults` value.
     const V& get(const K& key, const V& defaults) const
     {
         return contains(key) ? (*this)[key] : defaults;

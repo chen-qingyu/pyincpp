@@ -28,7 +28,7 @@
 namespace pyincpp
 {
 
-/// Set is a collection of distinct objects.
+/// Set is collection of distinct objects.
 /// Common uses include membership testing, removing duplicates from a sequence, and computing mathematical operations.
 template <typename T>
 class Set

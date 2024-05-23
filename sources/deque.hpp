@@ -149,7 +149,7 @@ public:
         return deque_.size();
     }
 
-    /// Return `true` if the deque contains no elements.
+    /// Return `true` if the deque is empty.
     bool is_empty() const
     {
         return deque_.empty();
