@@ -175,12 +175,12 @@ TEST_CASE("Complex")
     SECTION("input")
     {
         Complex c1, c2, c3, c4;
-        std::istringstream("  +1-2j  \n  233.33 \t 1234+4321j  0") >> c1 >> c2 >> c3 >> c4;
+        std::istringstream("  +1-2j  \n  233.33 \t -1234-4321j  3j") >> c1 >> c2 >> c3 >> c4;
 
         REQUIRE(c1 == Complex(1, -2));
         REQUIRE(c2 == Complex(233.33));
-        REQUIRE(c3 == Complex(1234, 4321));
-        REQUIRE(c4 == Complex(0));
+        REQUIRE(c3 == Complex(-1234, -4321));
+        REQUIRE(c4 == Complex(0, 3));
 
         Complex err;
         REQUIRE_THROWS_MATCHES(std::istringstream("z1+2j") >> err, std::runtime_error, Message("Error: Wrong complex literal."));

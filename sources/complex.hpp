@@ -255,6 +255,16 @@ public:
             complex = real;
             return is;
         }
+        if (is.peek() == 'j') // next char is 'j', ok
+        {
+            is.get();
+            if (is.peek() <= 0x20) // next char is white space, ok
+            {
+                complex = Complex(0, real);
+                return is;
+            }
+            throw std::runtime_error("Error: Wrong complex literal.");
+        }
 
         double imag;
         char c;
