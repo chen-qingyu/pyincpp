@@ -129,7 +129,7 @@ public:
      * Constructor
      */
 
-    /// Default constructor. Construct an empty deque.
+    /// Construct an empty string.
     Str() = default;
 
     /// Create a string from null-terminated characters.

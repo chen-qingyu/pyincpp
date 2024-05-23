@@ -45,7 +45,7 @@ public:
      * Constructor
      */
 
-    /// Default constructor. Construct an empty dictionary.
+    /// Construct an empty dictionary.
     Dict() = default;
 
     /// Construct a dictionary with the contents of the initializer list `init`.

@@ -42,7 +42,7 @@ public:
      * Constructor
      */
 
-    /// Default constructor. Construct an empty set.
+    /// Construct an empty set.
     Set() = default;
 
     /// Construct a set with the contents of the initializer list `init`.

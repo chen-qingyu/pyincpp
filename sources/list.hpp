@@ -45,7 +45,7 @@ public:
      * Constructor
      */
 
-    /// Default constructor. Construct an empty list.
+    /// Construct an empty list.
     List() = default;
 
     /// Construct a list with the contents of the initializer list `init`.

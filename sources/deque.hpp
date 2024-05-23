@@ -42,7 +42,7 @@ public:
      * Constructor
      */
 
-    /// Default constructor. Construct an empty deque.
+    /// Construct an empty deque.
     Deque() = default;
 
     /// Construct a deque with the contents of the initializer list `init`.
