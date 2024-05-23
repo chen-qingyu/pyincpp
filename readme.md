@@ -9,7 +9,7 @@ _A C++ type library that is as easy to use as Python built-in types._
 - Name: PyInCpp.
 - Language: C++, requires C++20.
 - Goal: Write a C++ type library that is as easy to use as Python built-in types.
-- Module: List, Set, Dict, Int, Str, Tuple, Deque, Fraction
+- Module: List, Set, Dict, Int, Str, Tuple, Complex, Deque, Fraction
 - Style: Most follow the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html), a small portion adopt their own style based on project size and source code simplicity considerations.
 - Test: Using [Catch2](https://github.com/catchorg/Catch2) for unit testing and benchmark testing and ensure that all tests passed.
 - Security: Using [Dr. Memory](https://drmemory.org/) checked to ensure there were no safety issues.

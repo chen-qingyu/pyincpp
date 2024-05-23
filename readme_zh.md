@@ -9,7 +9,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 - 名称：PyInCpp。
 - 语言：C++ ，要求 C++20 。
 - 目标：实现一个像 Python 的内置类型一样好用的 C++ 库。
-- 模块：List, Set, Dict, Int, Str, Tuple, Deque, Fraction.
+- 模块：List, Set, Dict, Int, Str, Tuple, Complex, Deque, Fraction
 - 风格：大部分遵循 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) ，小部分基于项目规模和源码简洁性的考虑采用自己的风格。
 - 测试：使用 [Catch2](https://github.com/catchorg/Catch2) 进行了单元测试和基准测试，确保测试全部通过。
 - 安全：使用 [Dr. Memory](https://drmemory.org/) 进行了检查，确保没有安全问题。
