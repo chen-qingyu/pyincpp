@@ -109,7 +109,7 @@ public:
     /// Return the absolute value (distance from origin) of this.
     double abs() const
     {
-        return std::sqrt(real_ * real_ + imag_ * imag_);
+        return std::hypot(real_, imag_);
     }
 
     /// Return the phase angle (in radians) of this.

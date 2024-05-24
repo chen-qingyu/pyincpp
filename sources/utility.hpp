@@ -23,7 +23,7 @@
 
 #include <algorithm>   // std::copy std::find std::rotate ...
 #include <climits>     // INT_MAX
-#include <cmath>       // std::abs std::pow std::sqrt std::atan INFINITY NAN
+#include <cmath>       // std::abs std::pow std::sqrt std::atan2 std::hypot INFINITY NAN
 #include <cstring>     // std::strlen
 #include <istream>     // std::istream
 #include <iterator>    // std::input_iterator
