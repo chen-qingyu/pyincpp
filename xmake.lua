@@ -1,5 +1,5 @@
 set_project("pyincpp")
-set_version("2.4.0")
+set_version("2.4.1")
 set_license("GPL-3.0")
 set_languages("cxx20")
 
