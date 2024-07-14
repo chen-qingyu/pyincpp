@@ -4,7 +4,7 @@ _A C++ type library that is as easy to use as Python built-in types._
 
 [中文](./readme_zh.md)
 
-### 1. Attribute
+## 1. Attribute
 
 - Name: PyInCpp.
 - Language: C++, requires C++20.
@@ -16,14 +16,14 @@ _A C++ type library that is as easy to use as Python built-in types._
 - Document: Using [Doxygen](https://www.doxygen.nl/) to generate documents.
 - Build: Using [XMake](https://xmake.io/) to build.
 
-### 2. Feature
+## 2. Feature
 
 - Simple: Stay simple, stay young. While ensuring friendly and robust, try to be concise and easy to maintain and read.
 - Friendly: With my careful design, it can be used as conveniently as Python's built-in types. Very Pythonic.
 - Robust: There are corresponding checks for the insert, remove, modify, and access of containers.
 - Efficiency: The [benchmark results](./benches/std_vs_pyincpp.cpp) show that the performance of the parts with the same function as the standard library is almost the same.
 
-### 3. Usage
+## 3. Usage
 
 Because C++ templates are used, they are all provided in the form of header files (.hpp), header only.
 
@@ -121,7 +121,7 @@ Fraction(1, 2) + Fraction(1, 3); // 5/6
 Fraction(1, 2) % Fraction(1, 3); // 1/6
 ```
 
-### 4. Advantage
+## 4. Advantage
 
 The advantage of PyInCpp is that it combines the high performance of C++ with the ease of use of Python, and can also be easily combined with other libraries, for example:
 
@@ -178,7 +178,7 @@ std::cout << t3 << std::endl; // (1, 1.5, A, hello, ((), ()))
 
 If you want to use a similar library in Rust, please see: [PyInRs](https://github.com/chen-qingyu/pyinrs).
 
-### 5. History
+## 5. History
 
 It was originally developed in C to learn data structures. Then in 2021 I tried to implement some handy container classes in C++, just for fun. After several refactoring, the development goals were determined. The original version was migrated to [HelloDS](https://github.com/chen-qingyu/hellods) with the goal of implementing a complete, generic base container class without using any standard library containers. And the goal of this project is to achieve basic types similar to Python's, and to be as convenient and efficient as possible. I started developing this project on January 1, 2023.
 

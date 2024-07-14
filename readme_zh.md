@@ -4,7 +4,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 
 [English](./readme.md)
 
-### 1. 属性
+## 1. 属性
 
 - 名称：PyInCpp。
 - 语言：C++ ，要求 C++20 。
@@ -16,14 +16,14 @@ _像 Python 的内置类型一样好用的 C++ 库_
 - 文档：使用 [Doxygen](https://www.doxygen.nl/) 生成文档。
 - 构建：使用 [XMake](https://xmake.io/) 进行构建。
 
-### 2. 特点
+## 2. 特点
 
 - 简洁：Stay simple, stay young. 在保证好用和健壮的前提下，尽量简洁，便于维护和阅读。
 - 好用：经过我的精心设计，用起来可以像 Python 的内置类型一样方便。很 Pythonic。
 - 健壮：对容器的增删改查都有相应的检查。
 - 高效：[基准测试结果](./benches/std_vs_pyincpp.cpp)表明功能与标准库相同的部分的性能几乎一样。
 
-### 3. 用法
+## 3. 用法
 
 因为用的是 C++ 模板，所以全部以头文件的形式（.hpp）给出，header-only。
 
@@ -121,7 +121,7 @@ Fraction(1, 2) + Fraction(1, 3); // 5/6
 Fraction(1, 2) % Fraction(1, 3); // 1/6
 ```
 
-### 4. 优势
+## 4. 优势
 
 PyInCpp 的优势在于把 C++ 的高性能和 Python 的易用性结合起来了，还可以方便地与其他库结合使用，比如：
 
@@ -178,7 +178,7 @@ std::cout << t3 << std::endl; // (1, 1.5, A, hello, ((), ()))
 
 如果您想在 Rust 中使用类似的库，请参阅：[PyInRs](https://github.com/chen-qingyu/pyinrs).
 
-### 5. 历史
+## 5. 历史
 
 最开始是用的 C 语言开发，目的是学习数据结构。然后在 2021 年开始尝试用 C++ 实现一些方便的容器类，只当是练手。后来经过了几次重构，确定了目标。将最初的版本迁移至了[HelloDS](https://github.com/chen-qingyu/hellods)，目标是在不使用任何标准库容器的情况下实现完整、通用的基础容器类。而这个项目的目标是实现与 Python 类似的基本类型，并尽可能方便和高效。这个项目于 2023 年 1 月 1 日开始正式开发。
 
