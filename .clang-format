@@ -19,4 +19,3 @@ ReflowComments: true
 SpacesInLineCommentPrefix: { Minimum: 1, Maximum: 1 }
 Standard: c++20
 ---
-
