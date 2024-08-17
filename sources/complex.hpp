@@ -26,7 +26,7 @@
 namespace pyincpp
 {
 
-/// Complex number class.
+/// Complex provides support for complex number arithmetic.
 class Complex
 {
 private:
