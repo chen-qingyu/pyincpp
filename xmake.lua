@@ -1,6 +1,6 @@
 set_project("pyincpp")
 set_version("2.4.1")
-set_license("GPL-3.0")
+set_license("MIT")
 set_languages("cxx20")
 
 add_rules("mode.debug", "mode.release")
