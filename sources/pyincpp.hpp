@@ -1,7 +1,7 @@
 //! @file pyincpp.hpp
 //! @author Chen QingYu <chen_qingyu@qq.com>
 //! @brief Unified header file of PyInCpp.
-//! @version 2.4.1
+//! @version 2.5.0
 //!
 //! @copyright Copyright (C) 2021-present, Chen QingYu
 
