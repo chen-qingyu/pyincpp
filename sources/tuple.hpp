@@ -78,6 +78,13 @@ public:
         }
     }
 
+    /// Check whether two tuples are not equal.
+    template <typename... X>
+    constexpr bool operator!=(const Tuple<X...>& that) const
+    {
+        return !(*this == that);
+    }
+
     /*
      * Access
      */
