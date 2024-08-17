@@ -1,23 +1,9 @@
 //! @file pyincpp.hpp
-//! @author Qingyu Chen (chen_qingyu@qq.com, https://chen-qingyu.github.io/)
-//! @brief Unified header file.
-//! @version 2.4.0
-//! @date 2023.11.01
+//! @author Chen QingYu <chen_qingyu@qq.com>
+//! @brief Unified header file of PyInCpp.
+//! @version 2.4.1
 //!
-//! @copyright Copyright (C) 2023 - 2024
-//!
-//! This program is free software: you can redistribute it and/or modify
-//! it under the terms of the GNU General Public License as published by
-//! the Free Software Foundation, either version 3 of the License, or
-//! (at your option) any later version.
-//!
-//! This program is distributed in the hope that it will be useful,
-//! but WITHOUT ANY WARRANTY; without even the implied warranty of
-//! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//! GNU General Public License for more details.
-//!
-//! You should have received a copy of the GNU General Public License
-//! along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//! @copyright Copyright (C) 2021-present, Chen QingYu
 
 #ifndef PYINCPP_HPP
 #define PYINCPP_HPP
