@@ -13,8 +13,7 @@
 namespace pyincpp
 {
 
-/// Deque is generalization of stack and queue.
-/// Deque supports memory efficient pushes and pops from either side of the deque with approximately the same O(1) performance in either direction.
+/// Deque is generalization of stack and queue, supports memory efficient pushes and pops from either side.
 template <typename T>
 class Deque
 {

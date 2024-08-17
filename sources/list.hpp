@@ -11,7 +11,7 @@
 namespace pyincpp
 {
 
-/// List is mutable sequence, typically used to store collection of homogeneous items.
+/// List is collection of homogeneous objects.
 template <typename T>
 class List
 {

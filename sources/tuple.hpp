@@ -37,7 +37,7 @@ public:
     }
 };
 
-/// Tuple template class.
+/// Tuple is immutable collection of heterogeneous objects.
 template <typename T, typename... Ts>
 class Tuple<T, Ts...> : public Tuple<Ts...>
 {
