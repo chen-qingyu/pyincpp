@@ -400,7 +400,36 @@ public:
     /// Return this *= `rhs`.
     Int& operator*=(const Int& rhs)
     {
-        return *this = *this * rhs;
+        // if one of the operands is zero, just return zero
+        if (sign_ == 0 || rhs.sign_ == 0)
+        {
+            return *this = 0;
+        }
+
+        // the sign of two integers is not zero
+
+        // prepare variables
+        int size = digits_.size() + rhs.digits_.size();
+
+        Int result;
+        result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
+        result.digits_.resize(size);
+
+        // simulate the vertical calculation
+        const auto& a = digits_;
+        const auto& b = rhs.digits_;
+        auto& c = result.digits_;
+        for (int i = 0; i < int(a.size()); i++)
+        {
+            for (int j = 0; j < int(b.size()); j++)
+            {
+                c[i + j] += a[i] * b[j];
+                c[i + j + 1] += c[i + j] / 10;
+                c[i + j] %= 10;
+            }
+        }
+
+        return *this = result.trim();
     }
 
     /// Return this /= `rhs` (not zero).
@@ -565,36 +594,7 @@ public:
     /// Return this * `rhs`.
     Int operator*(const Int& rhs) const
     {
-        // if one of the operands is zero, just return zero
-        if (sign_ == 0 || rhs.sign_ == 0)
-        {
-            return 0;
-        }
-
-        // the sign of two integers is not zero
-
-        // prepare variables
-        int size = digits_.size() + rhs.digits_.size();
-
-        Int result;
-        result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
-        result.digits_.resize(size);
-
-        // simulate the vertical calculation
-        const auto& a = digits_;
-        const auto& b = rhs.digits_;
-        auto& c = result.digits_;
-        for (int i = 0; i < int(a.size()); i++)
-        {
-            for (int j = 0; j < int(b.size()); j++)
-            {
-                c[i + j] += a[i] * b[j];
-                c[i + j + 1] += c[i + j] / 10;
-                c[i + j] %= 10;
-            }
-        }
-
-        return result.trim();
+        return Int(*this) *= rhs;
     }
 
     /// Return this / `rhs` (not zero).
