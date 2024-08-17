@@ -3,7 +3,7 @@
 //! @brief Unified header file of PyInCpp.
 //! @version 2.5.1
 //!
-//! @copyright Copyright (C) 2021-present, Chen QingYu
+//! @copyright Copyright (C) 2023-present, Chen QingYu
 
 #ifndef PYINCPP_HPP
 #define PYINCPP_HPP
