@@ -371,15 +371,23 @@ TEST_CASE("Int")
     SECTION("gcd_lcm")
     {
         // gcd()
+        REQUIRE(Int::gcd("0", "0") == "0");
         REQUIRE(Int::gcd("0", "1") == "1");
-        REQUIRE(Int::gcd("6", "12") == "6");
-        REQUIRE(Int::gcd("6", "11") == "1");
+        REQUIRE(Int::gcd("1", "0") == "1");
+        REQUIRE(Int::gcd("1", "1") == "1");
+        REQUIRE(Int::gcd("6", "8") == "2");
+        REQUIRE(Int::gcd("24", "48") == "24");
+        REQUIRE(Int::gcd("37", "48") == "1");
         REQUIRE(Int::gcd("12345", "54321") == "3");
 
         // lcm()
+        REQUIRE(Int::lcm("0", "0") == "0");
         REQUIRE(Int::lcm("0", "1") == "0");
-        REQUIRE(Int::lcm("6", "12") == "12");
-        REQUIRE(Int::lcm("6", "11") == "66");
+        REQUIRE(Int::lcm("1", "0") == "0");
+        REQUIRE(Int::lcm("1", "1") == "1");
+        REQUIRE(Int::lcm("6", "8") == "24");
+        REQUIRE(Int::lcm("24", "48") == "48");
+        REQUIRE(Int::lcm("37", "48") == "1776");
         REQUIRE(Int::lcm("12345", "54321") == "223530915");
     }
 
