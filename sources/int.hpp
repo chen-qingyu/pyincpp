@@ -786,32 +786,20 @@ public:
     }
 
     /// Calculate the greatest common divisor of two integers.
-    static Int gcd(const Int& int1, const Int& int2)
+    static Int gcd(const Int& a, const Int& b)
     {
-        // using Euclidean algorithm
-
-        Int a = int1;
-        Int b = int2;
-
-        while (!b.is_zero()) // a, b = b, a % b until b == 0
-        {
-            auto t = b;
-            b = a % b;
-            a = t;
-        }
-
-        return a; // a is GCD
+        return internal::gcd(a, b);
     }
 
     /// Calculate the least common multiple of two integers.
-    static Int lcm(const Int& int1, const Int& int2)
+    static Int lcm(const Int& a, const Int& b)
     {
-        if (int1.is_zero() || int2.is_zero())
+        if (a.is_zero() || b.is_zero())
         {
             return 0;
         }
 
-        return (int1 * int2) / gcd(int1, int2); // LCM = (int1 * int2) / GCD
+        return (a * b) / gcd(a, b); // LCM = (a * b) / GCD
     }
 
     /// Return a non-negative random integer (with a specific number of `digits`).

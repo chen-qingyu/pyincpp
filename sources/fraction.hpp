@@ -31,17 +31,10 @@ private:
             denominator_ = -denominator_;
         }
 
-        // Euclid's algorithm
-        int a = std::abs(numerator_);
-        int b = std::abs(denominator_);
-        while (b > 0)
-        {
-            int t = a % b;
-            a = b;
-            b = t;
-        }
-        numerator_ /= a;
-        denominator_ /= a;
+        // simplify
+        int gcd = internal::gcd(std::abs(numerator_), std::abs(denominator_));
+        numerator_ /= gcd;
+        denominator_ /= gcd;
     }
 
 public:
@@ -232,32 +225,20 @@ public:
     }
 
     /// Calculate the greatest common divisor of two fractions.
-    static Fraction gcd(const Fraction& x, const Fraction& y)
+    static Fraction gcd(const Fraction& a, const Fraction& b)
     {
-        // using Euclidean algorithm
-
-        Fraction a = x;
-        Fraction b = y;
-
-        while (b != 0) // a, b = b, a % b until b == 0
-        {
-            auto t = b;
-            b = a % b;
-            a = t;
-        }
-
-        return a; // a is GCD
+        return internal::gcd(a, b);
     }
 
     /// Calculate the least common multiple of two fractions.
-    static Fraction lcm(const Fraction& x, const Fraction& y)
+    static Fraction lcm(const Fraction& a, const Fraction& b)
     {
-        if (x == 0 || y == 0)
+        if (a == 0 || b == 0)
         {
             return 0;
         }
 
-        return (x * y) / gcd(x, y); // LCM = (x * y) / GCD
+        return (a * b) / gcd(a, b); // LCM = (a * b) / GCD
     }
 
     /*

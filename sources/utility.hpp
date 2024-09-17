@@ -97,6 +97,21 @@ static inline std::ostream& print(std::ostream& os, const InputIt& first, const 
     }
 }
 
+template <typename T>
+static inline T gcd(T a, T b)
+{
+    // using Euclidean algorithm
+
+    while (b != 0) // a, b = b, a % b until b == 0
+    {
+        auto t = b;
+        b = a % b;
+        a = t;
+    }
+
+    return a; // a is the GCD
+}
+
 } // namespace pyincpp::internal
 
 #endif // UTILITY_HPP
