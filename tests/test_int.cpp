@@ -375,6 +375,7 @@ TEST_CASE("Int")
         REQUIRE(Int::gcd("0", "1") == "1");
         REQUIRE(Int::gcd("1", "0") == "1");
         REQUIRE(Int::gcd("1", "1") == "1");
+
         REQUIRE(Int::gcd("6", "8") == "2");
         REQUIRE(Int::gcd("24", "48") == "24");
         REQUIRE(Int::gcd("37", "48") == "1");
@@ -385,6 +386,7 @@ TEST_CASE("Int")
         REQUIRE(Int::lcm("0", "1") == "0");
         REQUIRE(Int::lcm("1", "0") == "0");
         REQUIRE(Int::lcm("1", "1") == "1");
+
         REQUIRE(Int::lcm("6", "8") == "24");
         REQUIRE(Int::lcm("24", "48") == "48");
         REQUIRE(Int::lcm("37", "48") == "1776");

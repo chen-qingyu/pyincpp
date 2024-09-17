@@ -231,6 +231,35 @@ public:
         return Fraction((numerator_ * rhs.denominator_) % (rhs.numerator_ * denominator_), denominator_ * rhs.denominator_);
     }
 
+    /// Calculate the greatest common divisor of two fractions.
+    static Fraction gcd(const Fraction& x, const Fraction& y)
+    {
+        // using Euclidean algorithm
+
+        Fraction a = x;
+        Fraction b = y;
+
+        while (b != 0) // a, b = b, a % b until b == 0
+        {
+            auto t = b;
+            b = a % b;
+            a = t;
+        }
+
+        return a; // a is GCD
+    }
+
+    /// Calculate the least common multiple of two fractions.
+    static Fraction lcm(const Fraction& x, const Fraction& y)
+    {
+        if (x == 0 || y == 0)
+        {
+            return 0;
+        }
+
+        return (x * y) / gcd(x, y); // LCM = (x * y) / GCD
+    }
+
     /*
      * Print / Input
      */
