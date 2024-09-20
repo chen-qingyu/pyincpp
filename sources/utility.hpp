@@ -13,6 +13,7 @@
 #include <istream>     // std::istream
 #include <iterator>    // std::input_iterator
 #include <limits>      // std::numeric_limits
+#include <numeric>     // std::gcd
 #include <ostream>     // std::ostream
 #include <random>      // std::random_device std::mt19937 std::uniform_int_distribution
 #include <sstream>     // std::ostringstream

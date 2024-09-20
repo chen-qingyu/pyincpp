@@ -21,9 +21,19 @@ private:
     // Denominator.
     int denominator_;
 
-    // Simplify the fraction.
-    void simplify()
+public:
+    /*
+     * Constructor
+     */
+
+    /// Construct a new fraction with value `numerator/denominator`.
+    Fraction(int numerator = 0, int denominator = 1)
+        : numerator_(numerator)
+        , denominator_(denominator)
     {
+        // make sure the denominator is not zero
+        internal::check_zero(denominator_);
+
         // make sure the denominator is a positive number
         if (denominator_ < 0)
         {
@@ -32,25 +42,9 @@ private:
         }
 
         // simplify
-        int gcd = internal::gcd(std::abs(numerator_), std::abs(denominator_));
+        int gcd = std::gcd(numerator_, denominator_);
         numerator_ /= gcd;
         denominator_ /= gcd;
-    }
-
-public:
-    /*
-     * Constructor
-     */
-
-    /// Construct a new fraction with value `numerator/denominator`.
-    Fraction(int numerator = 0, int denominator = 1)
-    {
-        internal::check_zero(denominator);
-
-        numerator_ = numerator;
-        denominator_ = denominator;
-
-        simplify();
     }
 
     /// Copy constructor.
