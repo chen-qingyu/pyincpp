@@ -191,7 +191,7 @@ TEST_CASE("Fraction")
         REQUIRE(Fraction::gcd(Fraction(1, 2), Fraction(3, 4)) == Fraction(1, 4));
         REQUIRE(Fraction::gcd(Fraction(3, 4), Fraction(1, 6)) == Fraction(1, 12));
         REQUIRE(Fraction::gcd(Fraction(233, 2333), Fraction(7, 77)) == Fraction(1, 25663));
-        REQUIRE(Fraction::gcd(Fraction(-1, 2), Fraction(-3, 4)) == Fraction(-1, 4));
+        REQUIRE(Fraction::gcd(Fraction(-1, 2), Fraction(-3, 4)) == Fraction(1, 4));
 
         // lcm()
         REQUIRE(Fraction::lcm(Fraction(0), Fraction(0)) == Fraction(0));
@@ -202,7 +202,7 @@ TEST_CASE("Fraction")
         REQUIRE(Fraction::lcm(Fraction(1, 2), Fraction(3, 4)) == Fraction(3, 2));
         REQUIRE(Fraction::lcm(Fraction(3, 4), Fraction(1, 6)) == Fraction(3, 2));
         REQUIRE(Fraction::lcm(Fraction(233, 2333), Fraction(7, 77)) == Fraction(233));
-        REQUIRE(Fraction::lcm(Fraction(-1, 2), Fraction(-3, 4)) == Fraction(-3, 2));
+        REQUIRE(Fraction::lcm(Fraction(-1, 2), Fraction(-3, 4)) == Fraction(3, 2));
     }
 
     SECTION("print")

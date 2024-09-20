@@ -799,7 +799,7 @@ public:
             return 0;
         }
 
-        return (a * b) / gcd(a, b); // LCM = (a * b) / GCD
+        return (a * b).abs() / gcd(a, b); // LCM = |a * b| / GCD
     }
 
     /// Return a non-negative random integer (with a specific number of `digits`).

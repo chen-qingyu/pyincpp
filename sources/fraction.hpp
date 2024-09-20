@@ -232,7 +232,7 @@ public:
             return 0;
         }
 
-        return (a * b) / gcd(a, b); // LCM = (a * b) / GCD
+        return (a * b).abs() / gcd(a, b); // LCM = |a * b| / GCD
     }
 
     /*

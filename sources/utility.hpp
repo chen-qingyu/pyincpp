@@ -103,6 +103,9 @@ static inline T gcd(T a, T b)
 {
     // using Euclidean algorithm
 
+    a = a.abs();
+    b = b.abs();
+
     while (b != 0) // a, b = b, a % b until b == 0
     {
         auto t = b;
