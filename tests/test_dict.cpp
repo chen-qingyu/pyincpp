@@ -85,7 +85,7 @@ TEST_CASE("Dict")
         for (const auto& [k, v] : Dict<int, int>{{1, 1}, {2, 4}, {3, 9}})
         {
             REQUIRE(k * k == v);
-            i++;
+            ++i;
         }
         REQUIRE(i == 3);
 

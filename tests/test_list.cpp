@@ -205,7 +205,7 @@ TEST_CASE("List")
         // check full
         // The test was successful! But the testing time is too long, and comment it out.
         // List<bool> big_list;
-        // for (int i = 0; i < INT_MAX; i++)
+        // for (int i = 0; i < INT_MAX; ++i)
         // {
         //     big_list.insert(big_list.size(), true);
         // }

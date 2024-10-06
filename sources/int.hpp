@@ -53,7 +53,7 @@ private:
             return false;
         }
 
-        for (int i = (chars[0] == '+' || chars[0] == '-'); i < len; i++)
+        for (int i = (chars[0] == '+' || chars[0] == '-'); i < len; ++i)
         {
             // surprisingly, this is faster than `!std::isdigit(chars[i])`
             // my guess is that the conversion of char to int takes time
@@ -139,7 +139,7 @@ public:
 
         // this is faster than `reserve` and `push_back`, cause `push_back` is slower than `[]`
         digits_.resize(digit_len);
-        for (int i = 0; i != digit_len; i++)
+        for (int i = 0; i != digit_len; ++i)
         {
             digits_[i] = chars[len - 1 - i] - '0';
         }
@@ -201,7 +201,7 @@ public:
             }
         }
 
-        for (int i = digits_.size() - 1; i >= 0; i--) // i = -1 if is zero, ok
+        for (int i = digits_.size() - 1; i >= 0; --i) // i = -1 if is zero, ok
         {
             if (digits_[i] != that.digits_[i])
             {
@@ -410,9 +410,9 @@ public:
         const auto& a = digits_;
         const auto& b = rhs.digits_;
         auto& c = result.digits_;
-        for (int i = 0; i < int(a.size()); i++)
+        for (int i = 0; i < int(a.size()); ++i)
         {
-            for (int j = 0; j < int(b.size()); j++)
+            for (int j = 0; j < int(b.size()); ++j)
             {
                 c[i + j] += a[i] * b[j];
                 c[i + j + 1] += c[i + j] / 10;
@@ -454,7 +454,7 @@ public:
         sign_ = 1;
 
         // calculation
-        for (int i = size - 1; i >= 0; i--)
+        for (int i = size - 1; i >= 0; --i)
         {
             // tmp = rhs * 10^i in O(1), I'm a fxxking genius
             // after testing, found that use vector is very faster than use deque `tmp.digits_.pop_front();`
@@ -498,7 +498,7 @@ public:
         tmp.digits_.insert(tmp.digits_.end(), rhs.digits_.begin(), rhs.digits_.end());
 
         // calculation
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; ++i)
         {
             // tmp = rhs * 10^i in O(1), I'm a fxxking genius
             // after testing, found that use vector is very faster than use deque `tmp.digits_.pop_front();`
@@ -656,7 +656,7 @@ public:
     T to_integer() const
     {
         T result = 0;
-        for (int i = digits_.size() - 1; i >= 0; i--) // i = -1 if is zero, ok
+        for (int i = digits_.size() - 1; i >= 0; --i) // i = -1 if is zero, ok
         {
             result = result * 10 + digits_[i];
         }

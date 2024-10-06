@@ -401,7 +401,7 @@ TEST_CASE("Int")
         REQUIRE(Int::random(2).digits() == 2);
         REQUIRE(Int::random(3).digits() == 3);
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; ++i)
         {
             REQUIRE(Int::random().digits() <= 4300);
         }
