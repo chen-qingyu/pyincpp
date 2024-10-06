@@ -23,17 +23,22 @@ TEST_CASE("Dict")
         REQUIRE(dict3.size() == 5);
         REQUIRE(!dict3.is_empty());
 
-        // Dict(const Dict& that)
-        Dict<int, std::string> dict4(dict3);
+        // Dict(const std::map<K, V>& map)
+        Dict<int, std::string> dict4(std::map<int, std::string>{{1, "one"}, {2, "two"}, {3, "three"}, {4, "four"}, {5, "five"}});
         REQUIRE(dict4.size() == 5);
         REQUIRE(!dict4.is_empty());
 
-        // Dict(Dict&& that)
-        Dict<int, std::string> dict5(std::move(dict4));
+        // Dict(const Dict& that)
+        Dict<int, std::string> dict5(dict4);
         REQUIRE(dict5.size() == 5);
         REQUIRE(!dict5.is_empty());
-        REQUIRE(dict4.size() == 0);
-        REQUIRE(dict4.is_empty());
+
+        // Dict(Dict&& that)
+        Dict<int, std::string> dict6(std::move(dict5));
+        REQUIRE(dict6.size() == 5);
+        REQUIRE(!dict6.is_empty());
+        REQUIRE(dict5.size() == 0);
+        REQUIRE(dict5.is_empty());
 
         // test compatibility
         Dict<EqLtType, EqType> test = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}};

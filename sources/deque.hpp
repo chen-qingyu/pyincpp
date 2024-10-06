@@ -26,19 +26,25 @@ public:
      * Constructor
      */
 
-    /// Construct an empty deque.
+    /// Create an empty deque.
     Deque() = default;
 
-    /// Construct a deque with the contents of the initializer list `init`.
+    /// Create a deque with the contents of the initializer list `init`.
     Deque(const std::initializer_list<T>& init)
         : deque_(init)
     {
     }
 
-    /// Construct a deque with the contents of the range [`first`, `last`).
+    /// Create a deque with the contents of the range [`first`, `last`).
     template <std::input_iterator InputIt>
     Deque(const InputIt& first, const InputIt& last)
         : deque_(first, last)
+    {
+    }
+
+    /// Create a deque from std::deque.
+    Deque(const std::deque<T>& deque)
+        : deque_(deque)
     {
     }
 

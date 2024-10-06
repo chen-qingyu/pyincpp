@@ -53,7 +53,7 @@ public:
      * Constructor
      */
 
-    /// Construct a new tuple.
+    /// Create a tuple.
     constexpr Tuple<T, Ts...>(const T& value, const Ts&... values)
         : Tuple<Ts...>(values...)
         , value_(value)

@@ -26,19 +26,25 @@ public:
      * Constructor
      */
 
-    /// Construct an empty set.
+    /// Create an empty set.
     Set() = default;
 
-    /// Construct a set with the contents of the initializer list `init`.
+    /// Create a set with the contents of the initializer list `init`.
     Set(const std::initializer_list<T>& init)
         : set_(init)
     {
     }
 
-    /// Construct a set with the contents of the range [`first`, `last`).
+    /// Create a set with the contents of the range [`first`, `last`).
     template <std::input_iterator InputIt>
     Set(const InputIt& first, const InputIt& last)
         : set_(first, last)
+    {
+    }
+
+    /// Create a set from std::set.
+    Set(const std::set<T>& set)
+        : set_(set)
     {
     }
 

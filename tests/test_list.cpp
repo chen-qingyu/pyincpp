@@ -37,17 +37,22 @@ TEST_CASE("List")
         REQUIRE(list3.size() == 5);
         REQUIRE(!list3.is_empty());
 
-        // List(const List& that)
-        List<int> list4(list3);
+        // List(const std::vector<T>& vector)
+        List<int> list4(std::vector<int>{1, 2, 3, 4, 5});
         REQUIRE(list4.size() == 5);
         REQUIRE(!list4.is_empty());
 
-        // List(List&& that)
-        List<int> list5(std::move(list4));
+        // List(const List& that)
+        List<int> list5(list4);
         REQUIRE(list5.size() == 5);
         REQUIRE(!list5.is_empty());
-        REQUIRE(list4.size() == 0);
-        REQUIRE(list4.is_empty());
+
+        // List(List&& that)
+        List<int> list6(std::move(list5));
+        REQUIRE(list6.size() == 5);
+        REQUIRE(!list6.is_empty());
+        REQUIRE(list5.size() == 0);
+        REQUIRE(list5.is_empty());
 
         // test compatibility
         List<EqType> test = {1, 2, 3, 4, 5};

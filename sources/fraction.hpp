@@ -26,7 +26,7 @@ public:
      * Constructor
      */
 
-    /// Construct a new fraction with value `numerator/denominator`.
+    /// Create a fraction with value `numerator/denominator`.
     Fraction(int numerator = 0, int denominator = 1)
         : numerator_(numerator)
         , denominator_(denominator)

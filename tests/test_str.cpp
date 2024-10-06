@@ -18,17 +18,22 @@ TEST_CASE("Str")
         REQUIRE(str2.size() == 5);
         REQUIRE(!str2.is_empty());
 
-        // Str(const Str& that)
-        Str str3(str2);
+        // Str(const std::string& string)
+        Str str3(std::string{"hello"});
         REQUIRE(str3.size() == 5);
         REQUIRE(!str3.is_empty());
 
-        // Str(Str&& that)
-        Str str4(std::move(str3));
+        // Str(const Str& that)
+        Str str4(str3);
         REQUIRE(str4.size() == 5);
         REQUIRE(!str4.is_empty());
-        REQUIRE(str3.size() == 0);
-        REQUIRE(str3.is_empty());
+
+        // Str(Str&& that)
+        Str str5(std::move(str4));
+        REQUIRE(str5.size() == 5);
+        REQUIRE(!str5.is_empty());
+        REQUIRE(str4.size() == 0);
+        REQUIRE(str4.is_empty());
 
         // ~Str()
     }

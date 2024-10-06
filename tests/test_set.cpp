@@ -23,17 +23,22 @@ TEST_CASE("Set")
         REQUIRE(set3.size() == 5);
         REQUIRE(!set3.is_empty());
 
-        // Set(const Set& that)
-        Set<int> set4(set3);
+        // Set(const std::set<T>& set)
+        Set<int> set4(std::set<int>{1, 2, 3, 4, 5});
         REQUIRE(set4.size() == 5);
         REQUIRE(!set4.is_empty());
 
-        // Set(Set&& that)
-        Set<int> set5(std::move(set4));
+        // Set(const Set& that)
+        Set<int> set5(set4);
         REQUIRE(set5.size() == 5);
         REQUIRE(!set5.is_empty());
-        REQUIRE(set4.size() == 0);
-        REQUIRE(set4.is_empty());
+
+        // Set(Set&& that)
+        Set<int> set6(std::move(set5));
+        REQUIRE(set6.size() == 5);
+        REQUIRE(!set6.is_empty());
+        REQUIRE(set5.size() == 0);
+        REQUIRE(set5.is_empty());
 
         // test compatibility
         Set<EqLtType> test = {1, 2, 3, 4, 5};

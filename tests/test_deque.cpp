@@ -23,17 +23,22 @@ TEST_CASE("Deque")
         REQUIRE(deque3.size() == 5);
         REQUIRE(!deque3.is_empty());
 
-        // Deque(const Deque& that)
-        Deque<int> deque4(deque3);
+        // Deque(const std::deque<T>& deque)
+        Deque<int> deque4(std::deque<int>{1, 2, 3, 4, 5});
         REQUIRE(deque4.size() == 5);
         REQUIRE(!deque4.is_empty());
 
-        // Deque(Deque&& that)
-        Deque<int> deque5(std::move(deque4));
+        // Deque(const Deque& that)
+        Deque<int> deque5(deque4);
         REQUIRE(deque5.size() == 5);
         REQUIRE(!deque5.is_empty());
-        REQUIRE(deque4.size() == 0);
-        REQUIRE(deque4.is_empty());
+
+        // Deque(Deque&& that)
+        Deque<int> deque6(std::move(deque5));
+        REQUIRE(deque6.size() == 5);
+        REQUIRE(!deque6.is_empty());
+        REQUIRE(deque5.size() == 0);
+        REQUIRE(deque5.is_empty());
 
         // test compatibility
         Deque<EqType> test = {1, 2, 3, 4, 5};

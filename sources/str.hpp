@@ -103,23 +103,23 @@ private:
         str = str.substr(close_bracket + 1);
     }
 
-    // Create a string from std::string.
-    Str(std::string&& string)
-        : str_(string)
-    {
-    }
-
 public:
     /*
      * Constructor
      */
 
-    /// Construct an empty string.
+    /// Create an empty string.
     Str() = default;
 
     /// Create a string from null-terminated characters.
     Str(const char* chars)
         : str_(chars)
+    {
+    }
+
+    /// Create a string from std::string.
+    Str(const std::string& string)
+        : str_(string)
     {
     }
 
@@ -232,7 +232,7 @@ public:
 
         stop = stop > size() ? size() : stop;
         std::string_view view(str_.data() + start, stop - start);
-        auto pos = view.find(pattern.str_.data());
+        auto pos = view.find(pattern.str_);
 
         return pos == std::string::npos ? -1 : start + int(pos);
     }
@@ -690,7 +690,7 @@ public:
         std::string_view str(str_);
         (format_helper(oss, str, args), ...);
         oss << str;
-        return oss.str().c_str();
+        return oss.str();
     }
 
     /*

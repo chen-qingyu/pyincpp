@@ -112,10 +112,10 @@ public:
      * Constructor
      */
 
-    /// Construct a new zero integer.
+    /// Create a zero integer.
     Int() = default;
 
-    /// Construct a new integer based on the given null-terminated characters.
+    /// Create an integer based on the given null-terminated characters.
     Int(const char* chars)
     {
         const int len = std::strlen(chars);
@@ -138,7 +138,7 @@ public:
         trim();
     }
 
-    /// Construct a new integer based on the given `integer`.
+    /// Create an integer based on the given `integer`.
     Int(int integer)
     {
         if (integer == 0)

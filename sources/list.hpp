@@ -19,30 +19,30 @@ private:
     // Vector.
     std::vector<T> vector_;
 
-    // Create a list from std::vector.
-    List(std::vector<T>&& vector)
-        : vector_(vector)
-    {
-    }
-
 public:
     /*
      * Constructor
      */
 
-    /// Construct an empty list.
+    /// Create an empty list.
     List() = default;
 
-    /// Construct a list with the contents of the initializer list `init`.
+    /// Create a list with the contents of the initializer list `init`.
     List(const std::initializer_list<T>& init)
         : vector_(init)
     {
     }
 
-    /// Construct a list with the contents of the range [`first`, `last`).
+    /// Create a list with the contents of the range [`first`, `last`).
     template <std::input_iterator InputIt>
     List(const InputIt& first, const InputIt& last)
         : vector_(first, last)
+    {
+    }
+
+    /// Create a list from std::vector.
+    List(const std::vector<T>& vector)
+        : vector_(vector)
     {
     }
 

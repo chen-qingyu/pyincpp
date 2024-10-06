@@ -23,26 +23,32 @@ class Dict
 {
 private:
     // Map of key-value pairs.
-    std::map<const K, V> map_;
+    std::map<K, V> map_;
 
 public:
     /*
      * Constructor
      */
 
-    /// Construct an empty dictionary.
+    /// Create an empty dictionary.
     Dict() = default;
 
-    /// Construct a dictionary with the contents of the initializer list `init`.
+    /// Create a dictionary with the contents of the initializer list `init`.
     Dict(const std::initializer_list<Pair<K, V>>& init)
         : map_(init)
     {
     }
 
-    /// Construct a dictionary with the contents of the range [`first`, `last`).
+    /// Create a dictionary with the contents of the range [`first`, `last`).
     template <std::input_iterator InputIt>
     Dict(const InputIt& first, const InputIt& last)
         : map_(first, last)
+    {
+    }
+
+    /// Create a dictionary from std::map.
+    Dict(const std::map<K, V>& map)
+        : map_(map)
     {
     }
 
