@@ -19,7 +19,7 @@ class Str
 {
 private:
     // String.
-    std::string str_;
+    const std::string str_;
 
     // Used for FSM.
     enum state
@@ -123,12 +123,39 @@ public:
     {
     }
 
+    /// Copy constructor.
+    Str(const Str& that) = default;
+
+    /// Move constructor.
+    Str(Str&& that)
+        : str_(std::move(const_cast<std::string&>(that.str_)))
+    {
+    }
+
     /*
      * Comparison
      */
 
     /// Compare the string with another string.
     auto operator<=>(const Str& that) const = default;
+
+    /*
+     * Assignment
+     */
+
+    /// Copy assignment operator.
+    Str& operator=(const Str& that)
+    {
+        const_cast<std::string&>(str_) = that.str_;
+        return *this;
+    }
+
+    /// Move assignment operator.
+    Str& operator=(Str&& that)
+    {
+        const_cast<std::string&>(str_) = std::move(const_cast<std::string&>(that.str_));
+        return *this;
+    }
 
     /*
      * Iterator
