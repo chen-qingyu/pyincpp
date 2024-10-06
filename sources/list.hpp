@@ -246,7 +246,7 @@ public:
 
         if (n < 0)
         {
-            return *this >>= -n;
+            n += size();
         }
 
         std::rotate(vector_.begin(), vector_.begin() + n, vector_.end());

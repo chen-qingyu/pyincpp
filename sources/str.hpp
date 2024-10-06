@@ -488,7 +488,7 @@ public:
 
         if (n < 0)
         {
-            return *this >> -n;
+            n += size();
         }
 
         std::string buffer(size(), 0);
