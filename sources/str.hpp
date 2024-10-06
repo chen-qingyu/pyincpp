@@ -647,13 +647,11 @@ public:
             return Str();
         }
 
-        std::string buffer;
-        for (int i = 0; i < str_list.size() - 1; i++)
+        std::string buffer = str_list[0].str_;
+        for (int i = 1; i < str_list.size(); ++i)
         {
-            buffer += str_list[i].str_;
-            buffer += str_;
+            buffer += str_ + str_list[i].str_;
         }
-        buffer += str_list[str_list.size() - 1].str_;
         return buffer;
     }
 
