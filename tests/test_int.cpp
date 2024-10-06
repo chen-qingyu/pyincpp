@@ -8,30 +8,28 @@ TEST_CASE("Int")
 {
     SECTION("basics")
     {
-        // Int()
+        // Int(int integer = 0)
         Int int1;
         REQUIRE(int1.digits() == 0);
         REQUIRE(int1.is_zero());
+        Int int2(123456789);
+        REQUIRE(int2.digits() == 9);
+        REQUIRE(!int2.is_zero());
 
         // Int(const char* chars)
-        Int int2("123456789000");
-        REQUIRE(int2.digits() == 12);
-        REQUIRE(!int2.is_zero());
-        REQUIRE_THROWS_MATCHES(Int("hello"), std::runtime_error, Message("Error: Wrong integer literal."));
-
-        // Int(int integer)
-        Int int3 = 123456789;
-        REQUIRE(int3.digits() == 9);
+        Int int3("123456789000");
+        REQUIRE(int3.digits() == 12);
         REQUIRE(!int3.is_zero());
+        REQUIRE_THROWS_MATCHES(Int("hello"), std::runtime_error, Message("Error: Wrong integer literal."));
 
         // Int(const Int& that)
         Int int4(int3);
-        REQUIRE(int4.digits() == 9);
+        REQUIRE(int4.digits() == 12);
         REQUIRE(!int4.is_zero());
 
         // Int(Int&& that)
         Int int5(std::move(int4));
-        REQUIRE(int5.digits() == 9);
+        REQUIRE(int5.digits() == 12);
         REQUIRE(!int5.is_zero());
         REQUIRE(int4.digits() == 0);
         REQUIRE(int4.is_zero());

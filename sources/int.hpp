@@ -25,7 +25,7 @@ private:
     std::vector<signed char> digits_;
 
     // Sign of integer, 1 is positive, -1 is negative, and 0 is zero.
-    signed char sign_ = 0; // need init value
+    signed char sign_;
 
     // Remove leading zeros elegantly and correct sign.
     Int& trim()
@@ -112,8 +112,17 @@ public:
      * Constructor
      */
 
-    /// Create a zero integer.
-    Int() = default;
+    /// Create an integer based on the given `integer`.
+    Int(int integer = 0)
+    {
+        sign_ = integer == 0 ? 0 : (integer > 0 ? 1 : -1);
+        integer = std::abs(integer);
+        while (integer > 0)
+        {
+            digits_.push_back(integer % 10);
+            integer /= 10;
+        }
+    }
 
     /// Create an integer based on the given null-terminated characters.
     Int(const char* chars)
@@ -136,24 +145,6 @@ public:
         }
 
         trim();
-    }
-
-    /// Create an integer based on the given `integer`.
-    Int(int integer)
-    {
-        if (integer == 0)
-        {
-            return;
-        }
-
-        // integer != 0
-        sign_ = (integer > 0 ? 1 : -1);
-        integer = std::abs(integer);
-        while (integer > 0)
-        {
-            digits_.push_back(integer % 10);
-            integer /= 10;
-        }
     }
 
     /// Copy constructor.
