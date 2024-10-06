@@ -176,13 +176,13 @@ public:
     /// Return a reverse iterator to the first char of the reversed string.
     auto rbegin() const
     {
-        return str_.rbegin();
+        return str_.crbegin();
     }
 
     /// Return a reverse iterator to the char following the last char of the reversed string.
     auto rend() const
     {
-        return str_.rend();
+        return str_.crend();
     }
 
     /*
