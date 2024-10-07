@@ -140,8 +140,7 @@ public:
     /// Count the total number of occurrences of the specified `element` in the list.
     int count(const T& element) const
     {
-        return std::count_if(begin(), end(), [&](const T& e)
-                             { return e == element; });
+        return std::count(begin(), end(), element);
     }
 
     /*
