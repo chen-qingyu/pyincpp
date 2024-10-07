@@ -160,6 +160,7 @@ TEST_CASE("Str")
         // count
         REQUIRE(some.count("0") == 0);
         REQUIRE(some.count("1") == 1);
+        REQUIRE(Str("aaa").count("aaaa") == 0);
         REQUIRE(Str("aaa").count("aaa") == 1);
         REQUIRE(Str("aaa").count("aa") == 1);
         REQUIRE(Str("aaa").count("a") == 3);
@@ -399,6 +400,7 @@ TEST_CASE("Str")
         REQUIRE(Str(", ").join({"a"}) == "a");
         REQUIRE(Str(", ").join({"a", "b"}) == "a, b");
         REQUIRE(Str(", ").join({"a", "b", "c"}) == "a, b, c");
+        REQUIRE(Str("").join({"a", "b", "c"}) == "abc");
         REQUIRE(Str(".").join({"192", "168", "0", "1"}) == "192.168.0.1");
     }
 
