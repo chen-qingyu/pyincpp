@@ -539,22 +539,30 @@ public:
     }
 
     /// Replace the string.
+    ///
+    /// ### Example
+    /// ```
+    /// Str("hahaha").replace("a", "ooow~").replace("ooow", "o"); // "ho~ho~ho~"
+    /// Str("abcdefg").replace("", "-"); // "-a-b-c-d-e-f-g-"
+    /// ```
     Str replace(const Str& old_str, const Str& new_str) const
     {
+        if (old_str.size() == 0)
+        {
+            std::ostringstream ss;
+            std::copy(str_.begin(), str_.end(), std::ostream_iterator<char>(ss, new_str.data()));
+            return new_str.str_ + ss.str();
+        }
+
         std::string buffer;
 
         int this_start = 0;
         for (int patt_start = 0; (patt_start = find(old_str, this_start)) != -1; this_start = patt_start + old_str.size())
         {
-            buffer += str_.substr(this_start, patt_start - this_start);
-            buffer += new_str.str_;
-        }
-        if (this_start != size())
-        {
-            buffer += str_.substr(this_start);
+            buffer += str_.substr(this_start, patt_start - this_start) + new_str.str_;
         }
 
-        return buffer;
+        return buffer += str_.substr(this_start);
     }
 
     /// Remove leading and trailing characters (default is blank character) of the string.

@@ -288,11 +288,11 @@ TEST_CASE("Str")
         REQUIRE(Str("abcdefg").replace("g", "a") == "abcdefa");
         REQUIRE(Str("abcdefg").replace("cde", "~~~") == "ab~~~fg");
         REQUIRE(Str("abcdefg").replace("abcdefg", "") == "");
-        REQUIRE(Str("abcdefg").replace("abcdefg", "") == "");
+        REQUIRE(Str("abcdefg").replace("", "-") == "-a-b-c-d-e-f-g-");
+        REQUIRE(Str("abcdefg").replace("", "") == "abcdefg");
         REQUIRE(Str("").replace("abc", "~~~") == "");
         REQUIRE(Str("hahaha").replace("h", "l") == "lalala");
-        REQUIRE(Str("hahaha").replace("a", "ooow~ ") == "hooow~ hooow~ hooow~ ");
-        REQUIRE(Str("hooow~ hooow~ hooow~ ").replace("ooo", "o") == "how~ how~ how~ ");
+        REQUIRE(Str("hahaha").replace("a", "ooow~").replace("ooow", "o") == "ho~ho~ho~");
     }
 
     SECTION("strip")
