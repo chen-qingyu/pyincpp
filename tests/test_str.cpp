@@ -158,8 +158,12 @@ TEST_CASE("Str")
         REQUIRE(some.contains("0", 1, 99) == false);
 
         // count
-        REQUIRE(some.count('0') == 0);
-        REQUIRE(some.count('1') == 1);
+        REQUIRE(some.count("0") == 0);
+        REQUIRE(some.count("1") == 1);
+        REQUIRE(Str("aaa").count("a") == 3);
+        REQUIRE(Str("aaa").count("") == 4);
+        REQUIRE(Str("ababa").count("ab") == 2);
+        REQUIRE(Str("ababa").count("ba") == 2);
 
         // starts_with
         REQUIRE(some.starts_with("1"));

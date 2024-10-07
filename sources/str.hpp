@@ -243,10 +243,21 @@ public:
         return find(pattern, start, stop) != -1;
     }
 
-    /// Count the total number of occurrences of the specified element in the string.
-    int count(const char& element) const
+    /// Count the total number of occurrences of the specified `pattern` in the string.
+    int count(const Str& pattern) const
     {
-        return std::count(begin(), end(), element);
+        if (pattern.is_empty())
+        {
+            return size() + 1;
+        }
+
+        int cnt = 0;
+        for (int start = 0; (start = find(pattern, start)) != -1; start += pattern.size())
+        {
+            ++cnt;
+        }
+
+        return cnt;
     }
 
     /// Convert the string to a double-precision floating-point decimal number.
@@ -547,7 +558,7 @@ public:
     /// ```
     Str replace(const Str& old_str, const Str& new_str) const
     {
-        if (old_str.size() == 0)
+        if (old_str.is_empty())
         {
             std::ostringstream ss;
             std::copy(str_.begin(), str_.end(), std::ostream_iterator<char>(ss, new_str.data()));
@@ -654,7 +665,7 @@ public:
     /// ```
     List<Str> split(const Str& sep = " ", bool keep_empty = false) const
     {
-        if (sep.size() == 0)
+        if (sep.is_empty())
         {
             throw std::runtime_error("Error: Empty separator.");
         }
@@ -685,7 +696,7 @@ public:
     /// ```
     Str join(const List<Str>& str_list) const
     {
-        if (str_list.size() == 0)
+        if (str_list.is_empty())
         {
             return Str();
         }
