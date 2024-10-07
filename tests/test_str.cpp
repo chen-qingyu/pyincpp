@@ -160,6 +160,8 @@ TEST_CASE("Str")
         // count
         REQUIRE(some.count("0") == 0);
         REQUIRE(some.count("1") == 1);
+        REQUIRE(Str("aaa").count("aaa") == 1);
+        REQUIRE(Str("aaa").count("aa") == 1);
         REQUIRE(Str("aaa").count("a") == 3);
         REQUIRE(Str("aaa").count("") == 4);
         REQUIRE(Str("ababa").count("ab") == 2);
