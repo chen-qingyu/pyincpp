@@ -372,12 +372,19 @@ TEST_CASE("Str")
     SECTION("split")
     {
         REQUIRE(Str("one, two, three").split(", ") == List<Str>{"one", "two", "three"});
-        REQUIRE(Str("this is my code!").split(" ") == List<Str>{"this", "is", "my", "code!"});
-        REQUIRE(Str("this is my code!").split() == List<Str>{"this", "is", "my", "code!"});
-        REQUIRE(Str("this is my code!").split("this is my code!") == List<Str>{""});
-        REQUIRE(Str(" this is my code! ").split(" ") == List<Str>{"", "this", "is", "my", "code!"});
-        REQUIRE(Str("aaa").split("a") == List<Str>{"", "", ""});
         REQUIRE(Str("192.168.0.1").split(".") == List<Str>{"192", "168", "0", "1"});
+        REQUIRE(Str("   1   2   3   ").split() == List<Str>{"1", "2", "3"});
+        REQUIRE(Str("this is my code!").split() == List<Str>{"this", "is", "my", "code!"});
+
+        REQUIRE(Str("this is my code!").split("this is my code!") == List<Str>{});
+        REQUIRE(Str("this is my code!").split("!") == List<Str>{"this is my code"});
+        REQUIRE(Str("aaa").split("a") == List<Str>{});
+        REQUIRE(Str(" ").split(" ") == List<Str>{});
+
+        REQUIRE(Str("this is my code!").split("this is my code!", true) == List<Str>{"", ""});
+        REQUIRE(Str("this is my code!").split("!", true) == List<Str>{"this is my code", ""});
+        REQUIRE(Str("aaa").split("a", true) == List<Str>{"", "", "", ""});
+        REQUIRE(Str(" ").split(" ", true) == List<Str>{"", ""});
     }
 
     SECTION("join")

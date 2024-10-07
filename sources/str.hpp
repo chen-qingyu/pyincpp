@@ -635,12 +635,16 @@ public:
     }
 
     /// Split the string with separator (default = " ").
+    /// If `keep_empty` is set (default = false), empty strings will be retained.
     ///
     /// ### Example
     /// ```
     /// Str("one, two, three").split(", "); // ["one", "two", "three"]
+    /// Str("   1   2   3   ").split(); // ["1", "2", "3"]
+    /// Str("aaa").split("a"); // []
+    /// Str("aaa").split("a", true); // ["", "", "", ""]
     /// ```
-    List<Str> split(const Str& sep = " ") const
+    List<Str> split(const Str& sep = " ", bool keep_empty = false) const
     {
         if (sep.size() == 0)
         {
@@ -651,9 +655,13 @@ public:
         int this_start = 0;
         for (int patt_start = 0; (patt_start = find(sep, this_start)) != -1; this_start = patt_start + sep.size())
         {
+            if (!keep_empty && patt_start == this_start) // skip empty str
+            {
+                continue;
+            }
             str_list += str_.substr(this_start, patt_start - this_start);
         }
-        if (this_start != size())
+        if (keep_empty || this_start != size())
         {
             str_list += str_.substr(this_start);
         }
