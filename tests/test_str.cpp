@@ -225,7 +225,18 @@ TEST_CASE("Str")
         REQUIRE(Str(".1e-2").to_decimal() == Approx(0.1e-2));
         REQUIRE(Str("1.e-2").to_decimal() == Approx(1.e-2));
 
+        // other
+        REQUIRE(Str("-.1").to_decimal() == Approx(-.1));
+        REQUIRE(Str("-.1e1").to_decimal() == Approx(-.1e1));
+        REQUIRE(Str("-.1e-1").to_decimal() == Approx(-.1e-1));
+        REQUIRE(Str("-.1e+123").to_decimal() == Approx(-.1e+123));
+
         // error
+        REQUIRE_THROWS_MATCHES(Str("+").to_decimal(), std::runtime_error, Message("Error: Invalid literal for to_decimal()."));
+        REQUIRE_THROWS_MATCHES(Str(".").to_decimal(), std::runtime_error, Message("Error: Invalid literal for to_decimal()."));
+        REQUIRE_THROWS_MATCHES(Str("-.").to_decimal(), std::runtime_error, Message("Error: Invalid literal for to_decimal()."));
+        REQUIRE_THROWS_MATCHES(Str("1 1").to_decimal(), std::runtime_error, Message("Error: Invalid literal for to_decimal()."));
+        REQUIRE_THROWS_MATCHES(Str("123a").to_decimal(), std::runtime_error, Message("Error: Invalid literal for to_decimal()."));
         REQUIRE_THROWS_MATCHES(Str("hello").to_decimal(), std::runtime_error, Message("Error: Invalid literal for to_decimal()."));
     }
 

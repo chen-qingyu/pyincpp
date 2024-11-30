@@ -24,48 +24,47 @@ private:
     // Used for FSM.
     enum state
     {
-        S_BEGIN_BLANK = 1 << 0,        // begin blank character
-        S_SIGN = 1 << 1,               // positive or negative sign
-        S_INT_PART = 1 << 2,           // integer part
-        S_DEC_POINT_HAS_LEFT = 1 << 3, // decimal point has left digit
-        S_DEC_POINT_NOT_LEFT = 1 << 4, // decimal point doesn't have left digit
-        S_DEC_PART = 1 << 5,           // decimal part
-        S_EXP = 1 << 6,                // scientific notation identifier
-        S_EXP_SIGN = 1 << 7,           // positive or negative sign of exponent part
-        S_EXP_PART = 1 << 8,           // exponent part
-        S_END_BLANK = 1 << 9,          // end blank character
-        S_OTHER = 1 << 10,             // other
+        S_START = 1 << 0,    // start with blank character
+        S_SIGN = 1 << 1,     // positive or negative sign
+        S_INT = 1 << 2,      // integer part
+        S_POINT = 1 << 3,    // decimal point that doesn't have left digit
+        S_DEC = 1 << 4,      // decimal part
+        S_EXP = 1 << 5,      // scientific notation identifier
+        S_EXP_SIGN = 1 << 6, // positive or negative sign of exponent part
+        S_EXP_NUM = 1 << 7,  // exponent part number
+        S_END = 1 << 8,      // end with blank character
+        S_OTHER = 1 << 9,    // other
     };
 
     // Used for FSM.
     enum event
     {
-        E_BLANK = 1 << 11,     // blank character: '\n', '\r', '\t', ' '
-        E_SIGN = 1 << 12,      // positive or negative sign: '+', '-'
-        E_NUMBER = 1 << 13,    // number: '[0-9a-zA-Z]'
-        E_DEC_POINT = 1 << 14, // decimal point: '.'
-        E_EXP = 1 << 15,       // scientific notation identifier: 'e', 'E'
-        E_OTHER = 1 << 16,     // other
+        E_BLANK = 1 << 10, // blank character: ' ', '\n', '\t', '\r'
+        E_SIGN = 1 << 11,  // positive or negative sign: '+', '-'
+        E_DIGIT = 1 << 12, // 36-based digit: '[0-9a-zA-Z]'
+        E_POINT = 1 << 13, // decimal point: '.'
+        E_EXP = 1 << 14,   // scientific notation identifier: 'e', 'E'
+        E_OTHER = 1 << 15, // other
     };
 
     // Try to transform a character to an event.
     static event get_event(const char ch, const int base)
     {
-        if (ch == ' ' || ch == '\n' || ch == '\r' || ch == '\t')
+        if (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r')
         {
             return E_BLANK;
         }
-        else if (char_to_integer(ch, base) != -1)
-        {
-            return E_NUMBER;
-        }
-        else if (ch == '-' || ch == '+')
+        else if (ch == '+' || ch == '-')
         {
             return E_SIGN;
         }
+        else if (char_to_integer(ch, base) != -1)
+        {
+            return E_DIGIT;
+        }
         else if (ch == '.')
         {
-            return E_DEC_POINT;
+            return E_POINT;
         }
         else if (ch == 'e' || ch == 'E')
         {
@@ -312,48 +311,46 @@ public:
         int exp_part = 0;
 
         // FSM
-        state st = S_BEGIN_BLANK;
+        state st = S_START;
         for (int i = 0; i < size(); ++i)
         {
             event ev = get_event(str_[i], 10);
             switch (int(st) | int(ev))
             {
-                case int(S_BEGIN_BLANK) | int(E_BLANK):
-                    st = S_BEGIN_BLANK;
+                case int(S_START) | int(E_BLANK):
+                    st = S_START;
                     break;
 
-                case int(S_BEGIN_BLANK) | int(E_SIGN):
+                case int(S_START) | int(E_SIGN):
                     sign = (str_[i] == '+') ? 1 : -1;
                     st = S_SIGN;
                     break;
 
-                case int(S_BEGIN_BLANK) | int(E_DEC_POINT):
-                case int(S_SIGN) | int(E_DEC_POINT):
-                    st = S_DEC_POINT_NOT_LEFT;
+                case int(S_START) | int(E_POINT):
+                case int(S_SIGN) | int(E_POINT):
+                    st = S_POINT;
                     break;
 
-                case int(S_BEGIN_BLANK) | int(E_NUMBER):
-                case int(S_SIGN) | int(E_NUMBER):
-                case int(S_INT_PART) | int(E_NUMBER):
+                case int(S_START) | int(E_DIGIT):
+                case int(S_SIGN) | int(E_DIGIT):
+                case int(S_INT) | int(E_DIGIT):
                     decimal_part = decimal_part * 10 + char_to_integer(str_[i], 10);
-                    st = S_INT_PART;
+                    st = S_INT;
                     break;
 
-                case int(S_INT_PART) | int(E_DEC_POINT):
-                    st = S_DEC_POINT_HAS_LEFT;
+                case int(S_INT) | int(E_POINT):
+                    st = S_DEC;
                     break;
 
-                case int(S_DEC_POINT_NOT_LEFT) | int(E_NUMBER):
-                case int(S_DEC_PART) | int(E_NUMBER):
-                case int(S_DEC_POINT_HAS_LEFT) | int(E_NUMBER):
+                case int(S_POINT) | int(E_DIGIT):
+                case int(S_DEC) | int(E_DIGIT):
                     decimal_part = decimal_part * 10 + char_to_integer(str_[i], 10);
                     decimal_cnt++;
-                    st = S_DEC_PART;
+                    st = S_DEC;
                     break;
 
-                case int(S_INT_PART) | int(E_EXP):
-                case int(S_DEC_POINT_HAS_LEFT) | int(E_EXP):
-                case int(S_DEC_PART) | int(E_EXP):
+                case int(S_INT) | int(E_EXP):
+                case int(S_DEC) | int(E_EXP):
                     st = S_EXP;
                     break;
 
@@ -362,19 +359,18 @@ public:
                     st = S_EXP_SIGN;
                     break;
 
-                case int(S_EXP) | int(E_NUMBER):
-                case int(S_EXP_SIGN) | int(E_NUMBER):
-                case int(S_EXP_PART) | int(E_NUMBER):
+                case int(S_EXP) | int(E_DIGIT):
+                case int(S_EXP_SIGN) | int(E_DIGIT):
+                case int(S_EXP_NUM) | int(E_DIGIT):
                     exp_part = exp_part * 10 + char_to_integer(str_[i], 10);
-                    st = S_EXP_PART;
+                    st = S_EXP_NUM;
                     break;
 
-                case int(S_INT_PART) | int(E_BLANK):
-                case int(S_DEC_POINT_HAS_LEFT) | int(E_BLANK):
-                case int(S_DEC_PART) | int(E_BLANK):
-                case int(S_EXP_PART) | int(E_BLANK):
-                case int(S_END_BLANK) | int(E_BLANK):
-                    st = S_END_BLANK;
+                case int(S_INT) | int(E_BLANK):
+                case int(S_DEC) | int(E_BLANK):
+                case int(S_EXP_NUM) | int(E_BLANK):
+                case int(S_END) | int(E_BLANK):
+                    st = S_END;
                     break;
 
                 default:
@@ -383,7 +379,7 @@ public:
                     break;
             }
         }
-        if (st != S_INT_PART && st != S_DEC_POINT_HAS_LEFT && st != S_DEC_PART && st != S_EXP_PART && st != S_END_BLANK)
+        if (st != S_INT && st != S_DEC && st != S_EXP_NUM && st != S_END)
         {
             throw std::runtime_error("Error: Invalid literal for to_decimal().");
         }
@@ -411,34 +407,34 @@ public:
         }
 
         bool non_negative = true; // default '+'
-        Int integer_part;
+        Int integer;
 
         // FSM
-        state st = S_BEGIN_BLANK;
+        state st = S_START;
         for (int i = 0; i < size(); ++i)
         {
             event ev = get_event(str_[i], base);
             switch (int(st) | int(ev))
             {
-                case int(S_BEGIN_BLANK) | int(E_BLANK):
-                    st = S_BEGIN_BLANK;
+                case int(S_START) | int(E_BLANK):
+                    st = S_START;
                     break;
 
-                case int(S_BEGIN_BLANK) | int(E_SIGN):
+                case int(S_START) | int(E_SIGN):
                     non_negative = (str_[i] == '+') ? true : false;
                     st = S_SIGN;
                     break;
 
-                case int(S_BEGIN_BLANK) | int(E_NUMBER):
-                case int(S_SIGN) | int(E_NUMBER):
-                case int(S_INT_PART) | int(E_NUMBER):
-                    integer_part = integer_part * base + char_to_integer(str_[i], base);
-                    st = S_INT_PART;
+                case int(S_START) | int(E_DIGIT):
+                case int(S_SIGN) | int(E_DIGIT):
+                case int(S_INT) | int(E_DIGIT):
+                    integer = integer * base + char_to_integer(str_[i], base);
+                    st = S_INT;
                     break;
 
-                case int(S_INT_PART) | int(E_BLANK):
-                case int(S_END_BLANK) | int(E_BLANK):
-                    st = S_END_BLANK;
+                case int(S_INT) | int(E_BLANK):
+                case int(S_END) | int(E_BLANK):
+                    st = S_END;
                     break;
 
                 default:
@@ -447,12 +443,12 @@ public:
                     break;
             }
         }
-        if (st != S_INT_PART && st != S_END_BLANK)
+        if (st != S_INT && st != S_END)
         {
             throw std::runtime_error("Error: Invalid literal for to_integer().");
         }
 
-        return non_negative ? integer_part : -integer_part;
+        return non_negative ? integer : -integer;
     }
 
     /// Return `true` if the string begins with the specified string, otherwise return `false`.
