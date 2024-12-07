@@ -15,14 +15,16 @@ namespace pyincpp
 class Int
 {
 private:
-    // List of digits, represent absolute value of the integer.
-    // Base 10, little endian.
+    // Base radix of digits.
+    static const int BASE = 10; // TODO: base-10000
+
+    // List of digits, represent absolute value of the integer, little endian.
     // Example: `12345000`
     // ```
     // digit: 0 0 0 5 4 3 2 1
     // index: 0 1 2 3 4 5 6 7
     // ```
-    std::vector<signed char> digits_;
+    std::vector<int> digits_;
 
     // Sign of integer, 1 is positive, -1 is negative, and 0 is zero.
     signed char sign_;
@@ -74,7 +76,7 @@ private:
         digits_.push_back(0);
 
         int i = 0;
-        while (digits_[i] == 9)
+        while (digits_[i] == BASE - 1)
         {
             ++i;
         }
@@ -101,10 +103,50 @@ private:
         --digits_[i];
         while (i != 0)
         {
-            digits_[--i] = 9;
+            digits_[--i] = BASE - 1;
         }
 
         trim();
+    }
+
+    // This is equal to Python's //
+    // a == (a floor_div b) * b + a cycle_mod b
+    static int floor_div(int a, int b)
+    {
+        return std::floor(double(a) / double(b));
+    }
+
+    // This is equal to Python's %
+    // a == (a floor_div b) * b + a cycle_mod b
+    static int cycle_mod(int a, int b)
+    {
+        return a - floor_div(a, b) * b;
+    }
+
+    // Compare absolute value.
+    int abs_cmp(const Int& that) const
+    {
+        if (digits_.size() != that.digits_.size())
+        {
+            return digits_.size() > that.digits_.size() ? 1 : -1;
+        }
+
+        for (int i = digits_.size() - 1; i >= 0; --i) // i = -1 if is zero, ok
+        {
+            if (digits_[i] != that.digits_[i])
+            {
+                return digits_[i] > that.digits_[i] ? 1 : -1;
+            }
+        }
+
+        return 0;
+    }
+
+    // Helper constructor.
+    Int(signed char sign, const std::vector<int>& digits)
+        : digits_(digits)
+        , sign_(sign)
+    {
     }
 
 public:
@@ -119,8 +161,8 @@ public:
         integer = std::abs(integer);
         while (integer > 0)
         {
-            digits_.push_back(integer % 10);
-            integer /= 10;
+            digits_.push_back(integer % BASE);
+            integer /= BASE;
         }
     }
 
@@ -187,36 +229,9 @@ public:
             }
         }
 
-        // the sign of two integers is the same
+        // now, the sign of two integers is the same
 
-        if (digits_.size() != that.digits_.size())
-        {
-            if (sign_ == 1)
-            {
-                return digits_.size() > that.digits_.size() ? 1 : -1;
-            }
-            else
-            {
-                return digits_.size() > that.digits_.size() ? -1 : 1;
-            }
-        }
-
-        for (int i = digits_.size() - 1; i >= 0; --i) // i = -1 if is zero, ok
-        {
-            if (digits_[i] != that.digits_[i])
-            {
-                if (sign_ == 1)
-                {
-                    return digits_[i] > that.digits_[i] ? 1 : -1;
-                }
-                else
-                {
-                    return digits_[i] > that.digits_[i] ? -1 : 1;
-                }
-            }
-        }
-
-        return 0; // eq
+        return sign_ >= 0 ? abs_cmp(that) : -abs_cmp(that);
     }
 
     /*
@@ -244,7 +259,14 @@ public:
     /// Return the number of digits in the integer (based 10).
     int digits() const
     {
-        return digits_.size();
+        if (digits_.size() > 0)
+        {
+            return (digits_.size() - 1) * std::log10(BASE) + std::floor(std::log10(digits_.back())) + 1;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     /// Determine whether the integer is zero quickly.
@@ -315,25 +337,24 @@ public:
             return *this -= -rhs;
         }
 
-        // the sign of two integers is the same and not zero
+        // now, the sign of two integers is the same and not zero
 
-        digits_.resize(std::max(digits_.size(), rhs.digits_.size()) + 1); // the digits is max+1
+        // normalize
+        auto& a = digits_;
+        const auto& b = rhs.digits_;
+        a.resize(std::max(a.size(), b.size()) + 1); // a.len is max+1
 
-        // simulate the vertical calculation, assert a.len() > b.len()
-        auto a = digits_.begin();
-        for (auto b = rhs.digits_.cbegin(); b != rhs.digits_.cend(); ++a, ++b)
+        // calculate
+        for (int i = 0; i < b.size(); ++i)
         {
-            *a += *b;
-            if (*a > 9)
-            {
-                ++*(a + 1);
-                *a %= 10;
-            }
+            auto tmp = a[i] + b[i];
+            a[i] = tmp % BASE;
+            a[i + 1] += tmp / BASE;
         }
-        for (; a != digits_.end() && *a > 9; ++a) // exit early
+        for (int i = b.size(); i < a.size() && a[i] >= BASE; ++i) // carry
         {
-            ++*(a + 1);
-            *a %= 10;
+            ++a[i + 1];
+            a[i] = 0;
         }
 
         return trim();
@@ -354,38 +375,32 @@ public:
             return *this += -rhs;
         }
 
-        // the sign of two integers is the same and not zero
+        // now, the sign of two integers is the same and not zero
 
-        // prepare variables
-        Int result;
-        result.sign_ = *this > rhs ? 1 : -1;
-        result.digits_.resize(std::max(digits_.size(), rhs.digits_.size()));
-
-        // simulate the vertical calculation, assert c.len() == a.len() >= b.len()
-        auto a = *this > rhs ? digits_.cbegin() : rhs.digits_.cbegin();
-        auto b = a == digits_.cbegin() ? rhs.digits_.cbegin() : digits_.cbegin();
-        auto bend = a == digits_.cbegin() ? rhs.digits_.cend() : digits_.cend();
-        auto c = result.digits_.begin();
-        for (; b != bend; ++a, ++b, ++c)
+        // normalize
+        std::vector<int> rhs_digits = rhs.digits_;
+        if (abs_cmp(rhs) == -1) // let a.len >= b.len
         {
-            *c += *a - *b;
-            if (*c < 0) // carry
-            {
-                --*(c + 1);
-                *c += 10;
-            }
+            sign_ = -sign_;
+            digits_.swap(rhs_digits);
         }
-        for (; c != result.digits_.end(); ++a, ++c) // a.len == c.len
+        auto& a = digits_;
+        const auto& b = rhs_digits;
+
+        // calculate
+        for (int i = 0; i < b.size(); ++i)
         {
-            *c += *a;
-            if (*c < 0) // carry
-            {
-                --*(c + 1);
-                *c += 10;
-            }
+            auto tmp = a[i] - b[i];
+            a[i] = cycle_mod(tmp, BASE);
+            a[i + 1] += floor_div(tmp, BASE);
+        }
+        for (int i = b.size(); i < a.size() && a[i] < 0; ++i) // carry
+        {
+            --a[i + 1];
+            a[i] = BASE - 1;
         }
 
-        return *this = result.trim();
+        return trim();
     }
 
     /// Return this *= `rhs`.
@@ -397,26 +412,22 @@ public:
             return *this = 0;
         }
 
-        // the sign of two integers is not zero
+        // now, the sign of two integers is not zero
 
-        // prepare variables
-        int size = digits_.size() + rhs.digits_.size();
-
-        Int result;
-        result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
-        result.digits_.resize(size);
-
-        // simulate the vertical calculation
+        // normalize
         const auto& a = digits_;
         const auto& b = rhs.digits_;
+        Int result(sign_ == rhs.sign_ ? 1 : -1, std::vector<int>(a.size() + b.size())); // the sign of result is depends on the sign of operands
         auto& c = result.digits_;
-        for (int i = 0; i < int(a.size()); ++i)
+
+        // calculate
+        for (int i = 0; i < a.size(); ++i)
         {
-            for (int j = 0; j < int(b.size()); ++j)
+            for (int j = 0; j < b.size(); ++j)
             {
                 c[i + j] += a[i] * b[j];
-                c[i + j + 1] += c[i + j] / 10;
-                c[i + j] %= 10;
+                c[i + j + 1] += c[i + j] / BASE;
+                c[i + j] %= BASE;
             }
         }
 
@@ -435,7 +446,7 @@ public:
             return *this = 0;
         }
 
-        // the sign of two integers is not zero
+        // now, the sign of two integers is not zero
 
         // prepare variables
         int size = digits_.size() - rhs.digits_.size() + 1;
@@ -444,7 +455,7 @@ public:
         tmp.sign_ = 1; // positive
 
         // tmp = rhs * 10^(size), not size-1, since the for loop will erase first, so tmp is rhs * 10^(size-1) at first
-        tmp.digits_ = std::vector<signed char>(size, 0);
+        tmp.digits_ = std::vector<int>(size, 0);
         tmp.digits_.insert(tmp.digits_.end(), rhs.digits_.begin(), rhs.digits_.end());
 
         Int result;
@@ -483,7 +494,7 @@ public:
             return *this;
         }
 
-        // the sign of two integers is not zero
+        // now, the sign of two integers is not zero
 
         // prepare variables
         int size = digits_.size() - rhs.digits_.size() + 1;
@@ -494,7 +505,7 @@ public:
         tmp.sign_ = 1; // positive
 
         // tmp = rhs * 10^(size), not size-1, since the for loop will erase first, so tmp is rhs * 10^(size-1) at first
-        tmp.digits_ = std::vector<signed char>(size, 0);
+        tmp.digits_ = std::vector<int>(size, 0);
         tmp.digits_.insert(tmp.digits_.end(), rhs.digits_.begin(), rhs.digits_.end());
 
         // calculation
@@ -658,7 +669,7 @@ public:
         T result = 0;
         for (int i = digits_.size() - 1; i >= 0; --i) // i = -1 if is zero, ok
         {
-            result = result * 10 + digits_[i];
+            result = result * BASE + digits_[i];
         }
         return result * sign_;
     }
@@ -697,7 +708,7 @@ public:
         // as far as possible to reduce the number of iterations
         // cur_sqrt = 10^(digits/2 - 1) in O(1)
         Int cur_sqrt;
-        cur_sqrt.digits_ = std::vector<signed char>(integer.digits() / 2 - 1, 0); // integer.digits() >= 2
+        cur_sqrt.digits_ = std::vector<int>(integer.digits() / 2 - 1, 0); // integer.digits() >= 2
         cur_sqrt.digits_.push_back(1);
         cur_sqrt.sign_ = 1;
 
@@ -760,7 +771,7 @@ public:
             throw std::runtime_error("Error: Math domain error.");
         }
 
-        if (base == 10)
+        if (base == 10) // log10 == digits-1
         {
             return integer.digits() - 1;
         }
@@ -808,7 +819,7 @@ public:
 
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<int> digit(0, 9);
+        std::uniform_int_distribution<int> digit(0, BASE - 1);
 
         // the default limit of Python's int is 4300 digits as provided in `sys.int_info.default_max_str_digits`
         // see: https://docs.python.org/3/library/stdtypes.html#integer-string-conversion-length-limitation
@@ -826,7 +837,7 @@ public:
         // reset most significant digit if is 0
         if (!randint.digits_.empty() && randint.digits_.back() == 0)
         {
-            std::uniform_int_distribution<int> most_digit(1, 9);
+            std::uniform_int_distribution<int> most_digit(1, BASE - 1);
             randint.digits_.back() = most_digit(gen);
         }
 
@@ -880,7 +891,7 @@ struct std::hash<pyincpp::Int> // explicit specialization
 
         for (const auto& d : integer.digits_)
         {
-            value ^= std::hash<signed char>{}(d) << 1;
+            value ^= std::hash<int>{}(d) << 1;
         }
 
         return value;
