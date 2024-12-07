@@ -15,29 +15,34 @@ namespace pyincpp
 class Int
 {
 private:
-    // List of digits, represent absolute value of the integer.
-    // Base 10, little endian.
-    // Example: `12345000`
-    // ```
-    // digit: 0 0 0 5 4 3 2 1
-    // index: 0 1 2 3 4 5 6 7
-    // ```
-    std::vector<signed char> digits_;
+    // Base radix of digits.
+    static constexpr int BASE = 10;
+
+    // Number of decimal digits per chunk.
+    static constexpr int DIGITS_PER_CHUNK = 1; // std::ceil(std::log10(BASE));
 
     // Sign of integer, 1 is positive, -1 is negative, and 0 is zero.
     signed char sign_;
 
+    // List of digits, represent absolute value of the integer, little endian.
+    // Example: `12345000`
+    // ```
+    // chunk: 0 0 0 5 4 3 2 1
+    // index: 0 1 2 3 4 5 6 7
+    // ```
+    std::vector<int> chunks_;
+
     // Remove leading zeros elegantly and correct sign.
     Int& trim()
     {
-        auto it = digits_.rbegin();
-        while (it != digits_.rend() && *it == 0)
+        auto it = chunks_.rbegin();
+        while (it != chunks_.rend() && *it == 0)
         {
             ++it;
         }
-        digits_.erase(it.base(), digits_.end()); // note: rbegin().base() == end()
+        chunks_.erase(it.base(), chunks_.end()); // note: rbegin().base() == end()
 
-        if (digits_.empty())
+        if (chunks_.empty())
         {
             sign_ = 0;
         }
@@ -71,17 +76,17 @@ private:
     void abs_inc()
     {
         // add a leading zero for carry
-        digits_.push_back(0);
+        chunks_.push_back(0);
 
         int i = 0;
-        while (digits_[i] == 9)
+        while (chunks_[i] == BASE - 1)
         {
             ++i;
         }
-        ++digits_[i];
+        ++chunks_[i];
         while (i != 0)
         {
-            digits_[--i] = 0;
+            chunks_[--i] = 0;
         }
 
         trim();
@@ -94,17 +99,57 @@ private:
     void abs_dec()
     {
         int i = 0;
-        while (digits_[i] == 0)
+        while (chunks_[i] == 0)
         {
             ++i;
         }
-        --digits_[i];
+        --chunks_[i];
         while (i != 0)
         {
-            digits_[--i] = 9;
+            chunks_[--i] = BASE - 1;
         }
 
         trim();
+    }
+
+    // This is equal to Python's //
+    // a == (a floor_div b) * b + a cycle_mod b
+    static int floor_div(int a, int b)
+    {
+        return std::floor(double(a) / double(b));
+    }
+
+    // This is equal to Python's %
+    // a == (a floor_div b) * b + a cycle_mod b
+    static int cycle_mod(int a, int b)
+    {
+        return a - floor_div(a, b) * b;
+    }
+
+    // Compare absolute value.
+    int abs_cmp(const Int& that) const
+    {
+        if (chunks_.size() != that.chunks_.size())
+        {
+            return chunks_.size() > that.chunks_.size() ? 1 : -1;
+        }
+
+        for (int i = chunks_.size() - 1; i >= 0; --i) // i = -1 if is zero, ok
+        {
+            if (chunks_[i] != that.chunks_[i])
+            {
+                return chunks_[i] > that.chunks_[i] ? 1 : -1;
+            }
+        }
+
+        return 0;
+    }
+
+    // Helper constructor.
+    Int(signed char sign, const std::vector<int>& chunks)
+        : sign_(sign)
+        , chunks_(chunks)
+    {
     }
 
 public:
@@ -119,8 +164,8 @@ public:
         integer = std::abs(integer);
         while (integer > 0)
         {
-            digits_.push_back(integer % 10);
-            integer /= 10;
+            chunks_.push_back(integer % BASE);
+            integer /= BASE;
         }
     }
 
@@ -134,14 +179,24 @@ public:
         }
 
         sign_ = (chars[0] == '-' ? -1 : 1);
-        const int s = (chars[0] == '-' || chars[0] == '+'); // skip symbol
-        const int digit_len = len - s;
+        // skip symbol
+        std::string_view digits(chars + (chars[0] == '-' || chars[0] == '+'), chars + len);
 
-        // this is faster than `reserve` and `push_back`, cause `push_back` is slower than `[]`
-        digits_.resize(digit_len);
-        for (int i = 0; i != digit_len; ++i)
+        const int chunks_len = std::ceil(double(digits.size()) / DIGITS_PER_CHUNK);
+        chunks_.resize(chunks_len, 0);
+
+        // every DIGITS_PER_CHUNK digits into a chunk (align right)
+        int chunk = 0;
+        int idx = chunks_len - 1;
+        for (int i = 0; i < digits.size(); ++i)
         {
-            digits_[i] = chars[len - 1 - i] - '0';
+            chunk = chunk * 10 + (digits[i] - '0');
+            // I spent 2 hours for finding this equation...
+            if ((i + 1) % DIGITS_PER_CHUNK == digits.size() % DIGITS_PER_CHUNK)
+            {
+                chunks_[idx--] = chunk;
+                chunk = 0;
+            }
         }
 
         trim();
@@ -152,8 +207,8 @@ public:
 
     /// Move constructor.
     Int(Int&& that)
-        : digits_(std::move(that.digits_))
-        , sign_(std::move(that.sign_))
+        : sign_(std::move(that.sign_))
+        , chunks_(std::move(that.chunks_))
     {
         that.sign_ = 0;
     }
@@ -165,7 +220,7 @@ public:
     /// Determine whether this integer is equal to another integer.
     bool operator==(const Int& that) const
     {
-        return sign_ == that.sign_ && digits_ == that.digits_;
+        return sign_ == that.sign_ && chunks_ == that.chunks_;
     }
 
     /// Compare the integer with another integer.
@@ -187,36 +242,9 @@ public:
             }
         }
 
-        // the sign of two integers is the same
+        // now, the sign of two integers is the same
 
-        if (digits_.size() != that.digits_.size())
-        {
-            if (sign_ == 1)
-            {
-                return digits_.size() > that.digits_.size() ? 1 : -1;
-            }
-            else
-            {
-                return digits_.size() > that.digits_.size() ? -1 : 1;
-            }
-        }
-
-        for (int i = digits_.size() - 1; i >= 0; --i) // i = -1 if is zero, ok
-        {
-            if (digits_[i] != that.digits_[i])
-            {
-                if (sign_ == 1)
-                {
-                    return digits_[i] > that.digits_[i] ? 1 : -1;
-                }
-                else
-                {
-                    return digits_[i] > that.digits_[i] ? -1 : 1;
-                }
-            }
-        }
-
-        return 0; // eq
+        return sign_ >= 0 ? abs_cmp(that) : -abs_cmp(that);
     }
 
     /*
@@ -229,8 +257,8 @@ public:
     /// Move assignment operator.
     Int& operator=(Int&& that)
     {
-        digits_ = std::move(that.digits_);
         sign_ = std::move(that.sign_);
+        chunks_ = std::move(that.chunks_);
 
         that.sign_ = 0;
 
@@ -244,7 +272,14 @@ public:
     /// Return the number of digits in the integer (based 10).
     int digits() const
     {
-        return digits_.size();
+        if (chunks_.size() > 0)
+        {
+            return (chunks_.size() - 1) * DIGITS_PER_CHUNK + std::floor(std::log10(chunks_.back())) + 1;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     /// Determine whether the integer is zero quickly.
@@ -268,13 +303,13 @@ public:
     /// Determine whether the integer is even quickly.
     bool is_even() const
     {
-        return is_zero() ? true : (digits_[0] & 1) == 0;
+        return is_zero() ? true : (chunks_[0] & 1) == 0;
     }
 
     /// Determine whether the integer is odd quickly.
     bool is_odd() const
     {
-        return is_zero() ? false : (digits_[0] & 1) == 1;
+        return is_zero() ? false : (chunks_[0] & 1) == 1;
     }
 
     /// Determine whether the integer is prime number.
@@ -315,25 +350,24 @@ public:
             return *this -= -rhs;
         }
 
-        // the sign of two integers is the same and not zero
+        // now, the sign of two integers is the same and not zero
 
-        digits_.resize(std::max(digits_.size(), rhs.digits_.size()) + 1); // the digits is max+1
+        // normalize
+        auto& a = chunks_;
+        const auto& b = rhs.chunks_;
+        a.resize(std::max(a.size(), b.size()) + 1); // a.len is max+1
 
-        // simulate the vertical calculation, assert a.len() > b.len()
-        auto a = digits_.begin();
-        for (auto b = rhs.digits_.cbegin(); b != rhs.digits_.cend(); ++a, ++b)
+        // calculate
+        for (int i = 0; i < b.size(); ++i)
         {
-            *a += *b;
-            if (*a > 9)
-            {
-                ++*(a + 1);
-                *a %= 10;
-            }
+            auto tmp = a[i] + b[i];
+            a[i] = tmp % BASE;
+            a[i + 1] += tmp / BASE;
         }
-        for (; a != digits_.end() && *a > 9; ++a) // exit early
+        for (int i = b.size(); i < a.size() && a[i] >= BASE; ++i) // carry
         {
-            ++*(a + 1);
-            *a %= 10;
+            ++a[i + 1];
+            a[i] = 0;
         }
 
         return trim();
@@ -354,38 +388,32 @@ public:
             return *this += -rhs;
         }
 
-        // the sign of two integers is the same and not zero
+        // now, the sign of two integers is the same and not zero
 
-        // prepare variables
-        Int result;
-        result.sign_ = *this > rhs ? 1 : -1;
-        result.digits_.resize(std::max(digits_.size(), rhs.digits_.size()));
-
-        // simulate the vertical calculation, assert c.len() == a.len() >= b.len()
-        auto a = *this > rhs ? digits_.cbegin() : rhs.digits_.cbegin();
-        auto b = a == digits_.cbegin() ? rhs.digits_.cbegin() : digits_.cbegin();
-        auto bend = a == digits_.cbegin() ? rhs.digits_.cend() : digits_.cend();
-        auto c = result.digits_.begin();
-        for (; b != bend; ++a, ++b, ++c)
+        // normalize
+        std::vector<int> rhs_digits = rhs.chunks_;
+        if (abs_cmp(rhs) == -1) // let a.len >= b.len
         {
-            *c += *a - *b;
-            if (*c < 0) // carry
-            {
-                --*(c + 1);
-                *c += 10;
-            }
+            sign_ = -sign_;
+            chunks_.swap(rhs_digits);
         }
-        for (; c != result.digits_.end(); ++a, ++c) // a.len == c.len
+        auto& a = chunks_;
+        const auto& b = rhs_digits;
+
+        // calculate
+        for (int i = 0; i < b.size(); ++i)
         {
-            *c += *a;
-            if (*c < 0) // carry
-            {
-                --*(c + 1);
-                *c += 10;
-            }
+            auto tmp = a[i] - b[i];
+            a[i] = cycle_mod(tmp, BASE);
+            a[i + 1] += floor_div(tmp, BASE);
+        }
+        for (int i = b.size(); i < a.size() && a[i] < 0; ++i) // carry
+        {
+            --a[i + 1];
+            a[i] = BASE - 1;
         }
 
-        return *this = result.trim();
+        return trim();
     }
 
     /// Return this *= `rhs`.
@@ -397,26 +425,22 @@ public:
             return *this = 0;
         }
 
-        // the sign of two integers is not zero
+        // now, the sign of two integers is not zero
 
-        // prepare variables
-        int size = digits_.size() + rhs.digits_.size();
+        // normalize
+        const auto& a = chunks_;
+        const auto& b = rhs.chunks_;
+        Int result{sign_ == rhs.sign_ ? 1 : -1, std::vector<int>(a.size() + b.size())}; // the sign of result is depends on the sign of operands
+        auto& c = result.chunks_;
 
-        Int result;
-        result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
-        result.digits_.resize(size);
-
-        // simulate the vertical calculation
-        const auto& a = digits_;
-        const auto& b = rhs.digits_;
-        auto& c = result.digits_;
-        for (int i = 0; i < int(a.size()); ++i)
+        // calculate
+        for (int i = 0; i < a.size(); ++i)
         {
-            for (int j = 0; j < int(b.size()); ++j)
+            for (int j = 0; j < b.size(); ++j)
             {
                 c[i + j] += a[i] * b[j];
-                c[i + j + 1] += c[i + j] / 10;
-                c[i + j] %= 10;
+                c[i + j + 1] += c[i + j] / BASE;
+                c[i + j] %= BASE;
             }
         }
 
@@ -435,21 +459,21 @@ public:
             return *this = 0;
         }
 
-        // the sign of two integers is not zero
+        // now, the sign of two integers is not zero
 
         // prepare variables
-        int size = digits_.size() - rhs.digits_.size() + 1;
+        int size = chunks_.size() - rhs.chunks_.size() + 1;
 
         Int tmp;       // intermediate variable for rhs * 10^i
         tmp.sign_ = 1; // positive
 
         // tmp = rhs * 10^(size), not size-1, since the for loop will erase first, so tmp is rhs * 10^(size-1) at first
-        tmp.digits_ = std::vector<signed char>(size, 0);
-        tmp.digits_.insert(tmp.digits_.end(), rhs.digits_.begin(), rhs.digits_.end());
+        tmp.chunks_ = std::vector<int>(size, 0);
+        tmp.chunks_.insert(tmp.chunks_.end(), rhs.chunks_.begin(), rhs.chunks_.end());
 
         Int result;
         result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
-        result.digits_.resize(size);
+        result.chunks_.resize(size);
 
         sign_ = 1;
 
@@ -457,13 +481,13 @@ public:
         for (int i = size - 1; i >= 0; --i)
         {
             // tmp = rhs * 10^i in O(1), I'm a fxxking genius
-            // after testing, found that use vector is very faster than use deque `tmp.digits_.pop_front();`
+            // after testing, found that use vector is very faster than use deque `tmp.chunks_.pop_front();`
             // my guess is that deque's various operations take longer than vector's
-            tmp.digits_.erase(tmp.digits_.begin());
+            tmp.chunks_.erase(tmp.chunks_.begin());
 
             while (*this >= tmp) // <= 9 loops, so O(1)
             {
-                result.digits_[i]++;
+                result.chunks_[i]++;
                 *this -= tmp;
             }
         }
@@ -483,10 +507,10 @@ public:
             return *this;
         }
 
-        // the sign of two integers is not zero
+        // now, the sign of two integers is not zero
 
         // prepare variables
-        int size = digits_.size() - rhs.digits_.size() + 1;
+        int size = chunks_.size() - rhs.chunks_.size() + 1;
 
         sign_ = 1;
 
@@ -494,16 +518,16 @@ public:
         tmp.sign_ = 1; // positive
 
         // tmp = rhs * 10^(size), not size-1, since the for loop will erase first, so tmp is rhs * 10^(size-1) at first
-        tmp.digits_ = std::vector<signed char>(size, 0);
-        tmp.digits_.insert(tmp.digits_.end(), rhs.digits_.begin(), rhs.digits_.end());
+        tmp.chunks_ = std::vector<int>(size, 0);
+        tmp.chunks_.insert(tmp.chunks_.end(), rhs.chunks_.begin(), rhs.chunks_.end());
 
         // calculation
         for (int i = 0; i < size; ++i)
         {
             // tmp = rhs * 10^i in O(1), I'm a fxxking genius
-            // after testing, found that use vector is very faster than use deque `tmp.digits_.pop_front();`
+            // after testing, found that use vector is very faster than use deque `tmp.chunks_.pop_front();`
             // my guess is that deque's various operations take longer than vector's
-            tmp.digits_.erase(tmp.digits_.begin());
+            tmp.chunks_.erase(tmp.chunks_.begin());
 
             while (*this >= tmp) // <= 9 loops, so O(1)
             {
@@ -520,7 +544,7 @@ public:
         if (sign_ == 0)
         {
             sign_ = 1;
-            digits_.push_back(1);
+            chunks_.push_back(1);
         }
         else
         {
@@ -536,7 +560,7 @@ public:
         if (sign_ == 0)
         {
             sign_ = -1;
-            digits_.push_back(1);
+            chunks_.push_back(1);
         }
         else
         {
@@ -656,9 +680,9 @@ public:
     T to_integer() const
     {
         T result = 0;
-        for (int i = digits_.size() - 1; i >= 0; --i) // i = -1 if is zero, ok
+        for (int i = chunks_.size() - 1; i >= 0; --i) // i = -1 if is zero, ok
         {
-            result = result * 10 + digits_[i];
+            result = result * BASE + chunks_[i];
         }
         return result * sign_;
     }
@@ -679,30 +703,19 @@ public:
         {
             return 0;
         }
-        else if (integer < 4)
+        else if (integer < 4) // can not omit
         {
             return 1;
-        }
-        else if (integer < 9)
-        {
-            return 2;
-        }
-        else if (integer < 16) // can not be omitted
-        {
-            return 3;
         }
 
         // using Newton's method
 
         // as far as possible to reduce the number of iterations
-        // cur_sqrt = 10^(digits/2 - 1) in O(1)
-        Int cur_sqrt;
-        cur_sqrt.digits_ = std::vector<signed char>(integer.digits() / 2 - 1, 0); // integer.digits() >= 2
-        cur_sqrt.digits_.push_back(1);
-        cur_sqrt.sign_ = 1;
+        // cur_sqrt is about 10^(digits/2) in O(1)
+        Int cur_sqrt{1, std::vector<int>(integer.chunks_.size() / 2, 0)};
+        cur_sqrt.chunks_.push_back(1);
 
-        Int pre_sqrt = -1;
-
+        Int pre_sqrt;
         while (cur_sqrt != pre_sqrt)
         {
             pre_sqrt = cur_sqrt;
@@ -717,7 +730,7 @@ public:
     {
         // check if base.abs() is 1
         // if base.abs() is 1, only when base is negative and exp is odd return -1, otherwise return 1
-        if (base.digits() == 1 && base.digits_[0] == 1)
+        if (base.digits() == 1 && base.chunks_[0] == 1)
         {
             return base.sign_ == -1 && exp.is_odd() ? -1 : 1;
         }
@@ -760,7 +773,7 @@ public:
             throw std::runtime_error("Error: Math domain error.");
         }
 
-        if (base == 10)
+        if (base == 10) // log10 == digits-1
         {
             return integer.digits() - 1;
         }
@@ -808,26 +821,26 @@ public:
 
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<int> digit(0, 9);
+        std::uniform_int_distribution<int> digit(0, BASE - 1);
 
         // the default limit of Python's int is 4300 digits as provided in `sys.int_info.default_max_str_digits`
         // see: https://docs.python.org/3/library/stdtypes.html#integer-string-conversion-length-limitation
-        std::uniform_int_distribution<int> digits_limit(0, 4300);
+        std::uniform_int_distribution<int> digits_limit(0, 4300 / DIGITS_PER_CHUNK);
 
         Int randint;
-        randint.digits_.resize(digits == -1 ? digits_limit(gen) : digits); // may be 0
-        randint.sign_ = randint.digits_.empty() ? 0 : 1;
+        randint.chunks_.resize(digits == -1 ? digits_limit(gen) : digits / DIGITS_PER_CHUNK); // may be 0
+        randint.sign_ = randint.chunks_.empty() ? 0 : 1;
 
-        for (auto& d : randint.digits_)
+        for (auto& d : randint.chunks_)
         {
             d = digit(gen);
         }
 
         // reset most significant digit if is 0
-        if (!randint.digits_.empty() && randint.digits_.back() == 0)
+        if (!randint.chunks_.empty() && randint.chunks_.back() == 0)
         {
             std::uniform_int_distribution<int> most_digit(1, 9);
-            randint.digits_.back() = most_digit(gen);
+            randint.chunks_.back() = most_digit(gen);
         }
 
         return randint;
@@ -850,8 +863,12 @@ public:
             os << '-';
         }
 
-        std::for_each(integer.digits_.rbegin(), integer.digits_.rend(), [&](const auto& d)
-                      { os << char(d + '0'); });
+        os << *integer.chunks_.rbegin();
+        if (integer.chunks_.size() > 1)
+        {
+            std::for_each(integer.chunks_.rbegin() + 1, integer.chunks_.rend(), [&](const auto& c)
+                          { os << std::setw(Int::DIGITS_PER_CHUNK) << std::setfill('0') << std::to_string(c); });
+        }
 
         return os;
     }
@@ -878,9 +895,9 @@ struct std::hash<pyincpp::Int> // explicit specialization
     {
         std::size_t value = std::hash<signed char>{}(integer.sign_);
 
-        for (const auto& d : integer.digits_)
+        for (const auto& d : integer.chunks_)
         {
-            value ^= std::hash<signed char>{}(d) << 1;
+            value ^= std::hash<int>{}(d) << 1;
         }
 
         return value;
