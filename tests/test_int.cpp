@@ -32,6 +32,19 @@ public:
         REQUIRE(Int(89999).small_div(99) == 909);
         REQUIRE(Int(99999).small_div(9999) == 10);
     }
+
+    static void div_mod()
+    {
+        REQUIRE(Int(-1).div_mod(-1) == std::pair{Int(1), Int(0)});
+        REQUIRE(Int(-1).div_mod(1) == std::pair{Int(-1), Int(0)});
+        REQUIRE(Int(1).div_mod(-1) == std::pair{Int(-1), Int(0)});
+        REQUIRE(Int(1).div_mod(1) == std::pair{Int(1), Int(0)});
+
+        REQUIRE(Int(5).div_mod(2) == std::pair{Int(2), Int(1)});
+        REQUIRE(Int(12345).div_mod(54321) == std::pair{Int(0), Int(12345)});
+        REQUIRE(Int(54321).div_mod(12345) == std::pair{Int(4), Int(4941)});
+        REQUIRE(Int("987654321").div_mod("123456789") == std::pair{Int(8), Int(9)});
+    }
 };
 
 } // namespace pyincpp::internal
@@ -41,6 +54,7 @@ TEST_CASE("Int")
     SECTION("private")
     {
         pyincpp::internal::PrivateTester::small_op();
+        pyincpp::internal::PrivateTester::div_mod();
     }
 
     SECTION("basics")

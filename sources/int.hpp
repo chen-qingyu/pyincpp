@@ -159,43 +159,77 @@ private:
     {
     }
 
-    // Multiply with small int, for / and %
-    Int small_mul(int n) const
+    // Multiply with small int, for div_mod, O(N)
+    Int& small_mul(int n)
     {
         assert(is_positive());
         assert(n > 0 && n < BASE);
-
-        Int result{1, std::vector<int>(chunks_.size() + 1, 0)};
 
         int carry = 0;
         for (int i = 0; i < chunks_.size(); ++i)
         {
             int tmp = chunks_[i] * n + carry;
-            result.chunks_[i] = tmp % BASE;
+            chunks_[i] = tmp % BASE;
             carry = tmp / BASE;
         }
-        result.chunks_.back() = carry;
+        chunks_.push_back(carry);
 
-        return result.trim();
+        return trim();
     }
 
-    // Divide with small int, for / and %
-    Int small_div(int n) const
+    // Divide with small int, for div_mod, O(N)
+    Int& small_div(int n)
     {
         assert(is_positive());
         assert(n > 0 && n < BASE);
 
-        Int result{1, std::vector<int>()};
-
         int remainder = 0;
-        for (auto it = chunks_.rbegin(); it != chunks_.rend(); ++it)
+        for (int i = chunks_.size() - 1; i >= 0; --i)
         {
-            int tmp = remainder * BASE + *it;
-            result.chunks_.insert(result.chunks_.begin(), tmp / n);
+            int tmp = remainder * BASE + chunks_[i];
+            chunks_[i] = tmp / n;
             remainder = tmp % n;
         }
 
-        return result.trim();
+        return trim();
+    }
+
+    // Simultaneously calculate the quotient and remainder. O(N^2)
+    std::pair<Int, Int> div_mod(const Int& rhs) const
+    {
+        // if rhs is zero, throw an exception
+        internal::check_zero(rhs.sign_);
+
+        // if this.abs() < rhs.abs(), just return {0, *this}
+        if (digits() < rhs.digits())
+        {
+            return {0, *this};
+        }
+
+        // dividend, divisor, temporary quotient, accumulated quotient
+        Int a = abs(), b = rhs.abs(), tmp = 1, q = 0;
+
+        // double ~ left shift, O(log(2^N))) * O(N) = O(N^2)
+        while (a.abs_cmp(b) >= 0)
+        {
+            b.small_mul(2);
+            tmp.small_mul(2);
+        }
+
+        // halve ~ right shift, O(log(2^N))) * O(N) = O(N^2)
+        while (tmp.is_positive())
+        {
+            if (a.abs_cmp(b) >= 0)
+            {
+                a -= b;
+                q += tmp;
+            }
+            b.small_div(2);
+            tmp.small_div(2);
+        }
+
+        // now q is the quotient.abs and a is the remainder
+        return {sign_ == rhs.sign_ ? q.trim() : -q.trim(), a.trim()};
     }
 
 public:
@@ -477,7 +511,7 @@ public:
         // normalize
         const auto& a = chunks_;
         const auto& b = rhs.chunks_;
-        Int result{sign_ == rhs.sign_ ? 1 : -1, std::vector<int>(a.size() + b.size())}; // the sign of result is depends on the sign of operands
+        Int result{sign_ == rhs.sign_ ? 1 : -1, std::vector<int>(a.size() + b.size())};
         auto& c = result.chunks_;
 
         // calculate
@@ -497,92 +531,13 @@ public:
     /// Return this /= `rhs` (not zero).
     Int& operator/=(const Int& rhs)
     {
-        // if rhs is zero, throw an exception
-        internal::check_zero(rhs.sign_);
-
-        // if this.abs() < rhs.abs(), just return 0
-        if (digits() < rhs.digits())
-        {
-            return *this = 0;
-        }
-
-        // now, the sign of two integers is not zero
-
-        // prepare variables
-        int size = chunks_.size() - rhs.chunks_.size() + 1;
-
-        Int tmp;       // intermediate variable for rhs * 10^i
-        tmp.sign_ = 1; // positive
-
-        // tmp = rhs * 10^(size), not size-1, since the for loop will erase first, so tmp is rhs * 10^(size-1) at first
-        tmp.chunks_ = std::vector<int>(size, 0);
-        tmp.chunks_.insert(tmp.chunks_.end(), rhs.chunks_.begin(), rhs.chunks_.end());
-
-        Int result;
-        result.sign_ = (sign_ == rhs.sign_ ? 1 : -1); // the sign is depends on the sign of operands
-        result.chunks_.resize(size);
-
-        sign_ = 1;
-
-        // calculation
-        for (int i = size - 1; i >= 0; --i)
-        {
-            // tmp = rhs * 10^i in O(1), I'm a fxxking genius
-            // after testing, found that use vector is very faster than use deque `tmp.chunks_.pop_front();`
-            // my guess is that deque's various operations take longer than vector's
-            tmp.chunks_.erase(tmp.chunks_.begin());
-
-            while (*this >= tmp) // <= 9 loops, so O(1)
-            {
-                result.chunks_[i]++;
-                *this -= tmp;
-            }
-        }
-
-        return *this = result.trim();
+        return *this = div_mod(rhs).first;
     }
 
     /// Return this %= `rhs` (not zero).
     Int& operator%=(const Int& rhs)
     {
-        // if rhs is zero, throw an exception
-        internal::check_zero(rhs.sign_);
-
-        // if this.abs() < rhs.abs(), just return this
-        if (digits() < rhs.digits())
-        {
-            return *this;
-        }
-
-        // now, the sign of two integers is not zero
-
-        // prepare variables
-        int size = chunks_.size() - rhs.chunks_.size() + 1;
-
-        sign_ = 1;
-
-        Int tmp;       // intermediate variable for rhs * 10^i
-        tmp.sign_ = 1; // positive
-
-        // tmp = rhs * 10^(size), not size-1, since the for loop will erase first, so tmp is rhs * 10^(size-1) at first
-        tmp.chunks_ = std::vector<int>(size, 0);
-        tmp.chunks_.insert(tmp.chunks_.end(), rhs.chunks_.begin(), rhs.chunks_.end());
-
-        // calculation
-        for (int i = 0; i < size; ++i)
-        {
-            // tmp = rhs * 10^i in O(1), I'm a fxxking genius
-            // after testing, found that use vector is very faster than use deque `tmp.chunks_.pop_front();`
-            // my guess is that deque's various operations take longer than vector's
-            tmp.chunks_.erase(tmp.chunks_.begin());
-
-            while (*this >= tmp) // <= 9 loops, so O(1)
-            {
-                *this -= tmp;
-            }
-        }
-
-        return trim();
+        return *this = div_mod(rhs).second;
     }
 
     /// Increment the value by 1 quickly.
