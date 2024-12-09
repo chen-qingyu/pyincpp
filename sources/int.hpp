@@ -11,24 +11,31 @@
 namespace pyincpp
 {
 
+namespace internal
+{
+class PrivateTester;
+}
+
 /// Int provides support for big integer arithmetic.
 class Int
 {
+    friend class internal::PrivateTester;
+
 private:
     // Base radix of digits.
-    static constexpr int BASE = 10;
+    static constexpr int BASE = 10000;
 
     // Number of decimal digits per chunk.
-    static constexpr int DIGITS_PER_CHUNK = 1; // std::ceil(std::log10(BASE));
+    static constexpr int DIGITS_PER_CHUNK = 4; // std::ceil(std::log10(BASE));
 
     // Sign of integer, 1 is positive, -1 is negative, and 0 is zero.
     signed char sign_;
 
     // List of digits, represent absolute value of the integer, little endian.
-    // Example: `12345000`
+    // Example: `123456789`
     // ```
-    // chunk: 0 0 0 5 4 3 2 1
-    // index: 0 1 2 3 4 5 6 7
+    // chunk: 6789 2345 0001
+    // index: 0    1    2
     // ```
     std::vector<int> chunks_;
 
@@ -152,6 +159,45 @@ private:
     {
     }
 
+    // Multiply with small int, for / and %
+    Int small_mul(int n) const
+    {
+        assert(is_positive());
+        assert(n > 0 && n < BASE);
+
+        Int result{1, std::vector<int>(chunks_.size() + 1, 0)};
+
+        int carry = 0;
+        for (int i = 0; i < chunks_.size(); ++i)
+        {
+            int tmp = chunks_[i] * n + carry;
+            result.chunks_[i] = tmp % BASE;
+            carry = tmp / BASE;
+        }
+        result.chunks_.back() = carry;
+
+        return result.trim();
+    }
+
+    // Divide with small int, for / and %
+    Int small_div(int n) const
+    {
+        assert(is_positive());
+        assert(n > 0 && n < BASE);
+
+        Int result{1, std::vector<int>()};
+
+        int remainder = 0;
+        for (auto it = chunks_.rbegin(); it != chunks_.rend(); ++it)
+        {
+            int tmp = remainder * BASE + *it;
+            result.chunks_.insert(result.chunks_.begin(), tmp / n);
+            remainder = tmp % n;
+        }
+
+        return result.trim();
+    }
+
 public:
     /*
      * Constructor
@@ -179,6 +225,7 @@ public:
         }
 
         sign_ = (chars[0] == '-' ? -1 : 1);
+
         // skip symbol
         std::string_view digits(chars + (chars[0] == '-' || chars[0] == '+'), chars + len);
 
@@ -187,14 +234,14 @@ public:
 
         // every DIGITS_PER_CHUNK digits into a chunk (align right)
         int chunk = 0;
-        int idx = chunks_len - 1;
+        int idx = chunks_len;
         for (int i = 0; i < digits.size(); ++i)
         {
             chunk = chunk * 10 + (digits[i] - '0');
-            // I spent 2 hours for finding this equation...
+            // I think maybe it's not the fastest, but it's the most elegant
             if ((i + 1) % DIGITS_PER_CHUNK == digits.size() % DIGITS_PER_CHUNK)
             {
-                chunks_[idx--] = chunk;
+                chunks_[--idx] = chunk;
                 chunk = 0;
             }
         }
@@ -806,44 +853,40 @@ public:
         return (a * b).abs() / gcd(a, b); // LCM = |a * b| / GCD
     }
 
-    /// Return a non-negative random integer (with a specific number of `digits`).
+    /// Generate a random integer in [`a`, `b`].
     ///
-    /// Using hardware device to generate true random integer if possible.
-    ///
-    /// If `digits` is not specified, it will generate a random integer with digits in [0, 4300],
-    /// since the default limit of Python's int is 4300 digits.
-    static Int random(int digits = -1)
+    /// ### Example
+    /// ```
+    /// random(0, 9); // x in [0, 9]
+    /// random(1, 6); // x in [1, 6]
+    /// ```
+    static Int random(const Int& a, const Int& b)
     {
-        if (digits < -1)
+        if (b < a)
         {
-            throw std::runtime_error("Error: `digits` must be a non-negative integer or default = -1.");
+            throw std::runtime_error("Error: Invalid range.");
         }
 
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<int> digit(0, BASE - 1);
+        // TODO: TAOCP Chapter 3
 
-        // the default limit of Python's int is 4300 digits as provided in `sys.int_info.default_max_str_digits`
-        // see: https://docs.python.org/3/library/stdtypes.html#integer-string-conversion-length-limitation
-        std::uniform_int_distribution<int> digits_limit(0, 4300 / DIGITS_PER_CHUNK);
+        return a;
+    }
 
-        Int randint;
-        randint.chunks_.resize(digits == -1 ? digits_limit(gen) : digits / DIGITS_PER_CHUNK); // may be 0
-        randint.sign_ = randint.chunks_.empty() ? 0 : 1;
-
-        for (auto& d : randint.chunks_)
+    /// Generate a random integer of a specified number of `digits`.
+    ///
+    /// ### Example
+    /// ```
+    /// random(1); // x in [1, 9]
+    /// random(3); // x in [100, 999]
+    /// ```
+    static Int random(int digits)
+    {
+        if (digits <= 0)
         {
-            d = digit(gen);
+            throw std::runtime_error("Error: `digits` must be a positive integer.");
         }
 
-        // reset most significant digit if is 0
-        if (!randint.chunks_.empty() && randint.chunks_.back() == 0)
-        {
-            std::uniform_int_distribution<int> most_digit(1, 9);
-            randint.chunks_.back() = most_digit(gen);
-        }
-
-        return randint;
+        return random(pow(10, digits - 1), --pow(10, digits));
     }
 
     /*

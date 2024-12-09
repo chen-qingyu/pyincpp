@@ -37,8 +37,8 @@ TEST_CASE("Usage")
     REQUIRE(Int::pow("1024", "1024", "100") == "76");
     // Int factorial
     REQUIRE(Int("5").factorial().factorial() == "6689502913449127057588118054090372586752746333138029810295671352301633557244962989366874165271984981308157637893214090552534408589408121859898481114389650005964960521256960000000000000000000000000000");
-    // get random Int, using hardware device to generate true random integer if possible
-    REQUIRE(Int::random().digits() <= 4300);
+    // get random Int of specified number of digits
+    REQUIRE(Int::random(1024).digits() == 1024);
     // calculate the next prime that greater than this
     REQUIRE(Int(0).next_prime() == "2");
 

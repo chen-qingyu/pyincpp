@@ -78,8 +78,8 @@ Int("18446744073709551617") + Int("18446744073709551617"); // 368934881474191032
 Int::pow("1024", "1024", "100"); // 76
 // Int factorial
 Int("5").factorial().factorial(); // 668950291344912705758811805409037258675274633313802981029567135...
-// get random Int, using hardware device to generate true random integer if possible
-Int::random(); // 2379575921434838751469952249632783251093957333629022509960142131113090672699644921...
+// get random Int of specified number of digits
+Int::random(1024); // 237957592143483875146995224963278325109395733362902250996014213111309067269964...
 // calculate the next prime that greater than this
 Int(0).next_prime(); // 2
 

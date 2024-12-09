@@ -7,6 +7,7 @@
 #define UTILITY_HPP
 
 #include <algorithm>   // std::copy std::find std::rotate ...
+#include <cassert>     // assert
 #include <climits>     // INT_MAX
 #include <cmath>       // std::abs std::pow std::sqrt std::atan2 std::hypot INFINITY NAN
 #include <cstring>     // std::strlen

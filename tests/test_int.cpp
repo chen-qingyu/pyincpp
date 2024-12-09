@@ -4,8 +4,45 @@
 
 using namespace pyincpp;
 
+namespace pyincpp::internal
+{
+
+class PrivateTester
+{
+public:
+    static void small_op()
+    {
+        REQUIRE(Int(1).small_mul(1) == 1);
+        REQUIRE(Int(2).small_mul(1) == 2);
+        REQUIRE(Int(1).small_mul(2) == 2);
+        REQUIRE(Int(9999).small_mul(2) == 19998);
+        REQUIRE(Int(9999).small_mul(9999) == 99980001);
+        REQUIRE(Int(99999).small_mul(99) == 9899901);
+        REQUIRE(Int(99998).small_mul(99) == 9899802);
+        REQUIRE(Int(89999).small_mul(99) == 8909901);
+        REQUIRE(Int(99999).small_mul(9999) == 999890001);
+
+        REQUIRE(Int(1).small_div(1) == 1);
+        REQUIRE(Int(2).small_div(1) == 2);
+        REQUIRE(Int(1).small_div(2) == 0);
+        REQUIRE(Int(9999).small_div(2) == 4999);
+        REQUIRE(Int(9999).small_div(9999) == 1);
+        REQUIRE(Int(99999).small_div(99) == 1010);
+        REQUIRE(Int(99998).small_div(99) == 1010);
+        REQUIRE(Int(89999).small_div(99) == 909);
+        REQUIRE(Int(99999).small_div(9999) == 10);
+    }
+};
+
+} // namespace pyincpp::internal
+
 TEST_CASE("Int")
 {
+    SECTION("private")
+    {
+        pyincpp::internal::PrivateTester::small_op();
+    }
+
     SECTION("basics")
     {
         // Int(int integer = 0)
@@ -393,18 +430,12 @@ TEST_CASE("Int")
 
     SECTION("random")
     {
-        REQUIRE_THROWS_MATCHES(Int::random(-2), std::runtime_error, Message("Error: `digits` must be a non-negative integer or default = -1."));
-
-        REQUIRE(Int::random(0) == 0);
+        REQUIRE_THROWS_MATCHES(Int::random(0), std::runtime_error, Message("Error: `digits` must be a positive integer."));
 
         REQUIRE(Int::random(1).digits() == 1);
         REQUIRE(Int::random(2).digits() == 2);
         REQUIRE(Int::random(3).digits() == 3);
-
-        for (int i = 0; i < 100; ++i)
-        {
-            REQUIRE(Int::random().digits() <= 4300);
-        }
+        REQUIRE(Int::random(1024).digits() == 1024);
     }
 
     SECTION("print")
