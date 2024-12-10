@@ -22,28 +22,15 @@ public:
         REQUIRE(Int(89999).small_mul(99) == 8909901);
         REQUIRE(Int(99999).small_mul(9999) == 999890001);
 
-        REQUIRE(Int(1).small_div_mod(1) == std::pair{1, 0});
-        REQUIRE(Int(2).small_div_mod(1) == std::pair{2, 0});
-        REQUIRE(Int(1).small_div_mod(2) == std::pair{0, 1});
-        REQUIRE(Int(9999).small_div_mod(2) == std::pair{4999, 1});
-        REQUIRE(Int(9999).small_div_mod(9999) == std::pair{1, 0});
-        REQUIRE(Int(99999).small_div_mod(99) == std::pair{1010, 9});
-        REQUIRE(Int(99998).small_div_mod(99) == std::pair{1010, 8});
-        REQUIRE(Int(89999).small_div_mod(99) == std::pair{909, 8});
-        REQUIRE(Int(99999).small_div_mod(9999) == std::pair{10, 9});
-    }
-
-    static void div_mod()
-    {
-        REQUIRE(Int(-1).div_mod(-1) == std::pair{1, 0});
-        REQUIRE(Int(-1).div_mod(1) == std::pair{-1, 0});
-        REQUIRE(Int(1).div_mod(-1) == std::pair{-1, 0});
-        REQUIRE(Int(1).div_mod(1) == std::pair{1, 0});
-
-        REQUIRE(Int(5).div_mod(2) == std::pair{2, 1});
-        REQUIRE(Int(12345).div_mod(54321) == std::pair{0, 12345});
-        REQUIRE(Int(54321).div_mod(12345) == std::pair{4, 4941});
-        REQUIRE(Int(987654321).div_mod(123456789) == std::pair{8, 9});
+        REQUIRE(Int(1).small_divmod(1) == std::pair{1, 0});
+        REQUIRE(Int(2).small_divmod(1) == std::pair{2, 0});
+        REQUIRE(Int(1).small_divmod(2) == std::pair{0, 1});
+        REQUIRE(Int(9999).small_divmod(2) == std::pair{4999, 1});
+        REQUIRE(Int(9999).small_divmod(9999) == std::pair{1, 0});
+        REQUIRE(Int(99999).small_divmod(99) == std::pair{1010, 9});
+        REQUIRE(Int(99998).small_divmod(99) == std::pair{1010, 8});
+        REQUIRE(Int(89999).small_divmod(99) == std::pair{909, 8});
+        REQUIRE(Int(99999).small_divmod(9999) == std::pair{10, 9});
     }
 };
 
@@ -54,7 +41,6 @@ TEST_CASE("Int")
     SECTION("private")
     {
         pyincpp::internal::PrivateTester::small_op();
-        pyincpp::internal::PrivateTester::div_mod();
     }
 
     SECTION("basics")
@@ -284,6 +270,32 @@ TEST_CASE("Int")
         REQUIRE(zero % negative == "0");
 
         REQUIRE(Int("100000") % Int("1") == "0");
+    }
+
+    SECTION("divmod")
+    {
+        REQUIRE(Int(-5).divmod(-2) == std::pair{2, -1});
+        REQUIRE(Int(-5).divmod(2) == std::pair{-2, -1});
+        REQUIRE(Int(5).divmod(-2) == std::pair{-2, 1});
+        REQUIRE(Int(5).divmod(2) == std::pair{2, 1});
+
+        REQUIRE(Int(12345).divmod(54321) == std::pair{0, 12345});
+        REQUIRE(Int(54321).divmod(12345) == std::pair{4, 4941});
+        REQUIRE(Int(987654321).divmod(123456789) == std::pair{8, 9});
+        REQUIRE(Int(123456789).divmod(987654321) == std::pair{0, 123456789});
+
+        REQUIRE(positive.divmod(100) == std::pair{"184467440737095516", 17});
+        REQUIRE(negative.divmod(100) == std::pair{"-184467440737095516", -17});
+        REQUIRE(zero.divmod(100) == std::pair{0, 0});
+
+        for (Int a = -100; a < 100; ++a)
+        {
+            for (Int b = -100; !b.is_zero() && b < 100; ++b)
+            {
+                auto [q, r] = a.divmod(b);
+                REQUIRE(a == q * b + r);
+            }
+        }
     }
 
     SECTION("factorial")

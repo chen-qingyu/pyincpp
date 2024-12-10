@@ -119,15 +119,15 @@ private:
         trim();
     }
 
-    // This is equal to Python's //
-    // a == (a floor_div b) * b + a cycle_mod b
+    // This is equal to Python's "//".
+    // `a == (a floor_div b) * b + a cycle_mod b`
     static int floor_div(int a, int b)
     {
         return std::floor(double(a) / double(b));
     }
 
-    // This is equal to Python's %
-    // a == (a floor_div b) * b + a cycle_mod b
+    // This is equal to Python's "%".
+    // `a == (a floor_div b) * b + a cycle_mod b`
     static int cycle_mod(int a, int b)
     {
         return a - floor_div(a, b) * b;
@@ -159,7 +159,7 @@ private:
     {
     }
 
-    // Multiply with small int, for div_mod, O(N)
+    // Multiply with small int, for divmod, O(N)
     Int& small_mul(int n)
     {
         assert(is_positive());
@@ -177,8 +177,8 @@ private:
         return trim();
     }
 
-    // Divide with small int, for div_mod, O(N)
-    std::pair<Int&, int> small_div_mod(int n)
+    // Divide with small int, for divmod, O(N)
+    std::pair<Int&, int> small_divmod(int n)
     {
         assert(is_positive());
         assert(n > 0 && n < BASE);
@@ -192,53 +192,6 @@ private:
         }
 
         return {trim(), remainder};
-    }
-
-    // Simultaneously calculate the quotient and remainder. O(N^2)
-    std::pair<Int, Int> div_mod(const Int& rhs)
-    {
-        // if rhs is zero, throw an exception
-        internal::check_zero(rhs.sign_);
-
-        // if this.abs() < rhs.abs(), just return {0, *this}
-        if (digits() < rhs.digits())
-        {
-            return {0, *this};
-        }
-
-        // if rhs < BASE, then use small_div_mod
-        if (rhs.chunks_.size() == 1)
-        {
-            int s = sign_;                               // save this.sign into s
-            sign_ = 1;                                   // abs this
-            auto [q, r] = small_div_mod(rhs.chunks_[0]); // this.abs /= rhs.abs, may change this.sign to 0
-            return {s == rhs.sign_ ? q : -q, s * r};     // r.sign = s
-        }
-
-        // dividend, divisor, temporary quotient, accumulated quotient
-        Int a = abs(), b = rhs.abs(), tmp = 1, q = 0;
-
-        // double ~ left shift, O(log(2^N))) * O(N) = O(N^2)
-        while (a.abs_cmp(b) >= 0)
-        {
-            b.small_mul(2);
-            tmp.small_mul(2);
-        }
-
-        // halve ~ right shift, O(log(2^N))) * O(N) = O(N^2)
-        while (tmp.is_positive())
-        {
-            if (a.abs_cmp(b) >= 0)
-            {
-                a -= b;
-                q += tmp;
-            }
-            b.small_div_mod(2);
-            tmp.small_div_mod(2);
-        }
-
-        // now q is the quotient.abs, a is the remainder with same sign of dividend
-        return {sign_ == rhs.sign_ ? q : -q, sign_ == 1 ? a : -a};
     }
 
 public:
@@ -537,16 +490,67 @@ public:
         return *this = result.trim();
     }
 
-    /// Return this /= `rhs` (not zero).
+    /// Return this /= `rhs`.
+    /// Divide by zero will throw a `runtime_error` exception.
     Int& operator/=(const Int& rhs)
     {
-        return *this = div_mod(rhs).first;
+        return *this = divmod(rhs).first;
     }
 
-    /// Return this %= `rhs` (not zero).
+    /// Return this %= `rhs`.
+    /// Divide by zero will throw a `runtime_error` exception.
     Int& operator%=(const Int& rhs)
     {
-        return *this = div_mod(rhs).second;
+        return *this = divmod(rhs).second;
+    }
+
+    /// Return the quotient and remainder simultaneously.
+    /// `this == (this / rhs) * rhs + this % rhs`
+    /// Divide by zero will throw a `runtime_error` exception.
+    std::pair<Int, Int> divmod(const Int& rhs) const
+    {
+        // if rhs is zero, throw an exception
+        internal::check_zero(rhs.sign_);
+
+        // if this.abs() < rhs.abs(), just return {0, *this}
+        if (digits() < rhs.digits())
+        {
+            return {0, *this};
+        }
+
+        // now, the sign of two integers is not zero
+
+        // if rhs < BASE, then use small_divmod in O(N)
+        if (rhs.chunks_.size() == 1)
+        {
+            auto [q, r] = abs().small_divmod(rhs.chunks_[0]); // this.abs divmod rhs.abs
+            return {sign_ == rhs.sign_ ? q : -q, sign_ * r};  // r.sign = this.sign
+        }
+
+        // dividend, divisor, temporary quotient, accumulated quotient
+        Int a = abs(), b = rhs.abs(), t = 1, q = 0;
+
+        // double ~ left shift, O(log(2^N))) * O(N) = O(N^2)
+        while (a.abs_cmp(b) >= 0)
+        {
+            b.small_mul(2);
+            t.small_mul(2);
+        }
+
+        // halve ~ right shift, O(log(2^N))) * O(N) = O(N^2)
+        while (t.is_positive())
+        {
+            if (a.abs_cmp(b) >= 0)
+            {
+                a -= b;
+                q += t;
+            }
+            b.small_divmod(2);
+            t.small_divmod(2);
+        }
+
+        // now q is the quotient.abs, a is the remainder.abs
+        return {sign_ == rhs.sign_ ? q : -q, sign_ == 1 ? a : -a};
     }
 
     /// Increment the value by 1 quickly.
@@ -623,13 +627,15 @@ public:
         return Int(*this) *= rhs;
     }
 
-    /// Return this / `rhs` (not zero).
+    /// Return this / `rhs`.
+    /// Divide by zero will throw a `runtime_error` exception.
     Int operator/(const Int& rhs) const
     {
         return Int(*this) /= rhs;
     }
 
-    /// Return this % `rhs` (not zero).
+    /// Return this % `rhs`.
+    /// Divide by zero will throw a `runtime_error` exception.
     Int operator%(const Int& rhs) const
     {
         return Int(*this) %= rhs;
