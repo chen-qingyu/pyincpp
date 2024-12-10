@@ -178,7 +178,7 @@ private:
     }
 
     // Divide with small int, for div_mod, O(N)
-    Int& small_div(int n)
+    std::pair<Int&, int> small_div_mod(int n)
     {
         assert(is_positive());
         assert(n > 0 && n < BASE);
@@ -191,11 +191,11 @@ private:
             remainder = tmp % n;
         }
 
-        return trim();
+        return {trim(), remainder};
     }
 
     // Simultaneously calculate the quotient and remainder. O(N^2)
-    std::pair<Int, Int> div_mod(const Int& rhs) const
+    std::pair<Int, Int> div_mod(const Int& rhs)
     {
         // if rhs is zero, throw an exception
         internal::check_zero(rhs.sign_);
@@ -204,6 +204,15 @@ private:
         if (digits() < rhs.digits())
         {
             return {0, *this};
+        }
+
+        // if rhs < BASE, then use small_div_mod
+        if (rhs.chunks_.size() == 1)
+        {
+            int s = sign_;                               // save this.sign into s
+            sign_ = 1;                                   // abs this
+            auto [q, r] = small_div_mod(rhs.chunks_[0]); // this.abs /= rhs.abs, may change this.sign to 0
+            return {s == rhs.sign_ ? q : -q, s * r};     // r.sign = s
         }
 
         // dividend, divisor, temporary quotient, accumulated quotient
@@ -224,12 +233,12 @@ private:
                 a -= b;
                 q += tmp;
             }
-            b.small_div(2);
-            tmp.small_div(2);
+            b.small_div_mod(2);
+            tmp.small_div_mod(2);
         }
 
-        // now q is the quotient.abs and a is the remainder
-        return {sign_ == rhs.sign_ ? q.trim() : -q.trim(), a.trim()};
+        // now q is the quotient.abs, a is the remainder with same sign of dividend
+        return {sign_ == rhs.sign_ ? q : -q, sign_ == 1 ? a : -a};
     }
 
 public:
@@ -677,8 +686,8 @@ public:
     }
 
     /// Convert the integer to some integer of type T.
-    /// @tparam T an integer type : int, long, and any custom type that support basic arithmetic operations.
-    template <typename T>
+    /// @tparam T an integer type : int (default), long, or any custom type that support basic arithmetic operations.
+    template <typename T = int>
     T to_integer() const
     {
         T result = 0;
