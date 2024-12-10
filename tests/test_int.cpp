@@ -446,13 +446,28 @@ TEST_CASE("Int")
     {
         REQUIRE_THROWS_MATCHES(Int::random(0), std::runtime_error, Message("Error: `digits` must be a positive integer."));
 
-        REQUIRE(Int::random(1).digits() == 1);
-        REQUIRE(Int::random(2).digits() == 2);
-        REQUIRE(Int::random(3).digits() == 3);
-        REQUIRE(Int::random(4).digits() == 4);
-        REQUIRE(Int::random(5).digits() == 5);
+        for (int d = 1; d < 10; d++)
+        {
+            REQUIRE(Int::random(d).digits() == d);
+        }
+
         REQUIRE(Int::random(1024).digits() == 1024);
-        REQUIRE(Int::random(4300).digits() == 4300);
+
+        Int sum = 0;
+        for (int i = 0; i < 1000; i++) // sum should ~= 5 * 1000
+        {
+            sum += Int::random(1); // mean = 5
+        }
+        REQUIRE(sum > int(5 * 1000 * 0.9));
+        REQUIRE(sum < int(5 * 1000 * 1.1));
+
+        sum = 0;
+        for (int i = 0; i < 1000; i++) // sum should ~= 55000 * 1000
+        {
+            sum += Int::random(5); // mean = 55000
+        }
+        REQUIRE(sum > int(55000 * 1000 * 0.95));
+        REQUIRE(sum < int(55000 * 1000 * 1.05));
     }
 
     SECTION("print")

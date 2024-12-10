@@ -78,7 +78,7 @@ private:
         return true;
     }
 
-    // Increment the absolute value by 1 quickly.
+    // Increase the absolute value by 1 quickly.
     // Require this != 0
     void abs_inc()
     {
@@ -101,7 +101,7 @@ private:
         // keep sign unchanged
     }
 
-    // Decrement the absolute value by 1 quickly.
+    // Decrease the absolute value by 1 quickly.
     // Require this != 0
     void abs_dec()
     {
