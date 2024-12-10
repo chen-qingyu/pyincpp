@@ -360,7 +360,7 @@ TEST_CASE("pyincpp::Int vs Other", "[int]")
 /*
 Run with: `xmake config -m release && xmake build bench && xmake run bench --benchmark-no-analysis -i [int]`
 
-Result (2024.12.09, Windows 10, Catch2 v3.7.1):
+Result (2024.12.10, Windows 10, Catch2 v3.7.1):
 
 -------------------------------------------------------------------------------
 pyincpp::Int vs Other
@@ -370,55 +370,55 @@ benches\pyincpp_int_vs_other_int.cpp(12)
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-construct (pyincpp)                            100            95    190.895 ns
-construct (BigInt)                             100            72    251.833 ns
-construct (infint)                             100            41    419.976 ns
-construct (bigint)                             100            31     599.29 ns
-construct (BigNumber)                          100           118    153.178 ns
-+ (pyincpp)                                    100            75    245.707 ns
-+ (BigInt)                                     100             6     3.4215 us
-+ (infint)                                     100            99    181.838 ns
-+ (bigint)                                     100           145    125.614 ns
-+ (BigNumber)                                  100             8    2.51575 us
-- (pyincpp)                                    100            72    251.111 ns
-- (BigInt)                                     100             5     3.6316 us
-- (infint)                                     100           103    175.524 ns
-- (bigint)                                     100           163    111.773 ns
-- (BigNumber)                                  100             1     37.369 us
-* (pyincpp)                                    100            23    799.652 ns
-* (BigInt)                                     100             1    121.082 us
-* (infint)                                     100            49     376.02 ns
-* (bigint)                                     100             8     2.2785 us
-* (BigNumber)                                  100             1    217.865 us
-/ (pyincpp)                                    100            12    1.63258 us
-/ (BigInt)                                     100             1     36.917 us
-/ (infint)                                     100             1     23.516 us
-/ (BigNumber)                                  100             1    285.437 us
-% (pyincpp)                                    100            12    1.63858 us
-% (BigInt)                                     100             1     77.951 us
-% (infint)                                     100             1     23.789 us
-++ (pyincpp)                                   100           249    72.3655 ns
-++ (BigInt)                                    100             6       3.44 us
-++ (infint)                                    100           209         86 ns
-++ (BigNumber)                                 100             8      2.424 us
-> (pyincpp)                                    100          4361    3.88191 ns
-> (BigInt)                                     100          1622    10.9673 ns
-> (infint)                                     100          4846     3.8376 ns
-> (bigint)                                     100          4558     4.1312 ns
-> (BigNumber)                                  100            38    499.711 ns
-gcd (pyincpp)                                  100             3      8.403 us
-gcd (BigInt)                                   100             1    237.707 us
-pow (pyincpp)                                  100             1     51.987 us
-pow (BigInt)                                   100             1    4.02956 ms
-pow (bigint)                                   100             1    5.38032 ms
-pow (BigNumber)                                100             1    20.8601 ms
-sqrt (pyincpp)                                 100             1    149.425 us
-sqrt (BigInt)                                  100             1    2.91216 ms
-sqrt (infint)                                  100             1    1.01735 ms
-random (pyincpp)                               100             1    308.696 us
-random (BigInt)                                100             2     9.6545 us
-factorial (pyincpp)                            100             1     33.216 us
-factorial (bigint)                             100             2    11.9695 us
+construct (pyincpp)                            100            93    194.892 ns
+construct (BigInt)                             100            70      243.8 ns
+construct (infint)                             100            44    413.636 ns
+construct (bigint)                             100            31    1.15077 us
+construct (BigNumber)                          100           120    150.258 ns
++ (pyincpp)                                    100            75     242.68 ns
++ (BigInt)                                     100             6      3.412 us
++ (infint)                                     100           100     178.96 ns
++ (bigint)                                     100           143    129.021 ns
++ (BigNumber)                                  100             8     2.4655 us
+- (pyincpp)                                    100            72    249.472 ns
+- (BigInt)                                     100             5     3.6136 us
+- (infint)                                     100           104    172.212 ns
+- (bigint)                                     100           161    110.404 ns
+- (BigNumber)                                  100             1      36.91 us
+* (pyincpp)                                    100            23    807.174 ns
+* (BigInt)                                     100             1      120.1 us
+* (infint)                                     100            48    373.583 ns
+* (bigint)                                     100             8    2.27013 us
+* (BigNumber)                                  100             1    215.286 us
+/ (pyincpp)                                    100            11    1.63845 us
+/ (BigInt)                                     100             1     36.553 us
+/ (infint)                                     100             1      23.56 us
+/ (BigNumber)                                  100             1    285.638 us
+% (pyincpp)                                    100            11      1.639 us
+% (BigInt)                                     100             1     77.325 us
+% (infint)                                     100             1     23.462 us
+++ (pyincpp)                                   100           250      71.72 ns
+++ (BigInt)                                    100             6     3.4155 us
+++ (infint)                                    100           209    85.4211 ns
+++ (BigNumber)                                 100             8    2.38063 us
+> (pyincpp)                                    100          4629    3.86261 ns
+> (BigInt)                                     100          1641    10.8873 ns
+> (infint)                                     100          4004    4.46079 ns
+> (bigint)                                     100          5025    3.56378 ns
+> (BigNumber)                                  100            37    485.676 ns
+gcd (pyincpp)                                  100             3      8.345 us
+gcd (BigInt)                                   100             1    238.947 us
+pow (pyincpp)                                  100             1     48.379 us
+pow (BigInt)                                   100             1    4.01147 ms
+pow (bigint)                                   100             1    5.38484 ms
+pow (BigNumber)                                100             1    20.9088 ms
+sqrt (pyincpp)                                 100             1     93.623 us
+sqrt (BigInt)                                  100             1    2.87853 ms
+sqrt (infint)                                  100             1    1.00549 ms
+random (pyincpp)                               100             6    3.13183 us
+random (BigInt)                                100             2     9.5865 us
+factorial (pyincpp)                            100             1     32.737 us
+factorial (bigint)                             100             2     11.877 us
 
 ===============================================================================
 */
