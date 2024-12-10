@@ -449,7 +449,10 @@ TEST_CASE("Int")
         REQUIRE(Int::random(1).digits() == 1);
         REQUIRE(Int::random(2).digits() == 2);
         REQUIRE(Int::random(3).digits() == 3);
+        REQUIRE(Int::random(4).digits() == 4);
+        REQUIRE(Int::random(5).digits() == 5);
         REQUIRE(Int::random(1024).digits() == 1024);
+        REQUIRE(Int::random(4300).digits() == 4300);
     }
 
     SECTION("print")

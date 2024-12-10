@@ -850,7 +850,22 @@ public:
             throw std::runtime_error("Error: `digits` must be a positive integer.");
         }
 
-        return random(pow(10, digits - 1), --pow(10, digits));
+        std::mt19937 rd(std::random_device{}());
+        std::uniform_int_distribution<int> gen(0, BASE - 1);
+
+        // little chunks
+        Int rand{1, std::vector<int>((digits - 1) / DIGITS_PER_CHUNK)};
+        for (auto& d : rand.chunks_)
+        {
+            d = gen(rd);
+        }
+
+        // most significant chunk
+        int d = (digits - 1) % DIGITS_PER_CHUNK + 1;
+        std::uniform_int_distribution<int> most_chunk(std::pow(10, d - 1), std::pow(10, d) - 1);
+        rand.chunks_.push_back(most_chunk(rd));
+
+        return rand;
     }
 
     /*
