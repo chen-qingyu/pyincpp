@@ -6,12 +6,12 @@
 #ifndef INT_HPP
 #define INT_HPP
 
-#include "utility.hpp"
+#include "detail.hpp"
 
 namespace pyincpp
 {
 
-namespace internal
+namespace detail
 {
 class PrivateTester;
 }
@@ -19,7 +19,7 @@ class PrivateTester;
 /// Int provides support for big integer arithmetic.
 class Int
 {
-    friend class internal::PrivateTester;
+    friend class detail::PrivateTester;
 
 private:
     // Base radix of digits.
@@ -510,7 +510,7 @@ public:
     std::pair<Int, Int> divmod(const Int& rhs) const
     {
         // if rhs is zero, throw an exception
-        internal::check_zero(rhs.sign_);
+        detail::check_zero(rhs.sign_);
 
         // if this.abs() < rhs.abs(), just return {0, *this}
         if (digits() < rhs.digits())
@@ -810,7 +810,7 @@ public:
     /// Calculate the greatest common divisor of two integers.
     static Int gcd(const Int& a, const Int& b)
     {
-        return internal::gcd(a, b);
+        return detail::gcd(a, b);
     }
 
     /// Calculate the least common multiple of two integers.

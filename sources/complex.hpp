@@ -6,7 +6,7 @@
 #ifndef COMPLEX_HPP
 #define COMPLEX_HPP
 
-#include "utility.hpp"
+#include "detail.hpp"
 
 namespace pyincpp
 {
@@ -174,7 +174,7 @@ public:
     /// Return this / `rhs` (not zero).
     Complex operator/(const Complex& rhs) const
     {
-        internal::check_zero(rhs);
+        detail::check_zero(rhs);
 
         double den = rhs.real_ * rhs.real_ + rhs.imag_ * rhs.imag_;
         return Complex((real_ * rhs.real_ + imag_ * rhs.imag_) / den, (imag_ * rhs.real_ - real_ * rhs.imag_) / den);

@@ -6,7 +6,7 @@
 #ifndef FRACTION_HPP
 #define FRACTION_HPP
 
-#include "utility.hpp"
+#include "detail.hpp"
 
 namespace pyincpp
 {
@@ -32,7 +32,7 @@ public:
         , denominator_(denominator)
     {
         // make sure the denominator is not zero
-        internal::check_zero(denominator_);
+        detail::check_zero(denominator_);
 
         // make sure the denominator is a positive number
         if (denominator_ < 0)
@@ -213,7 +213,7 @@ public:
     /// Return this % `rhs` (not zero).
     Fraction operator%(const Fraction& rhs) const
     {
-        internal::check_zero(rhs);
+        detail::check_zero(rhs);
 
         return Fraction((numerator_ * rhs.denominator_) % (rhs.numerator_ * denominator_), denominator_ * rhs.denominator_);
     }
@@ -221,7 +221,7 @@ public:
     /// Calculate the greatest common divisor of two fractions.
     static Fraction gcd(const Fraction& a, const Fraction& b)
     {
-        return internal::gcd(a, b);
+        return detail::gcd(a, b);
     }
 
     /// Calculate the least common multiple of two fractions.

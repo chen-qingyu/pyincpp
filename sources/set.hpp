@@ -6,7 +6,7 @@
 #ifndef SET_HPP
 #define SET_HPP
 
-#include "utility.hpp"
+#include "detail.hpp"
 
 #include <set>
 
@@ -138,7 +138,7 @@ public:
     /// Get the smallest item of the set.
     T min() const
     {
-        internal::check_empty(size());
+        detail::check_empty(size());
 
         return *set_.cbegin();
     }
@@ -146,7 +146,7 @@ public:
     /// Get the largest item of the set.
     T max() const
     {
-        internal::check_empty(size());
+        detail::check_empty(size());
 
         return *set_.crbegin();
     }
@@ -158,7 +158,7 @@ public:
     /// Add `element` to the set. Return `true` if the `element` was newly inserted.
     bool add(const T& element)
     {
-        internal::check_full(size(), INT_MAX);
+        detail::check_full(size(), INT_MAX);
 
         return set_.insert(element).second;
     }
@@ -172,7 +172,7 @@ public:
     /// Remove and return an arbitrary element from the set.
     T pop()
     {
-        internal::check_empty(size());
+        detail::check_empty(size());
 
         return set_.extract(set_.begin()).value();
     }
@@ -265,7 +265,7 @@ public:
     /// Output the set to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Set& set)
     {
-        return internal::print(os, set.begin(), set.end(), '{', '}');
+        return detail::print(os, set.begin(), set.end(), '{', '}');
     }
 };
 

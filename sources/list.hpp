@@ -6,7 +6,7 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
-#include "utility.hpp"
+#include "detail.hpp"
 
 namespace pyincpp
 {
@@ -89,7 +89,7 @@ public:
     /// Index can be negative, like Python's list: list[-1] gets the last element.
     T& operator[](int index)
     {
-        internal::check_bounds(index, -size(), size());
+        detail::check_bounds(index, -size(), size());
 
         return vector_[index >= 0 ? index : index + size()];
     }
@@ -151,8 +151,8 @@ public:
     /// Index can be negative.
     void insert(int index, const T& element)
     {
-        internal::check_full(size(), INT_MAX);
-        internal::check_bounds(index, -size(), size() + 1);
+        detail::check_full(size(), INT_MAX);
+        detail::check_bounds(index, -size(), size() + 1);
 
         index = index >= 0 ? index : index + size();
         vector_.insert(begin() + index, element);
@@ -162,8 +162,8 @@ public:
     /// Index can be negative.
     T remove(int index)
     {
-        internal::check_empty(size());
-        internal::check_bounds(index, -size(), size());
+        detail::check_empty(size());
+        detail::check_bounds(index, -size(), size());
 
         index = index >= 0 ? index : index + size();
         T element = std::move(vector_[index]);
@@ -175,7 +175,7 @@ public:
     /// Append the specified `element` to the end of the list.
     List& operator+=(const T& element)
     {
-        internal::check_full(size(), INT_MAX);
+        detail::check_full(size(), INT_MAX);
 
         vector_.push_back(element);
 
@@ -185,7 +185,7 @@ public:
     /// Extend the specified `list` to the end of the list.
     List& operator+=(const List& list)
     {
-        internal::check_full(size() / 2 + list.size() / 2, INT_MAX / 2);
+        detail::check_full(size() / 2 + list.size() / 2, INT_MAX / 2);
 
         vector_.insert(end(), list.begin(), list.end());
 
@@ -291,8 +291,8 @@ public:
     /// Erase the contents of the range [`start`, `stop`) of the list.
     List& erase(int start, int stop)
     {
-        internal::check_bounds(start, 0, size() + 1);
-        internal::check_bounds(stop, 0, size() + 1);
+        detail::check_bounds(start, 0, size() + 1);
+        detail::check_bounds(stop, 0, size() + 1);
 
         vector_.erase(vector_.begin() + start, vector_.begin() + stop);
 
@@ -344,8 +344,8 @@ public:
             throw std::runtime_error("Error: Slice step can not be zero.");
         }
 
-        internal::check_bounds(start, -size(), size());
-        internal::check_bounds(stop, -size() - 1, size() + 1);
+        detail::check_bounds(start, -size(), size());
+        detail::check_bounds(stop, -size() - 1, size() + 1);
 
         // convert
         start = start < 0 ? start + size() : start;
@@ -387,7 +387,7 @@ public:
             throw std::runtime_error("Error: Times to repeat can not be less than zero.");
         }
 
-        internal::check_full(size() * times, INT_MAX);
+        detail::check_full(size() * times, INT_MAX);
 
         std::vector<T> buffer(size() * times);
         for (int part = 0; part < times; part++)
@@ -411,7 +411,7 @@ public:
     /// Output the list to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const List& list)
     {
-        return internal::print(os, list.begin(), list.end(), '[', ']');
+        return detail::print(os, list.begin(), list.end(), '[', ']');
     }
 };
 

@@ -6,7 +6,7 @@
 #ifndef TUPLE_HPP
 #define TUPLE_HPP
 
-#include "utility.hpp"
+#include "detail.hpp"
 
 namespace pyincpp
 {
@@ -133,7 +133,7 @@ constexpr decltype(auto) make_tuple(const Ts&... values)
     return Tuple<Ts...>(values...);
 }
 
-namespace internal
+namespace detail
 {
 
 template <typename... Ts>
@@ -146,7 +146,7 @@ constexpr static void print(std::ostream& os, const Tuple<Ts...>& tuple)
     }
 }
 
-} // namespace internal
+} // namespace detail
 
 /*
  * Print
@@ -162,7 +162,7 @@ constexpr std::ostream& operator<<(std::ostream& os, const Tuple<Ts...>& tuple)
     }
 
     os << "(";
-    internal::print(os, tuple);
+    detail::print(os, tuple);
     os << ")";
 
     return os;

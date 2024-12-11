@@ -6,7 +6,7 @@
 #ifndef DEQUE_HPP
 #define DEQUE_HPP
 
-#include "utility.hpp"
+#include "detail.hpp"
 
 #include <deque>
 
@@ -90,7 +90,7 @@ public:
     /// Get the last element.
     T& back()
     {
-        internal::check_empty(size());
+        detail::check_empty(size());
 
         return deque_.back();
     }
@@ -104,7 +104,7 @@ public:
     /// Get the first element.
     T& front()
     {
-        internal::check_empty(size());
+        detail::check_empty(size());
 
         return deque_.front();
     }
@@ -118,7 +118,7 @@ public:
     /// Return a reference to the element at specified `index`.
     T& operator[](int index)
     {
-        internal::check_bounds(index, -size(), size());
+        detail::check_bounds(index, -size(), size());
 
         return index >= 0 ? deque_[index] : deque_[index + size()];
     }
@@ -152,7 +152,7 @@ public:
     /// Append the given `element` to the end of the deque.
     void push_back(const T& element)
     {
-        internal::check_full(size(), INT_MAX);
+        detail::check_full(size(), INT_MAX);
 
         deque_.push_back(element);
     }
@@ -160,7 +160,7 @@ public:
     /// Prepend the given `element` to the beginning of the deque.
     void push_front(const T& element)
     {
-        internal::check_full(size(), INT_MAX);
+        detail::check_full(size(), INT_MAX);
 
         deque_.push_front(element);
     }
@@ -169,7 +169,7 @@ public:
     /// If no elements are present, throws an error.
     T pop_back()
     {
-        internal::check_empty(size());
+        detail::check_empty(size());
 
         T data = std::move(deque_.back());
         deque_.pop_back();
@@ -180,7 +180,7 @@ public:
     /// If no elements are present, throws an error.
     T pop_front()
     {
-        internal::check_empty(size());
+        detail::check_empty(size());
 
         T data = std::move(deque_.front());
         deque_.pop_front();
@@ -258,7 +258,7 @@ public:
     /// Output the deque to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Deque& deque)
     {
-        return internal::print(os, deque.begin(), deque.end(), '<', '>');
+        return detail::print(os, deque.begin(), deque.end(), '<', '>');
     }
 };
 

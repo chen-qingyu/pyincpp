@@ -4,7 +4,7 @@
 
 using namespace pyincpp;
 
-namespace pyincpp::internal
+namespace pyincpp::detail
 {
 
 class PrivateTester
@@ -34,13 +34,13 @@ public:
     }
 };
 
-} // namespace pyincpp::internal
+} // namespace pyincpp::detail
 
 TEST_CASE("Int")
 {
     SECTION("private")
     {
-        pyincpp::internal::PrivateTester::small_op();
+        pyincpp::detail::PrivateTester::small_op();
     }
 
     SECTION("basics")

@@ -192,7 +192,7 @@ public:
     /// Add the specified `key` and `value` to the dictionary. Return `true` if the `key` and `value` was newly inserted.
     bool add(const K& key, const V& value)
     {
-        internal::check_full(size(), INT_MAX);
+        detail::check_full(size(), INT_MAX);
 
         return map_.insert({key, value}).second;
     }
@@ -206,7 +206,7 @@ public:
     /// Remove and return an arbitrary key-value pair from the dictionary.
     Pair<K, V> pop()
     {
-        internal::check_empty(size());
+        detail::check_empty(size());
 
         auto node = map_.extract(begin());
         return Pair<K, V>{node.key(), node.mapped()};
@@ -232,7 +232,7 @@ public:
     /// Output the dictionary to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Dict& dict)
     {
-        return internal::print(os, dict.begin(), dict.end(), '{', '}');
+        return detail::print(os, dict.begin(), dict.end(), '{', '}');
     }
 };
 

@@ -1,10 +1,10 @@
-//! @file utility.hpp
+//! @file detail.hpp
 //! @author Chen QingYu <chen_qingyu@qq.com>
-//! @brief Utility functions of PyInCpp.
+//! @brief The internal details of PyInCpp.
 //! @date 2023.01.05
 
-#ifndef UTILITY_HPP
-#define UTILITY_HPP
+#ifndef DETAIL_HPP
+#define DETAIL_HPP
 
 #include <algorithm>   // std::copy std::find std::rotate ...
 #include <cassert>     // assert
@@ -25,7 +25,7 @@
 #include <utility>     // std::initializer_list std::move
 #include <vector>      // std::vector
 
-namespace pyincpp::internal
+namespace pyincpp::detail
 {
 
 // Check whether the index is valid (begin <= pos < end).
@@ -118,6 +118,6 @@ static inline T gcd(T a, T b)
     return a; // a is the GCD
 }
 
-} // namespace pyincpp::internal
+} // namespace pyincpp::detail
 
-#endif // UTILITY_HPP
+#endif // DETAIL_HPP

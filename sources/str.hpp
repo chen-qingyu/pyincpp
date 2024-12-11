@@ -6,7 +6,7 @@
 #ifndef STR_HPP
 #define STR_HPP
 
-#include "utility.hpp"
+#include "detail.hpp"
 
 #include "int.hpp"
 #include "list.hpp"
@@ -192,7 +192,7 @@ public:
     /// Index can be negative, like Python's string: string[-1] gets the last element.
     const char& operator[](int index) const
     {
-        internal::check_bounds(index, -size(), size());
+        detail::check_bounds(index, -size(), size());
 
         return str_[index >= 0 ? index : index + size()];
     }
@@ -536,8 +536,8 @@ public:
     /// Return a copy of the string and erase the contents of the string in the range [`start`, `stop`).
     Str erase(int start, int stop) const
     {
-        internal::check_bounds(start, 0, size() + 1);
-        internal::check_bounds(stop, 0, size() + 1);
+        detail::check_bounds(start, 0, size() + 1);
+        detail::check_bounds(stop, 0, size() + 1);
 
         std::string buffer = str_;
         buffer.erase(buffer.begin() + start, buffer.begin() + stop);
@@ -603,8 +603,8 @@ public:
             throw std::runtime_error("Error: Slice step can not be zero.");
         }
 
-        internal::check_bounds(start, -size(), size());
-        internal::check_bounds(stop, -size() - 1, size() + 1);
+        detail::check_bounds(start, -size(), size());
+        detail::check_bounds(stop, -size() - 1, size() + 1);
 
         // convert
         start = start < 0 ? start + size() : start;
