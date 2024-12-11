@@ -182,7 +182,7 @@ private:
         assert(n > 0 && n < BASE);
 
         int remainder = 0;
-        for (auto& chunk : detail::reverse(chunks_))
+        for (auto& chunk : chunks_ | std::views::reverse)
         {
             int tmp = remainder * BASE + chunk;
             chunk = tmp / n;
@@ -198,7 +198,7 @@ public:
      */
 
     /// Create an integer based on the given `integer` (default = 0).
-    /// @tparam T a primitive integer type : int (default), long, etc.
+    /// @tparam T a primitive integer type: int (default), long, etc.
     template <std::integral T = int>
     Int(T integer = 0)
     {
@@ -682,12 +682,12 @@ public:
     }
 
     /// Convert the integer to some integer of type T.
-    /// @tparam T an integer type : int (default), long, or any custom type that support basic arithmetic operations.
+    /// @tparam T an integer type: int (default), long, or any custom type that support basic arithmetic operations.
     template <typename T = int>
     T to_integer() const
     {
         T result = 0;
-        for (auto& chunk : detail::reverse(chunks_))
+        for (const auto& chunk : chunks_ | std::views::reverse)
         {
             result = result * BASE + chunk;
         }

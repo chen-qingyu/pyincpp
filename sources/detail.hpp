@@ -19,6 +19,7 @@
 #include <numeric>     // std::gcd
 #include <ostream>     // std::ostream
 #include <random>      // std::random_device std::mt19937 std::uniform_int_distribution
+#include <ranges>      // std::views::reverse
 #include <sstream>     // std::ostringstream
 #include <stdexcept>   // std::runtime_error
 #include <string>      // std::string std::getline
@@ -118,31 +119,6 @@ static inline T gcd(T a, T b)
     }
 
     return a; // a is the GCD
-}
-
-template <typename T>
-struct reversion_wrapper
-{
-    T& iterable;
-};
-
-template <typename T>
-auto begin(reversion_wrapper<T> w)
-{
-    return std::rbegin(w.iterable);
-}
-
-template <typename T>
-auto end(reversion_wrapper<T> w)
-{
-    return std::rend(w.iterable);
-}
-
-// Readable & writable reverse for-in adapter.
-template <typename T>
-reversion_wrapper<T> reverse(T&& iterable)
-{
-    return {iterable};
 }
 
 } // namespace pyincpp::detail
