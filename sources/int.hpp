@@ -121,7 +121,8 @@ private:
     // `a == (a floor_div b) * b + a cycle_mod b`
     static int floor_div(int a, int b)
     {
-        return std::floor(double(a) / double(b));
+        int q = a / b;
+        return q * b == a ? q : q - ((a < 0) ^ (b < 0)); // if not modulo and signs different then - 1
     }
 
     // This is equal to Python's "%".
@@ -388,9 +389,9 @@ public:
         // calculate
         for (int i = 0; i < b.size(); ++i)
         {
-            int tmp = a[i] + b[i];
+            int tmp = a[i] + b[i]; // t <= (b-1) + (b-1) < 2*b = 2'000'000'000 < INT_MAX
             a[i] = tmp % BASE;
-            a[i + 1] += tmp / BASE;
+            a[i + 1] += tmp / BASE; // 1 or 0
         }
         for (int i = b.size(); i < a.size() && a[i] >= BASE; ++i) // carry
         {
@@ -433,7 +434,7 @@ public:
         {
             int tmp = a[i] - b[i];
             a[i] = cycle_mod(tmp, BASE);
-            a[i + 1] += floor_div(tmp, BASE);
+            a[i + 1] += floor_div(tmp, BASE); // -1 or 0
         }
         for (int i = b.size(); i < a.size() && a[i] < 0; ++i) // carry
         {

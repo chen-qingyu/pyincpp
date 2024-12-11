@@ -201,7 +201,7 @@ TEST_CASE("Int")
         REQUIRE(zero + zero == "0");
         REQUIRE(zero + negative == "-18446744073709551617");
 
-        REQUIRE(Int("99999") + Int("1") == "100000");
+        REQUIRE(Int("999999999") + Int("1") == "1000000000");
     }
 
     SECTION("minus")
@@ -218,7 +218,7 @@ TEST_CASE("Int")
         REQUIRE(zero - zero == "0");
         REQUIRE(zero - negative == "18446744073709551617");
 
-        REQUIRE(Int("100000") - Int("1") == "99999");
+        REQUIRE(Int("1000000000") - Int("1") == "999999999");
     }
 
     SECTION("times")
@@ -235,7 +235,7 @@ TEST_CASE("Int")
         REQUIRE(zero * zero == "0");
         REQUIRE(zero * negative == "0");
 
-        REQUIRE(Int("100000") * Int("1") == "100000");
+        REQUIRE(Int("1000000000") * Int("1") == "1000000000");
     }
 
     SECTION("divide")
@@ -252,7 +252,7 @@ TEST_CASE("Int")
         REQUIRE_THROWS_MATCHES(zero / zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(zero / negative == "0");
 
-        REQUIRE(Int("100000") / Int("1") == "100000");
+        REQUIRE(Int("1000000000") / Int("1") == "1000000000");
     }
 
     SECTION("mod")
@@ -269,7 +269,7 @@ TEST_CASE("Int")
         REQUIRE_THROWS_MATCHES(zero % zero, std::runtime_error, Message("Error: Divide by zero."));
         REQUIRE(zero % negative == "0");
 
-        REQUIRE(Int("100000") % Int("1") == "0");
+        REQUIRE(Int("1000000000") % Int("1") == "0");
     }
 
     SECTION("divmod")
@@ -349,8 +349,8 @@ TEST_CASE("Int")
         REQUIRE(!std::is_same<decltype(zero.to_integer<long long>()), long>::value);
         REQUIRE(std::is_same<decltype(zero.to_integer<long long>()), long long>::value);
 
-        REQUIRE(Int("1024").to_integer<int>() == 1024);
-        REQUIRE(Int("-1024").to_integer<int>() == -1024);
+        REQUIRE(Int("2147483647").to_integer() == 2147483647);
+        REQUIRE(Int("-2147483647").to_integer() == -2147483647);
     }
 
     SECTION("sqrt")
@@ -368,6 +368,9 @@ TEST_CASE("Int")
         REQUIRE(Int::sqrt("16") == "4");
         REQUIRE(Int::sqrt("100") == "10");
         REQUIRE(Int::sqrt("9801") == "99");
+        REQUIRE(Int::sqrt("998001") == "999");
+        REQUIRE(Int::sqrt("99980001") == "9999");
+        REQUIRE(Int::sqrt("9999800001") == "99999");
     }
 
     SECTION("pow")
