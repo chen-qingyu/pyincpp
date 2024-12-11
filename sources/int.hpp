@@ -166,10 +166,10 @@ private:
         assert(n > 0 && n < BASE);
 
         int carry = 0;
-        for (int i = 0; i < chunks_.size(); ++i)
+        for (auto& chunk : chunks_)
         {
-            int tmp = chunks_[i] * n + carry;
-            chunks_[i] = tmp % BASE;
+            int tmp = chunk * n + carry;
+            chunk = tmp % BASE;
             carry = tmp / BASE;
         }
         chunks_.push_back(carry);
@@ -184,10 +184,10 @@ private:
         assert(n > 0 && n < BASE);
 
         int remainder = 0;
-        for (int i = chunks_.size() - 1; i >= 0; --i)
+        for (auto& chunk : detail::reverse(chunks_))
         {
-            int tmp = remainder * BASE + chunks_[i];
-            chunks_[i] = tmp / n;
+            int tmp = remainder * BASE + chunk;
+            chunk = tmp / n;
             remainder = tmp % n;
         }
 
@@ -698,9 +698,9 @@ public:
     T to_integer() const
     {
         T result = 0;
-        for (int i = chunks_.size() - 1; i >= 0; --i) // i = -1 if is zero, ok
+        for (auto& chunk : detail::reverse(chunks_))
         {
-            result = result * BASE + chunks_[i];
+            result = result * BASE + chunk;
         }
         return result * sign_;
     }
