@@ -23,19 +23,19 @@ class Int
 
 private:
     // Base radix of digits.
-    static constexpr int BASE = 10000;
+    static constexpr int BASE = 1'000'000'000;
 
     // Number of decimal digits per chunk.
-    static constexpr int DIGITS_PER_CHUNK = 4; // std::ceil(std::log10(BASE));
+    static constexpr int DIGITS_PER_CHUNK = 9; // ceil(log10(base));
 
     // Sign of integer, 1 is positive, -1 is negative, and 0 is zero.
     signed char sign_;
 
     // List of digits, represent absolute value of the integer, little endian.
-    // Example: `123456789`
+    // Example: `123456789000`
     // ```
-    // chunk: 6789 2345 0001
-    // index: 0    1    2
+    // chunk: 456789000 123
+    // index: 0         1
     // ```
     std::vector<int> chunks_;
 
@@ -166,9 +166,9 @@ private:
         int carry = 0;
         for (auto& chunk : chunks_)
         {
-            int tmp = chunk * n + carry;
-            chunk = tmp % BASE;
-            carry = tmp / BASE;
+            long long tmp = 1ll * chunk * n + carry;
+            chunk = tmp % BASE; // t%b < b
+            carry = tmp / BASE; // t/b <= ((b-1)*(b-1) + (b-1))/b = b - 1 < b
         }
         chunks_.push_back(carry);
 
@@ -181,15 +181,15 @@ private:
         assert(is_positive());
         assert(n > 0 && n < BASE);
 
-        int remainder = 0;
+        long long r = 0;
         for (auto& chunk : chunks_ | std::views::reverse)
         {
-            int tmp = remainder * BASE + chunk;
-            chunk = tmp / n;
-            remainder = tmp % n;
+            r = r * BASE + chunk;
+            chunk = r / n; // r/n <= ((n-1)*b+(b-1))/n = (n*b - 1)/n < b
+            r %= n;        // r%n < r%b < b
         }
 
-        return {trim(), remainder};
+        return {trim(), int(r)};
     }
 
 public:
@@ -466,9 +466,9 @@ public:
         {
             for (int j = 0; j < b.size(); ++j)
             {
-                c[i + j] += a[i] * b[j];
-                c[i + j + 1] += c[i + j] / BASE;
-                c[i + j] %= BASE;
+                long long tmp = 1ll * a[i] * b[j] + c[i + j];
+                c[i + j + 1] += tmp / BASE; // c + t/b = t/b <= ((b-1)^2 + (b-1))/b = b - 1 < b
+                c[i + j] = tmp % BASE;      // t%b < b
             }
         }
 
@@ -505,7 +505,7 @@ public:
 
         // now, the sign of two integers is not zero
 
-        // if rhs < BASE, then use small_divmod in O(N)
+        // if rhs < base, then use small_divmod in O(N)
         if (rhs.chunks_.size() == 1)
         {
             Int a = abs();                                   // can't be chained cause q is ref
