@@ -197,8 +197,10 @@ public:
      * Constructor
      */
 
-    /// Create an integer based on the given `integer`.
-    Int(int integer = 0)
+    /// Create an integer based on the given `integer` (default = 0).
+    /// @tparam T a primitive integer type : int (default), long, etc.
+    template <std::integral T = int>
+    Int(T integer = 0)
     {
         sign_ = integer == 0 ? 0 : (integer > 0 ? 1 : -1);
         integer = std::abs(integer);

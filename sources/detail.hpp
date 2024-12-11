@@ -10,6 +10,7 @@
 #include <cassert>     // assert
 #include <climits>     // INT_MAX
 #include <cmath>       // std::abs std::pow std::sqrt std::atan2 std::hypot INFINITY NAN
+#include <concepts>    // std::integral
 #include <cstring>     // std::strlen
 #include <iomanip>     // std::setw std::setfill
 #include <istream>     // std::istream
