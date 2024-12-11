@@ -523,8 +523,9 @@ public:
         // if rhs < BASE, then use small_divmod in O(N)
         if (rhs.chunks_.size() == 1)
         {
-            auto [q, r] = abs().small_divmod(rhs.chunks_[0]); // this.abs divmod rhs.abs
-            return {sign_ == rhs.sign_ ? q : -q, sign_ * r};  // r.sign = this.sign
+            Int a = abs();                                   // can't be chained cause q is ref
+            auto [q, r] = a.small_divmod(rhs.chunks_[0]);    // this.abs divmod rhs.abs
+            return {sign_ == rhs.sign_ ? q : -q, sign_ * r}; // r.sign = this.sign
         }
 
         // dividend, divisor, temporary quotient, accumulated quotient
