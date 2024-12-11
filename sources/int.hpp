@@ -39,15 +39,13 @@ private:
     // ```
     std::vector<int> chunks_;
 
-    // Remove leading zeros elegantly and correct sign.
+    // Remove leading zeros and correct sign.
     Int& trim()
     {
-        auto it = chunks_.rbegin();
-        while (it != chunks_.rend() && *it == 0)
+        while (!chunks_.empty() && chunks_.back() == 0)
         {
-            ++it;
+            chunks_.pop_back();
         }
-        chunks_.erase(it.base(), chunks_.end()); // note: rbegin().base() == end()
 
         if (chunks_.empty())
         {
@@ -79,9 +77,10 @@ private:
     }
 
     // Increase the absolute value by 1 quickly.
-    // Require this != 0
     void abs_inc()
     {
+        assert(sign_ != 0);
+
         // add a leading zero for carry
         chunks_.push_back(0);
 
@@ -96,15 +95,14 @@ private:
             chunks_[--i] = 0;
         }
 
-        trim();
-
-        // keep sign unchanged
+        trim(); // sign unchanged
     }
 
     // Decrease the absolute value by 1 quickly.
-    // Require this != 0
     void abs_dec()
     {
+        assert(sign_ != 0);
+
         int i = 0;
         while (chunks_[i] == 0)
         {
@@ -116,7 +114,7 @@ private:
             chunks_[--i] = BASE - 1;
         }
 
-        trim();
+        trim(); // sign may change to zero
     }
 
     // This is equal to Python's "//".
@@ -233,7 +231,7 @@ public:
         int idx = chunks_len;
         for (int i = 0; i < digits.size(); ++i)
         {
-            chunk = chunk * 10 + (digits[i] - '0');
+            chunk = chunk * 10 + (digits[i] - '0'); // faster than (digits[i] ^ 0x30) in -O2
             // I think maybe it's not the fastest, but it's the most elegant
             if ((i + 1) % DIGITS_PER_CHUNK == digits.size() % DIGITS_PER_CHUNK)
             {
@@ -271,21 +269,8 @@ public:
     {
         if (sign_ != that.sign_)
         {
-            if (sign_ == 1) // this is +, that is - or 0
-            {
-                return 1; // gt
-            }
-            else if (sign_ == -1) // this is -, that is + or 0
-            {
-                return -1; // lt
-            }
-            else // this is 0, that is + or -
-            {
-                return that.sign_ == 1 ? -1 : 1;
-            }
+            return sign_ - that.sign_;
         }
-
-        // now, the sign of two integers is the same
 
         return sign_ >= 0 ? abs_cmp(that) : -abs_cmp(that);
     }
@@ -315,14 +300,12 @@ public:
     /// Return the number of digits in the integer (based 10).
     int digits() const
     {
-        if (chunks_.size() > 0)
-        {
-            return (chunks_.size() - 1) * DIGITS_PER_CHUNK + std::floor(std::log10(chunks_.back())) + 1;
-        }
-        else
+        if (chunks_.empty())
         {
             return 0;
         }
+
+        return (chunks_.size() - 1) * DIGITS_PER_CHUNK + std::floor(std::log10(chunks_.back())) + 1;
     }
 
     /// Determine whether the integer is zero quickly.
@@ -363,9 +346,9 @@ public:
             return false; // prime >= 2
         }
 
-        for (Int i = 2; i * i <= *this; i.abs_inc())
+        for (Int n = 2; n * n <= *this; n.abs_inc())
         {
-            if ((*this % i).is_zero())
+            if ((*this % n).is_zero())
             {
                 return false;
             }
@@ -403,7 +386,7 @@ public:
         // calculate
         for (int i = 0; i < b.size(); ++i)
         {
-            auto tmp = a[i] + b[i];
+            int tmp = a[i] + b[i];
             a[i] = tmp % BASE;
             a[i + 1] += tmp / BASE;
         }
@@ -446,7 +429,7 @@ public:
         // calculate
         for (int i = 0; i < b.size(); ++i)
         {
-            auto tmp = a[i] - b[i];
+            int tmp = a[i] - b[i];
             a[i] = cycle_mod(tmp, BASE);
             a[i + 1] += floor_div(tmp, BASE);
         }
@@ -473,7 +456,7 @@ public:
         // normalize
         const auto& a = chunks_;
         const auto& b = rhs.chunks_;
-        Int result{sign_ == rhs.sign_ ? 1 : -1, std::vector<int>(a.size() + b.size())};
+        Int result(sign_ == rhs.sign_ ? 1 : -1, std::vector<int>(a.size() + b.size()));
         auto& c = result.chunks_;
 
         // calculate
@@ -512,7 +495,7 @@ public:
         // if rhs is zero, throw an exception
         detail::check_zero(rhs.sign_);
 
-        // if this.abs() < rhs.abs(), just return {0, *this}
+        // if this.abs < rhs.abs, just return {0, this}
         if (digits() < rhs.digits())
         {
             return {0, *this};
@@ -557,14 +540,18 @@ public:
     /// Increment the value by 1 quickly.
     Int& operator++()
     {
-        if (sign_ == 0)
+        if (sign_ == 1)
         {
-            sign_ = 1;
-            chunks_.push_back(1);
+            abs_inc();
+        }
+        else if (sign_ == -1)
+        {
+            abs_dec();
         }
         else
         {
-            (sign_ == 1) ? abs_inc() : abs_dec();
+            sign_ = 1;
+            chunks_.push_back(1);
         }
 
         return *this;
@@ -573,14 +560,18 @@ public:
     /// Decrement the value by 1 quickly.
     Int& operator--()
     {
-        if (sign_ == 0)
+        if (sign_ == 1)
         {
-            sign_ = -1;
-            chunks_.push_back(1);
+            abs_dec();
+        }
+        else if (sign_ == -1)
+        {
+            abs_inc();
         }
         else
         {
-            (sign_ == 1) ? abs_dec() : abs_inc();
+            sign_ = -1;
+            chunks_.push_back(1);
         }
 
         return *this;
@@ -599,9 +590,7 @@ public:
     /// Return the opposite value of this.
     Int operator-() const
     {
-        Int num = *this;
-        num.sign_ = -num.sign_;
-        return num;
+        return Int(-sign_, chunks_);
     }
 
     /// Return the absolute value of this.
@@ -679,9 +668,7 @@ public:
         // prime >= 1
         while (true)
         {
-            // faster than prime += 2
-            prime.abs_inc();
-            prime.abs_inc();
+            prime += 2;
 
             if (prime.is_prime())
             {
@@ -730,7 +717,7 @@ public:
 
         // as far as possible to reduce the number of iterations
         // cur_sqrt is about 10^(digits/2) in O(1)
-        Int cur_sqrt{1, std::vector<int>(integer.chunks_.size() / 2, 0)};
+        Int cur_sqrt(1, std::vector<int>(integer.chunks_.size() / 2, 0));
         cur_sqrt.chunks_.push_back(1);
 
         Int pre_sqrt;
@@ -746,8 +733,8 @@ public:
     /// Return `(base**exp) % mod` (`mod` default = 0 means does not perform module).
     static Int pow(const Int& base, const Int& exp, const Int& mod = 0)
     {
-        // check if base.abs() is 1
-        // if base.abs() is 1, only when base is negative and exp is odd return -1, otherwise return 1
+        // check if base.abs is 1
+        // if base.abs is 1, only when base is negative and exp is odd return -1, otherwise return 1
         if (base.digits() == 1 && base.chunks_[0] == 1)
         {
             return base.sign_ == -1 && exp.is_odd() ? -1 : 1;
@@ -861,7 +848,7 @@ public:
         std::mt19937 gen(std::random_device{}());
 
         // little chunks
-        Int rand{1, std::vector<int>((digits - 1) / DIGITS_PER_CHUNK)};
+        Int rand(1, std::vector<int>((digits - 1) / DIGITS_PER_CHUNK));
         std::uniform_int_distribution<int> chunk(0, BASE - 1);
         std::for_each(rand.chunks_.begin(), rand.chunks_.end(), [&](auto& x)
                       { x = chunk(gen); });
