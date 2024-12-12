@@ -682,10 +682,10 @@ public:
         return prime;
     }
 
-    /// Convert the integer to some integer of type T.
-    /// @tparam T an integer type: int (default), long, or any custom type that support basic arithmetic operations.
+    /// Attempt to convert this integer to a number of the specified type `T`.
+    /// @tparam T a numeric type: int (default), long, double, etc. or any custom numeric type.
     template <typename T = int>
-    T to_integer() const
+    T to_number() const
     {
         T result = 0;
         for (const auto& chunk : chunks_ | std::views::reverse)

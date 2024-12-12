@@ -340,18 +340,19 @@ TEST_CASE("Int")
         REQUIRE(Int("2147483647").next_prime() == "2147483659"); // minimum prime number that > INT_MAX
     }
 
-    SECTION("to_integer")
+    SECTION("to_number")
     {
-        REQUIRE(zero.to_integer<signed char>() == 0);
-        REQUIRE(!std::is_same<decltype(zero.to_integer<signed char>()), unsigned char>::value);
-        REQUIRE(std::is_same<decltype(zero.to_integer<signed char>()), signed char>::value);
+        REQUIRE(zero.to_number<signed char>() == 0);
+        REQUIRE(std::is_same_v<decltype(zero.to_number<signed char>()), signed char>);
 
-        REQUIRE(zero.to_integer<long long>() == 0);
-        REQUIRE(!std::is_same<decltype(zero.to_integer<long long>()), long>::value);
-        REQUIRE(std::is_same<decltype(zero.to_integer<long long>()), long long>::value);
+        REQUIRE(zero.to_number<long long>() == 0);
+        REQUIRE(std::is_same_v<decltype(zero.to_number<long long>()), long long>);
 
-        REQUIRE(Int("2147483647").to_integer() == 2147483647);
-        REQUIRE(Int("-2147483647").to_integer() == -2147483647);
+        REQUIRE(Int("2147483647").to_number() == 2147483647);
+        REQUIRE(Int("-2147483647").to_number() == -2147483647);
+
+        REQUIRE(Int("2147483648").to_number<double>() == 2147483648.0);
+        REQUIRE(Int("-2147483648").to_number<double>() == -2147483648.0);
     }
 
     SECTION("sqrt")
