@@ -487,6 +487,31 @@ TEST_CASE("Int")
         REQUIRE(sum < int(55000 * 1000 * 1.05));
     }
 
+    SECTION("ackermann")
+    {
+        // https://en.wikipedia.org/wiki/Ackermann_function#Table_of_values
+        int A[4][10] = {
+            {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},                 // m=0, inc
+            {2, 3, 4, 5, 6, 7, 8, 9, 10, 11},                // m=1, add
+            {3, 5, 7, 9, 11, 13, 15, 17, 19, 21},            // m=2, mul
+            {5, 13, 29, 61, 125, 253, 509, 1021, 2045, 4093} // m=3, pow
+        };
+
+        for (int m = 0; m < 4; m++)
+        {
+            for (int n = 0; n < 10; n++)
+            {
+                REQUIRE(Int::ackermann(m, n) == A[m][n]);
+            }
+        }
+
+        // m=4, tetration
+        REQUIRE(Int::ackermann(4, 0) == 13);             // 2^^3 - 3 = 2^4 - 3     = 13
+        REQUIRE(Int::ackermann(4, 1) == 65533);          // 2^^4 - 3 = 2^16 - 3    = 65533
+        REQUIRE(Int::ackermann(4, 2).digits() == 19729); // 2^^5 - 3 = 2^65536 - 3 = 2003529930406...(19729 digits)
+        // A(4, 3) = 2^^6 - 3 = 2^2^65536 - 3, there is no computer can compute it...
+    }
+
     SECTION("print")
     {
         std::ostringstream oss;
