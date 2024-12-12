@@ -236,6 +236,7 @@ TEST_CASE("Int")
         REQUIRE(zero * negative == "0");
 
         REQUIRE(Int("1000000000") * Int("1") == "1000000000");
+        REQUIRE(Int("999999999") * Int("999999999") * Int("999999999") == "999999997000000002999999999");
     }
 
     SECTION("divide")

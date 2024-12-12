@@ -468,8 +468,8 @@ public:
             for (int j = 0; j < b.size(); ++j)
             {
                 long long tmp = 1ll * a[i] * b[j] + c[i + j];
-                c[i + j + 1] += tmp / BASE; // c + t/b = t/b <= ((b-1)^2 + (b-1))/b = b - 1 < b
                 c[i + j] = tmp % BASE;      // t%b < b
+                c[i + j + 1] += tmp / BASE; // be modulo by the previous line in the next loop, or finally c + t/b <= 0 + ((b-1)^2 + (b-1))/b = b - 1 < b
             }
         }
 
