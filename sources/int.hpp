@@ -868,32 +868,27 @@ public:
     /// The well-known Ackermann function (perhaps not so well-known) is a rapidly growing function.
     /// Please input parameters carefully.
     /// See: https://en.wikipedia.org/wiki/Ackermann_function
-    static Int ackermann(int m, int n)
+    static Int ackermann(const Int& m, const Int& n)
     {
-        if (m < 0 || n < 0)
+        if (m.is_negative() || n.is_negative())
         {
             throw std::runtime_error("Error: Require m >= 0 and n >= 0.");
         }
 
         // ref: https://rosettacode.org/wiki/Ackermann_function
-        static Int (*ack)(int, Int&&) = [](int m, Int&& n) -> Int
+        switch (m.to_number())
         {
-            switch (m)
-            {
-                case 0:
-                    return n + 1;
-                case 1:
-                    return n + 2;
-                case 2:
-                    return n * 2 + 3;
-                case 3:
-                    return Int::pow(2, n + 3) - 3;
-                default:
-                    return n == 0 ? ack(m - 1, 1) : ack(m - 1, ack(m, n - 1));
-            }
-        };
-
-        return ack(m, n);
+            case 0:
+                return n + 1;
+            case 1:
+                return n + 2;
+            case 2:
+                return n * 2 + 3;
+            case 3:
+                return Int::pow(2, n + 3) - 3;
+            default:
+                return n == 0 ? ackermann(m - 1, 1) : ackermann(m - 1, ackermann(m, n - 1));
+        }
     }
 
     /*
