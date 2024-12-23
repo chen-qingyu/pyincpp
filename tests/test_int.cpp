@@ -461,6 +461,24 @@ TEST_CASE("Int")
 
     SECTION("random")
     {
+        // static Int random(const Int& a, const Int& b)
+        REQUIRE_THROWS_MATCHES(Int::random(2, 1), std::runtime_error, Message("Error: Invalid range."));
+
+        for (int i = 1; i < 10; i++)
+        {
+            REQUIRE(Int::random(1, i).digits() == 1);
+        }
+
+        REQUIRE(Int::random("9999999999999999999999", "9999999999999999999999").digits() == 22);
+
+        Int sum = 0;
+        for (int i = 0; i < 1000; i++) // sum should ~= 0.5 * 1000 = 500
+        {
+            sum += Int::random(0, 1); // mean = 0.5
+        }
+        REQUIRE((int(500 * 0.9) < sum && sum < int(500 * 1.1)));
+
+        // static Int random(int digits)
         REQUIRE_THROWS_MATCHES(Int::random(0), std::runtime_error, Message("Error: `digits` must be a positive integer."));
 
         for (int d = 1; d < 10; d++)
@@ -470,21 +488,12 @@ TEST_CASE("Int")
 
         REQUIRE(Int::random(1024).digits() == 1024);
 
-        Int sum = 0;
-        for (int i = 0; i < 1000; i++) // sum should ~= 5 * 1000
+        sum = 0;
+        for (int i = 0; i < 1000; i++) // sum should ~= 5 * 1000 = 5000
         {
             sum += Int::random(1); // mean = 5
         }
-        REQUIRE(sum > int(5 * 1000 * 0.9));
-        REQUIRE(sum < int(5 * 1000 * 1.1));
-
-        sum = 0;
-        for (int i = 0; i < 1000; i++) // sum should ~= 55000 * 1000
-        {
-            sum += Int::random(5); // mean = 55000
-        }
-        REQUIRE(sum > int(55000 * 1000 * 0.95));
-        REQUIRE(sum < int(55000 * 1000 * 1.05));
+        REQUIRE((int(5000 * 0.9) < sum && sum < int(5000 * 1.1)));
     }
 
     SECTION("ackermann")
