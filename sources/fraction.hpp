@@ -47,6 +47,19 @@ public:
         denominator_ /= gcd;
     }
 
+    /// Create a fraction with given double-precision floating-point `number`.
+    Fraction(double number)
+    {
+        double int_part = std::floor(number);
+        double dec_part = number - int_part;
+        int precision = 1'000'000'000; // 10^floor(log10(INT_MAX))
+
+        int gcd = std::gcd(int(std::round(dec_part * precision)), precision);
+        numerator_ = std::round(dec_part * precision) / gcd;
+        denominator_ = precision / gcd;
+        numerator_ += int_part * denominator_;
+    }
+
     /// Copy constructor.
     Fraction(const Fraction& that) = default;
 
