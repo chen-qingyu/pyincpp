@@ -16,13 +16,12 @@ TEST_CASE("std::vector vs pyincpp::List", "[std]")
     auto p = pyincpp::List<int>{1, 2, 3, 4, 5};
 
     REQUIRE(std::vector<int>{1, 2, 3, 4, 5} == s);
-    BENCHMARK("construct (std)")
+    BENCHMARK("ctor (std)")
     {
         return std::vector<int>{1, 2, 3, 4, 5};
     };
-
     REQUIRE(pyincpp::List<int>{1, 2, 3, 4, 5} == p);
-    BENCHMARK("construct (pyincpp)")
+    BENCHMARK("ctor (pyincpp)")
     {
         return pyincpp::List<int>{1, 2, 3, 4, 5};
     };
@@ -33,7 +32,6 @@ TEST_CASE("std::vector vs pyincpp::List", "[std]")
     {
         s.push_back(6);
     };
-
     p += 6;
     REQUIRE(p == pyincpp::List<int>{1, 2, 3, 4, 5, 6});
     BENCHMARK("append (pyincpp)")
@@ -42,15 +40,14 @@ TEST_CASE("std::vector vs pyincpp::List", "[std]")
     };
 
     REQUIRE(s.at(0) == 1);
-    BENCHMARK("access with check (std)")
+    BENCHMARK("access (std)")
     {
         return s.at(0);
     };
-
     REQUIRE(p[0] == 1);
-    BENCHMARK("access with check (pyincpp)")
+    BENCHMARK("access (pyincpp)")
     {
-        return p[0];
+        return p[0]; // with boundary check
     };
 }
 
@@ -60,13 +57,12 @@ TEST_CASE("std::set vs pyincpp::Set", "[std]")
     auto p = pyincpp::Set<int>{1, 2, 3, 4, 5};
 
     REQUIRE(std::set<int>{1, 2, 3, 4, 5} == s);
-    BENCHMARK("construct (std)")
+    BENCHMARK("ctor (std)")
     {
         return std::set<int>{1, 2, 3, 4, 5};
     };
-
     REQUIRE(pyincpp::Set<int>{1, 2, 3, 4, 5} == p);
-    BENCHMARK("construct (pyincpp)")
+    BENCHMARK("ctor (pyincpp)")
     {
         return pyincpp::Set<int>{1, 2, 3, 4, 5};
     };
@@ -75,14 +71,13 @@ TEST_CASE("std::set vs pyincpp::Set", "[std]")
     REQUIRE(s == std::set<int>{1, 2, 3, 4, 5, 6});
     BENCHMARK("add (std)")
     {
-        s.insert(6);
+        return s.insert(6);
     };
-
     p.add(6);
     REQUIRE(p == pyincpp::Set<int>{1, 2, 3, 4, 5, 6});
     BENCHMARK("add (pyincpp)")
     {
-        p.add(6);
+        return p.add(6);
     };
 
     REQUIRE(*s.find(2) == 2);
@@ -90,7 +85,6 @@ TEST_CASE("std::set vs pyincpp::Set", "[std]")
     {
         return *s.find(2);
     };
-
     REQUIRE(*p.find(2) == 2);
     BENCHMARK("find (pyincpp)")
     {
@@ -104,13 +98,12 @@ TEST_CASE("std::map vs pyincpp::Dict", "[std]")
     auto p = pyincpp::Dict<int, char>{{1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}};
 
     REQUIRE(std::map<int, char>{{1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}} == s);
-    BENCHMARK("construct (std)")
+    BENCHMARK("ctor (std)")
     {
         return std::map<int, char>{{1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}};
     };
-
     REQUIRE(pyincpp::Dict<int, char>{{1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}} == p);
-    BENCHMARK("construct (pyincpp)")
+    BENCHMARK("ctor (pyincpp)")
     {
         return pyincpp::Dict<int, char>{{1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}};
     };
@@ -119,14 +112,13 @@ TEST_CASE("std::map vs pyincpp::Dict", "[std]")
     REQUIRE(s == std::map<int, char>{{1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}, {6, 'F'}});
     BENCHMARK("add (std)")
     {
-        s.insert({6, 'F'});
+        return s.insert({6, 'F'});
     };
-
     p.add(6, 'F');
     REQUIRE(p == pyincpp::Dict<int, char>{{1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}, {6, 'F'}});
     BENCHMARK("add (pyincpp)")
     {
-        p.add(6, 'F');
+        return p.add(6, 'F');
     };
 
     REQUIRE(s[5] == 'E');
@@ -134,7 +126,6 @@ TEST_CASE("std::map vs pyincpp::Dict", "[std]")
     {
         return s[5];
     };
-
     REQUIRE(p[5] == 'E');
     BENCHMARK("access (pyincpp)")
     {
@@ -148,13 +139,12 @@ TEST_CASE("std::string vs pyincpp::Str", "[std]")
     auto p = pyincpp::Str("hello world");
 
     REQUIRE(std::string("hello world") == s);
-    BENCHMARK("construct (std)")
+    BENCHMARK("ctor (std)")
     {
         return std::string("hello world");
     };
-
     REQUIRE(pyincpp::Str("hello world") == p);
-    BENCHMARK("construct (pyincpp)")
+    BENCHMARK("ctor (pyincpp)")
     {
         return pyincpp::Str("hello world");
     };
@@ -164,7 +154,6 @@ TEST_CASE("std::string vs pyincpp::Str", "[std]")
     {
         return s + "!";
     };
-
     REQUIRE(p + "!" == "hello world!");
     BENCHMARK("append (pyincpp)")
     {
@@ -176,7 +165,6 @@ TEST_CASE("std::string vs pyincpp::Str", "[std]")
     {
         return s.find("world");
     };
-
     REQUIRE(p.find("world") == 6);
     BENCHMARK("find (pyincpp)")
     {
@@ -194,7 +182,6 @@ TEST_CASE("std::tuple vs pyincpp::Tuple", "[std]")
     {
         return std::make_tuple(1, 2.33, 'A');
     };
-
     REQUIRE(pyincpp::make_tuple(1, 2.33, 'A') == p);
     BENCHMARK("make_tuple (pyincpp)")
     {
@@ -202,13 +189,12 @@ TEST_CASE("std::tuple vs pyincpp::Tuple", "[std]")
     };
 
     REQUIRE(s == s);
-    BENCHMARK("compare (std)")
+    BENCHMARK("cmp (std)")
     {
         return s == s;
     };
-
     REQUIRE(p == p);
-    BENCHMARK("compare (pyincpp)")
+    BENCHMARK("cmp (pyincpp)")
     {
         return p == p;
     };
@@ -218,7 +204,6 @@ TEST_CASE("std::tuple vs pyincpp::Tuple", "[std]")
     {
         return std::get<0>(s);
     };
-
     REQUIRE(p.get<0>() == 1);
     BENCHMARK("get (pyincpp)")
     {
@@ -232,13 +217,12 @@ TEST_CASE("std::deque vs pyincpp::Deque", "[std]")
     auto p = pyincpp::Deque<int>{1, 2, 3, 4, 5};
 
     REQUIRE(std::deque<int>{1, 2, 3, 4, 5} == s);
-    BENCHMARK("construct (std)")
+    BENCHMARK("ctor (std)")
     {
         return std::deque<int>{1, 2, 3, 4, 5};
     };
-
     REQUIRE(pyincpp::Deque<int>{1, 2, 3, 4, 5} == p);
-    BENCHMARK("construct (pyincpp)")
+    BENCHMARK("ctor (pyincpp)")
     {
         return pyincpp::Deque<int>{1, 2, 3, 4, 5};
     };
@@ -247,35 +231,33 @@ TEST_CASE("std::deque vs pyincpp::Deque", "[std]")
     REQUIRE(s.back() == 6);
     BENCHMARK("push_back (std)")
     {
-        s.push_back(6);
+        return s.push_back(6);
     };
-
     p.push_back(6);
     REQUIRE(p.back() == 6);
     BENCHMARK("push_back (pyincpp)")
     {
-        p.push_back(6);
+        return p.push_back(6);
     };
 
     s.push_front(0);
     REQUIRE(s.front() == 0);
     BENCHMARK("push_front (std)")
     {
-        s.push_front(0);
+        return s.push_front(0);
     };
-
     p.push_front(0);
     REQUIRE(p.front() == 0);
     BENCHMARK("push_front (pyincpp)")
     {
-        p.push_front(0);
+        return p.push_front(0);
     };
 }
 
 /*
 Run with: `xmake config -m release && xmake build bench && xmake run bench --benchmark-no-analysis -i [std]`
 
-Result (2024.05.15, Windows 10, Catch2 v3.5.3):
+Result (2024.12.24, Windows 10, Catch2 v3.7.1):
 
 -------------------------------------------------------------------------------
 std::vector vs pyincpp::List
@@ -285,87 +267,87 @@ benches\std_vs_pyincpp.cpp(13)
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-construct (std)                                100           293    74.4744 ns
-construct (pyincpp)                            100           290    70.1034 ns
-append (std)                                   100          2967     2.7489 ns
-append (pyincpp)                               100          2506    2.94852 ns
-access with check (std)                        100         21853   0.934929 ns
-access with check (pyincpp)                    100         17922    2.76599 ns
+ctor (std)                                     100           203    67.0542 ns
+ctor (pyincpp)                                 100           271    68.4022 ns
+append (std)                                   100          2596    2.68952 ns
+append (pyincpp)                               100          2407      3.086 ns
+access (std)                                   100         19754   0.914397 ns
+access (pyincpp)                               100         16606    1.11484 ns
 
 -------------------------------------------------------------------------------
 std::set vs pyincpp::Set
 -------------------------------------------------------------------------------
-benches\std_vs_pyincpp.cpp(57)
+benches\std_vs_pyincpp.cpp(54)
 ...............................................................................
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-construct (std)                                100            47    428.426 ns
-construct (pyincpp)                            100            47    428.064 ns
-add (std)                                      100          3098    6.45513 ns
-add (pyincpp)                                  100          3075    6.28325 ns
-find (std)                                     100          5878    3.25876 ns
-find (pyincpp)                                 100          5840    3.41473 ns
+ctor (std)                                     100            44    431.159 ns
+ctor (pyincpp)                                 100            44    430.295 ns
+add (std)                                      100          2829    7.26935 ns
+add (pyincpp)                                  100          2077    7.49206 ns
+find (std)                                     100          5949    3.11548 ns
+find (pyincpp)                                 100          5854    3.14315 ns
 
 -------------------------------------------------------------------------------
 std::map vs pyincpp::Dict
 -------------------------------------------------------------------------------
-benches\std_vs_pyincpp.cpp(101)
+benches\std_vs_pyincpp.cpp(95)
 ...............................................................................
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-construct (std)                                100            46    429.391 ns
-construct (pyincpp)                            100            45    451.356 ns
-add (std)                                      100          3102    6.44262 ns
-add (pyincpp)                                  100           322    62.1584 ns
-access (std)                                   100          3536    5.65243 ns
-access (pyincpp)                               100          4482    4.69723 ns
+ctor (std)                                     100            43     431.86 ns
+ctor (pyincpp)                                 100            44    434.977 ns
+add (std)                                      100          2832    6.57804 ns
+add (pyincpp)                                  100          2067    8.04838 ns
+access (std)                                   100          3165    5.69826 ns
+access (pyincpp)                               100          3657    4.76347 ns
 
 -------------------------------------------------------------------------------
 std::string vs pyincpp::Str
 -------------------------------------------------------------------------------
-benches\std_vs_pyincpp.cpp(145)
+benches\std_vs_pyincpp.cpp(136)
 ...............................................................................
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-construct (std)                                100          8386    2.38135 ns
-construct (pyincpp)                            100          8409    2.37805 ns
-append (std)                                   100          2693      7.241 ns
-append (pyincpp)                               100          1317    16.0744 ns
-find (std)                                     100          3350     6.1591 ns
-find (pyincpp)                                 100          1173     16.451 ns
+ctor (std)                                     100          7765    2.37411 ns
+ctor (pyincpp)                                 100          7779     2.3773 ns
+append (std)                                   100          2399    7.93497 ns
+append (pyincpp)                               100          1209    15.7279 ns
+find (std)                                     100          2709    6.83204 ns
+find (pyincpp)                                 100          1286    15.0101 ns
 
 -------------------------------------------------------------------------------
 std::tuple vs pyincpp::Tuple
 -------------------------------------------------------------------------------
-benches\std_vs_pyincpp.cpp(187)
+benches\std_vs_pyincpp.cpp(175)
 ...............................................................................
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-make_tuple (std)                               100         33502   0.594562 ns
-make_tuple (pyincpp)                           100         33623   0.626803 ns
-compare (std)                                  100         33664   0.594522 ns
-compare (pyincpp)                              100         33627   0.594195 ns
-get (std)                                      100         32451   0.611568 ns
-get (pyincpp)                                  100         32469   0.612122 ns
+make_tuple (std)                               100         30953   0.597293 ns
+make_tuple (pyincpp)                           100         31151   0.593496 ns
+cmp (std)                                      100         18348   0.979398 ns
+cmp (pyincpp)                                  100         17862    1.07384 ns
+get (std)                                      100         30168   0.613697 ns
+get (pyincpp)                                  100         30145   0.620335 ns
 
 -------------------------------------------------------------------------------
 std::deque vs pyincpp::Deque
 -------------------------------------------------------------------------------
-benches\std_vs_pyincpp.cpp(229)
+benches\std_vs_pyincpp.cpp(214)
 ...............................................................................
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-construct (std)                                100            74      272.5 ns
-construct (pyincpp)                            100            74     270.77 ns
-push_back (std)                                100          1056    17.4356 ns
-push_back (pyincpp)                            100          1066    17.2129 ns
-push_front (std)                               100           954    16.8574 ns
-push_front (pyincpp)                           100           907     17.215 ns
+ctor (std)                                     100            68    270.691 ns
+ctor (pyincpp)                                 100            70    268.557 ns
+push_back (std)                                100           984    17.0264 ns
+push_back (pyincpp)                            100           984    16.6839 ns
+push_front (std)                               100           889    17.0484 ns
+push_front (pyincpp)                           100           849    18.3133 ns
 
 ===============================================================================
 */

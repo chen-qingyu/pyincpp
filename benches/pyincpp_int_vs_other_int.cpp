@@ -201,12 +201,12 @@ TEST_CASE("pyincpp::Int vs Other", "[int]")
     };
 
     REQUIRE(pyincpp::Int::random(1000).digits() == 1000);
-    BENCHMARK(std::format("random ({})", typeid(pyincpp::Int).name()))
+    BENCHMARK(std::format("rand ({})", typeid(pyincpp::Int).name()))
     {
         return pyincpp::Int::random(1000);
     };
     REQUIRE(big_random(1000).to_string().size() == 1000);
-    BENCHMARK(std::format("random ({})", typeid(BigInt).name()))
+    BENCHMARK(std::format("rand ({})", typeid(BigInt).name()))
     {
         return big_random(1000);
     };
@@ -281,8 +281,8 @@ pow (class BigNumber)                          100             1     20.978 ms
 sqrt (class pyincpp::Int)                      100             1    245.422 us
 sqrt (class BigInt)                            100             1    2.87152 ms
 sqrt (class InfInt)                            100             1    1.02455 ms
-random (class pyincpp::Int)                    100             6    3.32267 us
-random (class BigInt)                          100             2     9.5925 us
+rand (class pyincpp::Int)                      100             6    3.32267 us
+rand (class BigInt)                            100             2     9.5925 us
 fac (class pyincpp::Int)                       100             1     23.891 us
 fac (class Dodecahedron::Bigint)               100             2    11.8695 us
 
