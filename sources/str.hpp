@@ -600,7 +600,7 @@ public:
     {
         if (step == 0)
         {
-            throw std::runtime_error("Error: Slice step can not be zero.");
+            throw std::runtime_error("Error: Require step != 0 for slice(start, stop, step).");
         }
 
         detail::check_bounds(start, -size(), size());
@@ -637,7 +637,7 @@ public:
     {
         if (times < 0)
         {
-            throw std::runtime_error("Error: Times to repeat can not be less than zero.");
+            throw std::runtime_error("Error: Require times >= 0 for repeat.");
         }
 
         std::string buffer(size() * times, 0);

@@ -369,7 +369,7 @@ TEST_CASE("Str")
         REQUIRE(some.slice(-1, -1) == "");
         REQUIRE(some.slice(-1, -1, -1) == "");
 
-        REQUIRE_THROWS_MATCHES(some.slice(1, 2, 0), std::runtime_error, Message("Error: Slice step can not be zero."));
+        REQUIRE_THROWS_MATCHES(some.slice(1, 2, 0), std::runtime_error, Message("Error: Require step != 0 for slice(start, stop, step)."));
 
         REQUIRE_THROWS_MATCHES(some.slice(-7, -6), std::runtime_error, Message("Error: Index out of range."));
     }

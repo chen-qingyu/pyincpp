@@ -302,7 +302,7 @@ TEST_CASE("Int")
     SECTION("factorial")
     {
         // (negative)! throws exception
-        REQUIRE_THROWS_MATCHES(Int("-1").factorial(), std::runtime_error, Message("Error: Negative integer have no factorial."));
+        REQUIRE_THROWS_MATCHES(Int("-1").factorial(), std::runtime_error, Message("Error: Require this >= 0 for factorial()."));
 
         // 0! == 1
         REQUIRE(Int("0").factorial() == "1");
@@ -357,7 +357,7 @@ TEST_CASE("Int")
 
     SECTION("sqrt")
     {
-        REQUIRE_THROWS_MATCHES(Int::sqrt("-1"), std::runtime_error, Message("Error: Cannot compute square root of a negative integer."));
+        REQUIRE_THROWS_MATCHES(Int::sqrt("-1"), std::runtime_error, Message("Error: Require n >= 0 for sqrt(n)."));
 
         REQUIRE(Int::sqrt("0") == "0");
         REQUIRE(Int::sqrt("1") == "1");
@@ -462,7 +462,7 @@ TEST_CASE("Int")
     SECTION("random")
     {
         // static Int random(const Int& a, const Int& b)
-        REQUIRE_THROWS_MATCHES(Int::random(2, 1), std::runtime_error, Message("Error: Invalid range."));
+        REQUIRE_THROWS_MATCHES(Int::random(2, 1), std::runtime_error, Message("Error: Require a >= b for random(a, b)."));
 
         for (int i = 1; i < 10; i++)
         {
@@ -479,7 +479,7 @@ TEST_CASE("Int")
         REQUIRE((int(500 * 0.9) < sum && sum < int(500 * 1.1)));
 
         // static Int random(int digits)
-        REQUIRE_THROWS_MATCHES(Int::random(0), std::runtime_error, Message("Error: `digits` must be a positive integer."));
+        REQUIRE_THROWS_MATCHES(Int::random(0), std::runtime_error, Message("Error: Require digits > 0 for random(digits)."));
 
         for (int d = 1; d < 10; d++)
         {

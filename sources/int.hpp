@@ -23,7 +23,7 @@ class Int
 
 private:
     // Base radix of digits.
-    static constexpr int BASE = 1'000'000'000;
+    static constexpr int BASE = 1'000'000'000; // 10^(floor(log10(INT_MAX)))
 
     // Number of decimal digits per chunk.
     static constexpr int DIGITS_PER_CHUNK = 9; // ceil(log10(base));
@@ -198,17 +198,17 @@ public:
      * Constructor
      */
 
-    /// Create an integer based on the given `integer` (default = 0).
+    /// Create an integer based on the given integer `n` (default = 0).
     /// @tparam T a primitive integer type: int (default), long, etc.
     template <std::integral T = int>
-    Int(T integer = 0)
+    Int(T n = 0)
     {
-        sign_ = integer == 0 ? 0 : (integer > 0 ? 1 : -1);
-        integer = std::abs(integer);
-        while (integer > 0)
+        sign_ = n == 0 ? 0 : (n > 0 ? 1 : -1);
+        n = std::abs(n);
+        while (n > 0)
         {
-            chunks_.push_back(integer % BASE);
-            integer /= BASE;
+            chunks_.push_back(n % BASE);
+            n /= BASE;
         }
     }
 
@@ -640,7 +640,7 @@ public:
     {
         if (sign_ == -1)
         {
-            throw std::runtime_error("Error: Negative integer have no factorial.");
+            throw std::runtime_error("Error: Require this >= 0 for factorial().");
         }
 
         Int result = 1; // 0! == 1
@@ -705,7 +705,7 @@ public:
     {
         if (n.sign_ == -1)
         {
-            throw std::runtime_error("Error: Cannot compute square root of a negative integer.");
+            throw std::runtime_error("Error: Require n >= 0 for sqrt(n).");
         }
 
         // binary search
@@ -768,21 +768,21 @@ public:
         return result;
     }
 
-    /// Return the logarithm of `integer` based on `base`.
-    static Int log(const Int& integer, const Int& base)
+    /// Return the logarithm of integer `n` based on integer `base`.
+    static Int log(const Int& n, const Int& base)
     {
-        if (integer.sign_ <= 0 || base < 2)
+        if (n.sign_ <= 0 || base < 2)
         {
             throw std::runtime_error("Error: Math domain error.");
         }
 
         if (base == 10) // log10 == digits-1
         {
-            return integer.digits() - 1;
+            return n.digits() - 1;
         }
 
         Int result;
-        Int value = integer / base;
+        Int value = n / base;
         while (!value.is_zero())
         {
             ++result;
@@ -820,7 +820,7 @@ public:
     {
         if (b < a)
         {
-            throw std::runtime_error("Error: Invalid range.");
+            throw std::runtime_error("Error: Require a >= b for random(a, b).");
         }
 
         std::mt19937 gen(std::random_device{}());
@@ -840,7 +840,7 @@ public:
     {
         if (digits <= 0)
         {
-            throw std::runtime_error("Error: `digits` must be a positive integer.");
+            throw std::runtime_error("Error: Require digits > 0 for random(digits).");
         }
 
         // random number generator
@@ -867,7 +867,7 @@ public:
     {
         if (m.is_negative() || n.is_negative())
         {
-            throw std::runtime_error("Error: Require m >= 0 and n >= 0.");
+            throw std::runtime_error("Error: Require m >= 0 and n >= 0 for ackermann(m, n).");
         }
 
         // ref: https://rosettacode.org/wiki/Ackermann_function

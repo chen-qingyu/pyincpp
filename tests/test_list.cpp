@@ -266,7 +266,7 @@ TEST_CASE("List")
 
     SECTION("repeat")
     {
-        REQUIRE_THROWS_MATCHES(some *= -1, std::runtime_error, Message("Error: Times to repeat can not be less than zero."));
+        REQUIRE_THROWS_MATCHES(some *= -1, std::runtime_error, Message("Error: Require times >= 0 for repeat."));
 
         REQUIRE((some *= 1) == List<int>{1, 2, 3, 4, 5});
         REQUIRE((some *= 2) == List<int>{1, 2, 3, 4, 5, 1, 2, 3, 4, 5});
@@ -448,7 +448,7 @@ TEST_CASE("List")
         REQUIRE(some.slice(-1, -1) == List<int>{});
         REQUIRE(some.slice(-1, -1, -1) == List<int>{});
 
-        REQUIRE_THROWS_MATCHES(some.slice(1, 2, 0), std::runtime_error, Message("Error: Slice step can not be zero."));
+        REQUIRE_THROWS_MATCHES(some.slice(1, 2, 0), std::runtime_error, Message("Error: Require step != 0 for slice(start, stop, step)."));
 
         REQUIRE_THROWS_MATCHES(some.slice(-7, -6), std::runtime_error, Message("Error: Index out of range."));
     }
