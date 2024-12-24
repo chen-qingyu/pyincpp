@@ -1,3 +1,5 @@
+#include <format>
+
 #include <catch2/benchmark/catch_benchmark.hpp>
 #include <catch2/catch_test_macros.hpp>
 
@@ -9,349 +11,213 @@
 #include "bigint.h"    // https://github.com/kasparsklavins/bigint
 #include "bignumber.h" // https://github.com/Limeoats/BigNumber
 
+template <typename T>
+inline void constructor(const char* a)
+{
+    REQUIRE(T(a) == T("987654321000987654321000987654321000987654321000"));
+    BENCHMARK(std::format("ctor ({})", typeid(T).name()))
+    {
+        return T(a);
+    };
+}
+
+template <typename T>
+inline void add(T a, T b)
+{
+    REQUIRE(a + b == T("1111111110001111111110001111111110001111111110000"));
+    BENCHMARK(std::format("+ ({})", typeid(T).name()))
+    {
+        return a + b;
+    };
+}
+
+template <typename T>
+inline void sub(T a, T b)
+{
+    REQUIRE(a - b == T("864197532000864197532000864197532000864197532000"));
+    BENCHMARK(std::format("- ({})", typeid(T).name()))
+    {
+        return a - b;
+    };
+}
+
+template <typename T>
+inline void mul(T a, T b)
+{
+    REQUIRE(a * b == T("121932631112879134262225636335893338393537524450906873893338149672262225392470631112635269000000"));
+    BENCHMARK(std::format("* ({})", typeid(T).name()))
+    {
+        return a * b;
+    };
+}
+
+template <typename T>
+inline void div(T a, T b)
+{
+    REQUIRE(a / b == T("8"));
+    BENCHMARK(std::format("/ ({})", typeid(T).name()))
+    {
+        return a / b;
+    };
+}
+
+template <typename T>
+inline void mod(T a, T b)
+{
+    REQUIRE(a % b == T("9000000000009000000000009000000000009000"));
+    BENCHMARK(std::format("% ({})", typeid(T).name()))
+    {
+        return a % b;
+    };
+}
+
+template <typename T>
+inline void inc(T a)
+{
+    REQUIRE(++a == T("987654321000987654321000987654321000987654321001"));
+    BENCHMARK(std::format("++ ({})", typeid(T).name()))
+    {
+        return ++a;
+    };
+}
+
+template <typename T>
+inline void cmp(T a, T b)
+{
+    REQUIRE(a > b);
+    BENCHMARK(std::format("> ({})", typeid(T).name()))
+    {
+        return a > b;
+    };
+}
+
 TEST_CASE("pyincpp::Int vs Other", "[int]")
 {
-    const char* int1 = "987654321000987654321000987654321000987654321000";
-    const char* int2 = "123456789000123456789000123456789000123456789000";
+    const char* a = "987654321000987654321000987654321000987654321000";
+    const char* b = "123456789000123456789000123456789000123456789000";
 
-    pyincpp::Int a1(int1);
-    pyincpp::Int a2(int2);
+    pyincpp::Int a1(a), b1(b);
+    BigInt a2(a), b2(b);
+    InfInt a3(a), b3(b);
+    Dodecahedron::Bigint a4(a), b4(b);
+    BigNumber a5(a), b5(b);
 
-    BigInt b1(int1);
-    BigInt b2(int2);
+    constructor<pyincpp::Int>(a);
+    constructor<BigInt>(a);
+    constructor<InfInt>(a);
+    constructor<Dodecahedron::Bigint>(a);
+    constructor<BigNumber>(a);
 
-    InfInt c1(int1);
-    InfInt c2(int2);
+    add<pyincpp::Int>(a1, b1);
+    add<BigInt>(a2, b2);
+    add<InfInt>(a3, b3);
+    add<Dodecahedron::Bigint>(a4, b4);
+    add<BigNumber>(a5, b5);
 
-    Dodecahedron::Bigint d1(int1);
-    Dodecahedron::Bigint d2(int2);
+    sub<pyincpp::Int>(a1, b1);
+    sub<BigInt>(a2, b2);
+    sub<InfInt>(a3, b3);
+    sub<Dodecahedron::Bigint>(a4, b4);
+    sub<BigNumber>(a5, b5);
 
-    BigNumber e1(int1);
-    BigNumber e2(int2);
+    mul<pyincpp::Int>(a1, b1);
+    mul<BigInt>(a2, b2);
+    mul<InfInt>(a3, b3);
+    mul<Dodecahedron::Bigint>(a4, b4);
+    mul<BigNumber>(a5, b5);
 
-    REQUIRE(pyincpp::Int(int1) == "987654321000987654321000987654321000987654321000");
-    BENCHMARK("construct (pyincpp)")
+    div<pyincpp::Int>(a1, b1);
+    div<BigInt>(a2, b2);
+    div<InfInt>(a3, b3);
+    // div<Dodecahedron::Bigint>(a4, b4); // not supported
+    div<BigNumber>(a5, b5);
+
+    mod<pyincpp::Int>(a1, b1);
+    mod<BigInt>(a2, b2);
+    mod<InfInt>(a3, b3);
+    // mod<Dodecahedron::Bigint>(a4, b4); // not supported
+    // mod<BigNumber>(a5, b5); // not supported
+
+    inc<pyincpp::Int>(a1);
+    inc<BigInt>(a2);
+    inc<InfInt>(a3);
+    // inc<Dodecahedron::Bigint>(a4); // not supported
+    inc<BigNumber>(a5);
+
+    cmp<pyincpp::Int>(a1, b1);
+    cmp<BigInt>(a2, b2);
+    cmp<InfInt>(a3, b3);
+    cmp<Dodecahedron::Bigint>(a4, b4);
+    cmp<BigNumber>(a5, b5);
+
+    // Now, it is not convenient to use template functions, and some classes do not support the relevant function is omitted.
+
+    REQUIRE(pyincpp::Int::gcd(a1, b1) == "9000000000009000000000009000000000009000");
+    BENCHMARK(std::format("gcd ({})", typeid(pyincpp::Int).name()))
     {
-        return pyincpp::Int(int1);
+        return pyincpp::Int::gcd(a1, b1);
     };
-
-    REQUIRE(BigInt(int1) == "987654321000987654321000987654321000987654321000");
-    BENCHMARK("construct (BigInt)")
+    REQUIRE(gcd(a2, b2) == "9000000000009000000000009000000000009000");
+    BENCHMARK(std::format("gcd ({})", typeid(BigInt).name()))
     {
-        return BigInt(int1);
-    };
-
-    REQUIRE(InfInt(int1) == "987654321000987654321000987654321000987654321000");
-    BENCHMARK("construct (infint)")
-    {
-        return InfInt(int1);
-    };
-
-    REQUIRE(Dodecahedron::Bigint(int1) == std::string("987654321000987654321000987654321000987654321000"));
-    BENCHMARK("construct (bigint)")
-    {
-        return Dodecahedron::Bigint(int1);
-    };
-
-    REQUIRE(BigNumber(int1) == "987654321000987654321000987654321000987654321000");
-    BENCHMARK("construct (BigNumber)")
-    {
-        return BigNumber(int1);
-    };
-
-    REQUIRE(a1 + a2 == "1111111110001111111110001111111110001111111110000");
-    BENCHMARK("+ (pyincpp)")
-    {
-        return a1 + a2;
-    };
-
-    REQUIRE(b1 + b2 == "1111111110001111111110001111111110001111111110000");
-    BENCHMARK("+ (BigInt)")
-    {
-        return b1 + b2;
-    };
-
-    REQUIRE(c1 + c2 == "1111111110001111111110001111111110001111111110000");
-    BENCHMARK("+ (infint)")
-    {
-        return c1 + c2;
-    };
-
-    REQUIRE(d1 + d2 == std::string("1111111110001111111110001111111110001111111110000"));
-    BENCHMARK("+ (bigint)")
-    {
-        return d1 + d2;
-    };
-
-    REQUIRE(e1 + e2 == "1111111110001111111110001111111110001111111110000");
-    BENCHMARK("+ (BigNumber)")
-    {
-        return e1 + e2;
-    };
-
-    REQUIRE(a1 - a2 == "864197532000864197532000864197532000864197532000");
-    BENCHMARK("- (pyincpp)")
-    {
-        return a1 - a2;
-    };
-
-    REQUIRE(b1 - b2 == "864197532000864197532000864197532000864197532000");
-    BENCHMARK("- (BigInt)")
-    {
-        return b1 - b2;
-    };
-
-    REQUIRE(c1 - c2 == "864197532000864197532000864197532000864197532000");
-    BENCHMARK("- (infint)")
-    {
-        return c1 - c2;
-    };
-
-    REQUIRE(d1 - d2 == std::string("864197532000864197532000864197532000864197532000"));
-    BENCHMARK("- (bigint)")
-    {
-        return d1 - d2;
-    };
-
-    REQUIRE(e1 - e2 == "864197532000864197532000864197532000864197532000");
-    BENCHMARK("- (BigNumber)")
-    {
-        return e1 - e2;
-    };
-
-    REQUIRE(a1 * a2 == "121932631112879134262225636335893338393537524450906873893338149672262225392470631112635269000000");
-    BENCHMARK("* (pyincpp)")
-    {
-        return a1 * a2;
-    };
-
-    REQUIRE(b1 * b2 == "121932631112879134262225636335893338393537524450906873893338149672262225392470631112635269000000");
-    BENCHMARK("* (BigInt)")
-    {
-        return b1 * b2;
-    };
-
-    REQUIRE(c1 * c2 == "121932631112879134262225636335893338393537524450906873893338149672262225392470631112635269000000");
-    BENCHMARK("* (infint)")
-    {
-        return c1 * c2;
-    };
-
-    REQUIRE(d1 * d2 == std::string("121932631112879134262225636335893338393537524450906873893338149672262225392470631112635269000000"));
-    BENCHMARK("* (bigint)")
-    {
-        return d1 * d2;
-    };
-
-    REQUIRE(e1 * e2 == "121932631112879134262225636335893338393537524450906873893338149672262225392470631112635269000000");
-    BENCHMARK("* (BigNumber)")
-    {
-        return e1 * e2;
-    };
-
-    REQUIRE(a1 / a2 == "8");
-    BENCHMARK("/ (pyincpp)")
-    {
-        return a1 / a2;
-    };
-
-    REQUIRE(b1 / b2 == "8");
-    BENCHMARK("/ (BigInt)")
-    {
-        return b1 / b2;
-    };
-
-    REQUIRE(c1 / c2 == "8");
-    BENCHMARK("/ (infint)")
-    {
-        return c1 / c2;
-    };
-
-    // Not supported
-    // REQUIRE(d1 / d2 == std::string("8"));
-    // BENCHMARK("/ (bigint)")
-    // {
-    //     return d1 / d2;
-    // };
-
-    REQUIRE(e1 / e2 == "8");
-    BENCHMARK("/ (BigNumber)")
-    {
-        return e1 / e2;
-    };
-
-    REQUIRE(a1 % a2 == "9000000000009000000000009000000000009000");
-    BENCHMARK("% (pyincpp)")
-    {
-        return a1 % a2;
-    };
-
-    REQUIRE(b1 % b2 == "9000000000009000000000009000000000009000");
-    BENCHMARK("% (BigInt)")
-    {
-        return b1 % b2;
-    };
-
-    REQUIRE(c1 % c2 == "9000000000009000000000009000000000009000");
-    BENCHMARK("% (infint)")
-    {
-        return c1 % c2;
-    };
-
-    // Not supported
-    // REQUIRE(d1 % d2 == std::string("9000000000009000000000009000000000009000"));
-    // BENCHMARK("% (bigint)")
-    // {
-    //     return d1 % d2;
-    // };
-
-    // Not supported
-    // REQUIRE(e1 % e2 == "9000000000009000000000009000000000009000");
-    // BENCHMARK("% (BigNumber)")
-    // {
-    //     return e1 % e2;
-    // };
-
-    auto acopy = pyincpp::Int(a1);
-    REQUIRE(++acopy == "987654321000987654321000987654321000987654321001");
-    BENCHMARK("++ (pyincpp)")
-    {
-        return ++acopy;
-    };
-
-    auto bcopy = BigInt(b1);
-    REQUIRE(++bcopy == "987654321000987654321000987654321000987654321001");
-    BENCHMARK("++ (BigInt)")
-    {
-        return ++bcopy;
-    };
-
-    auto ccopy = InfInt(c1);
-    REQUIRE(++ccopy == "987654321000987654321000987654321000987654321001");
-    BENCHMARK("++ (infint)")
-    {
-        return ++ccopy;
-    };
-
-    // Not supported
-    // auto dcopy = Dodecahedron::Bigint(d1);
-    // REQUIRE(++dcopy == "987654321000987654321000987654321000987654321001");
-    // BENCHMARK("++ (bigint)")
-    // {
-    //     return ++dcopy;
-    // };
-
-    auto ecopy = BigNumber(e1);
-    REQUIRE(++ecopy == "987654321000987654321000987654321000987654321001");
-    BENCHMARK("++ (BigNumber)")
-    {
-        return ++ecopy;
-    };
-
-    REQUIRE(a1 > a2);
-    BENCHMARK("> (pyincpp)")
-    {
-        return a1 > a2;
-    };
-
-    REQUIRE(b1 > b2);
-    BENCHMARK("> (BigInt)")
-    {
-        return b1 > b2;
-    };
-
-    REQUIRE(c1 > c2);
-    BENCHMARK("> (infint)")
-    {
-        return c1 > c2;
-    };
-
-    REQUIRE(d1 > d2);
-    BENCHMARK("> (bigint)")
-    {
-        return d1 > d2;
-    };
-
-    REQUIRE(e1 > e2);
-    BENCHMARK("> (BigNumber)")
-    {
-        return e1 > e2;
-    };
-
-    REQUIRE(pyincpp::Int::gcd(a1, a2) == "9000000000009000000000009000000000009000");
-    BENCHMARK("gcd (pyincpp)")
-    {
-        return pyincpp::Int::gcd(a1, a2);
-    };
-
-    REQUIRE(gcd(b1, b2) == "9000000000009000000000009000000000009000");
-    BENCHMARK("gcd (BigInt)")
-    {
-        return gcd(b1, b2);
+        return gcd(a2, b2);
     };
 
     REQUIRE(pyincpp::Int::pow(a1, 10) == "883180926273197021952264207133587213024757297231319710324392613444786407476937172097269547752144587748034859385950214986131578524631947404097159758634059531453759956655784361184056650195934688971795597131494125041289325199580638365345730937031303573757092905409889931409326947349999958418006278835787126126617733545641071231406892102718589117039785666092599334122903993297569621489728460437976845055240356743070703495190012103572275987661566940511201000000000000000000000000000000");
-    BENCHMARK("pow (pyincpp)")
+    BENCHMARK(std::format("pow ({})", typeid(pyincpp::Int).name()))
     {
         return pyincpp::Int::pow(a1, 10);
     };
-
-    REQUIRE(pow(b1, 10) == "883180926273197021952264207133587213024757297231319710324392613444786407476937172097269547752144587748034859385950214986131578524631947404097159758634059531453759956655784361184056650195934688971795597131494125041289325199580638365345730937031303573757092905409889931409326947349999958418006278835787126126617733545641071231406892102718589117039785666092599334122903993297569621489728460437976845055240356743070703495190012103572275987661566940511201000000000000000000000000000000");
-    BENCHMARK("pow (BigInt)")
+    REQUIRE(pow(a2, 10) == "883180926273197021952264207133587213024757297231319710324392613444786407476937172097269547752144587748034859385950214986131578524631947404097159758634059531453759956655784361184056650195934688971795597131494125041289325199580638365345730937031303573757092905409889931409326947349999958418006278835787126126617733545641071231406892102718589117039785666092599334122903993297569621489728460437976845055240356743070703495190012103572275987661566940511201000000000000000000000000000000");
+    BENCHMARK(std::format("pow ({})", typeid(BigInt).name()))
     {
-        return pow(b1, 10);
+        return pow(a2, 10);
     };
-
-    REQUIRE(d1.pow(10) == std::string("883180926273197021952264207133587213024757297231319710324392613444786407476937172097269547752144587748034859385950214986131578524631947404097159758634059531453759956655784361184056650195934688971795597131494125041289325199580638365345730937031303573757092905409889931409326947349999958418006278835787126126617733545641071231406892102718589117039785666092599334122903993297569621489728460437976845055240356743070703495190012103572275987661566940511201000000000000000000000000000000"));
-    BENCHMARK("pow (bigint)")
+    REQUIRE(Dodecahedron::Bigint(a4).pow(10) == std::string("883180926273197021952264207133587213024757297231319710324392613444786407476937172097269547752144587748034859385950214986131578524631947404097159758634059531453759956655784361184056650195934688971795597131494125041289325199580638365345730937031303573757092905409889931409326947349999958418006278835787126126617733545641071231406892102718589117039785666092599334122903993297569621489728460437976845055240356743070703495190012103572275987661566940511201000000000000000000000000000000"));
+    BENCHMARK(std::format("pow ({})", typeid(Dodecahedron::Bigint).name()))
     {
-        return Dodecahedron::Bigint(d1).pow(10); // pow will modify this
+        return Dodecahedron::Bigint(a4).pow(10); // Dodecahedron::Bigint::pow will modify this
     };
-
-    REQUIRE(e1.pow(10) == std::string("883180926273197021952264207133587213024757297231319710324392613444786407476937172097269547752144587748034859385950214986131578524631947404097159758634059531453759956655784361184056650195934688971795597131494125041289325199580638365345730937031303573757092905409889931409326947349999958418006278835787126126617733545641071231406892102718589117039785666092599334122903993297569621489728460437976845055240356743070703495190012103572275987661566940511201000000000000000000000000000000"));
-    BENCHMARK("pow (BigNumber)")
+    REQUIRE(a5.pow(10) == std::string("883180926273197021952264207133587213024757297231319710324392613444786407476937172097269547752144587748034859385950214986131578524631947404097159758634059531453759956655784361184056650195934688971795597131494125041289325199580638365345730937031303573757092905409889931409326947349999958418006278835787126126617733545641071231406892102718589117039785666092599334122903993297569621489728460437976845055240356743070703495190012103572275987661566940511201000000000000000000000000000000"));
+    BENCHMARK(std::format("pow ({})", typeid(BigNumber).name()))
     {
-        return e1.pow(10);
+        return a5.pow(10);
     };
 
     REQUIRE(pyincpp::Int::sqrt(a1) == "993807990006614735669893");
-    BENCHMARK("sqrt (pyincpp)")
+    BENCHMARK(std::format("sqrt ({})", typeid(pyincpp::Int).name()))
     {
         return pyincpp::Int::sqrt(a1);
     };
-
-    REQUIRE(sqrt(b1) == "993807990006614735669893");
-    BENCHMARK("sqrt (BigInt)")
+    REQUIRE(sqrt(a2) == "993807990006614735669893");
+    BENCHMARK(std::format("sqrt ({})", typeid(BigInt).name()))
     {
-        return sqrt(b1);
+        return sqrt(a2);
     };
-
-    REQUIRE(c1.intSqrt() == "993807990006614735669893");
-    BENCHMARK("sqrt (infint)")
+    REQUIRE(a3.intSqrt() == "993807990006614735669893");
+    BENCHMARK(std::format("sqrt ({})", typeid(InfInt).name()))
     {
-        return c1.intSqrt();
+        return a3.intSqrt();
     };
 
     REQUIRE(pyincpp::Int::random(1000).digits() == 1000);
-    BENCHMARK("random (pyincpp)")
+    BENCHMARK(std::format("random ({})", typeid(pyincpp::Int).name()))
     {
         return pyincpp::Int::random(1000);
     };
-
     REQUIRE(big_random(1000).to_string().size() == 1000);
-    BENCHMARK("random (BigInt)")
+    BENCHMARK(std::format("random ({})", typeid(BigInt).name()))
     {
         return big_random(1000);
     };
 
     REQUIRE(pyincpp::Int(120).factorial() == "6689502913449127057588118054090372586752746333138029810295671352301633557244962989366874165271984981308157637893214090552534408589408121859898481114389650005964960521256960000000000000000000000000000");
-    BENCHMARK("factorial (pyincpp)")
+    BENCHMARK(std::format("fac ({})", typeid(pyincpp::Int).name()))
     {
         return pyincpp::Int(120).factorial();
     };
-
     REQUIRE(Dodecahedron::factorial(120) == std::string("6689502913449127057588118054090372586752746333138029810295671352301633557244962989366874165271984981308157637893214090552534408589408121859898481114389650005964960521256960000000000000000000000000000"));
-    BENCHMARK("factorial (bigint)")
+    BENCHMARK(std::format("fac ({})", typeid(Dodecahedron::Bigint).name()))
     {
         return Dodecahedron::factorial(120);
     };
