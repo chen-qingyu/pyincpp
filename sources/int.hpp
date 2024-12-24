@@ -349,7 +349,8 @@ public:
             return false; // prime >= 2
         }
 
-        for (Int n = 2; n * n <= *this; n.abs_inc())
+        Int s = sqrt(*this);
+        for (Int n = 2; n <= s; n.abs_inc())
         {
             if ((*this % n).is_zero())
             {
@@ -699,38 +700,32 @@ public:
      * Static
      */
 
-    /// Return the square root of `integer`.
-    static Int sqrt(const Int& integer)
+    /// Return the square root of integer `n`.
+    static Int sqrt(const Int& n)
     {
-        if (integer.sign_ == -1)
+        if (n.sign_ == -1)
         {
             throw std::runtime_error("Error: Cannot compute square root of a negative integer.");
         }
 
-        if (integer.is_zero())
+        // binary search
+        Int lo = 0, hi = n, res;
+        while (lo <= hi)
         {
-            return 0;
-        }
-        else if (integer < 4) // can not omit
-        {
-            return 1;
-        }
+            Int mid = lo + (hi - lo) / 2;
 
-        // using Newton's method
-
-        // as far as possible to reduce the number of iterations
-        // cur_sqrt is about 10^(digits/2) in O(1)
-        Int cur_sqrt(1, std::vector<int>(integer.chunks_.size() / 2, 0));
-        cur_sqrt.chunks_.push_back(1);
-
-        Int pre_sqrt;
-        while (cur_sqrt != pre_sqrt)
-        {
-            pre_sqrt = cur_sqrt;
-            cur_sqrt = (cur_sqrt + integer / cur_sqrt) / 2;
+            if (mid * mid <= n) // if mid^2 <= n, update the result and search in upper half
+            {
+                res = mid;
+                lo = mid + 1;
+            }
+            else // else mid^2 > n, search in the lower half
+            {
+                hi = mid - 1;
+            }
         }
 
-        return cur_sqrt;
+        return res;
     }
 
     /// Return `(base**exp) % mod` (`mod` default = 0 means does not perform module).
