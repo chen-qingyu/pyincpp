@@ -600,7 +600,7 @@ public:
     /// Return the absolute value of this.
     Int abs() const
     {
-        return sign_ == -1 ? -*this : *this;
+        return Int(std::abs(sign_), chunks_);
     }
 
     /// Return this + `rhs`.
@@ -750,22 +750,18 @@ public:
         }
 
         // fast power algorithm
-
-        Int num = base;
-        Int n = exp;
-        Int result = 1; // this**0 == 1
-
+        Int num = base, n = exp, res = 1;
         while (!n.is_zero())
         {
             if (n.is_odd())
             {
-                result = (mod.is_zero() ? result * num : (result * num) % mod);
+                res = mod.is_zero() ? res * num : (res * num) % mod;
             }
-            num = (mod.is_zero() ? num * num : (num * num) % mod);
-            n /= 2; // integer divide
+            num = mod.is_zero() ? num * num : (num * num) % mod;
+            n /= 2;
         }
 
-        return result;
+        return res;
     }
 
     /// Return the logarithm of integer `n` based on integer `base`.
@@ -781,15 +777,14 @@ public:
             return n.digits() - 1;
         }
 
-        Int result;
-        Int value = n / base;
-        while (!value.is_zero())
+        Int num = n / base, res;
+        while (!num.is_zero())
         {
-            ++result;
-            value /= base;
+            ++res;
+            num /= base;
         }
 
-        return result;
+        return res;
     }
 
     /// Calculate the greatest common divisor of two integers.
