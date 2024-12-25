@@ -11,26 +11,23 @@ _像 Python 的内置类型一样好用的 C++ 库_
 - 目标：提供一个像 Python 的内置类型一样好用的 C++ 库
 - 模块：List, Set, Dict, Int, Str, Tuple, Complex, Deque, Fraction
 - 风格：大部分遵循 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) ，小部分基于项目规模和源码简洁性的考虑采用自己的风格
-- 测试：使用 [Catch2](https://github.com/catchorg/Catch2) 进行了单元测试和基准测试，确保测试全部通过
-- 安全：使用 [Dr. Memory](https://drmemory.org) 进行了检查，确保没有安全问题
 - 文档：使用 [Doxygen](https://www.doxygen.nl) 生成文档
-- 构建：使用 [XMake](https://xmake.io) 进行构建
 
 ## 2. 特点
 
-- 简洁：Stay simple, stay young. 在保证好用和健壮的前提下，尽量简洁，便于维护和阅读。
-- 好用：经过我的精心设计，用起来可以像 Python 的内置类型一样方便。很 Pythonic。
-- 健壮：对容器的增删改查都有相应的检查。
-- 高效：[基准测试结果](./benches/std_vs_pyincpp.cpp)表明功能与标准库相同的部分的性能几乎一样。
+- 简洁：Stay simple, stay young. 在保证好用和健壮的前提下，尽量简洁，便于维护和阅读
+- 好用：经过我的精心设计，用起来可以像 Python 的内置类型一样方便。很 Pythonic
+- 健壮：对容器的增删改查都有相应的检查
+- 轻量：单头文件设计，源码不依赖任何第三方库，使用及拓展非常轻便和简单
+- 高效：[基准测试结果](./benches)表明功能与标准库相同的部分的性能几乎一样，并且此项目的大整数模块速度非常快
+- 安全：使用 [Catch2](https://github.com/catchorg/Catch2) 和 [Dr. Memory](https://drmemory.org) 进行了测试和检查，确保没有安全问题
 
 ## 3. 用法
 
-因为用的是 C++ 模板，所以全部以头文件的形式（.hpp）给出，header-only。
+以单头文件的形式给出，header-only，使用非常方便：
 
-使用非常方便：
-
-- PyInCpp 已经进入 XMake 官方仓库，所以只需要在 xmake.lua 中加上 `add_requires("pyincpp")` 然后源码中就可以 `#include <pyincpp.hpp>`。
-- 或者，直接从 releases 里面下载合并后的头文件然后 `#include "pyincpp_amalgamated.hpp"`。
+- PyInCpp 已经进入 [XMake](https://xmake.io) 官方仓库，所以只需要在 xmake.lua 中加上 `add_requires("pyincpp")` 然后源码中就可以 `#include <pyincpp.hpp>`。
+- 或者，直接复制源码文件到你的项目中然后 `#include "pyincpp.hpp"`。
 
 一共九个类，对标 Python 里面常用的类：
 
@@ -184,6 +181,8 @@ std::cout << t3 << std::endl; // (1, 1.5, A, hello, ((), ()))
 
 说明一下关于 inline：为了源码简洁性，我最后决定一律采用 inline 的风格。一般不会有问题，除非对程序体积有很高的要求。刚开始我是把声明和定义分开写的，但这是模板，没法分成两个文件，所以我在一个文件里分开写，一部分函数定义前面加上 inline，但是这样最后写完了看起来非常冗长，一大堆的 "template typename inline"，在看了 Java 源码后考虑再三决定全部写在类里面，也就是默认 inline 的形式。inline 只是对编译器的请求而非要求，不能 inline 的函数（比如有递归的函数）编译器是不会执行 inline 的。
 
-每行代码都经过了我的精心优化。拿 pyincpp::Int 和 GitHub 上有三百多 star 的 [BigInt](https://github.com/faheel/BigInt) 做个[比较](./benches/pyincpp_int_vs_other_int.cpp)，结论是 pyincpp::Int 的速度快得多，并且功能更丰富，而源码行数不到 BigInt 的一半，代码也更加整洁。
+每行代码都经过了我的精心优化。拿 pyincpp::Int 和 GitHub 上超过 100 star 的一些大整数项目做个[比较](./benches/pyincpp_int_vs_other_int.cpp)，结论是 pyincpp::Int 的速度更快，并且功能更丰富，代码也更精简和整洁。
+
+对于这个项目来说，源码的精简性和可读性优先于非时间复杂度级别的性能优化，所以能够用统一的算法完成的功能我通常不会进行特殊的优化。对于现代的人们来说，计算资源的利用率其实很低，性能提升的边际递减效应显著，相较而言人的注意力更加重要。该项目的源码也可看作是“功能”的一部分。
 
 我这个项目用到了 FPGA 里面的独热码思想结合有限状态机，还用到了模板元编程在编译期递归实现任意可变模板参数，听着很厉害，但是不赚钱，也没多少人真的会用，属于自娱自乐，可我创造就是快乐，创造就是意义（反正我不缺钱——饿不死）。

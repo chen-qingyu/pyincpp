@@ -11,26 +11,23 @@ _A C++ type library that is as easy to use as Python built-in types._
 - Goal: Provide a C++ type library that is as easy to use as Python built-in types
 - Module: List, Set, Dict, Int, Str, Tuple, Complex, Deque, Fraction
 - Style: Most follow the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html), some my own styles are based on considerations of source code size and simplicity
-- Test: Using [Catch2](https://github.com/catchorg/Catch2) for unit tests and benchmark and ensure all tests passed
-- Security: Using [Dr. Memory](https://drmemory.org) checked to ensure there were no safety issues
-- Document: Using [Doxygen](https://www.doxygen.nl) to generate documents
-- Build: Using [XMake](https://xmake.io) to build
+- Document: Use [Doxygen](https://www.doxygen.nl) to generate documents
 
 ## 2. Feature
 
-- Simple: Stay simple, stay young. While ensuring friendly and robust, try to be concise and easy to maintain and read.
-- Friendly: With my careful design, it can be used as conveniently as Python's built-in types. Very Pythonic.
-- Robust: There are corresponding checks for the insert, remove, modify, and access of containers.
-- Efficiency: The [benchmark results](./benches/std_vs_pyincpp.cpp) show that the performance of the parts with the same function as the standard library is almost the same.
+- Simple: Stay simple, stay young. While ensuring friendly and robust, try to be concise and easy to maintain and read
+- Friendly: With my careful design, it can be used as conveniently as Python's built-in types. Very Pythonic
+- Robust: There are corresponding checks for the insert, remove, modify, and access of containers
+- Lightweight: Designed as a single header file, the source code does not rely on any third-party libraries, making it very easy to use and expand
+- Efficient: The [benchmark results](./benches) show that the performance of the parts with the same function as the standard library is almost the same, and the big integer module of this project is very fast
+- Secure: Tested and checked using [Catch2](https://github.com/catchorg/Catch2) and [Dr. Memory](https://drmemory.org) to ensure no security issues
 
 ## 3. Usage
 
-Because C++ templates are used, they are all provided in the form of header files (.hpp), header only.
+Provided as the form of single header file, header-only, very convenient to use:
 
-Very convenient to use:
-
-- PyInCpp has already in the official XMake repository, you only need to add it in the xmake.lua: `add_requires("pyincpp")` and then `#include <pyincpp.hpp>`.
-- Or, just download the amalgamated header file from releases and then `#include "pyincpp_amalgamated.hpp"`.
+- PyInCpp has already in the official [XMake](https://xmake.io) repository, you only need to add it in the xmake.lua: `add_requires("pyincpp")` and then `#include <pyincpp.hpp>`.
+- Or, just copy the source files into your project and then `#include "pyincpp.hpp"`.
 
 There are a total of 9 classes, refer to commonly used classes in Python:
 
@@ -184,6 +181,8 @@ It was originally developed in C to learn data structures. Then in 2021 I tried 
 
 A word about inline: for the sake of source brevity, I finally decided to adopt the inline style. There is usually no problem unless there is a high requirement for program size. At first I wrote the declaration and the definition separately, but this is a template, so I can't split it into two files, so I'm going to write it in one file, and I'm going to put inline in front of some of the function definitions, but it ended up being a verbose bunch of "template typename inline". After reading the Java source code, I decided to write it all in the class, as the default inline. Inline is just a request to the compiler, not a requirement, and functions that can not be inline (such as recursive functions) are not executed by the compiler.
 
-Each line of code has been carefully optimized by me. [Comparing](./benches/pyincpp_int_vs_other_int.cpp) pyincpp::Int with [BigInt](https://github.com/faheel/BigInt) on GitHub, which has over 300 stars, the conclusion is that pyincpp::Int is much faster and more feature rich, with less than half the number of source code lines and cleaner code.
+Every line of code has been carefully optimized by me. [Comparing](./benches/pyincpp_int_vs_other_int.cpp) pyincpp::Int to some big integer projects on GitHub with over 100 stars, the conclusion is that pyincpp::Int is faster, more feature-rich, and has simpler and cleaner code.
+
+For this project, the simplicity and readability of the source code take precedence over performance optimizations that do not involve time complexity. Therefore, I usually do not perform special optimizations for functions that can be completed using a unified algorithm. For modern people, the utilization rate of computing resources is actually very low, and the marginal diminishing effect of performance improvement is significant. In comparison, human attention is more important. The source code of this project can also be considered as part of its "functionality".
 
 In this project, I used the One-hot code idea in FPGA combined with the finite state machine. I also used template meta-programming to recursively implement any variable template parameters at compile time. It sounds great, but it doesn't make money, not many people really use, just belong to self-entertainment now, but creation is happiness, creation is meaning.
