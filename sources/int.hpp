@@ -731,9 +731,8 @@ public:
     /// Return `(base**exp) % mod` (`mod` default = 0 means does not perform module).
     static Int pow(const Int& base, const Int& exp, const Int& mod = 0)
     {
-        // check if base.abs is 1
         // if base.abs is 1, only when base is negative and exp is odd return -1, otherwise return 1
-        if (base.digits() == 1 && base.chunks_[0] == 1)
+        if (base.chunks_.size() == 1 && base.chunks_[0] == 1)
         {
             return base.sign_ == -1 && exp.is_odd() ? -1 : 1;
         }
@@ -878,6 +877,56 @@ public:
                 return Int::pow(2, n + 3) - 3;
             default:
                 return n == 0 ? ackermann(m - 1, 1) : ackermann(m - 1, ackermann(m, n - 1));
+        }
+    }
+
+    /// The hyperoperation sequence is an infinite sequence of arithmetic operations.
+    /// This sequence starts with unary successor (n = 0), continues with addition (n = 1), multiplication (n = 2), exponentiation (n = 3), etc.
+    /// See: https://en.wikipedia.org/wiki/Hyperoperation
+    static Int hyperoperation(const Int& n, const Int& a, const Int& b)
+    {
+        if (n.is_negative() || a.is_negative() || b.is_negative())
+        {
+            throw std::runtime_error("Error: Require n >= 0 and a >= 0 and b >= 0 for hyperoperation(n, a, b).");
+        }
+
+        // special cases
+        if (n > 3)
+        {
+            if (a.is_zero() && b.is_even())
+            {
+                return 1;
+            }
+            else if (a.is_zero() && b.is_odd())
+            {
+                return 0;
+            }
+            else if (a == 1 || b.is_zero())
+            {
+                return 1;
+            }
+            else if (b == 1)
+            {
+                return a;
+            }
+            else if (a == 2 && b == 2)
+            {
+                return 4;
+            }
+        }
+
+        switch (n.to_number())
+        {
+            case 0:
+                return Int(1) + b;
+            case 1:
+                return a + b;
+            case 2:
+                return a * b;
+            case 3:
+                return Int::pow(a, b);
+            default:
+                return hyperoperation(n - 1, a, hyperoperation(n, a, b - 1));
         }
     }
 

@@ -521,6 +521,20 @@ TEST_CASE("Int")
         // A(4, 3) = 2^^6 - 3 = 2^2^65536 - 3, there is no computer can compute it...
     }
 
+    SECTION("hyperoperation")
+    {
+        REQUIRE_THROWS_MATCHES(Int::hyperoperation(-1, -1, -1), std::runtime_error, Message("Error: Require n >= 0 and a >= 0 and b >= 0 for hyperoperation(n, a, b)."));
+
+        REQUIRE(Int::hyperoperation(0, 0, 0) == 1);
+        REQUIRE(Int::hyperoperation(1000, 2, 2) == 4);
+
+        REQUIRE(Int::hyperoperation(0, 3, 3) == 4);               // successor
+        REQUIRE(Int::hyperoperation(1, 3, 3) == 6);               // addition
+        REQUIRE(Int::hyperoperation(2, 3, 3) == 9);               // multiplication
+        REQUIRE(Int::hyperoperation(3, 3, 3) == 27);              // exponentiation
+        REQUIRE(Int::hyperoperation(4, 3, 3) == 7625597484987LL); // tetration
+    }
+
     SECTION("print")
     {
         std::ostringstream oss;
