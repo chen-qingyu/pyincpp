@@ -9,7 +9,7 @@
 #include <algorithm>   // std::copy std::find std::rotate ...
 #include <cassert>     // assert
 #include <climits>     // INT_MAX
-#include <cmath>       // std::abs std::pow std::sqrt std::atan2 std::hypot INFINITY NAN
+#include <cmath>       // std::abs std::pow std::sqrt ...
 #include <concepts>    // std::integral
 #include <cstring>     // std::strlen
 #include <iomanip>     // std::setw std::setfill
@@ -18,7 +18,7 @@
 #include <limits>      // std::numeric_limits
 #include <numeric>     // std::gcd
 #include <ostream>     // std::ostream
-#include <random>      // std::random_device std::mt19937 std::uniform_int_distribution
+#include <random>      // std::random_device std::mt19937 ...
 #include <ranges>      // std::views::reverse
 #include <sstream>     // std::ostringstream
 #include <stdexcept>   // std::runtime_error
