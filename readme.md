@@ -78,7 +78,9 @@ Int("5").factorial().factorial(); // 6689502913449127057588118054090372586752746
 // get random Int of specified number of digits
 Int::random(1024); // 237957592143483875146995224963278325109395733362902250996014213111309067269964...
 // calculate the next prime that greater than this
-Int(0).next_prime(); // 2
+Int("7").next_prime(); // 11
+// calculate the tetration
+Int::hyperoperation("4", "3", "3"); // 7625597484987
 
 // convert Str to floating-point number, support inf and nan
 Str(".1e-2").to_decimal(); // 0.1e-2

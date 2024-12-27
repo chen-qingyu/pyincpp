@@ -40,7 +40,9 @@ TEST_CASE("Usage")
     // get random Int of specified number of digits
     REQUIRE(Int::random(1024).digits() == 1024);
     // calculate the next prime that greater than this
-    REQUIRE(Int(0).next_prime() == "2");
+    REQUIRE(Int("7").next_prime() == "11");
+    // calculate the tetration
+    REQUIRE(Int::hyperoperation("4", "3", "3") == "7625597484987");
 
     // convert Str to floating-point number, support inf and nan
     REQUIRE(Str(".1e-2").to_decimal() == 0.1e-2);
