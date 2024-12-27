@@ -429,6 +429,7 @@ public:
         }
         auto& a = chunks_;
         const auto& b = rhs_digits;
+        a.push_back(0);
 
         // calculate
         for (int i = 0; i < b.size(); ++i)
