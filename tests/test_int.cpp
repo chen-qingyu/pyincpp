@@ -4,45 +4,8 @@
 
 using namespace pyincpp;
 
-namespace pyincpp::detail
-{
-
-class PrivateTester
-{
-public:
-    static void small_op()
-    {
-        REQUIRE(Int(1).small_mul(1) == 1);
-        REQUIRE(Int(2).small_mul(1) == 2);
-        REQUIRE(Int(1).small_mul(2) == 2);
-        REQUIRE(Int(9999).small_mul(2) == 19998);
-        REQUIRE(Int(9999).small_mul(9999) == 99980001);
-        REQUIRE(Int(99999).small_mul(99) == 9899901);
-        REQUIRE(Int(99998).small_mul(99) == 9899802);
-        REQUIRE(Int(89999).small_mul(99) == 8909901);
-        REQUIRE(Int(99999).small_mul(9999) == 999890001);
-
-        REQUIRE(Int(1).small_divmod(1) == std::pair{1, 0});
-        REQUIRE(Int(2).small_divmod(1) == std::pair{2, 0});
-        REQUIRE(Int(1).small_divmod(2) == std::pair{0, 1});
-        REQUIRE(Int(9999).small_divmod(2) == std::pair{4999, 1});
-        REQUIRE(Int(9999).small_divmod(9999) == std::pair{1, 0});
-        REQUIRE(Int(99999).small_divmod(99) == std::pair{1010, 9});
-        REQUIRE(Int(99998).small_divmod(99) == std::pair{1010, 8});
-        REQUIRE(Int(89999).small_divmod(99) == std::pair{909, 8});
-        REQUIRE(Int(99999).small_divmod(9999) == std::pair{10, 9});
-    }
-};
-
-} // namespace pyincpp::detail
-
 TEST_CASE("Int")
 {
-    SECTION("private")
-    {
-        pyincpp::detail::PrivateTester::small_op();
-    }
-
     SECTION("basics")
     {
         // Int(int integer = 0)

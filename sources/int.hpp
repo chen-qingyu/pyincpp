@@ -11,16 +11,9 @@
 namespace pyincpp
 {
 
-namespace detail
-{
-class PrivateTester;
-}
-
 /// Int provides support for big integer arithmetic.
 class Int
 {
-    friend class detail::PrivateTester;
-
 private:
     // Base radix of digits.
     static constexpr int BASE = 1'000'000'000; // 10^(floor(log10(INT_MAX)))
@@ -159,7 +152,7 @@ private:
     }
 
     // Multiply with small int, for divmod, O(N)
-    Int& small_mul(int n)
+    void small_mul(int n)
     {
         assert(is_positive());
         assert(n > 0 && n < BASE);
@@ -173,11 +166,12 @@ private:
         }
         chunks_.push_back(carry);
 
-        return trim();
+        trim();
     }
 
     // Divide with small int, for divmod, O(N)
-    std::pair<Int&, int> small_divmod(int n)
+    // Return the remainder.
+    int small_div(int n)
     {
         assert(is_positive());
         assert(n > 0 && n < BASE);
@@ -190,7 +184,8 @@ private:
             r %= n;        // r%n < r%b < b
         }
 
-        return {trim(), int(r)};
+        trim();
+        return int(r);
     }
 
 public:
@@ -508,12 +503,12 @@ public:
 
         // now, the sign of two integers is not zero
 
-        // if rhs < base, then use small_divmod in O(N)
+        // if rhs < base, then use small_div in O(N)
         if (rhs.chunks_.size() == 1)
         {
             Int a = abs();                                   // can't be chained cause q is ref
-            auto [q, r] = a.small_divmod(rhs.chunks_[0]);    // this.abs divmod rhs.abs
-            return {sign_ == rhs.sign_ ? q : -q, sign_ * r}; // r.sign = this.sign
+            int r = a.small_div(rhs.chunks_[0]);             // this.abs divmod rhs.abs
+            return {sign_ == rhs.sign_ ? a : -a, sign_ * r}; // r.sign = this.sign
         }
 
         // dividend, divisor, temporary quotient, accumulated quotient
@@ -534,8 +529,8 @@ public:
                 a -= b;
                 q += t;
             }
-            b.small_divmod(2);
-            t.small_divmod(2);
+            b.small_div(2);
+            t.small_div(2);
         }
 
         // now q is the quotient.abs, a is the remainder.abs
