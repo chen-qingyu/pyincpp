@@ -459,6 +459,18 @@ TEST_CASE("Int")
         REQUIRE((int(5000 * 0.9) < sum && sum < int(5000 * 1.1)));
     }
 
+    SECTION("fibonacci")
+    {
+        int fib[] = {0, 1, 1, 2, 3, 5, 8, 13, 21, 34};
+
+        for (int i = 0; i < 10; ++i)
+        {
+            REQUIRE(Int::fibonacci(i) == fib[i]);
+        }
+
+        REQUIRE(Int::fibonacci(100) == "354224848179261915075");
+    }
+
     SECTION("ackermann")
     {
         // https://en.wikipedia.org/wiki/Ackermann_function#Table_of_values

@@ -850,6 +850,45 @@ public:
         return Int(1, chunks);
     }
 
+    /// Calculate the `n`th term of the Fibonacci sequence: 0 (n=0), 1, 1, 2, 3, 5, ...
+    static Int fibonacci(const Int& n)
+    {
+        if (n.is_negative())
+        {
+            throw std::runtime_error("Error: Require n >= 0 for fibonacci(n).");
+        }
+
+        // ref: https://sicp-solutions.net/post/sicp-solution-exercise-1-19
+
+        // T_pq(a, b) = (bq + aq + ap, bp + aq)
+        // T_pq(T_pq(a, b)) = ((bp+aq)q + (bq+aq+ap)q + (bq+aq+ap)p, (bp+aq)p + (bq+aq+ap)q)
+        //                  = (b(2pq+q^2) + a(p^2+q^2) + a(2pq+q^2), b(p^2+q^2) + a(2pq+q^2))
+        //                  = T_p'q'(a, b)
+        // => p' = p^2 + q^2, q' = 2pq + q^2
+
+        Int a = 1, b = 0, p = 0, q = 1, cnt = n;
+        while (!cnt.is_zero())
+        {
+            if (cnt.is_even())
+            {
+                Int p_ = p * p + q * q;
+                Int q_ = p * q * 2 + q * q;
+                p = p_;
+                q = q_;
+                cnt.small_div(2);
+            }
+            else
+            {
+                Int a_ = b * q + a * (p + q);
+                Int b_ = b * p + a * q;
+                a = a_;
+                b = b_;
+                --cnt;
+            }
+        }
+        return b;
+    }
+
     /// The well-known Ackermann function (perhaps not so well-known) is a rapidly growing function.
     /// Please input parameters carefully.
     /// See: https://en.wikipedia.org/wiki/Ackermann_function
