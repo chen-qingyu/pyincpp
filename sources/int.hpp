@@ -842,17 +842,17 @@ public:
         std::mt19937 gen(std::random_device{}());
 
         // little chunks
-        Int rand(1, std::vector<int>((digits - 1) / DIGITS_PER_CHUNK));
+        auto chunks = std::vector<int>((digits - 1) / DIGITS_PER_CHUNK);
         std::uniform_int_distribution<int> chunk(0, BASE - 1);
-        std::for_each(rand.chunks_.begin(), rand.chunks_.end(), [&](auto& x)
+        std::for_each(chunks.begin(), chunks.end(), [&](auto& x)
                       { x = chunk(gen); });
 
         // most significant chunk
         int n = (digits - 1) % DIGITS_PER_CHUNK + 1;
         std::uniform_int_distribution<int> most_chunk(std::pow(10, n - 1), std::pow(10, n) - 1);
-        rand.chunks_.push_back(most_chunk(gen));
+        chunks.push_back(most_chunk(gen));
 
-        return rand;
+        return Int(1, chunks);
     }
 
     /// The well-known Ackermann function (perhaps not so well-known) is a rapidly growing function.
