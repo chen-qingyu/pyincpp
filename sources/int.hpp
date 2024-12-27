@@ -537,7 +537,7 @@ public:
         return {sign_ == rhs.sign_ ? q : -q, sign_ == 1 ? a : -a};
     }
 
-    /// Increment the value by 1 quickly.
+    /// Increase the value by 1 quickly.
     Int& operator++()
     {
         if (sign_ == 1)
@@ -557,7 +557,7 @@ public:
         return *this;
     }
 
-    /// Decrement the value by 1 quickly.
+    /// Decrease the value by 1 quickly.
     Int& operator--()
     {
         if (sign_ == 1)
