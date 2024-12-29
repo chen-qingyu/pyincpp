@@ -151,7 +151,7 @@ private:
     {
     }
 
-    // Multiply with small int, for divmod, O(N)
+    // Multiply with small int. O(N)
     void small_mul(int n)
     {
         assert(is_positive());
@@ -169,7 +169,7 @@ private:
         trim();
     }
 
-    // Divide with small int, for divmod, O(N)
+    // Divide with small int. O(N)
     // Return the remainder.
     int small_div(int n)
     {
@@ -753,7 +753,7 @@ public:
                 res = mod.is_zero() ? res * num : (res * num) % mod;
             }
             num = mod.is_zero() ? num * num : (num * num) % mod;
-            n /= 2;
+            n.small_div(2);
         }
 
         return res;
@@ -883,7 +883,7 @@ public:
                 Int b_ = b * p + a * q;
                 a = a_;
                 b = b_;
-                --cnt;
+                cnt.abs_dec();
             }
         }
         return b;
@@ -911,7 +911,7 @@ public:
             case 3:
                 return Int::pow(2, n + 3) - 3;
             default:
-                return n == 0 ? ackermann(m - 1, 1) : ackermann(m - 1, ackermann(m, n - 1));
+                return n.is_zero() ? ackermann(m - 1, 1) : ackermann(m - 1, ackermann(m, n - 1));
         }
     }
 
