@@ -18,37 +18,40 @@ TEST_CASE("Fraction")
         Fraction f3(2, 3);
         REQUIRE(f3.numerator() == 2);
         REQUIRE(f3.denominator() == 3);
+        Fraction f4(0, 9);
+        REQUIRE(f4.numerator() == 0);
+        REQUIRE(f4.denominator() == 1);
         REQUIRE_THROWS_MATCHES(Fraction(1, 0), std::runtime_error, Message("Error: Divide by zero."));
 
         // Fraction(double number)
-        Fraction f4(0.0);
-        REQUIRE(f4.numerator() == 0);
-        REQUIRE(f4.denominator() == 1);
-        Fraction f5(1.1);
-        REQUIRE(f5.numerator() == 11);
-        REQUIRE(f5.denominator() == 10);
-        Fraction f6(1234.56789);
-        REQUIRE(f6.numerator() == 123456789);
-        REQUIRE(f6.denominator() == 100000);
-        Fraction f7(0.75);
-        REQUIRE(f7.numerator() == 3);
-        REQUIRE(f7.denominator() == 4);
-        Fraction f8(-22.33);
-        REQUIRE(f8.numerator() == -2233);
-        REQUIRE(f8.denominator() == 100);
-        Fraction f9(-1.2);
-        REQUIRE(f9.numerator() == -6);
-        REQUIRE(f9.denominator() == 5);
-
-        // Fraction(const Fraction& that)
-        Fraction f10(f9);
+        Fraction f5(0.0);
+        REQUIRE(f5.numerator() == 0);
+        REQUIRE(f5.denominator() == 1);
+        Fraction f6(1.1);
+        REQUIRE(f6.numerator() == 11);
+        REQUIRE(f6.denominator() == 10);
+        Fraction f7(1234.56789);
+        REQUIRE(f7.numerator() == 123456789);
+        REQUIRE(f7.denominator() == 100000);
+        Fraction f8(0.75);
+        REQUIRE(f8.numerator() == 3);
+        REQUIRE(f8.denominator() == 4);
+        Fraction f9(-22.33);
+        REQUIRE(f9.numerator() == -2233);
+        REQUIRE(f9.denominator() == 100);
+        Fraction f10(-1.2);
         REQUIRE(f10.numerator() == -6);
         REQUIRE(f10.denominator() == 5);
 
-        // Fraction(Fraction&& that)
-        Fraction f11(std::move(f10));
+        // Fraction(const Fraction& that)
+        Fraction f11(f10);
         REQUIRE(f11.numerator() == -6);
         REQUIRE(f11.denominator() == 5);
+
+        // Fraction(Fraction&& that)
+        Fraction f12(std::move(f11));
+        REQUIRE(f12.numerator() == -6);
+        REQUIRE(f12.denominator() == 5);
 
         // ~Fraction()
     }

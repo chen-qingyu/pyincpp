@@ -16,10 +16,10 @@ class Fraction
 {
 private:
     // Numerator.
-    int numerator_;
+    int num_;
 
     // Denominator.
-    int denominator_;
+    int den_;
 
 public:
     /*
@@ -28,23 +28,23 @@ public:
 
     /// Create a fraction with value `numerator/denominator`.
     Fraction(int numerator = 0, int denominator = 1)
-        : numerator_(numerator)
-        , denominator_(denominator)
+        : num_(numerator)
+        , den_(denominator)
     {
         // make sure the denominator is not zero
-        detail::check_zero(denominator_);
+        detail::check_zero(den_);
 
         // make sure the denominator is a positive number
-        if (denominator_ < 0)
+        if (den_ < 0)
         {
-            numerator_ = -numerator_;
-            denominator_ = -denominator_;
+            num_ = -num_;
+            den_ = -den_;
         }
 
         // simplify
-        int gcd = std::gcd(numerator_, denominator_);
-        numerator_ /= gcd;
-        denominator_ /= gcd;
+        int gcd = std::gcd(num_, den_);
+        num_ /= gcd;
+        den_ /= gcd;
     }
 
     /// Create a fraction with given double-precision floating-point `number`.
@@ -55,9 +55,9 @@ public:
         int precision = 1'000'000'000; // 10^floor(log10(INT_MAX))
 
         int gcd = std::gcd(int(std::round(dec_part * precision)), precision);
-        numerator_ = std::round(dec_part * precision) / gcd;
-        denominator_ = precision / gcd;
-        numerator_ += int_part * denominator_;
+        num_ = std::round(dec_part * precision) / gcd;
+        den_ = precision / gcd;
+        num_ += int_part * den_;
     }
 
     /// Copy constructor.
@@ -65,11 +65,11 @@ public:
 
     /// Move constructor.
     Fraction(Fraction&& that)
-        : numerator_(std::move(that.numerator_))
-        , denominator_(std::move(that.denominator_))
+        : num_(std::move(that.num_))
+        , den_(std::move(that.den_))
     {
-        that.numerator_ = 0;
-        that.denominator_ = 1;
+        that.num_ = 0;
+        that.den_ = 1;
     }
 
     /*
@@ -82,10 +82,10 @@ public:
         // this = a/b; that = c/d;
         // so, this - that = a/b - c/d = (ad - bc)/(bd)
         // since bd is always positive, compute (ad-bc) only
-        const int a = this->numerator_;
-        const int b = this->denominator_;
-        const int c = that.numerator_;
-        const int d = that.denominator_;
+        const int a = this->num_;
+        const int b = this->den_;
+        const int c = that.num_;
+        const int d = that.den_;
 
         return a * d - b * c;
     }
@@ -100,11 +100,11 @@ public:
     /// Move assignment operator.
     Fraction& operator=(Fraction&& that)
     {
-        numerator_ = std::move(that.numerator_);
-        denominator_ = std::move(that.denominator_);
+        num_ = std::move(that.num_);
+        den_ = std::move(that.den_);
 
-        that.numerator_ = 0;
-        that.denominator_ = 1;
+        that.num_ = 0;
+        that.den_ = 1;
 
         return *this;
     }
@@ -116,19 +116,19 @@ public:
     /// Convert the fraction to double type.
     operator double() const
     {
-        return double(numerator_) / double(denominator_);
+        return double(num_) / double(den_);
     }
 
     /// Get the numerator of this.
     int numerator() const
     {
-        return numerator_;
+        return num_;
     }
 
     /// Get the denominator of this.
     int denominator() const
     {
-        return denominator_;
+        return den_;
     }
 
     /*
@@ -168,14 +168,14 @@ public:
     /// Increment the value by 1.
     Fraction& operator++()
     {
-        numerator_ += denominator_;
+        num_ += den_;
         return *this;
     }
 
     /// Decrement the value by 1.
     Fraction& operator--()
     {
-        numerator_ -= denominator_;
+        num_ -= den_;
         return *this;
     }
 
@@ -192,37 +192,37 @@ public:
     /// Return the opposite value of this.
     Fraction operator-() const
     {
-        return Fraction(-numerator_, denominator_);
+        return Fraction(-num_, den_);
     }
 
     /// Return the absolute value of this.
     Fraction abs() const
     {
-        return Fraction(std::abs(numerator_), denominator_);
+        return Fraction(std::abs(num_), den_);
     }
 
     /// Return this + `rhs`.
     Fraction operator+(const Fraction& rhs) const
     {
-        return Fraction(numerator_ * rhs.denominator_ + denominator_ * rhs.numerator_, denominator_ * rhs.denominator_);
+        return Fraction(num_ * rhs.den_ + den_ * rhs.num_, den_ * rhs.den_);
     }
 
     /// Return this - `rhs`.
     Fraction operator-(const Fraction& rhs) const
     {
-        return Fraction(numerator_ * rhs.denominator_ - denominator_ * rhs.numerator_, denominator_ * rhs.denominator_);
+        return Fraction(num_ * rhs.den_ - den_ * rhs.num_, den_ * rhs.den_);
     }
 
     /// Return this * `rhs`.
     Fraction operator*(const Fraction& rhs) const
     {
-        return Fraction(numerator_ * rhs.numerator_, denominator_ * rhs.denominator_);
+        return Fraction(num_ * rhs.num_, den_ * rhs.den_);
     }
 
     /// Return this / `rhs` (not zero).
     Fraction operator/(const Fraction& rhs) const
     {
-        return Fraction(numerator_ * rhs.denominator_, denominator_ * rhs.numerator_);
+        return Fraction(num_ * rhs.den_, den_ * rhs.num_);
     }
 
     /// Return this % `rhs` (not zero).
@@ -230,7 +230,7 @@ public:
     {
         detail::check_zero(rhs);
 
-        return Fraction((numerator_ * rhs.denominator_) % (rhs.numerator_ * denominator_), denominator_ * rhs.denominator_);
+        return Fraction((num_ * rhs.den_) % (rhs.num_ * den_), den_ * rhs.den_);
     }
 
     /// Calculate the greatest common divisor of two fractions.
@@ -257,13 +257,13 @@ public:
     /// Output the fraction to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Fraction& fraction)
     {
-        if (fraction.denominator_ == 1)
+        if (fraction.den_ == 1)
         {
-            return os << fraction.numerator_;
+            return os << fraction.num_;
         }
         else
         {
-            return os << fraction.numerator_ << "/" << fraction.denominator_;
+            return os << fraction.num_ << "/" << fraction.den_;
         }
     }
 
