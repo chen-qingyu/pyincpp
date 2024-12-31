@@ -82,10 +82,10 @@ public:
         // this = a/b; that = c/d;
         // so, this - that = a/b - c/d = (ad - bc)/(bd)
         // since bd is always positive, compute (ad-bc) only
-        int a = this->numerator_;
-        int b = this->denominator_;
-        int c = that.numerator_;
-        int d = that.denominator_;
+        const int a = this->numerator_;
+        const int b = this->denominator_;
+        const int c = that.numerator_;
+        const int d = that.denominator_;
 
         return a * d - b * c;
     }
@@ -168,13 +168,15 @@ public:
     /// Increment the value by 1.
     Fraction& operator++()
     {
-        return *this += 1;
+        numerator_ += denominator_;
+        return *this;
     }
 
     /// Decrement the value by 1.
     Fraction& operator--()
     {
-        return *this -= 1;
+        numerator_ -= denominator_;
+        return *this;
     }
 
     /*
@@ -196,7 +198,7 @@ public:
     /// Return the absolute value of this.
     Fraction abs() const
     {
-        return numerator_ >= 0 ? *this : -(*this);
+        return Fraction(std::abs(numerator_), denominator_);
     }
 
     /// Return this + `rhs`.
