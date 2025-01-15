@@ -6,7 +6,7 @@ _A C++ type library that is as easy to use as Python built-in types._
 
 ## 1. Attribute
 
-- Name: PyInCpp
+- Name: PyInCpp (means **Py**thon **in** **C++**)
 - Language: C++, requires C++20
 - Goal: Provide a C++ type library that is as easy to use as Python built-in types
 - Module: List, Set, Dict, Int, Str, Tuple, Complex, Deque, Fraction

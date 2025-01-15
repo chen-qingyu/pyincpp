@@ -6,7 +6,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 
 ## 1. 属性
 
-- 名称：PyInCpp
+- 名称：PyInCpp (意为 **Py**thon **in** **C++**)
 - 语言：C++ ，要求 C++20
 - 目标：提供一个像 Python 的内置类型一样好用的 C++ 库
 - 模块：List, Set, Dict, Int, Str, Tuple, Complex, Deque, Fraction
