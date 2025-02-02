@@ -158,7 +158,7 @@ public:
         vector_.insert(begin() + index, element);
     }
 
-    /// Remove the `element` at the specified `index` in the list.
+    /// Remove and return the `element` at the specified `index` in the list.
     /// Index can be negative.
     T remove(int index)
     {
