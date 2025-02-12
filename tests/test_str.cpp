@@ -285,9 +285,11 @@ TEST_CASE("Str")
 
     SECTION("lower_upper")
     {
-        REQUIRE(Str("hahaha").upper() == "HAHAHA");
-
         REQUIRE(Str("HAHAHA").lower() == "hahaha");
+        REQUIRE(Str("SOME@EARTH.COM").lower() == "some@earth.com");
+
+        REQUIRE(Str("hahaha").upper() == "HAHAHA");
+        REQUIRE(Str("some@earth.com").upper() == "SOME@EARTH.COM");
     }
 
     SECTION("erase")

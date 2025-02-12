@@ -517,8 +517,13 @@ public:
     Str lower() const
     {
         std::string buffer = str_;
-        std::for_each(buffer.begin(), buffer.end(), [](char& c)
-                      { c |= 0b0010'0000; });
+        for (char& c : buffer)
+        {
+            if (c >= 'A' && c <= 'Z')
+            {
+                c |= 0b0010'0000;
+            }
+        }
 
         return buffer;
     }
@@ -527,8 +532,13 @@ public:
     Str upper() const
     {
         std::string buffer = str_;
-        std::for_each(buffer.begin(), buffer.end(), [](char& c)
-                      { c &= 0b1101'1111; });
+        for (char& c : buffer)
+        {
+            if (c >= 'a' && c <= 'z')
+            {
+                c &= 0b1101'1111;
+            }
+        }
 
         return buffer;
     }
