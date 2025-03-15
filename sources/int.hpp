@@ -126,18 +126,18 @@ private:
     }
 
     // Compare absolute value.
-    int abs_cmp(const Int& that) const
+    int abs_cmp(const std::vector<int>& that_chunks) const
     {
-        if (chunks_.size() != that.chunks_.size())
+        if (chunks_.size() != that_chunks.size())
         {
-            return chunks_.size() > that.chunks_.size() ? 1 : -1;
+            return chunks_.size() > that_chunks.size() ? 1 : -1;
         }
 
         for (int i = chunks_.size() - 1; i >= 0; --i) // i = -1 if is zero, ok
         {
-            if (chunks_[i] != that.chunks_[i])
+            if (chunks_[i] != that_chunks[i])
             {
-                return chunks_[i] > that.chunks_[i] ? 1 : -1;
+                return chunks_[i] > that_chunks[i] ? 1 : -1;
             }
         }
 
@@ -270,7 +270,7 @@ public:
             return sign_ - that.sign_;
         }
 
-        return sign_ >= 0 ? abs_cmp(that) : -abs_cmp(that);
+        return sign_ >= 0 ? abs_cmp(that.chunks_) : -abs_cmp(that.chunks_);
     }
 
     /*
@@ -417,7 +417,7 @@ public:
 
         // normalize
         std::vector<int> rhs_digits = rhs.chunks_;
-        if (abs_cmp(rhs) == -1) // let a.len >= b.len
+        if (abs_cmp(rhs.chunks_) == -1) // let a.len >= b.len
         {
             sign_ = -sign_;
             chunks_.swap(rhs_digits);
@@ -515,7 +515,7 @@ public:
         Int a = abs(), b = rhs.abs(), t = 1, q = 0;
 
         // double ~ left shift, O(log(2^N))) * O(N) = O(N^2)
-        while (a.abs_cmp(b) >= 0)
+        while (a.abs_cmp(b.chunks_) >= 0)
         {
             b.small_mul(2);
             t.small_mul(2);
@@ -524,7 +524,7 @@ public:
         // halve ~ right shift, O(log(2^N))) * O(N) = O(N^2)
         while (t.is_positive())
         {
-            if (a.abs_cmp(b) >= 0)
+            if (a.abs_cmp(b.chunks_) >= 0)
             {
                 a -= b;
                 q += t;
