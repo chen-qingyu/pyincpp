@@ -226,7 +226,7 @@ TEST_CASE("pyincpp::Int vs Other", "[int]")
 /*
 Run with: `xmake config -m release && xmake build bench && xmake run bench --benchmark-no-analysis -i [int]`
 
-Result (2025.01.22, Windows 10, MSVC, Catch2 v3.7.1):
+Result (2025.03.19, Windows 11, MSVC, Catch2 v3.8.0):
 
 -------------------------------------------------------------------------------
 pyincpp::Int vs Other
@@ -236,55 +236,55 @@ benches\pyincpp_int_vs_other_int.cpp(12)
 
 benchmark name                            samples    iterations          mean
 -------------------------------------------------------------------------------
-ctor (class pyincpp::Int)                      100           143     96.007 ns
-ctor (class BigInt)                            100           139    102.317 ns
-ctor (class InfInt)                            100            78    173.628 ns
-ctor (class Dodecahedron::Bigint)              100            62    217.065 ns
-ctor (class BigNumber)                         100           236    58.4788 ns
-+ (class pyincpp::Int)                         100           160     91.475 ns
-+ (class BigInt)                               100            10     1.6001 us
-+ (class InfInt)                               100           188    86.7606 ns
-+ (class Dodecahedron::Bigint)                 100           322    43.6211 ns
-+ (class BigNumber)                            100            13    1.23977 us
-- (class pyincpp::Int)                         100           121    114.074 ns
-- (class BigInt)                               100             9    1.44844 us
-- (class InfInt)                               100           198    81.9242 ns
-- (class Dodecahedron::Bigint)                 100           356    38.2079 ns
-- (class BigNumber)                            100             1     17.256 us
-* (class pyincpp::Int)                         100            77    178.455 ns
-* (class BigInt)                               100             1     56.818 us
-* (class InfInt)                               100            66    215.742 ns
-* (class Dodecahedron::Bigint)                 100            20     662.65 ns
-* (class BigNumber)                            100             1    100.011 us
-/ (class pyincpp::Int)                         100            34    406.735 ns
-/ (class BigInt)                               100             1     21.111 us
-/ (class InfInt)                               100             2     9.2145 us
-/ (class BigNumber)                            100             1    135.492 us
-% (class pyincpp::Int)                         100            34    404.324 ns
-% (class BigInt)                               100             1     34.249 us
-% (class InfInt)                               100             2      9.144 us
-++ (class pyincpp::Int)                        100           508     26.811 ns
-++ (class BigInt)                              100            10     1.4853 us
-++ (class InfInt)                              100           359    37.8496 ns
-++ (class BigNumber)                           100            12    1.15642 us
-> (class pyincpp::Int)                         100          8150    1.65853 ns
-> (class BigInt)                               100          2748    5.01456 ns
-> (class InfInt)                               100         10800    1.24796 ns
-> (class Dodecahedron::Bigint)                 100          9183    1.51029 ns
-> (class BigNumber)                            100            68    200.471 ns
-gcd (class pyincpp::Int)                       100             8    1.84112 us
-gcd (class BigInt)                             100             1    104.218 us
-pow (class pyincpp::Int)                       100             3      6.264 us
-pow (class BigInt)                             100             1     1.8282 ms
-pow (class Dodecahedron::Bigint)               100             1     18.511 us
-pow (class BigNumber)                          100             1    10.1835 ms
-sqrt (class pyincpp::Int)                      100             1     96.477 us
-sqrt (class BigInt)                            100             1    1.49139 ms
-sqrt (class InfInt)                            100             1    418.793 us
-rand (class pyincpp::Int)                      100             7    2.02043 us
-rand (class BigInt)                            100             3    4.71167 us
-fac (class pyincpp::Int)                       100             2    10.0405 us
-fac (class Dodecahedron::Bigint)               100             5     3.0828 us
+ctor (class pyincpp::Int)                      100           137    101.073 ns
+ctor (class BigInt)                            100           127    105.055 ns
+ctor (class InfInt)                            100            78    182.795 ns
+ctor (class Dodecahedron::Bigint)              100            64    230.734 ns
+ctor (class BigNumber)                         100           223      69.87 ns
++ (class pyincpp::Int)                         100           157    88.5287 ns
++ (class BigInt)                               100             9    1.51644 us
++ (class InfInt)                               100           185    73.2811 ns
++ (class Dodecahedron::Bigint)                 100           323    42.4149 ns
++ (class BigNumber)                            100            12    1.17592 us
+- (class pyincpp::Int)                         100           120    115.542 ns
+- (class BigInt)                               100             9    1.67211 us
+- (class InfInt)                               100           192    72.7031 ns
+- (class Dodecahedron::Bigint)                 100           352    39.0455 ns
+- (class BigNumber)                            100             1     17.423 us
+* (class pyincpp::Int)                         100            68    204.765 ns
+* (class BigInt)                               100             1     56.042 us
+* (class InfInt)                               100            66    212.727 ns
+* (class Dodecahedron::Bigint)                 100            21    675.714 ns
+* (class BigNumber)                            100             1     99.511 us
+/ (class pyincpp::Int)                         100            34    412.853 ns
+/ (class BigInt)                               100             1     16.952 us
+/ (class InfInt)                               100             2     9.3345 us
+/ (class BigNumber)                            100             1    142.092 us
+% (class pyincpp::Int)                         100            34    413.471 ns
+% (class BigInt)                               100             1       37.4 us
+% (class InfInt)                               100             2     9.1005 us
+++ (class pyincpp::Int)                        100           508    29.4941 ns
+++ (class BigInt)                              100             9    1.56967 us
+++ (class InfInt)                              100           360    37.5722 ns
+++ (class BigNumber)                           100            12      1.254 us
+> (class pyincpp::Int)                         100          8115     1.6658 ns
+> (class BigInt)                               100          2777    5.75477 ns
+> (class InfInt)                               100          6292    1.84806 ns
+> (class Dodecahedron::Bigint)                 100          9518    1.45083 ns
+> (class BigNumber)                            100            65    208.185 ns
+gcd (class pyincpp::Int)                       100             8      1.947 us
+gcd (class BigInt)                             100             1    110.473 us
+pow (class pyincpp::Int)                       100             3      6.344 us
+pow (class BigInt)                             100             1    1.91097 ms
+pow (class Dodecahedron::Bigint)               100             1     17.697 us
+pow (class BigNumber)                          100             1    10.0608 ms
+sqrt (class pyincpp::Int)                      100             1     95.637 us
+sqrt (class BigInt)                            100             1    1.44977 ms
+sqrt (class InfInt)                            100             1    432.647 us
+rand (class pyincpp::Int)                      100             7    2.03957 us
+rand (class BigInt)                            100             3    5.06733 us
+fac (class pyincpp::Int)                       100             7    2.15386 us
+fac (class Dodecahedron::Bigint)               100             5     3.1022 us
 
 ===============================================================================
 */
