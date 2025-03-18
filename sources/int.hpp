@@ -639,13 +639,16 @@ public:
             throw std::runtime_error("Error: Require this >= 0 for factorial().");
         }
 
-        Int result = 1; // 0! == 1
-
-        for (Int i = *this; i.is_positive(); i.abs_dec()) // fast judgement, fast decrement
+        if (chunks_.size() > 1)
         {
-            result *= i;
+            throw std::runtime_error("Error: This integer is too large to calculate for factorial().");
         }
 
+        Int result = 1; // 0! == 1
+        for (int i = to_number(); i > 0; --i)
+        {
+            result.small_mul(i);
+        }
         return result;
     }
 
