@@ -344,8 +344,18 @@ public:
             return false; // prime >= 2
         }
 
+        if (*this == 2 || *this == 3)
+        {
+            return true;
+        }
+
+        if (is_even())
+        {
+            return false;
+        }
+
         Int s = sqrt(*this);
-        for (Int n = 2; n <= s; n.abs_inc())
+        for (Int n = 3; n <= s; n += 2)
         {
             if ((*this % n).is_zero())
             {
@@ -986,10 +996,9 @@ public:
         }
 
         os << *integer.chunks_.rbegin();
-        if (integer.chunks_.size() > 1)
+        for (auto it = integer.chunks_.rbegin() + 1; it != integer.chunks_.rend(); ++it)
         {
-            std::for_each(integer.chunks_.rbegin() + 1, integer.chunks_.rend(), [&](const auto& c)
-                          { os << std::setw(Int::DIGITS_PER_CHUNK) << std::setfill('0') << std::to_string(c); });
+            os << std::setw(Int::DIGITS_PER_CHUNK) << std::setfill('0') << *it;
         }
 
         return os;
