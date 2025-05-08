@@ -76,16 +76,9 @@ private:
     // Try to transform a character to an integer based on 2-36 base.
     static int char_to_integer(char digit, int base) // 2 <= base <= 36
     {
-        static const char* upper_digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        static const char* lower_digits = "0123456789abcdefghijklmnopqrstuvwxyz";
-        for (int i = 0; i < base; ++i)
-        {
-            if (digit == upper_digits[i] || digit == lower_digits[i])
-            {
-                return i;
-            }
-        }
-        return -1; // not an integer
+        std::string_view digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        auto pos = digits.find(std::toupper(digit));
+        return (pos != std::string_view::npos && pos < base) ? pos : -1;
     }
 
     // Format helper, see https://codereview.stackexchange.com/questions/269425/implementing-stdformat
@@ -516,30 +509,18 @@ public:
     /// Return a copy of the string with all the characters converted to lowercase.
     Str lower() const
     {
-        std::string buffer = str_;
-        for (char& c : buffer)
-        {
-            if (c >= 'A' && c <= 'Z')
-            {
-                c |= 0b0010'0000;
-            }
-        }
-
+        std::string buffer(str_);
+        std::transform(buffer.begin(), buffer.end(), buffer.begin(), [](char c)
+                       { return std::tolower(c); });
         return buffer;
     }
 
     /// Return a copy of the string with all the characters converted to uppercase.
     Str upper() const
     {
-        std::string buffer = str_;
-        for (char& c : buffer)
-        {
-            if (c >= 'a' && c <= 'z')
-            {
-                c &= 0b1101'1111;
-            }
-        }
-
+        std::string buffer(str_);
+        std::transform(buffer.begin(), buffer.end(), buffer.begin(), [](char c)
+                       { return std::toupper(c); });
         return buffer;
     }
 
@@ -572,9 +553,8 @@ public:
         }
 
         std::string buffer;
-
         int this_start = 0;
-        for (int patt_start = 0; (patt_start = find(old_str, this_start)) != -1; this_start = patt_start + old_str.size())
+        for (int patt_start; (patt_start = find(old_str, this_start)) != -1; this_start = patt_start + old_str.size())
         {
             buffer += str_.substr(this_start, patt_start - this_start) + new_str.str_;
         }
@@ -678,13 +658,12 @@ public:
 
         List<Str> str_list;
         int this_start = 0;
-        for (int patt_start = 0; (patt_start = find(sep, this_start)) != -1; this_start = patt_start + sep.size())
+        for (int patt_start; (patt_start = find(sep, this_start)) != -1; this_start = patt_start + sep.size())
         {
-            if (!keep_empty && patt_start == this_start) // skip empty str
+            if (keep_empty || patt_start != this_start)
             {
-                continue;
+                str_list += str_.substr(this_start, patt_start - this_start);
             }
-            str_list += str_.substr(this_start, patt_start - this_start);
         }
         if (keep_empty || this_start != size())
         {
