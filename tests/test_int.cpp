@@ -427,19 +427,73 @@ TEST_CASE("Int")
         // static Int random(const Int& a, const Int& b)
         REQUIRE_THROWS_MATCHES(Int::random(2, 1), std::runtime_error, Message("Error: Require a <= b for random(a, b)."));
 
-        for (int i = 1; i < 10; i++)
+        // 测试边界情况
+        REQUIRE(Int::random(0, 0) == 0);
+        REQUIRE(Int::random(1, 1) == 1);
+        REQUIRE(Int::random(-1, -1) == -1);
+        REQUIRE(Int::random("9999999999999999999999", "9999999999999999999999") == Int("9999999999999999999999"));
+
+        int loops = 1000;
+
+        // 测试小范围
+        for (int i = 1; i < loops; i++)
         {
-            REQUIRE(Int::random(1, i).digits() == 1);
+            Int r = Int::random(1, 10);
+            REQUIRE((1 <= r && r <= 10));
         }
 
-        REQUIRE(Int::random("9999999999999999999999", "9999999999999999999999").digits() == 22);
+        // 测试大范围
+        for (int i = 0; i < loops; i++)
+        {
+            Int r = Int::random("1000000000000", "2000000000000");
+            REQUIRE(("1000000000000" <= r && r <= "2000000000000"));
+        }
 
+        // 测试负数范围
+        for (int i = 0; i < loops; i++)
+        {
+            Int r = Int::random(-10, -1);
+            REQUIRE((-10 <= r && r <= -1));
+        }
+
+        // 测试跨零范围
+        for (int i = 0; i < loops; i++)
+        {
+            Int r = Int::random(-5, 5);
+            REQUIRE((-5 <= r && r <= 5));
+        }
+
+        // 统计测试 - 0到1的均匀分布
         Int sum = 0;
-        for (int i = 0; i < 1000; i++) // sum should ~= 0.5 * 1000 = 500
+        for (int i = 0; i < loops; i++)
         {
-            sum += Int::random(0, 1); // mean = 0.5
+            sum += Int::random(0, 1);
         }
-        REQUIRE((int(500 * 0.9) < sum && sum < int(500 * 1.1)));
+        REQUIRE((int(loops / 2 * 0.9) < sum && sum < int(loops / 2 * 1.1))); // 期望值500，允许10%误差
+
+        // 统计测试 - 1到6的均匀分布
+        std::vector<int> counts(6, 0);
+        for (int i = 0; i < loops * 6; i++)
+        {
+            counts[Int::random(1, 6).to_number<int>() - 1]++;
+        }
+        for (int i = 0; i < 6; i++)
+        {
+            REQUIRE((loops * 0.9 < counts[i] && counts[i] < loops * 1.1)); // 期望值1000，允许10%误差
+        }
+
+        // 统计测试 - 大范围均匀分布
+        Int min_val = "1000000000000";
+        Int max_val = "2000000000000";
+        Int range = max_val - min_val + 1;
+        Int sum_big = 0;
+        for (int i = 0; i < loops; i++)
+        {
+            sum_big += Int::random(min_val, max_val);
+        }
+        Int expected_mean = (min_val + max_val) / 2;
+        Int actual_mean = sum_big / loops;
+        REQUIRE((actual_mean - expected_mean).abs() < range / 50); // 允许2%的误差
 
         // static Int random(int digits)
         REQUIRE_THROWS_MATCHES(Int::random(0), std::runtime_error, Message("Error: Require digits > 0 for random(digits)."));
