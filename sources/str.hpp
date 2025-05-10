@@ -269,30 +269,22 @@ public:
     double to_decimal() const
     {
         // check infinity or nan
-        static const char* pos_infs[12] = {"inf", "INF", "Inf", "+inf", "+INF", "+Inf", "infinity", "INFINITY", "Infinity", "+infinity", "+INFINITY", "+Infinity"};
-        static const char* neg_infs[6] = {"-inf", "-INF", "-Inf", "-infinity", "-INFINITY", "-Infinity"};
-        static const char* nans[9] = {"nan", "NaN", "NAN", "+nan", "+NaN", "+NAN", "-nan", "-NaN", "-NAN"};
+        static const std::vector pos_infs = {"inf", "+inf", "infinity", "+infinity"};
+        static const std::vector neg_infs = {"-inf", "-infinity"};
+        static const std::vector nans = {"nan", "+nan", "-nan"};
 
-        for (int i = 0; i < 12; ++i)
+        auto tmp = lower().str_;
+        if (std::find(pos_infs.begin(), pos_infs.end(), tmp) != pos_infs.end())
         {
-            if (str_ == pos_infs[i])
-            {
-                return INFINITY;
-            }
+            return INFINITY;
         }
-        for (int i = 0; i < 6; ++i)
+        if (std::find(neg_infs.begin(), neg_infs.end(), tmp) != neg_infs.end())
         {
-            if (str_ == neg_infs[i])
-            {
-                return -INFINITY;
-            }
+            return -INFINITY;
         }
-        for (int i = 0; i < 9; ++i)
+        if (std::find(nans.begin(), nans.end(), tmp) != nans.end())
         {
-            if (str_ == nans[i])
-            {
-                return NAN;
-            }
+            return NAN;
         }
 
         // not infinity or nan
