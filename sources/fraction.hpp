@@ -283,34 +283,20 @@ public:
     /// ```
     friend std::istream& operator>>(std::istream& is, Fraction& fraction)
     {
-        while (std::isspace(is.peek()))
-        {
-            is.ignore();
-        }
+        std::string input;
+        is >> input;
 
-        int num, den = 1;
-
-        if (!(is >> num))
+        std::regex regex(R"(([+-]?\d+)(?:/([+-]?\d+))?)");
+        std::smatch match;
+        if (!std::regex_match(input, match, regex))
         {
             throw std::runtime_error("Error: Wrong fraction literal.");
         }
 
-        if (is.peek() == '/')
-        {
-            is.ignore();
-            if (!(is >> den))
-            {
-                throw std::runtime_error("Error: Wrong fraction literal.");
-            }
-        }
-
-        if (!std::isspace(is.peek()) && is.peek() != EOF)
-        {
-            throw std::runtime_error("Error: Wrong fraction literal.");
-        }
+        int num = std::stoi(match[1].str());
+        int den = match[2].matched ? std::stoi(match[2].str()) : 1;
 
         fraction = Fraction(num, den);
-
         return is;
     }
 };
