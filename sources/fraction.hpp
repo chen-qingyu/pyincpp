@@ -286,7 +286,7 @@ public:
         std::string input;
         is >> input;
 
-        std::regex regex(R"(([+-]?\d+)(?:/([+-]?\d+))?)");
+        std::regex regex(R"(([+-]?\d+)/?([+-]?\d+)?)");
         std::smatch match;
         if (!std::regex_match(input, match, regex))
         {
