@@ -175,15 +175,14 @@ TEST_CASE("Complex")
     SECTION("input")
     {
         Complex c1, c2, c3, c4;
-        std::istringstream("  +1-2j  \n  233.33 \t -1234-4321j  3j") >> c1 >> c2 >> c3 >> c4;
 
+        std::istringstream("  +1-2j  \n  233.33 \t -1234-4321j  3j") >> c1 >> c2 >> c3 >> c4;
         REQUIRE(c1 == Complex(1, -2));
         REQUIRE(c2 == Complex(233.33));
         REQUIRE(c3 == Complex(-1234, -4321));
         REQUIRE(c4 == Complex(0, 3));
 
         std::istringstream("  .1+.2j  \n  .1+2.j \t 1.+.2j  1.+2.j") >> c1 >> c2 >> c3 >> c4;
-
         REQUIRE(c1 == Complex(0.1, 0.2));
         REQUIRE(c2 == Complex(0.1, 2.0));
         REQUIRE(c3 == Complex(1.0, 0.2));
