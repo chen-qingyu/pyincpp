@@ -425,7 +425,7 @@ TEST_CASE("Int")
     SECTION("random")
     {
         // static Int random(const Int& a, const Int& b)
-        REQUIRE_THROWS_MATCHES(Int::random(2, 1), std::runtime_error, Message("Error: Require a >= b for random(a, b)."));
+        REQUIRE_THROWS_MATCHES(Int::random(2, 1), std::runtime_error, Message("Error: Require a <= b for random(a, b)."));
 
         for (int i = 1; i < 10; i++)
         {

@@ -199,7 +199,10 @@ public:
     Int(T n = 0)
     {
         sign_ = n == 0 ? 0 : (n > 0 ? 1 : -1);
-        n = std::abs(n);
+        if constexpr (std::is_signed_v<T>)
+        {
+            n = std::abs(n);
+        }
         while (n > 0)
         {
             chunks_.push_back(n % BASE);
@@ -821,15 +824,29 @@ public:
     /// ```
     static Int random(const Int& a, const Int& b)
     {
-        if (b < a)
+        if (a > b)
         {
-            throw std::runtime_error("Error: Require a >= b for random(a, b).");
+            throw std::runtime_error("Error: Require a <= b for random(a, b).");
         }
 
         std::mt19937 gen(std::random_device{}());
-        std::uniform_real_distribution<long double> dis(0.0, 1.0); // [0, 1)
+        Int range = b - a + 1;
+        std::vector<int> chunks;
+        Int current = range;
+        while (!current.is_zero())
+        {
+            std::uniform_int_distribution<int> chunk_dis(0, BASE - 1);
+            chunks.push_back(chunk_dis(gen) % current.to_number<int>());
+            current /= BASE;
+        }
 
-        return Int(static_cast<long long>(dis(gen) * (b - a + 1).to_number<long double>())) + a; // [a, b]
+        Int result;
+        for (int i = chunks.size() - 1; i >= 0; --i)
+        {
+            result = result * BASE + chunks[i];
+        }
+
+        return result % range + a;
     }
 
     /// Generate a random integer of a specified number of `digits`.
