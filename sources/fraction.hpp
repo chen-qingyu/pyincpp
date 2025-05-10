@@ -283,36 +283,34 @@ public:
     /// ```
     friend std::istream& operator>>(std::istream& is, Fraction& fraction)
     {
-        while (is.peek() <= 0x20)
+        while (std::isspace(is.peek()))
         {
             is.ignore();
         }
-        if (!(std::isdigit(is.peek()) || is.peek() == '-' || is.peek() == '+')) // handle "z1/2"
+
+        int num, den = 1;
+
+        if (!(is >> num))
         {
             throw std::runtime_error("Error: Wrong fraction literal.");
         }
 
-        int num;
-        is >> num;
-        if (is.peek() <= 0x20) // next char is white space, ok
+        if (is.peek() == '/')
         {
-            fraction = num;
-            return is;
+            is.ignore();
+            if (!(is >> den))
+            {
+                throw std::runtime_error("Error: Wrong fraction literal.");
+            }
         }
 
-        char c;
-        int den;
-        is >> c;
-        if (!(std::isdigit(is.peek()) || is.peek() == '-' || is.peek() == '+')) // handle "1z/2" or "1/z2"
+        if (!std::isspace(is.peek()) && is.peek() != EOF)
         {
             throw std::runtime_error("Error: Wrong fraction literal.");
         }
-        is >> den;
-        if (c != '/' || is.peek() > 0x20) // handle "1|2" or "1/2z"
-        {
-            throw std::runtime_error("Error: Wrong fraction literal.");
-        }
+
         fraction = Fraction(num, den);
+
         return is;
     }
 };
