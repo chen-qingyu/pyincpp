@@ -1,4 +1,4 @@
-// g++ -std=c++20 -Wall -Wextra -Wold-style-cast -Wpedantic -Wno-sign-compare -o .\build\compatibility.exe .\tests\compatibility.cpp; .\build\compatibility.exe
+// g++ -std=c++20 -Wall -Wextra -Wold-style-cast -Wpedantic -Wno-sign-compare -o .\build\compatibility.exe .\tests\compatibility.cpp && .\build\compatibility.exe
 
 #include "../sources/pyincpp.hpp"
 
@@ -30,6 +30,7 @@ int main()
     std::unordered_set<Fraction> set3 = {{1, 2}, {3, 4}};
 
     assert(pyincpp::make_tuple(std::string("hello")) != pyincpp::make_tuple(1, 2, 3));
+    assert(pyincpp::make_tuple(std::string("hello")) != pyincpp::make_tuple(233));
 
     assert(Complex::pow(Complex(1, 2), Complex(3, 4)) == Complex(0.12900959407446697, 0.03392409290517014));
 

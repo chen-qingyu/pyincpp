@@ -68,14 +68,13 @@ public:
     template <typename... X>
     constexpr bool operator==(const Tuple<X...>& that) const
     {
-        if constexpr (sizeof...(X) > 0) // && invalid for constexpr
+        if constexpr (sizeof...(X) == 1 + sizeof...(Ts))
         {
             if constexpr (std::is_same_v<decltype(value_), decltype(that.value_)>)
             {
-                return value_ == that.value_ ? (rest() == that.rest()) : false;
+                return value_ == that.value_ && rest() == that.rest();
             }
         }
-
         return false;
     }
 
