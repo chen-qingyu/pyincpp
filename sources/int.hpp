@@ -829,7 +829,7 @@ public:
         std::mt19937 gen(std::random_device{}());
         std::uniform_real_distribution<long double> dis(0.0, 1.0); // [0, 1)
 
-        return Int((long long)(dis(gen) * (b - a + 1).to_number<long double>())) + a; // [a, b]
+        return Int(static_cast<long long>(dis(gen) * (b - a + 1).to_number<long double>())) + a; // [a, b]
     }
 
     /// Generate a random integer of a specified number of `digits`.

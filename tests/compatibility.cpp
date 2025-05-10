@@ -1,4 +1,4 @@
-// g++ -std=c++20 -Wall -Wextra -Wold-style-cast -Wpedantic -o .\build\compatibility.exe .\tests\compatibility.cpp; .\build\compatibility.exe
+// g++ -std=c++20 -Wall -Wextra -Wold-style-cast -Wpedantic -Wno-sign-compare -o .\build\compatibility.exe .\tests\compatibility.cpp; .\build\compatibility.exe
 
 #include "../sources/pyincpp.hpp"
 
