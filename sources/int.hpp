@@ -831,19 +831,14 @@ public:
 
         std::mt19937 gen(std::random_device{}());
         Int range = b - a + 1;
-        std::vector<int> chunks;
-        Int current = range;
-        while (!current.is_zero())
-        {
-            std::uniform_int_distribution<int> chunk_dis(0, BASE - 1);
-            chunks.push_back(chunk_dis(gen) % current.to_number<int>());
-            current /= BASE;
-        }
-
         Int result;
-        for (int i = chunks.size() - 1; i >= 0; --i)
+        Int remaining = range;
+        while (!remaining.is_zero())
         {
-            result = result * BASE + chunks[i];
+            int chunk_size = (remaining.chunks_.size() > 1) ? BASE - 1 : remaining.chunks_[0];
+            std::uniform_int_distribution<int> dis(0, chunk_size - 1);
+            result = result * BASE + dis(gen);
+            remaining /= BASE;
         }
 
         return result % range + a;
