@@ -655,7 +655,7 @@ public:
         }
 
         Int result = 1; // 0! == 1
-        for (int i = to_number(); i > 0; --i)
+        for (int i = to_number(); i != 0; --i)
         {
             result.small_mul(i);
         }
