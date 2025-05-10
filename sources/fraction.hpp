@@ -50,6 +50,11 @@ public:
     /// Create a fraction with given double-precision floating-point `number`.
     Fraction(double number)
     {
+        if (std::isnan(number) || std::isinf(number))
+        {
+            throw std::invalid_argument("Error: Invalid floating-point number.");
+        }
+
         double int_part = std::floor(number);
         double dec_part = number - int_part;
         int precision = 1'000'000'000; // 10^floor(log10(INT_MAX))
