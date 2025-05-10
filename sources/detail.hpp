@@ -20,6 +20,7 @@
 #include <ostream>     // std::ostream
 #include <random>      // std::random_device std::mt19937 ...
 #include <ranges>      // std::views::reverse
+#include <regex>       // std::regex std::smatch std::regex_match
 #include <sstream>     // std::ostringstream
 #include <stdexcept>   // std::runtime_error
 #include <string>      // std::string std::getline

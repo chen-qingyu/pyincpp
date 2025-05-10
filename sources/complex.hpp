@@ -224,40 +224,25 @@ public:
     /// ```
     friend std::istream& operator>>(std::istream& is, Complex& complex)
     {
-        while (is.peek() <= 0x20)
-        {
-            is.ignore();
-        }
-        if (!(std::isdigit(is.peek()) || is.peek() == '-' || is.peek() == '+' || is.peek() == '.')) // handle "z1+2j"
+        std::string input;
+        is >> input;
+
+        std::regex complex_regex(R"(([+-]?\d*\.?\d*)([+-]?\d*\.?\d*)j?)");
+        std::smatch match;
+
+        if (!std::regex_match(input, match, complex_regex))
         {
             throw std::runtime_error("Error: Wrong complex literal.");
         }
 
-        double real;
-        is >> real;
-        if (is.peek() <= 0x20) // next char is white space, ok
+        double real = match[1].str().empty() ? 0.0 : std::stod(match[1].str());
+        double imag = match[2].str().empty() ? 0.0 : std::stod(match[2].str());
+        if (input.back() == 'j' && match[2].str().empty())
         {
-            complex = real;
-            return is;
-        }
-        if (is.peek() == 'j') // next char is 'j', ok
-        {
-            is.get();
-            if (is.peek() <= 0x20) // next char is white space, ok
-            {
-                complex = Complex(0, real);
-                return is;
-            }
-            throw std::runtime_error("Error: Wrong complex literal.");
+            imag = real;
+            real = 0.0;
         }
 
-        double imag;
-        char c;
-        is >> imag >> c;
-        if (c != 'j' || is.peek() > 0x20) // handle "1z+2j" or "1+z2j" or "1+2zj" or "1jj2j"
-        {
-            throw std::runtime_error("Error: Wrong complex literal.");
-        }
         complex = Complex(real, imag);
         return is;
     }
