@@ -227,10 +227,9 @@ public:
         std::string input;
         is >> input;
 
-        std::regex complex_regex(R"(([+-]?\d*\.?\d*)([+-]?\d*\.?\d*)j?)");
+        std::regex regex(R"(([+-]?\d*\.?\d*)([+-]?\d*\.?\d*)j?)");
         std::smatch match;
-
-        if (!std::regex_match(input, match, complex_regex))
+        if (!std::regex_match(input, match, regex))
         {
             throw std::runtime_error("Error: Wrong complex literal.");
         }
