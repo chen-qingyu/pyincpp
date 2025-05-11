@@ -427,7 +427,6 @@ TEST_CASE("Int")
         // static Int random(const Int& a, const Int& b)
         REQUIRE_THROWS_MATCHES(Int::random(2, 1), std::runtime_error, Message("Error: Require a <= b for random(a, b)."));
 
-        // 测试边界情况
         REQUIRE(Int::random(0, 0) == 0);
         REQUIRE(Int::random(1, 1) == 1);
         REQUIRE(Int::random(-1, -1) == -1);
@@ -435,43 +434,39 @@ TEST_CASE("Int")
 
         int loops = 1000;
 
-        // 测试小范围
         for (int i = 1; i < loops; i++)
         {
             Int r = Int::random(1, 10);
             REQUIRE((1 <= r && r <= 10));
         }
 
-        // 测试大范围
         for (int i = 0; i < loops; i++)
         {
             Int r = Int::random("1000000000000", "2000000000000");
             REQUIRE(("1000000000000" <= r && r <= "2000000000000"));
         }
 
-        // 测试负数范围
         for (int i = 0; i < loops; i++)
         {
             Int r = Int::random(-10, -1);
             REQUIRE((-10 <= r && r <= -1));
         }
 
-        // 测试跨零范围
         for (int i = 0; i < loops; i++)
         {
             Int r = Int::random(-5, 5);
             REQUIRE((-5 <= r && r <= 5));
         }
 
-        // 统计测试 - 0到1的均匀分布
+        // 0, 1
         Int sum = 0;
         for (int i = 0; i < loops; i++)
         {
             sum += Int::random(0, 1);
         }
-        REQUIRE((int(loops / 2 * 0.9) < sum && sum < int(loops / 2 * 1.1))); // 期望值500，允许10%误差
+        REQUIRE((int(loops / 2 * 0.9) < sum && sum < int(loops / 2 * 1.1))); // expect 500, ~10%
 
-        // 统计测试 - 1到6的均匀分布
+        // 1 ~ 6
         std::vector<int> counts(6, 0);
         for (int i = 0; i < loops * 6; i++)
         {
@@ -479,10 +474,10 @@ TEST_CASE("Int")
         }
         for (int i = 0; i < 6; i++)
         {
-            REQUIRE((loops * 0.9 < counts[i] && counts[i] < loops * 1.1)); // 期望值1000，允许10%误差
+            REQUIRE((loops * 0.9 < counts[i] && counts[i] < loops * 1.1)); // expect 1000, ~10%
         }
 
-        // 统计测试 - 大范围均匀分布
+        // large range
         Int min_val = "1000000000000";
         Int max_val = "2000000000000";
         Int range = max_val - min_val + 1;
@@ -493,7 +488,7 @@ TEST_CASE("Int")
         }
         Int expected_mean = (min_val + max_val) / 2;
         Int actual_mean = sum_big / loops;
-        REQUIRE((actual_mean - expected_mean).abs() < range / 50); // 允许2%的误差
+        REQUIRE((actual_mean - expected_mean).abs() < range / 50); // ~2%
 
         // static Int random(int digits)
         REQUIRE_THROWS_MATCHES(Int::random(0), std::runtime_error, Message("Error: Require digits > 0 for random(digits)."));
