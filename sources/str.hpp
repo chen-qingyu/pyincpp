@@ -704,12 +704,7 @@ public:
     /// Output the string to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Str& string)
     {
-        os << "\"";
-        std::for_each(string.begin(), string.end(), [&](const char& c)
-                      { os << c; });
-        os << "\"";
-
-        return os;
+        return os << '"' << string.str_ << '"';
     }
 
     /// Get a line of string from the specified input stream.
