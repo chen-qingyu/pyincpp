@@ -25,16 +25,18 @@ struct EqType
 // 2. No default constructor to test compatibility.
 struct EqLtType
 {
-    EqLtType(int)
+    int value;
+    EqLtType(int v)
+        : value(v)
     {
     }
     bool operator==(const EqLtType& that) const
     {
-        return true;
+        return value == that.value;
     }
     bool operator<(const EqLtType& that) const
     {
-        return true;
+        return value < that.value;
     }
 };
 
