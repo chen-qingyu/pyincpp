@@ -295,10 +295,10 @@ public:
         double exp_sign = 1; // default '+'
         int exp_part = 0;
 
-        // FSM
+        // Finite State Machine
         // State Transition Diagram for Graphviz:
         /*
-        digraph finite_state_machine {
+        digraph fsm {
             rankdir=LR;
             node [shape = doublecircle]; int dec e_num end;
             node [shape = circle];
