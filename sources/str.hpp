@@ -296,6 +296,34 @@ public:
         int exp_part = 0;
 
         // FSM
+        // State Transition Diagram for Graphviz:
+        /*
+        digraph finite_state_machine {
+            rankdir=LR;
+            node [shape = doublecircle]; int dec e_num end;
+            node [shape = circle];
+            start -> start [label = "blank"];
+            start -> sign [label = "sign"];
+            start -> int [label = "digit"];
+            start -> point [label = "point"];
+            sign -> int [label = "digit"];
+            sign -> point [label = "point"];
+            int -> int [label = "digit"];
+            int -> dec [label = "point"];
+            int -> exp [label = "exp"];
+            int -> end [label = "blank"];
+            point -> dec [label = "digit"];
+            dec -> dec [label = "digit"];
+            dec -> exp [label = "exp"];
+            dec -> end [label = "blank"];
+            exp -> e_sign [label = "sign"];
+            exp -> e_num [label = "digit"];
+            e_sign -> e_num [label = "digit"];
+            e_num -> e_num [label = "digit"];
+            e_num -> end [label = "blank"];
+            end -> end [label = "blank"];
+        }
+        */
         state st = S_START;
         for (int i = 0; i < size(); ++i)
         {
