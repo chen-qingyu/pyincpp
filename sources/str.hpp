@@ -304,24 +304,14 @@ public:
             node [shape = circle];
             start -> start [label = "blank"];
             start -> sign [label = "sign"];
-            start -> int [label = "digit"];
-            start -> point [label = "point"];
-            sign -> int [label = "digit"];
-            sign -> point [label = "point"];
-            int -> int [label = "digit"];
+            {start sign} -> point [label = "point"];
+            {start sign int} -> int [label = "digit"];
             int -> dec [label = "point"];
-            int -> exp [label = "exp"];
-            int -> end [label = "blank"];
-            point -> dec [label = "digit"];
-            dec -> dec [label = "digit"];
-            dec -> exp [label = "exp"];
-            dec -> end [label = "blank"];
+            {point dec} -> dec [label = "digit"];
+            {int dec} -> exp [label = "exp"];
             exp -> e_sign [label = "sign"];
-            exp -> e_num [label = "digit"];
-            e_sign -> e_num [label = "digit"];
-            e_num -> e_num [label = "digit"];
-            e_num -> end [label = "blank"];
-            end -> end [label = "blank"];
+            {exp e_sign e_num} -> e_num [label = "digit"];
+            {int dec e_num end} -> end [label = "blank"];
         }
         */
         state st = S_START;
