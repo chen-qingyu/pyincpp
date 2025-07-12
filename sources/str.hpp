@@ -24,27 +24,27 @@ private:
     // Used for FSM.
     enum state
     {
-        S_START = 1 << 0,    // start with blank character
-        S_SIGN = 1 << 1,     // positive or negative sign
-        S_INT = 1 << 2,      // integer part
-        S_POINT = 1 << 3,    // decimal point that doesn't have left digit
-        S_DEC = 1 << 4,      // decimal part
-        S_EXP = 1 << 5,      // scientific notation identifier
-        S_EXP_SIGN = 1 << 6, // positive or negative sign of exponent part
-        S_EXP_NUM = 1 << 7,  // exponent part number
-        S_END = 1 << 8,      // end with blank character
-        S_OTHER = 1 << 9,    // other
+        S_START = 0,    // start with blank character
+        S_SIGN = 1,     // positive or negative sign
+        S_INT = 2,      // integer part
+        S_POINT = 3,    // decimal point that doesn't have left digit
+        S_DEC = 4,      // decimal part
+        S_EXP = 5,      // scientific notation identifier
+        S_EXP_SIGN = 6, // positive or negative sign of exponent part
+        S_EXP_NUM = 7,  // exponent part number
+        S_END = 8,      // end with blank character
+        S_OTHER = 9,    // other
     };
 
     // Used for FSM.
     enum event
     {
-        E_BLANK = 1 << 10, // blank character: ' ', '\n', '\t', '\r'
-        E_SIGN = 1 << 11,  // positive or negative sign: '+', '-'
-        E_DIGIT = 1 << 12, // 36-based digit: '[0-9a-zA-Z]'
-        E_POINT = 1 << 13, // decimal point: '.'
-        E_EXP = 1 << 14,   // scientific notation identifier: 'e', 'E'
-        E_OTHER = 1 << 15, // other
+        E_BLANK = 0 << CHAR_BIT, // blank character: ' ', '\n', '\t', '\r'
+        E_SIGN = 1 << CHAR_BIT,  // positive or negative sign: '+', '-'
+        E_DIGIT = 2 << CHAR_BIT, // 36-based digit: '[0-9a-zA-Z]'
+        E_POINT = 3 << CHAR_BIT, // decimal point: '.'
+        E_EXP = 4 << CHAR_BIT,   // scientific notation identifier: 'e', 'E'
+        E_OTHER = 5 << CHAR_BIT, // other
     };
 
     // Try to transform a character to an event.
