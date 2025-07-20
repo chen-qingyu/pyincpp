@@ -994,26 +994,33 @@ public:
      * Print / Input
      */
 
+    /// Convert the integer to a string.
+    std::string to_string() const
+    {
+        if (sign_ == 0)
+        {
+            return "0";
+        }
+
+        std::ostringstream oss;
+        if (sign_ == -1)
+        {
+            oss << '-';
+        }
+
+        oss << *chunks_.rbegin();
+        for (auto it = chunks_.rbegin() + 1; it != chunks_.rend(); ++it)
+        {
+            oss << std::setw(Int::DIGITS_PER_CHUNK) << std::setfill('0') << *it;
+        }
+
+        return oss.str();
+    }
+
     /// Output the integer to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Int& integer)
     {
-        if (integer.sign_ == 0)
-        {
-            return os << '0';
-        }
-
-        if (integer.sign_ == -1)
-        {
-            os << '-';
-        }
-
-        os << *integer.chunks_.rbegin();
-        for (auto it = integer.chunks_.rbegin() + 1; it != integer.chunks_.rend(); ++it)
-        {
-            os << std::setw(Int::DIGITS_PER_CHUNK) << std::setfill('0') << *it;
-        }
-
-        return os;
+        return os << integer.to_string();
     }
 
     /// Get an integer from the specified input stream.
