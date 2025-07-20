@@ -266,14 +266,22 @@ public:
     }
 
     /// Compare the integer with another integer.
-    auto operator<=>(const Int& that) const
+    std::partial_ordering operator<=>(const Int& that) const
     {
         if (sign_ != that.sign_)
         {
-            return sign_ - that.sign_;
+            return sign_ <=> that.sign_;
         }
 
-        return sign_ >= 0 ? abs_cmp(that.chunks_) : -abs_cmp(that.chunks_);
+        if (sign_ == 0)
+        {
+            return std::partial_ordering::equivalent;
+        }
+
+        int cmp = abs_cmp(that.chunks_);
+        return sign_ * cmp < 0   ? std::partial_ordering::less
+               : sign_ * cmp > 0 ? std::partial_ordering::greater
+                                 : std::partial_ordering::equivalent;
     }
 
     /*
