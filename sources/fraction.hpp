@@ -21,6 +21,25 @@ private:
     // Denominator.
     int den_;
 
+    static std::pair<int, int> from_ratio(int num, int den)
+    {
+        // make sure the denominator is not zero
+        detail::check_zero(den);
+
+        // make sure the denominator is a positive number
+        if (den < 0)
+        {
+            num = -num;
+            den = -den;
+        }
+
+        // simplify
+        int gcd = std::gcd(num, den);
+        num /= gcd;
+        den /= gcd;
+        return {num, den};
+    }
+
 public:
     /*
      * Constructor
@@ -28,23 +47,29 @@ public:
 
     /// Create a fraction with value `numerator/denominator`.
     Fraction(int numerator = 0, int denominator = 1)
-        : num_(numerator)
-        , den_(denominator)
     {
-        // make sure the denominator is not zero
-        detail::check_zero(den_);
+        std::tie(num_, den_) = from_ratio(numerator, denominator);
+    }
 
-        // make sure the denominator is a positive number
-        if (den_ < 0)
+    /// Create a fraction with given string `numerator/denominator`.
+    ///
+    /// ### Example
+    /// ```
+    /// Fraction("233/1") == Fraction(233);
+    /// Fraction("+2/-4") == Fraction(-1, 2);
+    /// ```
+    Fraction(const std::string& str)
+    {
+        std::regex regex(R"(([+-]?\d+)/?([+-]?\d+)?)");
+        std::smatch match;
+        if (!std::regex_match(str, match, regex))
         {
-            num_ = -num_;
-            den_ = -den_;
+            throw std::runtime_error("Error: Wrong fraction literal.");
         }
 
-        // simplify
-        int gcd = std::gcd(num_, den_);
-        num_ /= gcd;
-        den_ /= gcd;
+        int num = std::stoi(match[1].str());
+        int den = match[2].matched ? std::stoi(match[2].str()) : 1;
+        std::tie(num_, den_) = from_ratio(num, den);
     }
 
     /// Create a fraction with given double-precision floating-point `number`.
@@ -122,6 +147,12 @@ public:
     operator double() const
     {
         return double(num_) / double(den_);
+    }
+
+    /// Convert the fraction to float type.
+    explicit operator float() const
+    {
+        return float(num_) / float(den_);
     }
 
     /// Get the numerator of this.
@@ -273,30 +304,11 @@ public:
     }
 
     /// Get a fraction from the specified input stream.
-    ///
-    /// ### Example
-    /// ```
-    /// Fraction f1, f2;
-    /// std::istringstream("+1/-2 233") >> f1 >> f2;
-    /// // f1 == Fraction(-1, 2);
-    /// // f2 == Fraction(233);
-    /// ```
     friend std::istream& operator>>(std::istream& is, Fraction& fraction)
     {
         std::string input;
         is >> input;
-
-        std::regex regex(R"(([+-]?\d+)/?([+-]?\d+)?)");
-        std::smatch match;
-        if (!std::regex_match(input, match, regex))
-        {
-            throw std::runtime_error("Error: Wrong fraction literal.");
-        }
-
-        int num = std::stoi(match[1].str());
-        int den = match[2].matched ? std::stoi(match[2].str()) : 1;
-
-        fraction = Fraction(num, den);
+        fraction = Fraction(input);
         return is;
     }
 };
