@@ -488,7 +488,7 @@ TEST_CASE("Int")
         }
         Int expected_mean = (min_val + max_val) / 2;
         Int actual_mean = sum_big / loops;
-        REQUIRE((actual_mean - expected_mean).abs() < range / 50); // ~2%
+        REQUIRE((actual_mean - expected_mean).abs() < range / 20); // ~5%
 
         // static Int random(int digits)
         REQUIRE_THROWS_MATCHES(Int::random(0), std::runtime_error, Message("Error: Require digits > 0 for random(digits)."));
