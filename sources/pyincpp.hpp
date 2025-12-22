@@ -9,6 +9,7 @@
 
 #if ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
 #include "complex.hpp"
+#include "decimal.hpp"
 #include "deque.hpp"
 #include "dict.hpp"
 #include "fraction.hpp"

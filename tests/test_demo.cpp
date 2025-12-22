@@ -80,6 +80,11 @@ TEST_CASE("Usage")
     REQUIRE(Fraction(1, 2) + Fraction(1, 3) == Fraction(5, 6));
     // Fraction modulo
     REQUIRE(Fraction(1, 2) % Fraction(1, 3) == Fraction(1, 6));
+
+    // Decimal calculate exact result
+    REQUIRE(Decimal("0.1") + Decimal("0.2") == Decimal("0.3"));
+    // Decimal keeps repeating parts exactly
+    REQUIRE(Decimal("0.~3").as_fraction() == Fraction(1, 3));
 }
 
 TEST_CASE("Advantage")
@@ -102,4 +107,8 @@ TEST_CASE("Advantage")
     std::unordered_set<Int> set1 = {"1", "2", "3", "18446744073709551617"};
     std::unordered_set<Str> set2 = {"hello", "pyincpp"};
     std::unordered_set<Fraction> set3 = {{1, 2}, {3, 4}};
+
+    // 4. Using pyinrs::Decimal to calculate infinite cyclic decimals.
+    REQUIRE(Decimal("0.~3") + Decimal("0.~6") == Decimal("1.0"));
+    REQUIRE(Decimal("0.~9") == Decimal("1.0"));
 }

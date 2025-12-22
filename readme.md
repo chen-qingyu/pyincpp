@@ -9,7 +9,7 @@ _A C++ type library that is as easy to use as Python built-in types._
 - Name: PyInCpp (means **Py**thon **in** **C++**)
 - Language: C++, requires C++20
 - Goal: Provide a C++ type library that is as easy to use as Python built-in types
-- Module: List, Set, Dict, Int, Str, Tuple, Complex, Deque, Fraction
+- Module: List, Set, Dict, Int, Str, Tuple, Complex, Deque, Fraction, Decimal
 - Style: Most follow the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html), some my own styles are based on considerations of source code size and simplicity
 - Document: Use [Doxygen](https://www.doxygen.nl) to generate documents
 
@@ -29,7 +29,7 @@ Provided as the form of single header file, header-only, very convenient to use:
 - PyInCpp has already in the official [XMake](https://xmake.io) repository, you only need to add it in the xmake.lua: `add_requires("pyincpp")` and then `#include <pyincpp.hpp>`.
 - Or, just copy the source files into your project and then `#include "pyincpp.hpp"`.
 
-There are a total of 9 classes, refer to commonly used classes in Python:
+There are a total of 10 classes, refer to commonly used classes in Python:
 
 | Type in PyInCpp | Type in Python       |
 | --------------- | -------------------- |
@@ -42,6 +42,7 @@ There are a total of 9 classes, refer to commonly used classes in Python:
 | `Complex`       | `complex`            |
 | `Deque<T>`      | `collections.deque`  |
 | `Fraction`      | `fractions.Fraction` |
+| `Decimal`       | `decimal.Decimal`    |
 
 Some simple examples:
 
@@ -118,6 +119,11 @@ Deque<int>{1, 2, 3, 4, 5} >>= 1; // <5, 1, 2, 3, 4>
 Fraction(1, 2) + Fraction(1, 3); // 5/6
 // Fraction modulo
 Fraction(1, 2) % Fraction(1, 3); // 1/6
+
+// Decimal calculate exact result
+Decimal("0.1") + Decimal("0.2"); // 0.3
+// Decimal keeps repeating parts exactly
+Decimal("0.~3").as_fraction() == Fraction(1, 3); // true
 ```
 
 ## 4. Advantage
@@ -173,6 +179,10 @@ auto t3 = pyincpp::make_tuple(1, 1.5, 'A', "hello", pyincpp::Tuple<pyincpp::Tupl
 // std::cout << t1 << std::endl; // std::tuple does not support operator<<
 std::cout << t2 << std::endl; // (1 1.5 A hello (() ()))
 std::cout << t3 << std::endl; // (1, 1.5, A, hello, ((), ()))
+
+// 7. Using pyinrs::Decimal to calculate infinite cyclic decimals.
+Decimal("0.~3") + Decimal("0.~6"); // 1
+Decimal("0.~9") == Decimal("1.0"); // true
 ```
 
 If you want to use a similar library in Rust, please see: [PyInRs](https://github.com/chen-qingyu/pyinrs).

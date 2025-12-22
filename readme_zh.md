@@ -9,7 +9,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 - 名称：PyInCpp (意为 **Py**thon **in** **C++**)
 - 语言：C++ ，要求 C++20
 - 目标：提供一个像 Python 的内置类型一样好用的 C++ 库
-- 模块：List, Set, Dict, Int, Str, Tuple, Complex, Deque, Fraction
+- 模块：List, Set, Dict, Int, Str, Tuple, Complex, Deque, Fraction, Decimal
 - 风格：大部分遵循 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) ，小部分基于项目规模和源码简洁性的考虑采用自己的风格
 - 文档：使用 [Doxygen](https://www.doxygen.nl) 生成文档
 
@@ -29,7 +29,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 - PyInCpp 已经进入 [XMake](https://xmake.io) 官方仓库，所以只需要在 xmake.lua 中加上 `add_requires("pyincpp")` 然后源码中就可以 `#include <pyincpp.hpp>`。
 - 或者，直接复制源码文件到你的项目中然后 `#include "pyincpp.hpp"`。
 
-一共九个类，对标 Python 里面常用的类：
+一共 10 个类，对标 Python 里面常用的类：
 
 | Type in PyInCpp | Type in Python       |
 | --------------- | -------------------- |
@@ -42,6 +42,7 @@ _像 Python 的内置类型一样好用的 C++ 库_
 | `Complex`       | `complex`            |
 | `Deque<T>`      | `collections.deque`  |
 | `Fraction`      | `fractions.Fraction` |
+| `Decimal`       | `decimal.Decimal`    |
 
 一些简单的例子：
 
@@ -118,6 +119,11 @@ Deque<int>{1, 2, 3, 4, 5} >>= 1; // <5, 1, 2, 3, 4>
 Fraction(1, 2) + Fraction(1, 3); // 5/6
 // Fraction modulo
 Fraction(1, 2) % Fraction(1, 3); // 1/6
+
+// Decimal calculate exact result
+Decimal("0.1") + Decimal("0.2"); // 0.3
+// Decimal keeps repeating parts exactly
+Decimal("0.~3").as_fraction() == Fraction(1, 3); // true
 ```
 
 ## 4. 优势
@@ -173,6 +179,10 @@ auto t3 = pyincpp::make_tuple(1, 1.5, 'A', "hello", pyincpp::Tuple<pyincpp::Tupl
 // std::cout << t1 << std::endl; // std::tuple does not support operator<<
 std::cout << t2 << std::endl; // (1 1.5 A hello (() ()))
 std::cout << t3 << std::endl; // (1, 1.5, A, hello, ((), ()))
+
+// 7. Using pyinrs::Decimal to calculate infinite cyclic decimals.
+Decimal("0.~3") + Decimal("0.~6"); // 1
+Decimal("0.~9") == Decimal("1.0"); // true
 ```
 
 如果您想在 Rust 中使用类似的库，请参阅：[PyInRs](https://github.com/chen-qingyu/pyinrs).
