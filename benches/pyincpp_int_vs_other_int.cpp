@@ -5,6 +5,8 @@
 
 #include "../sources/pyincpp.hpp"
 
+#if 0
+
 // Some big integer libraries with more than 100 stars on Github.
 #include "BigInt.hpp"  // https://github.com/faheel/BigInt
 #include "InfInt.h"    // https://github.com/sercantutar/infint
@@ -222,6 +224,8 @@ TEST_CASE("pyincpp::Int vs Other", "[int]")
         return Dodecahedron::factorial(120);
     };
 }
+
+#endif
 
 /*
 Run with: `xmake config -m release && xmake build bench && xmake run bench --benchmark-no-analysis -i [int]`
