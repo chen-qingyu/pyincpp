@@ -60,6 +60,11 @@ public:
     {
     }
 
+    Decimal(double number)
+        : value_(number)
+    {
+    }
+
     /// Create a decimal with given string `integer[.decimal][~cyclic][#radix]`.
     Decimal(const std::string& str)
     {
@@ -114,10 +119,7 @@ public:
      * Comparison
      */
 
-    auto operator<=>(const Decimal& that) const
-    {
-        return value_ <=> that.value_;
-    }
+    auto operator<=>(const Decimal& that) const = default;
 
     /*
      * Assignment
