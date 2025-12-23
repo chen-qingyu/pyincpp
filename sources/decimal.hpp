@@ -60,14 +60,14 @@ public:
     {
     }
 
-    /// Create a decimal with given string `[+-]integer[.decimal][~cyclic][#radix]`.
+    /// Create a decimal with given string `integer[.decimal][~cyclic][#radix]`.
     Decimal(const std::string& str)
     {
         std::regex re(R"(^([-+])?(\d+)\.?(\d+)?~?(\d+)?#?(\d+)?$)");
         std::smatch m;
         if (!std::regex_match(str, m, re))
         {
-            throw std::runtime_error("expect format `[+-]integer[.decimal][~cyclic][#radix]` but got: " + str);
+            throw std::runtime_error("Error: Expect format `integer[.decimal][~cyclic][#radix]` but got: " + str);
         }
 
         std::string sign = m[1].matched ? m[1].str() : "+";
@@ -224,22 +224,32 @@ public:
      * Print / Input
      */
 
-    /// Output formatting: if cyclic detected, append "..." after a short substring.
-    friend std::ostream& operator<<(std::ostream& os, const Decimal& d)
+    /// Convert to string.
+    std::string to_string() const
     {
-        auto [start, length] = find_cyclic(d.value_.numerator(), d.value_.denominator());
+        auto [start, length] = find_cyclic(value_.numerator(), value_.denominator());
         if (start != -1)
         {
-            std::string s = std::to_string(static_cast<double>(d.value_));
+            std::string s = std::to_string(static_cast<double>(value_));
             auto pos = s.find('.');
             std::size_t end = pos + 1 + start + length * 3;
             if (end > s.size())
             {
                 end = s.size();
             }
-            return os << s.substr(0, end) << "...";
+            return s.substr(0, end) + "...";
         }
-        return os << static_cast<double>(d.value_);
+
+        // use string stream to avoid trailing zeros
+        std::ostringstream oss;
+        oss << static_cast<double>(value_);
+        return oss.str();
+    }
+
+    /// Output formatting: if cyclic detected, append "..." after a short substring.
+    friend std::ostream& operator<<(std::ostream& os, const Decimal& d)
+    {
+        return os << d.to_string();
     }
 
     /// Get a decimal from the specified input stream.

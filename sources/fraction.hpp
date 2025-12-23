@@ -51,20 +51,14 @@ public:
         std::tie(num_, den_) = from_ratio(numerator, denominator);
     }
 
-    /// Create a fraction with given string `numerator/denominator`.
-    ///
-    /// ### Example
-    /// ```
-    /// Fraction("233/1") == Fraction(233);
-    /// Fraction("+2/-4") == Fraction(-1, 2);
-    /// ```
+    /// Create a fraction with given string `num[/den]`.
     Fraction(const std::string& str)
     {
         std::regex regex(R"(([+-]?\d+)/?([+-]?\d+)?)");
         std::smatch match;
         if (!std::regex_match(str, match, regex))
         {
-            throw std::runtime_error("Error: Wrong fraction literal.");
+            throw std::runtime_error("Error: Expect format `num[/den]` but got: " + str);
         }
 
         int num = std::stoi(match[1].str());
@@ -290,17 +284,23 @@ public:
      * Print / Input
      */
 
-    /// Output the fraction to the specified output stream.
-    friend std::ostream& operator<<(std::ostream& os, const Fraction& fraction)
+    /// Convert to string.
+    std::string to_string() const
     {
-        if (fraction.den_ == 1)
+        if (den_ == 1)
         {
-            return os << fraction.num_;
+            return std::to_string(num_);
         }
         else
         {
-            return os << fraction.num_ << "/" << fraction.den_;
+            return std::to_string(num_) + "/" + std::to_string(den_);
         }
+    }
+
+    /// Output the fraction to the specified output stream.
+    friend std::ostream& operator<<(std::ostream& os, const Fraction& fraction)
+    {
+        return os << fraction.to_string();
     }
 
     /// Get a fraction from the specified input stream.

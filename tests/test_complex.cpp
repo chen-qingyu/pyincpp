@@ -155,21 +155,11 @@ TEST_CASE("Complex")
         REQUIRE_THROWS_MATCHES(Complex::pow(zero, negative), std::runtime_error, Message("Error: Math domain error."));
     }
 
-    SECTION("print")
+    SECTION("to_string")
     {
-        std::ostringstream oss;
-
-        oss << zero;
-        REQUIRE(oss.str() == "(0+0j)");
-        oss.str("");
-
-        oss << positive;
-        REQUIRE(oss.str() == "(1+2j)");
-        oss.str("");
-
-        oss << negative;
-        REQUIRE(oss.str() == "(-1+2j)");
-        oss.str("");
+        REQUIRE(zero.to_string() == "(0.000000+0.000000j)");
+        REQUIRE(positive.to_string() == "(1.000000+2.000000j)");
+        REQUIRE(negative.to_string() == "(-1.000000+2.000000j)");
     }
 
     SECTION("input")
@@ -189,10 +179,10 @@ TEST_CASE("Complex")
         REQUIRE(c4 == Complex(1.0, 2.0));
 
         Complex err;
-        REQUIRE_THROWS_MATCHES(std::istringstream("z1+2j") >> err, std::runtime_error, Message("Error: Wrong complex literal."));
-        REQUIRE_THROWS_MATCHES(std::istringstream("1z+2j") >> err, std::runtime_error, Message("Error: Wrong complex literal."));
-        REQUIRE_THROWS_MATCHES(std::istringstream("1+z2j") >> err, std::runtime_error, Message("Error: Wrong complex literal."));
-        REQUIRE_THROWS_MATCHES(std::istringstream("1+2zj") >> err, std::runtime_error, Message("Error: Wrong complex literal."));
-        REQUIRE_THROWS_MATCHES(std::istringstream("123jj") >> err, std::runtime_error, Message("Error: Wrong complex literal."));
+        REQUIRE_THROWS_MATCHES(std::istringstream("z1+2j") >> err, std::runtime_error, Message("Error: Expect format `real[imag(j)]` but got: z1+2j"));
+        REQUIRE_THROWS_MATCHES(std::istringstream("1z+2j") >> err, std::runtime_error, Message("Error: Expect format `real[imag(j)]` but got: 1z+2j"));
+        REQUIRE_THROWS_MATCHES(std::istringstream("1+z2j") >> err, std::runtime_error, Message("Error: Expect format `real[imag(j)]` but got: 1+z2j"));
+        REQUIRE_THROWS_MATCHES(std::istringstream("1+2zj") >> err, std::runtime_error, Message("Error: Expect format `real[imag(j)]` but got: 1+2zj"));
+        REQUIRE_THROWS_MATCHES(std::istringstream("123jj") >> err, std::runtime_error, Message("Error: Expect format `real[imag(j)]` but got: 123jj"));
     }
 }

@@ -238,21 +238,11 @@ TEST_CASE("Fraction")
         REQUIRE(Fraction::lcm(Fraction(-1, 2), Fraction(-3, 4)) == Fraction(3, 2));
     }
 
-    SECTION("print")
+    SECTION("to_string")
     {
-        std::ostringstream oss;
-
-        oss << zero;
-        REQUIRE(oss.str() == "0");
-        oss.str("");
-
-        oss << positive;
-        REQUIRE(oss.str() == "1/2");
-        oss.str("");
-
-        oss << negative;
-        REQUIRE(oss.str() == "-1/2");
-        oss.str("");
+        REQUIRE(zero.to_string() == "0");
+        REQUIRE(positive.to_string() == "1/2");
+        REQUIRE(negative.to_string() == "-1/2");
     }
 
     SECTION("input")
@@ -266,11 +256,11 @@ TEST_CASE("Fraction")
         REQUIRE(f4 == Fraction(0));
 
         Fraction err;
-        REQUIRE_THROWS_MATCHES(std::istringstream("z1/2") >> err, std::runtime_error, Message("Error: Wrong fraction literal."));
-        REQUIRE_THROWS_MATCHES(std::istringstream("1z/2") >> err, std::runtime_error, Message("Error: Wrong fraction literal."));
-        REQUIRE_THROWS_MATCHES(std::istringstream("1/z2") >> err, std::runtime_error, Message("Error: Wrong fraction literal."));
-        REQUIRE_THROWS_MATCHES(std::istringstream("1/2z") >> err, std::runtime_error, Message("Error: Wrong fraction literal."));
-        REQUIRE_THROWS_MATCHES(std::istringstream("1|2") >> err, std::runtime_error, Message("Error: Wrong fraction literal."));
+        REQUIRE_THROWS_MATCHES(std::istringstream("z1/2") >> err, std::runtime_error, Message("Error: Expect format `num[/den]` but got: z1/2"));
+        REQUIRE_THROWS_MATCHES(std::istringstream("1z/2") >> err, std::runtime_error, Message("Error: Expect format `num[/den]` but got: 1z/2"));
+        REQUIRE_THROWS_MATCHES(std::istringstream("1/z2") >> err, std::runtime_error, Message("Error: Expect format `num[/den]` but got: 1/z2"));
+        REQUIRE_THROWS_MATCHES(std::istringstream("1/2z") >> err, std::runtime_error, Message("Error: Expect format `num[/den]` but got: 1/2z"));
+        REQUIRE_THROWS_MATCHES(std::istringstream("1|2") >> err, std::runtime_error, Message("Error: Expect format `num[/den]` but got: 1|2"));
         REQUIRE_THROWS_MATCHES(std::istringstream("0/0") >> err, std::runtime_error, Message("Error: Divide by zero."));
     }
 }

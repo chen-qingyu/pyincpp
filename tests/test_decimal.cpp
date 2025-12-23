@@ -126,25 +126,18 @@ TEST_CASE("Decimal")
         REQUIRE(Decimal("0.~1#2").as_fraction() == Fraction("1"));
     }
 
-    SECTION("print")
+    SECTION("to_string")
     {
-        auto to_str = [](const char* s)
-        {
-            std::ostringstream oss;
-            oss << Decimal(s);
-            return oss.str();
-        };
+        REQUIRE(Decimal("1.000").to_string() == std::string("1"));
+        REQUIRE(Decimal("0.~3").to_string() == std::string("0.333..."));
+        REQUIRE(Decimal("0.0~3").to_string() == std::string("0.0333..."));
+        REQUIRE(Decimal("0.83~3").to_string() == std::string("0.8333..."));
+        REQUIRE(Decimal("0.123").to_string() == std::string("0.123"));
+        REQUIRE(Decimal("-0.~3").to_string() == std::string("-0.333..."));
+        REQUIRE(Decimal("-0.~1").to_string() == std::string("-0.111..."));
 
-        REQUIRE(to_str("1.000") == std::string("1"));
-        REQUIRE(to_str("0.~3") == std::string("0.333..."));
-        REQUIRE(to_str("0.0~3") == std::string("0.0333..."));
-        REQUIRE(to_str("0.83~3") == std::string("0.8333..."));
-        REQUIRE(to_str("0.123") == std::string("0.123"));
-        REQUIRE(to_str("-0.~3") == std::string("-0.333..."));
-        REQUIRE(to_str("-0.~1") == std::string("-0.111..."));
-
-        REQUIRE(to_str("-0.0~0011#2") == std::string("-0.1"));
-        REQUIRE(to_str("0.~1#2") == std::string("1"));
+        REQUIRE(Decimal("-0.0~0011#2").to_string() == std::string("-0.1"));
+        REQUIRE(Decimal("0.~1#2").to_string() == std::string("1"));
     }
 
     SECTION("input")
@@ -157,10 +150,10 @@ TEST_CASE("Decimal")
         REQUIRE(d3 == negative);
 
         Decimal err;
-        REQUIRE_THROWS(std::istringstream("z0.3") >> err);
-        REQUIRE_THROWS(std::istringstream("0z.3") >> err);
-        REQUIRE_THROWS(std::istringstream("0.z3") >> err);
-        REQUIRE_THROWS(std::istringstream("0.3z") >> err);
-        REQUIRE_THROWS(std::istringstream("0|3") >> err);
+        REQUIRE_THROWS_MATCHES(std::istringstream("z0.3") >> err, std::runtime_error, Message("Error: Expect format `integer[.decimal][~cyclic][#radix]` but got: z0.3"));
+        REQUIRE_THROWS_MATCHES(std::istringstream("0z.3") >> err, std::runtime_error, Message("Error: Expect format `integer[.decimal][~cyclic][#radix]` but got: 0z.3"));
+        REQUIRE_THROWS_MATCHES(std::istringstream("0.z3") >> err, std::runtime_error, Message("Error: Expect format `integer[.decimal][~cyclic][#radix]` but got: 0.z3"));
+        REQUIRE_THROWS_MATCHES(std::istringstream("0.3z") >> err, std::runtime_error, Message("Error: Expect format `integer[.decimal][~cyclic][#radix]` but got: 0.3z"));
+        REQUIRE_THROWS_MATCHES(std::istringstream("0|3") >> err, std::runtime_error, Message("Error: Expect format `integer[.decimal][~cyclic][#radix]` but got: 0|3"));
     }
 }

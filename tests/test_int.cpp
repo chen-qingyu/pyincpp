@@ -559,21 +559,11 @@ TEST_CASE("Int")
         REQUIRE(Int::hyperoperation(4, 3, 3) == 7625597484987LL); // tetration
     }
 
-    SECTION("print")
+    SECTION("to_string")
     {
-        std::ostringstream oss;
-
-        oss << zero;
-        REQUIRE(oss.str() == "0");
-        oss.str("");
-
-        oss << positive;
-        REQUIRE(oss.str() == "18446744073709551617");
-        oss.str("");
-
-        oss << negative;
-        REQUIRE(oss.str() == "-18446744073709551617");
-        oss.str("");
+        REQUIRE(zero.to_string() == "0");
+        REQUIRE(positive.to_string() == "18446744073709551617");
+        REQUIRE(negative.to_string() == "-18446744073709551617");
     }
 
     SECTION("input")

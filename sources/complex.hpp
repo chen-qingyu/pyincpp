@@ -33,6 +33,25 @@ public:
     {
     }
 
+    /// Create a complex with given string `real[imag(j)]`.
+    Complex(const std::string& str)
+    {
+        std::regex regex(R"(([+-]?\d*\.?\d*)([+-]?\d*\.?\d*)j?)");
+        std::smatch match;
+        if (!std::regex_match(str, match, regex))
+        {
+            throw std::runtime_error("Error: Expect format `real[imag(j)]` but got: " + str);
+        }
+
+        real_ = match[1].str().empty() ? 0.0 : std::stod(match[1].str());
+        imag_ = match[2].str().empty() ? 0.0 : std::stod(match[2].str());
+        if (str.back() == 'j' && match[2].str().empty())
+        {
+            imag_ = real_;
+            real_ = 0.0;
+        }
+    }
+
     /// Copy constructor.
     Complex(const Complex& that) = default;
 
@@ -207,10 +226,16 @@ public:
      * Print / Input
      */
 
+    /// Convert to string.
+    std::string to_string() const
+    {
+        return '(' + std::to_string(real_) + (imag_ < 0 ? "-" : "+") + std::to_string(std::abs(imag_)) + "j)";
+    }
+
     /// Output the complex to the specified output stream.
     friend std::ostream& operator<<(std::ostream& os, const Complex& complex)
     {
-        return os << '(' << complex.real_ << (complex.imag_ < 0 ? '-' : '+') << std::abs(complex.imag_) << "j)";
+        return os << complex.to_string();
     }
 
     /// Get a complex from the specified input stream.
@@ -226,23 +251,7 @@ public:
     {
         std::string input;
         is >> input;
-
-        std::regex regex(R"(([+-]?\d*\.?\d*)([+-]?\d*\.?\d*)j?)");
-        std::smatch match;
-        if (!std::regex_match(input, match, regex))
-        {
-            throw std::runtime_error("Error: Wrong complex literal.");
-        }
-
-        double real = match[1].str().empty() ? 0.0 : std::stod(match[1].str());
-        double imag = match[2].str().empty() ? 0.0 : std::stod(match[2].str());
-        if (input.back() == 'j' && match[2].str().empty())
-        {
-            imag = real;
-            real = 0.0;
-        }
-
-        complex = Complex(real, imag);
+        complex = Complex(input);
         return is;
     }
 };

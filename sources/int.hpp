@@ -1034,10 +1034,9 @@ public:
     /// Get an integer from the specified input stream.
     friend std::istream& operator>>(std::istream& is, Int& integer)
     {
-        std::string str;
-        is >> str;
-        integer = str.c_str();
-
+        std::string input;
+        is >> input;
+        integer = Int(input.c_str());
         return is;
     }
 
