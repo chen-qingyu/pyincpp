@@ -573,19 +573,19 @@ public:
     }
 
     /// Remove leading and trailing characters (default is blank character) of the string.
-    Str strip(const signed char& ch = -1) const
+    Str strip(std::optional<char> ch = std::nullopt) const
     {
         std::string buffer = str_;
 
         int i = 0;
-        while (i < int(buffer.size()) && (ch == -1 ? buffer[i] <= 0x20 : buffer[i] == ch))
+        while (i < int(buffer.size()) && (!ch.has_value() ? buffer[i] <= 0x20 : buffer[i] == *ch))
         {
             ++i;
         }
         buffer.erase(buffer.begin(), buffer.begin() + i);
 
         i = buffer.size() - 1;
-        while (i >= 0 && (ch == -1 ? buffer[i] <= 0x20 : buffer[i] == ch))
+        while (i >= 0 && (!ch.has_value() ? buffer[i] <= 0x20 : buffer[i] == *ch))
         {
             --i;
         }
