@@ -213,6 +213,10 @@ public:
 
         if (base == 0)
         {
+            if (exp.imag_ == 0 && exp.real_ > 0)
+            {
+                return 0;
+            }
             throw std::runtime_error("Error: Math domain error.");
         }
 
