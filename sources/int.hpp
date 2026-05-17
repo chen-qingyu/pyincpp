@@ -837,7 +837,7 @@ public:
             throw std::runtime_error("Error: Require a <= b for random(a, b).");
         }
 
-        std::mt19937 gen(std::random_device{}());
+        static thread_local std::mt19937 gen(std::random_device{}());
         Int range = b - a + 1;
         Int result;
         Int remaining = range;
@@ -867,7 +867,7 @@ public:
         }
 
         // random number generator
-        std::mt19937 gen(std::random_device{}());
+        static thread_local std::mt19937 gen(std::random_device{}());
 
         // little chunks
         auto chunks = std::vector<int>((digits - 1) / DIGITS_PER_CHUNK);
