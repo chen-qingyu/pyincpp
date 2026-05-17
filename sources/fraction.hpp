@@ -88,7 +88,7 @@ public:
     Fraction(const Fraction& that) = default;
 
     /// Move constructor.
-    Fraction(Fraction&& that)
+    Fraction(Fraction&& that) noexcept
         : num_(std::move(that.num_))
         , den_(std::move(that.den_))
     {
@@ -122,7 +122,7 @@ public:
     Fraction& operator=(const Fraction& that) = default;
 
     /// Move assignment operator.
-    Fraction& operator=(Fraction&& that)
+    Fraction& operator=(Fraction&& that) noexcept
     {
         num_ = std::move(that.num_);
         den_ = std::move(that.den_);

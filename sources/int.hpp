@@ -248,7 +248,7 @@ public:
     Int(const Int& that) = default;
 
     /// Move constructor.
-    Int(Int&& that)
+    Int(Int&& that) noexcept
         : sign_(std::move(that.sign_))
         , chunks_(std::move(that.chunks_))
     {
@@ -292,7 +292,7 @@ public:
     Int& operator=(const Int& that) = default;
 
     /// Move assignment operator.
-    Int& operator=(Int&& that)
+    Int& operator=(Int&& that) noexcept
     {
         sign_ = std::move(that.sign_);
         chunks_ = std::move(that.chunks_);

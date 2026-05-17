@@ -56,7 +56,7 @@ public:
     Complex(const Complex& that) = default;
 
     /// Move constructor.
-    Complex(Complex&& that)
+    Complex(Complex&& that) noexcept
         : real_(std::move(that.real_))
         , imag_(std::move(that.imag_))
     {
@@ -79,7 +79,7 @@ public:
     Complex& operator=(const Complex& that) = default;
 
     /// Move assignment operator.
-    Complex& operator=(Complex&& that)
+    Complex& operator=(Complex&& that) noexcept
     {
         real_ = std::move(that.real_);
         imag_ = std::move(that.imag_);
