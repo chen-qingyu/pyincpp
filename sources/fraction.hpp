@@ -74,14 +74,19 @@ public:
             throw std::invalid_argument("Error: Invalid floating-point number.");
         }
 
-        double int_part = std::floor(number);
-        double dec_part = number - int_part;
-        int precision = 1'000'000'000; // 10^floor(log10(INT_MAX))
-
-        int gcd = std::gcd(int(std::round(dec_part * precision)), precision);
-        num_ = std::round(dec_part * precision) / gcd;
-        den_ = precision / gcd;
-        num_ += int_part * den_;
+        int sign = number < 0 ? -1 : 1;
+        double abs_val = std::abs(number);
+        double int_part = std::floor(abs_val);
+        double dec_part = abs_val - int_part;
+        // Use 10^9 precision to stay within int range after GCD reduction.
+        long long precision = 1'000'000'000;
+        long long num = std::llround(dec_part * precision);
+        long long den = precision;
+        long long g = std::gcd(num, den);
+        num = static_cast<long long>(int_part) * (den / g) + num / g;
+        den = den / g;
+        num_ = static_cast<int>(num) * sign;
+        den_ = static_cast<int>(den);
     }
 
     /// Copy constructor.
