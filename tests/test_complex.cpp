@@ -143,12 +143,16 @@ TEST_CASE("Complex")
     SECTION("pow")
     {
         REQUIRE(Complex::pow(positive, zero) == Complex(1));
-        REQUIRE(Complex::pow(positive, positive) == Complex(-0.22251715680177267, 0.10070913113607541));
-        REQUIRE(Complex::pow(positive, negative) == Complex(0.04281551979798478, 0.023517649351954585));
+        REQUIRE(Complex::pow(positive, positive).real() == Approx(-0.22251715680177267));
+        REQUIRE(Complex::pow(positive, positive).imag() == Approx(0.10070913113607541));
+        REQUIRE(Complex::pow(positive, negative).real() == Approx(0.04281551979798478));
+        REQUIRE(Complex::pow(positive, negative).imag() == Approx(0.023517649351954585));
 
         REQUIRE(Complex::pow(negative, zero) == Complex(1));
-        REQUIRE(Complex::pow(negative, positive) == Complex(-0.0335067906880002, -0.018404563532749985));
-        REQUIRE(Complex::pow(negative, negative) == Complex(0.006965545047800022, -0.0031525388861500334));
+        REQUIRE(Complex::pow(negative, positive).real() == Approx(-0.0335067906880002));
+        REQUIRE(Complex::pow(negative, positive).imag() == Approx(-0.018404563532749985));
+        REQUIRE(Complex::pow(negative, negative).real() == Approx(0.006965545047800022));
+        REQUIRE(Complex::pow(negative, negative).imag() == Approx(-0.0031525388861500334));
 
         REQUIRE(Complex::pow(zero, zero) == Complex(1));
         REQUIRE_THROWS_MATCHES(Complex::pow(zero, positive), std::runtime_error, Message("Error: Math domain error."));

@@ -69,7 +69,9 @@ TEST_CASE("Usage")
     // Complex addition
     REQUIRE(Complex(1, 2) + Complex(1, 3) == Complex(2, 5));
     // Complex power
-    REQUIRE(Complex::pow(Complex(1, 2), Complex(-1, 2)) == Complex(0.04281551979798478, 0.023517649351954585));
+    auto c = Complex::pow(Complex(1, 2), Complex(-1, 2));
+    REQUIRE(c.real() == Approx(0.04281551979798478));
+    REQUIRE(c.imag() == Approx(0.023517649351954585));
 
     // Deque element reference
     REQUIRE(Deque<int>{1, 2, 3, 4, 5}.front() == 1);

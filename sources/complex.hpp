@@ -69,11 +69,7 @@ public:
      */
 
     /// Compare the complex with another complex.
-    bool operator==(const Complex& that) const
-    {
-        constexpr double epsilon = std::numeric_limits<double>::epsilon();
-        return std::abs(real_ - that.real_) < epsilon && std::abs(imag_ - that.imag_) < epsilon;
-    }
+    bool operator==(const Complex& that) const = default;
 
     /*
      * Assignment
