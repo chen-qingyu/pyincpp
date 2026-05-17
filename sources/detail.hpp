@@ -25,6 +25,7 @@
 #include <stdexcept>   // std::runtime_error
 #include <string>      // std::string std::getline
 #include <string_view> // std::string_view
+#include <type_traits> // std::is_same_v
 #include <utility>     // std::initializer_list std::move
 #include <vector>      // std::vector
 
@@ -123,5 +124,15 @@ static inline T gcd(T a, T b)
 }
 
 } // namespace pyincpp::detail
+
+// Heterogeneous pair comparison.
+// Enables comparing std::pair types with different template arguments,
+// e.g. pair<Int, Int> == pair<int, int>
+template <typename K1, typename V1, typename K2, typename V2>
+    requires(!std::is_same_v<K1, K2> || !std::is_same_v<V1, V2>)
+bool operator==(const std::pair<K1, V1>& a, const std::pair<K2, V2>& b)
+{
+    return a.first == b.first && a.second == b.second;
+}
 
 #endif // DETAIL_HPP
