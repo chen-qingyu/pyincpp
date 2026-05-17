@@ -324,6 +324,9 @@ TEST_CASE("List")
         REQUIRE(List<int>{1, 2, 2, 3, 3, 3}.uniquify() == List<int>{1, 2, 3});
         REQUIRE(List<int>{1, 2, 3, 1, 2, 3, 1, 2, 3}.uniquify() == List<int>{1, 2, 3});
         REQUIRE((List<int>{0} * 10000).uniquify() == List<int>{0});
+
+        // non-hashable type uses fallback path
+        REQUIRE(List<EqType>{1, 1, 1}.uniquify().size() == 1);
     }
 
     SECTION("sort")

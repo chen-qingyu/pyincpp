@@ -6,28 +6,29 @@
 #ifndef DETAIL_HPP
 #define DETAIL_HPP
 
-#include <algorithm>   // std::copy std::find std::rotate ...
-#include <cassert>     // assert
-#include <climits>     // INT_MAX
-#include <cmath>       // std::abs std::pow std::sqrt ...
-#include <concepts>    // std::integral
-#include <cstring>     // std::strlen
-#include <iomanip>     // std::setw std::setfill
-#include <istream>     // std::istream
-#include <iterator>    // std::input_iterator
-#include <limits>      // std::numeric_limits
-#include <numeric>     // std::gcd
-#include <ostream>     // std::ostream
-#include <random>      // std::random_device std::mt19937 ...
-#include <ranges>      // std::views::reverse
-#include <regex>       // std::regex std::smatch std::regex_match
-#include <sstream>     // std::ostringstream
-#include <stdexcept>   // std::runtime_error
-#include <string>      // std::string std::getline
-#include <string_view> // std::string_view
-#include <type_traits> // std::is_same_v
-#include <utility>     // std::initializer_list std::move
-#include <vector>      // std::vector
+#include <algorithm>     // std::copy std::find std::rotate ...
+#include <cassert>       // assert
+#include <climits>       // INT_MAX
+#include <cmath>         // std::abs std::pow std::sqrt ...
+#include <concepts>      // std::integral
+#include <cstring>       // std::strlen
+#include <iomanip>       // std::setw std::setfill
+#include <istream>       // std::istream
+#include <iterator>      // std::input_iterator
+#include <limits>        // std::numeric_limits
+#include <numeric>       // std::gcd
+#include <ostream>       // std::ostream
+#include <random>        // std::random_device std::mt19937 ...
+#include <ranges>        // std::views::reverse
+#include <regex>         // std::regex std::smatch std::regex_match
+#include <sstream>       // std::ostringstream
+#include <stdexcept>     // std::runtime_error
+#include <string>        // std::string std::getline
+#include <string_view>   // std::string_view
+#include <type_traits>   // std::is_same_v
+#include <unordered_set> // std::unordered_set
+#include <utility>       // std::initializer_list std::move
+#include <vector>        // std::vector
 
 namespace pyincpp::detail
 {

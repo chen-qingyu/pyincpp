@@ -266,13 +266,33 @@ public:
     List& uniquify()
     {
         std::vector<T> buffer;
-        for (auto&& e : vector_)
+        buffer.reserve(vector_.size());
+
+        if constexpr (requires { std::hash<T>{}(std::declval<T>()); })
         {
-            if (std::find(buffer.begin(), buffer.end(), e) == buffer.end())
+            // O(n) average path for hashable types.
+            std::unordered_set<T> seen;
+            seen.reserve(vector_.size());
+            for (auto&& e : vector_)
             {
-                buffer.push_back(e);
+                if (seen.insert(e).second)
+                {
+                    buffer.push_back(e);
+                }
             }
         }
+        else
+        {
+            // O(n^2) fallback for non-hashable types (only operator== required).
+            for (auto&& e : vector_)
+            {
+                if (std::find(buffer.begin(), buffer.end(), e) == buffer.end())
+                {
+                    buffer.push_back(e);
+                }
+            }
+        }
+
         vector_ = std::move(buffer);
 
         return *this;
