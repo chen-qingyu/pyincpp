@@ -312,8 +312,10 @@ public:
     template <typename F>
     List& filter(const F& predicate)
     {
-        auto it = std::copy_if(vector_.begin(), vector_.end(), vector_.begin(), predicate);
-        vector_.erase(it, vector_.end());
+        std::vector<T> buffer;
+        buffer.reserve(vector_.size());
+        std::copy_if(vector_.begin(), vector_.end(), std::back_inserter(buffer), predicate);
+        vector_ = std::move(buffer);
 
         return *this;
     }
