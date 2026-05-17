@@ -9,7 +9,7 @@ add_requires("catch2")
 target("test")
     set_kind("binary")
     add_packages("catch2")
-    add_files("tests/*.cpp|compatibility.cpp")
+    add_files("tests/*.cpp")
 
 target("bench")
     set_kind("binary")
