@@ -19,7 +19,7 @@ class Str
 {
 private:
     // String.
-    const std::string str_;
+    std::string str_;
 
     // Used for FSM.
     enum state
@@ -119,8 +119,8 @@ public:
     Str(const Str& that) = default;
 
     /// Move constructor.
-    Str(Str&& that)
-        : str_(std::move(const_cast<std::string&>(that.str_)))
+    Str(Str&& that) noexcept
+        : str_(std::move(that.str_))
     {
     }
 
@@ -138,14 +138,14 @@ public:
     /// Copy assignment operator.
     Str& operator=(const Str& that)
     {
-        const_cast<std::string&>(str_) = that.str_;
+        str_ = that.str_;
         return *this;
     }
 
     /// Move assignment operator.
-    Str& operator=(Str&& that)
+    Str& operator=(Str&& that) noexcept
     {
-        const_cast<std::string&>(str_) = std::move(const_cast<std::string&>(that.str_));
+        str_ = std::move(that.str_);
         return *this;
     }
 
@@ -728,7 +728,7 @@ public:
     /// Get a line of string from the specified input stream.
     friend std::istream& operator>>(std::istream& is, Str& string)
     {
-        return std::getline(is, const_cast<std::string&>(string.str_));
+        return std::getline(is, string.str_);
     }
 
     friend struct std::hash<pyincpp::Str>;
