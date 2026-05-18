@@ -660,16 +660,26 @@ public:
             throw std::runtime_error("Error: Require this >= 0 for factorial().");
         }
 
-        if (chunks_.size() > 1)
+        Int result = 1; // 0! == 1
+
+        if (chunks_.size() <= 1)
         {
-            throw std::runtime_error("Error: This integer is too large to calculate for factorial().");
+            // Fast path: multiply by small int directly.
+            for (int i = to_number(); i > 1; --i)
+            {
+                result.small_mul(i);
+            }
+        }
+        else
+        {
+            // General path: use Int multiplication for large operands.
+            Int n = *this;
+            for (Int i = 2; i <= n; ++i)
+            {
+                result *= i;
+            }
         }
 
-        Int result = 1; // 0! == 1
-        for (int i = to_number(); i != 0; --i)
-        {
-            result.small_mul(i);
-        }
         return result;
     }
 
