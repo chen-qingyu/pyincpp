@@ -365,6 +365,16 @@ TEST_CASE("List")
                                         {"Mei", 17},
                                         {"Sakura", 19},
                                         {"Yuzu", 18}});
+
+        // capturing lambda works with template comparator
+        int offset = 10;
+        persons.sort([offset](const Person& e1, const Person& e2)
+                     { return e1.age + offset < e2.age + offset; });
+        REQUIRE(persons == List<Person>{{"Mei", 17},
+                                        {"Alice", 18},
+                                        {"Yuzu", 18},
+                                        {"Sakura", 19},
+                                        {"Homura", 20}});
     }
 
     SECTION("erase")

@@ -12,6 +12,7 @@
 #include <cmath>         // std::abs std::pow std::sqrt ...
 #include <concepts>      // std::integral
 #include <cstring>       // std::strlen
+#include <functional>    // std::less
 #include <iomanip>       // std::setw std::setfill
 #include <istream>       // std::istream
 #include <iterator>      // std::input_iterator

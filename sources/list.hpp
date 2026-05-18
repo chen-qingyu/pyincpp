@@ -300,10 +300,11 @@ public:
 
     /// Sort the list according to the order induced by the specified comparator.
     /// The sort is stable: the method will not reorder equal elements.
-    List& sort(bool (*comparator)(const T& e1, const T& e2) = [](const T& e1, const T& e2)
-               { return e1 < e2; })
+    /// Use default comparator `std::less<T>` or pass any callable.
+    template <typename Comparator = std::less<T>>
+    List& sort(Comparator&& comparator = {})
     {
-        std::stable_sort(vector_.begin(), vector_.end(), comparator);
+        std::stable_sort(vector_.begin(), vector_.end(), std::forward<Comparator>(comparator));
 
         return *this;
     }
