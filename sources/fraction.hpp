@@ -26,18 +26,29 @@ private:
         // make sure the denominator is not zero
         detail::check_zero(den);
 
+        // use long long to avoid overflow when num == INT_MIN && den < 0
+        long long n = static_cast<long long>(num);
+        long long d = static_cast<long long>(den);
+
         // make sure the denominator is a positive number
-        if (den < 0)
+        if (d < 0)
         {
-            num = -num;
-            den = -den;
+            n = -n;
+            d = -d;
         }
 
         // simplify
-        int gcd = std::gcd(num, den);
-        num /= gcd;
-        den /= gcd;
-        return {num, den};
+        long long g = std::gcd(n, d);
+        n /= g;
+        d /= g;
+
+        // make sure result fits in int
+        if (n > INT_MAX)
+        {
+            throw std::overflow_error("Result out of int range");
+        }
+
+        return {static_cast<int>(n), static_cast<int>(d)};
     }
 
 public:
